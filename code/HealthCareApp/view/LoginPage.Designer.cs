@@ -28,28 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            usernameTextField = new TextBox();
+            passwordTextField = new TextBox();
             loginBtn = new Button();
+            passwordLogin = new Label();
+            passwordLabel = new Label();
+            invalidLoginLabel = new Label();
             SuspendLayout();
             // 
-            // textBox1
+            // usernameTextField
             // 
-            textBox1.Location = new Point(298, 108);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 0;
+            usernameTextField.Location = new Point(298, 108);
+            usernameTextField.Name = "usernameTextField";
+            usernameTextField.Size = new Size(150, 31);
+            usernameTextField.TabIndex = 0;
             // 
-            // textBox2
+            // passwordTextField
             // 
-            textBox2.Location = new Point(298, 180);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(150, 31);
-            textBox2.TabIndex = 1;
+            passwordTextField.Location = new Point(298, 195);
+            passwordTextField.Name = "passwordTextField";
+            passwordTextField.Size = new Size(150, 31);
+            passwordTextField.TabIndex = 1;
+            passwordTextField.UseSystemPasswordChar = true;
             // 
             // loginBtn
             // 
-            loginBtn.Location = new Point(316, 269);
+            loginBtn.Location = new Point(327, 339);
             loginBtn.Name = "loginBtn";
             loginBtn.Size = new Size(112, 34);
             loginBtn.TabIndex = 2;
@@ -57,14 +61,47 @@
             loginBtn.UseVisualStyleBackColor = true;
             loginBtn.Click += loginBtn_Click;
             // 
+            // passwordLogin
+            // 
+            passwordLogin.AutoSize = true;
+            passwordLogin.Location = new Point(327, 66);
+            passwordLogin.Name = "passwordLogin";
+            passwordLogin.Size = new Size(91, 25);
+            passwordLogin.TabIndex = 3;
+            passwordLogin.Text = "Username";
+            // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Location = new Point(331, 167);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new Size(87, 25);
+            passwordLabel.TabIndex = 4;
+            passwordLabel.Text = "Password";
+            // 
+            // invalidLoginLabel
+            // 
+            invalidLoginLabel.AutoSize = true;
+            invalidLoginLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            invalidLoginLabel.ForeColor = Color.Red;
+            invalidLoginLabel.Location = new Point(248, 273);
+            invalidLoginLabel.Name = "invalidLoginLabel";
+            invalidLoginLabel.Size = new Size(257, 25);
+            invalidLoginLabel.TabIndex = 5;
+            invalidLoginLabel.Text = "Invalid Credentials, try again";
+            invalidLoginLabel.Visible = false;
+            // 
             // LoginPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(invalidLoginLabel);
+            Controls.Add(passwordLabel);
+            Controls.Add(passwordLogin);
             Controls.Add(loginBtn);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(passwordTextField);
+            Controls.Add(usernameTextField);
             Name = "LoginPage";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
@@ -74,8 +111,11 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox usernameTextField;
+        private TextBox passwordTextField;
         private Button loginBtn;
+        private Label passwordLogin;
+        private Label passwordLabel;
+        private Label invalidLoginLabel;
     }
 }

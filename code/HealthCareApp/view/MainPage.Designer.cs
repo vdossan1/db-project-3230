@@ -30,6 +30,7 @@
         {
             helloLabel = new Label();
             userInfo = new Label();
+            logoutButton = new Button();
             SuspendLayout();
             // 
             // helloLabel
@@ -50,11 +51,22 @@
             userInfo.TabIndex = 1;
             userInfo.Text = "last name, first name";
             // 
+            // logoutButton
+            // 
+            logoutButton.Location = new Point(62, 353);
+            logoutButton.Name = "logoutButton";
+            logoutButton.Size = new Size(112, 34);
+            logoutButton.TabIndex = 2;
+            logoutButton.Text = "Logout";
+            logoutButton.UseVisualStyleBackColor = true;
+            logoutButton.Click += logoutButton_Click;
+            // 
             // MainPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(logoutButton);
             Controls.Add(userInfo);
             Controls.Add(helloLabel);
             Name = "MainPage";
@@ -68,5 +80,6 @@
 
         private Label helloLabel;
         private Label userInfo;
+        private Button logoutButton;
     }
 }
