@@ -16,7 +16,7 @@ namespace HealthCareApp.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var query = "select count(*) from login_credential where user_name = @username and password = @password";
+            var query = "select count(*) from login_credential where username = @username and password = @password";
 
             using MySqlCommand command = new MySqlCommand(query, connection);
 
@@ -36,6 +36,7 @@ namespace HealthCareApp.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
+            //TODO query both nurse and admin tables
             var query = "select CONCAT(first_name, ' ' ,last_name) from nurse where username = @username";
 
             using MySqlCommand command = new MySqlCommand(query, connection);

@@ -13,7 +13,12 @@ namespace HealthCareApp.DAL
 {
     public class PatientDal
     {
-        public List<Patient> GetAllPatients()
+        public static void RegisterPatient(Patient newPatient)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static List<Patient> GetAllPatients()
         {
             var patientList = new List<Patient>();
 

@@ -15,7 +15,7 @@ namespace HealthCareApp
         {
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new MainPage(new LoginPage()));
+            Application.Run(new LoginPage());
 
         }
 

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using HealthCareApp.DAL;
+using HealthCareApp.model;
 using HealthCareApp.utils;
 
 namespace HealthCareApp.viewmodel
@@ -80,6 +82,7 @@ namespace HealthCareApp.viewmodel
                 if (selectedState != value)
                 {
                     selectedState = value;
+                    OnPropertyChanged(nameof(selectedState));
                 }
             }
         }
@@ -94,7 +97,11 @@ namespace HealthCareApp.viewmodel
 
         public void registerPatient()
         {
-            Debug.WriteLine(FirstName + LastName);
+            // TODO finish adding all properties and implement Register Patient in the DAL
+            /*Patient newPatient = new Patient(
+                );
+            PatientDal.RegisterPatient(newPatient);*/
+            Debug.WriteLine(FirstName + LastName + " " +SelectedState);
         }
     }
 }
