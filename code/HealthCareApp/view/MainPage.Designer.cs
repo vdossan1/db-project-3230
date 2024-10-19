@@ -31,6 +31,7 @@
             helloLabel = new Label();
             userInfo = new Label();
             logoutButton = new Button();
+            registerPatientBtn = new Button();
             SuspendLayout();
             // 
             // helloLabel
@@ -45,7 +46,7 @@
             // userInfo
             // 
             userInfo.AutoSize = true;
-            userInfo.Location = new Point(146, 48);
+            userInfo.Location = new Point(143, 44);
             userInfo.Name = "userInfo";
             userInfo.Size = new Size(176, 25);
             userInfo.TabIndex = 1;
@@ -61,11 +62,22 @@
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;
             // 
+            // registerPatientBtn
+            // 
+            registerPatientBtn.Location = new Point(84, 167);
+            registerPatientBtn.Name = "registerPatientBtn";
+            registerPatientBtn.Size = new Size(161, 34);
+            registerPatientBtn.TabIndex = 3;
+            registerPatientBtn.Text = "Register Patient";
+            registerPatientBtn.UseVisualStyleBackColor = true;
+            registerPatientBtn.Click += registerPatientBtn_Click;
+            // 
             // MainPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(registerPatientBtn);
             Controls.Add(logoutButton);
             Controls.Add(userInfo);
             Controls.Add(helloLabel);
@@ -81,5 +93,6 @@
         private Label helloLabel;
         private Label userInfo;
         private Button logoutButton;
+        private Button registerPatientBtn;
     }
 }
