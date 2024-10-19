@@ -5,23 +5,28 @@ namespace HealthCareApp.View
     public partial class LoginPage : Form
     {
         private LoginPageViewModel loginViewModel;
+        private MainPage mainPage;
+
 
         public LoginPage()
         {
             InitializeComponent();
 
             this.loginViewModel = new LoginPageViewModel();
+            this.mainPage = new MainPage(this);
         }
 
         private void processValidLogin(string username)
         {
             this.Hide();
 
-            string userFullName = this.loginViewModel.GetUserFullName(username);
-            MainPage mainPage = new MainPage(userFullName);
-            mainPage.ShowDialog();
+            this.usernameTextField.Clear();
+            this.passwordTextField.Clear();
 
-            this.Close();
+            string userFullName = this.loginViewModel.GetUserFullName(username);
+
+            this.mainPage.UserFullName = userFullName;
+            mainPage.ShowDialog();
         }
 
         private void loginBtn_Click(object sender, EventArgs e)

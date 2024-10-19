@@ -5,26 +5,46 @@ namespace HealthCareApp.View
 {
     public partial class MainPage : Form
     {
+        private LoginPage loginPage;
+        private AddPatientPage addPatientPage;
 
-        public MainPage(String name)
+        private string userfullname;
+        public string UserFullName
+        {
+            get => userfullname;
+            set
+            {
+                userfullname = value;
+                this.userInfo.Text = userfullname;
+            }
+        }
+
+        public MainPage(LoginPage loginPage)
         {
             InitializeComponent();
 
-            this.userInfo.Text = name;
+            this.loginPage = loginPage;
+            this.addPatientPage = new AddPatientPage(this);
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            LoginPage loginPage = new LoginPage();
-            loginPage.ShowDialog();
-            this.Close();
+            this.loginPage.Show();
         }
 
         private void registerPatientBtn_Click(object sender, EventArgs e)
         {
-            AddPatientPage addPatientPage = new AddPatientPage();
-            addPatientPage.ShowDialog();
+            this.Hide();
+            /*this.addPatientPage.Show();*/
+            if (this.addPatientPage == null || this.addPatientPage.IsDisposed)
+            {
+                this.addPatientPage = new AddPatientPage(this);
+            }
+            else
+            {
+                this.addPatientPage.Show();
+            }
         }
     }
 }

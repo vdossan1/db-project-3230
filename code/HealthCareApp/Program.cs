@@ -15,14 +15,7 @@ namespace HealthCareApp
         {
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new LoginPage());
-
-            var dal = new PatientDal();
-
-            var patients = dal.GetAllPatients();
-
-            Debug.WriteLine("All the patients using the connected model:");
-            PrintEmployees(patients);
+            Application.Run(new MainPage(new LoginPage()));
 
         }
 

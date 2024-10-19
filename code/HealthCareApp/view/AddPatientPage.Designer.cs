@@ -50,6 +50,8 @@
             zipCodeLabel = new Label();
             phoneNumberLabel = new Label();
             ssnLabel = new Label();
+            registerPatientBtn = new Button();
+            cancelBtn = new Button();
             SuspendLayout();
             // 
             // firstNameTextBox
@@ -68,7 +70,7 @@
             // 
             // addressOneTxtBox
             // 
-            addressOneTxtBox.Location = new Point(93, 547);
+            addressOneTxtBox.Location = new Point(89, 471);
             addressOneTxtBox.Name = "addressOneTxtBox";
             addressOneTxtBox.Size = new Size(408, 31);
             addressOneTxtBox.TabIndex = 4;
@@ -82,14 +84,14 @@
             // 
             // zipCodeTxtBox
             // 
-            zipCodeTxtBox.Location = new Point(544, 783);
+            zipCodeTxtBox.Location = new Point(540, 707);
             zipCodeTxtBox.Name = "zipCodeTxtBox";
             zipCodeTxtBox.Size = new Size(201, 31);
             zipCodeTxtBox.TabIndex = 6;
             // 
             // addressTwoTxtBox
             // 
-            addressTwoTxtBox.Location = new Point(93, 659);
+            addressTwoTxtBox.Location = new Point(89, 583);
             addressTwoTxtBox.Name = "addressTwoTxtBox";
             addressTwoTxtBox.Size = new Size(408, 31);
             addressTwoTxtBox.TabIndex = 7;
@@ -103,7 +105,7 @@
             // 
             // cityTxtBox
             // 
-            cityTxtBox.Location = new Point(98, 783);
+            cityTxtBox.Location = new Point(94, 707);
             cityTxtBox.Name = "cityTxtBox";
             cityTxtBox.Size = new Size(150, 31);
             cityTxtBox.TabIndex = 11;
@@ -126,7 +128,7 @@
             // stateCmbBox
             // 
             stateCmbBox.FormattingEnabled = true;
-            stateCmbBox.Location = new Point(308, 781);
+            stateCmbBox.Location = new Point(304, 705);
             stateCmbBox.Name = "stateCmbBox";
             stateCmbBox.Size = new Size(182, 33);
             stateCmbBox.TabIndex = 14;
@@ -170,7 +172,7 @@
             // addressOneLabel
             // 
             addressOneLabel.AutoSize = true;
-            addressOneLabel.Location = new Point(93, 504);
+            addressOneLabel.Location = new Point(89, 428);
             addressOneLabel.Name = "addressOneLabel";
             addressOneLabel.Size = new Size(92, 25);
             addressOneLabel.TabIndex = 19;
@@ -179,7 +181,7 @@
             // addressTwoLabel
             // 
             addressTwoLabel.AutoSize = true;
-            addressTwoLabel.Location = new Point(98, 618);
+            addressTwoLabel.Location = new Point(94, 542);
             addressTwoLabel.Name = "addressTwoLabel";
             addressTwoLabel.Size = new Size(92, 25);
             addressTwoLabel.TabIndex = 20;
@@ -188,7 +190,7 @@
             // cityLabel
             // 
             cityLabel.AutoSize = true;
-            cityLabel.Location = new Point(105, 747);
+            cityLabel.Location = new Point(101, 671);
             cityLabel.Name = "cityLabel";
             cityLabel.Size = new Size(42, 25);
             cityLabel.TabIndex = 21;
@@ -197,7 +199,7 @@
             // stateLabel
             // 
             stateLabel.AutoSize = true;
-            stateLabel.Location = new Point(313, 743);
+            stateLabel.Location = new Point(309, 667);
             stateLabel.Name = "stateLabel";
             stateLabel.Size = new Size(51, 25);
             stateLabel.TabIndex = 22;
@@ -206,7 +208,7 @@
             // zipCodeLabel
             // 
             zipCodeLabel.AutoSize = true;
-            zipCodeLabel.Location = new Point(552, 743);
+            zipCodeLabel.Location = new Point(548, 667);
             zipCodeLabel.Name = "zipCodeLabel";
             zipCodeLabel.Size = new Size(84, 25);
             zipCodeLabel.TabIndex = 23;
@@ -230,11 +232,33 @@
             ssnLabel.TabIndex = 25;
             ssnLabel.Text = "SSN";
             // 
+            // registerPatientBtn
+            // 
+            registerPatientBtn.Location = new Point(137, 813);
+            registerPatientBtn.Name = "registerPatientBtn";
+            registerPatientBtn.Size = new Size(223, 69);
+            registerPatientBtn.TabIndex = 26;
+            registerPatientBtn.Text = "Register Patient";
+            registerPatientBtn.UseVisualStyleBackColor = true;
+            registerPatientBtn.Click += registerPatientBtn_Click;
+            // 
+            // cancelBtn
+            // 
+            cancelBtn.Location = new Point(489, 820);
+            cancelBtn.Name = "cancelBtn";
+            cancelBtn.Size = new Size(179, 55);
+            cancelBtn.TabIndex = 27;
+            cancelBtn.Text = "Cancel";
+            cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.Click += cancelBtn_Click;
+            // 
             // AddPatientPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(854, 938);
+            Controls.Add(cancelBtn);
+            Controls.Add(registerPatientBtn);
             Controls.Add(ssnLabel);
             Controls.Add(phoneNumberLabel);
             Controls.Add(zipCodeLabel);
@@ -258,6 +282,7 @@
             Controls.Add(lastNameTextBox);
             Controls.Add(firstNameTextBox);
             Name = "AddPatientPage";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "AddPatientPage";
             ResumeLayout(false);
             PerformLayout();
@@ -287,5 +312,7 @@
         private Label zipCodeLabel;
         private Label phoneNumberLabel;
         private Label ssnLabel;
+        private Button registerPatientBtn;
+        private Button cancelBtn;
     }
 }
