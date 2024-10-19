@@ -23,22 +23,29 @@ namespace HealthCareApp.view
             this.addPatientViewModel = new AddPatientPageViewModel();
             this.activeMainPage = mainPage;
 
-            BindControls();
+            this.BindControls();
         }
 
         private void BindControls()
         {
-            // Bind the ComboBox to the enum values
-            this.stateCmbBox.DataSource = this.addPatientViewModel.StatesArray;
+            // Bind text fields to ViewModel properties
+
+            this.stateCmbBox.DataSource = addPatientViewModel.StatesArray;
 
             // Bind the selected value of the ComboBox to the ViewModel's SelectedPatientType property
-            /*this.stateCmbBox.DataBindings.Add(
-                "SelectedItem", this.addPatientViewModel, nameof(this.addPatientViewModel.StatesArray), true, DataSourceUpdateMode.OnPropertyChanged);*/
+            this.stateCmbBox.DataBindings.Add(
+                "SelectedItem", addPatientViewModel, nameof(addPatientViewModel.SelectedState), true, DataSourceUpdateMode.OnPropertyChanged);
+
+            this.firstNameTextBox.DataBindings.Add(
+                "Text", addPatientViewModel, nameof(addPatientViewModel.FirstName), true, DataSourceUpdateMode.OnPropertyChanged);
+
+            this.lastNameTextBox.DataBindings.Add(
+                "Text", addPatientViewModel, nameof(addPatientViewModel.LastName), true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void registerPatientBtn_Click(object sender, EventArgs e)
         {
-            this.addPatientViewModel.registerPatient(sender);
+            this.addPatientViewModel.registerPatient();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)

@@ -14,6 +14,62 @@ namespace HealthCareApp.viewmodel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private string firstName;
+        public string FirstName
+        {
+            get => firstName;
+            set
+            {
+                if (firstName != value)
+                {
+                    firstName = value;
+                    OnPropertyChanged(nameof(FirstName));
+                }
+            }
+        }
+
+        private string lastName;
+        public string LastName
+        {
+            get => lastName;
+            set
+            {
+                if (lastName != value)
+                {
+                    lastName = value;
+                    OnPropertyChanged(nameof(LastName));
+                }
+            }
+        }
+
+        private string ssn;
+        public string Ssn
+        {
+            get => ssn;
+            set
+            {
+                if (ssn != value)
+                {
+                    ssn = value;
+                    OnPropertyChanged(nameof(ssn));
+                }
+            }
+        }
+
+        private string address1;
+        public string Address1
+        {
+            get => address1;
+            set
+            {
+                if (address1 != value)
+                {
+                    address1 = value;
+                    OnPropertyChanged(nameof(address1));
+                }
+            }
+        }
+
         private States selectedState;
 
         public States SelectedState
@@ -24,21 +80,21 @@ namespace HealthCareApp.viewmodel
                 if (selectedState != value)
                 {
                     selectedState = value;
-                    OnPropertyChanged(nameof(selectedState));
                 }
             }
         }
 
         public Array StatesArray => Enum.GetValues(typeof(States));
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void registerPatient(object sender)
+
+        public void registerPatient()
         {
-            throw new NotImplementedException();
+            Debug.WriteLine(FirstName + LastName);
         }
     }
 }
