@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthCareApp.model
+﻿namespace HealthCareApp.model
 {
-    public class LoginCredential
+	/// <summary>
+	/// The LoginCredential Class.
+	/// </summary>
+	public class LoginCredential
     {
         public string Username { get; }
         public string Password { get; }
