@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace HealthCareApp.DAL
 {
@@ -44,14 +37,14 @@ namespace HealthCareApp.DAL
                         row.Field<string>("last_name"),
                         row.Field<DateTime>("date_of_birth"),
                         row.Field<string>("gender"),
-                        row.Field<string>("ssn"),
                         row.Field<string>("address1"),
                         row.Field<string>("address2"),
                         row.Field<string>("city"),
                         row.Field<string>("state"),
                         row.Field<string>("zip_code"),
                         row.Field<string>("phone_number"),
-                        row.Field<bool>("status")
+                        row.Field<string>("ssn"),
+						row.Field<bool>("status")
                     )).ToList();
 
             }
