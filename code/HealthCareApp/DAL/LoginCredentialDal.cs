@@ -30,5 +30,22 @@ namespace HealthCareApp.DAL
 
             return count == 1;
         }
+
+        public static string GetFullName(string username)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            var query = "select CONCAT(first_name, ' ' ,last_name) from nurse where username = @username";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+
+            command.Parameters.Add("@username", MySqlDbType.VarChar);
+            command.Parameters["@username"].Value = username;
+
+            string fullName = command.ExecuteScalar() as string;
+
+            return fullName;
+        }
     }
 }

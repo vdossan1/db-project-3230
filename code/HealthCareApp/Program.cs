@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
+using HealthCareApp.View;
 
 namespace HealthCareApp
 {
@@ -18,7 +19,7 @@ namespace HealthCareApp
 
             var dal = new PatientDal();
 
-            var patients = dal.GetPatients();
+            var patients = dal.GetAllPatients();
 
             Debug.WriteLine("All the patients using the connected model:");
             PrintEmployees(patients);

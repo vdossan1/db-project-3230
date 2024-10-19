@@ -1,6 +1,6 @@
 using HealthCareApp.viewmodel;
 
-namespace HealthCareApp
+namespace HealthCareApp.View
 {
     public partial class LoginPage : Form
     {
@@ -13,6 +13,17 @@ namespace HealthCareApp
             this.loginViewModel = new LoginPageViewModel();
         }
 
+        private void processValidLogin(string username)
+        {
+            this.Hide();
+
+            string userFullName = this.loginViewModel.GetUserFullName(username);
+            MainPage mainPage = new MainPage(userFullName);
+            mainPage.ShowDialog();
+
+            this.Close();
+        }
+
         private void loginBtn_Click(object sender, EventArgs e)
         {
             string username = this.usernameTextField.Text;
@@ -22,10 +33,7 @@ namespace HealthCareApp
 
             if (isValidLogin)
             {
-                this.Hide();
-                MainPage mainPage = new MainPage("dos Santos, Vitor");
-                mainPage.ShowDialog();
-                this.Close();
+                this.processValidLogin(username);
             }
             else
             {

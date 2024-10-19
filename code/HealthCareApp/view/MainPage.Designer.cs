@@ -1,4 +1,4 @@
-﻿namespace HealthCareApp
+﻿namespace HealthCareApp.View
 {
     partial class MainPage
     {

@@ -1,4 +1,6 @@
-namespace HealthCareApp
+using HealthCareApp.View;
+
+namespace HealthCareApp.View
 {
     public partial class MainPage : Form
     {

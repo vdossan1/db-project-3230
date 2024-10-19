@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthCareApp.model
 {
-    public class Patient
+    public class Nurse
     {
         public int Id { get; }
         public string FirstName { get; }
@@ -20,11 +20,11 @@ namespace HealthCareApp.model
         public string State { get; }
         public string ZipCode { get; }
         public string PhoneNumber { get; }
-        public bool Status { get; }
+        public string Username { get; }
 
-        public Patient(int id, string firstName, string lastName, DateTime dateOfBirth, string gender, string ssn,
+        public Nurse(int id, string firstName, string lastName, DateTime dateOfBirth, string gender, string ssn,
             string address1, string address2, string city, string state, string zipCode, string phoneNumber,
-            bool status)
+            string username)
         {
             Id = id;
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
@@ -38,7 +38,7 @@ namespace HealthCareApp.model
             State = state ?? throw new ArgumentNullException(nameof(state));
             ZipCode = zipCode ?? throw new ArgumentNullException(nameof(zipCode));
             PhoneNumber = phoneNumber;
-            Status = status;
+            Username = username ?? throw new ArgumentNullException( nameof(username));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace HealthCareApp.DAL
 {
     public class PatientDal
     {
-        public List<Patient> GetPatients()
+        public List<Patient> GetAllPatients()
         {
             var patientList = new List<Patient>();
 
@@ -38,6 +38,8 @@ namespace HealthCareApp.DAL
                         row.Field<string>("first_name"),
                         row.Field<string>("last_name"),
                         row.Field<DateTime>("date_of_birth"),
+                        row.Field<string>("gender"),
+                        row.Field<string>("ssn"),
                         row.Field<string>("address1"),
                         row.Field<string>("address2"),
                         row.Field<string>("city"),

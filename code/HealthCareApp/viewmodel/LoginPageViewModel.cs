@@ -15,5 +15,10 @@ namespace HealthCareApp.viewmodel
         {
             return LoginCredentialDal.AuthenticateUser(username, password);
         }
+
+        public string GetUserFullName(string username)
+        {
+            return LoginCredentialDal.GetFullName(username);
+        }
     }
 }
