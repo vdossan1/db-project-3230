@@ -1,6 +1,11 @@
-﻿namespace HealthCareApp.utils
+﻿// Author: Vitor dos Santos
+// Version: Fall 2024
+namespace HealthCareApp.utils
 {
-    public enum State
+	/// <summary>
+	/// Represents a state in the United States.
+	/// </summary>
+	public enum State
     {
         AL,
         AK,

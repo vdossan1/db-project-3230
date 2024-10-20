@@ -1,25 +1,81 @@
-﻿namespace HealthCareApp.model
+﻿// Author: Vitor dos Santos
+// Version: Fall 2024
+namespace HealthCareApp.model
 {
 	/// <summary>
 	/// The Nurse Class.
 	/// </summary>
 	public class Nurse
     {
-        public int Id { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
-        public DateTime DateOfBirth { get; }
-        public string Sex { get; }
-        public string Address1 { get; }
-        public string? Address2 { get; }
-        public string City { get; }
-        public string State { get; }
-        public string ZipCode { get; }
-        public string PhoneNumber { get; }
-        public string Ssn { get; }
+		/// <summary>
+		/// Gets the unique identifier of the nurse.
+		/// </summary>
+		public int Id { get; }
+
+		/// <summary>
+		/// Gets the first name of the nurse.
+		/// </summary>
+		public string FirstName { get; }
+
+		/// <summary>
+		/// Gets the last name of the nurse.
+		/// </summary>
+		public string LastName { get; }
+
+		/// <summary>
+		/// Gets the date of birth of the nurse.
+		/// </summary>
+		public DateTime DateOfBirth { get; }
+
+		/// <summary>
+		/// Gets the sex of the nurse.
+		/// </summary>
+		public string Sex { get; }
+
+		/// <summary>
+		/// Gets the primary address of the nurse.
+		/// </summary>
+		public string Address1 { get; }
+
+		/// <summary>
+		/// Gets the secondary address of the nurse (optional).
+		/// </summary>
+		public string? Address2 { get; }
+
+		/// <summary>
+		/// Gets the city where the nurse resides.
+		/// </summary>
+		public string City { get; }
+
+		/// <summary>
+		/// Gets the state where the nurse resides.
+		/// </summary>
+		public string State { get; }
+
+		/// <summary>
+		/// Gets the zip code of the nurse's residence.
+		/// </summary>
+		public string ZipCode { get; }
+
+		/// <summary>
+		/// Gets the phone number of the nurse.
+		/// </summary>
+		public string PhoneNumber { get; }
+
+		/// <summary>
+		/// Gets the social security number of the nurse.
+		/// </summary>
+		public string Ssn { get; }
+
+		/// <summary>
+		/// Gets the username used by the nurse for system login.
+		/// </summary>
 		public string Username { get; }
 
-        public Nurse(int id, string firstName, string lastName, DateTime dateOfBirth, string sex,
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Nurse"/> class with the specified details.
+		/// </summary>
+		public Nurse(int id, string firstName, string lastName, DateTime dateOfBirth, string sex,
             string address1, string address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn, string username)
         {
