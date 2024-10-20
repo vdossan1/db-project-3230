@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using HealthCareApp.DAL;
 using HealthCareApp.model;
 using HealthCareApp.view;
 using HealthCareApp.View;

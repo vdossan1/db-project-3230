@@ -8,14 +8,13 @@ namespace HealthCareApp.view
     {
         private AddPatientPageViewModel addPatientViewModel;
         private MainPage activeMainPage;
-        private Patient patient;
 		public EditPatientPage(MainPage mainPage, Patient patientToEdit)
         {
             InitializeComponent();
 
             this.addPatientViewModel = new AddPatientPageViewModel();
-            this.activeMainPage = mainPage;
-            this.patient = patientToEdit;
+            addPatientViewModel.PopulateFields(patientToEdit);
+			this.activeMainPage = mainPage;
 
 			this.BindControls();
         }
@@ -23,7 +22,7 @@ namespace HealthCareApp.view
         private void BindControls()
         {
             this.stateCmbBox.DataSource = addPatientViewModel.StatesArray;
-            this.genderCmbBox.DataSource = addPatientViewModel.GenderArray;
+            this.genderCmbBox.DataSource = addPatientViewModel.SexArray;
 
             // Data Bindings
             this.firstNameTextBox.DataBindings.Add(
@@ -36,7 +35,7 @@ namespace HealthCareApp.view
 	            "Value", addPatientViewModel, nameof(addPatientViewModel.DateOfBirth), true, DataSourceUpdateMode.OnPropertyChanged);
 
             this.genderCmbBox.DataBindings.Add(
-	            "SelectedItem", addPatientViewModel, nameof(addPatientViewModel.Gender), true, DataSourceUpdateMode.OnPropertyChanged);
+	            "SelectedItem", addPatientViewModel, nameof(addPatientViewModel.Sex), true, DataSourceUpdateMode.OnPropertyChanged);
 
             this.addressOneTxtBox.DataBindings.Add(
 	            "Text", addPatientViewModel, nameof(addPatientViewModel.Address1), true, DataSourceUpdateMode.OnPropertyChanged);
@@ -62,7 +61,7 @@ namespace HealthCareApp.view
 
         private void editPatientBtn_Click(object sender, EventArgs e)
         {
-	        this.addPatientViewModel.EditPatient(patient);
+	        this.addPatientViewModel.EditPatient();
         }
 
 		private void cancelBtn_Click(object sender, EventArgs e)

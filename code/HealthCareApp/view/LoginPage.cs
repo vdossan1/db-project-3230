@@ -16,19 +16,6 @@ namespace HealthCareApp.View
             this.mainPage = new MainPage(this);
         }
 
-        private void ProcessValidLogin(string username)
-        {
-            this.Hide();
-
-            this.usernameTextField.Clear();
-            this.passwordTextField.Clear();
-
-            string userFullName = this.loginViewModel.GetUserFullName(username);
-
-            this.mainPage.UserFullName = userFullName;
-            mainPage.ShowDialog();
-        }
-
         private void loginBtn_Click(object sender, EventArgs e)
         {
             string username = this.usernameTextField.Text;
@@ -45,5 +32,18 @@ namespace HealthCareApp.View
                 this.invalidLoginLabel.Visible = true;
             }
         }
-    }
+
+        private void ProcessValidLogin(string username)
+        {
+	        this.Hide();
+
+	        this.usernameTextField.Clear();
+	        this.passwordTextField.Clear();
+
+	        string userFullName = this.loginViewModel.GetUserFullName(username);
+
+	        this.mainPage.UserFullName = userFullName;
+	        mainPage.ShowDialog();
+        }
+	}
 }

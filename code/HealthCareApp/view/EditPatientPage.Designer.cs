@@ -263,7 +263,7 @@
 			editPatientBtn.TabIndex = 26;
 			editPatientBtn.Text = "Update Patient";
 			editPatientBtn.UseVisualStyleBackColor = true;
-			editPatientBtn.Click += registerPatientBtn_Click;
+			editPatientBtn.Click += editPatientBtn_Click;
 			// 
 			// cancelBtn
 			// 

@@ -10,7 +10,7 @@ namespace HealthCareApp.viewmodel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 		public Array StatesArray => Enum.GetValues(typeof(State));
-        public Array GenderArray => Enum.GetValues(typeof(Gender));
+        public Array SexArray => Enum.GetValues(typeof(Sex));
 
 
 		protected void OnPropertyChanged(string propertyName)
@@ -18,30 +18,37 @@ namespace HealthCareApp.viewmodel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-		public void EditPatient(Patient patient)
+		public void EditPatient()
 		{
-			patient.FirstName = FirstName;
-			patient.LastName = LastName;
-			patient.DateOfBirth = DateOfBirth;
-			patient.Sex = Gender.ToString();
-			patient.Address1 = Address1;
-			patient.Address2 = Address2;
-			patient.City = City;
-			patient.State = State.ToString();
-			patient.ZipCode = ZipCode;
-			patient.PhoneNumber = PhoneNumber;
-			patient.Ssn = Ssn;
-
-			PatientDal.EditPatient(patient);
+			Patient patientToEdit = new Patient(FirstName, LastName, DateOfBirth, Sex,
+				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
+			PatientDal.EditPatient(patientToEdit);
+			Debug.WriteLine(FirstName + " " + LastName + " " + DateOfBirth.ToShortDateString() + " " + Sex);
 		}
 
 		public void RegisterPatient()
         {
-            Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Gender.ToString(), 
-				Address1, Address2, City, State.ToString(), ZipCode, PhoneNumber, Ssn, true);
+            Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Sex, 
+				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
             PatientDal.RegisterPatient(newPatient);
-            Debug.WriteLine(FirstName + " " + LastName + " " + DateOfBirth.ToShortDateString() + " " + Gender);
+            Debug.WriteLine(FirstName + " " + LastName + " " + DateOfBirth.ToShortDateString() + " " + Sex);
         }
+
+		public void PopulateFields(Patient patient)
+		{
+			FirstName = patient.FirstName;
+			LastName = patient.LastName;
+			DateOfBirth = patient.DateOfBirth;
+			Sex = patient.Sex;
+			Address1 = patient.Address1;
+			Address2 = patient.Address2;
+			City = patient.City;
+			State = patient.State;
+			ZipCode = patient.ZipCode;
+			PhoneNumber = patient.PhoneNumber;
+			Ssn = patient.Ssn;
+			Status = patient.Status;
+		}
 
 		private string firstName;
 		public string FirstName 
@@ -85,16 +92,16 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private Gender gender;
-		public Gender Gender
+		private string sex;
+		public string Sex
 		{
-			get => gender;
+			get => sex;
 			set
 			{
-				if (gender != value)
+				if (sex != value)
 				{
-					gender = value;
-					OnPropertyChanged(nameof(Gender));
+					sex = value;
+					OnPropertyChanged(nameof(Sex));
 				}
 			}
 		}
@@ -141,8 +148,8 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private State state;
-		public State State
+		private string state;
+		public string State
 		{
 			get => state;
 			set
@@ -197,8 +204,8 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private string status;
-		public string Status
+		private bool status;
+		public bool Status
 		{
 			get => status;
 			set

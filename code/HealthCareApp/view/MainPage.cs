@@ -1,5 +1,7 @@
+using HealthCareApp.model;
 using HealthCareApp.view;
 using HealthCareApp.View;
+using HealthCareApp.viewmodel;
 
 namespace HealthCareApp.View
 {
@@ -8,6 +10,7 @@ namespace HealthCareApp.View
 		private LoginPage loginPage;
 		private AddPatientPage addPatientPage;
 		private EditPatientPage editPatientPage;
+		private MainPageViewModel mainPageViewModel;
 
 		private string userfullname;
 		public string UserFullName
@@ -20,23 +23,15 @@ namespace HealthCareApp.View
 			}
 		}
 
-		private string selectedPatient;
-		public string SelectedPatient
-		{
-			get => selectedPatient;
-			set
-			{
-				selectedPatient = value;
-				//this.userInfo.Text = selectedPatient;
-			}
-		}
-
 		public MainPage(LoginPage loginPage)
 		{
 			InitializeComponent();
-
+			
 			this.loginPage = loginPage;
 			this.addPatientPage = new AddPatientPage(this);
+			this.mainPageViewModel = new MainPageViewModel();
+			this.mainPageViewModel.PopulatePatients();
+			this.patientsDataGridView.DataSource = mainPageViewModel.Patients;
 		}
 
 		private void logoutButton_Click(object sender, EventArgs e)
@@ -61,15 +56,25 @@ namespace HealthCareApp.View
 
 		private void editPatientBtn_Click(object sender, EventArgs e)
 		{
-			this.Hide();
-			/*this.editPatientPage.Show();*/
-			if (this.editPatientPage == null || this.editPatientPage.IsDisposed)
+			if (patientsDataGridView.SelectedRows.Count > 0)
 			{
-				this.editPatientPage = new EditPatientPage(this, selectedPatient);
+				var selectedRow = patientsDataGridView.SelectedRows[0];
+				var selectedPatient = selectedRow.DataBoundItem as Patient;
+
+				this.Hide();
+				if (this.editPatientPage == null || this.editPatientPage.IsDisposed)
+				{
+					this.editPatientPage = new EditPatientPage(this, selectedPatient);
+				}
+				else
+				{
+					this.editPatientPage.Show();
+				}
 			}
 			else
 			{
-				this.editPatientPage.Show();
+				// TODO
+				// Notify user that a patient must be selected
 			}
 		}
 	}

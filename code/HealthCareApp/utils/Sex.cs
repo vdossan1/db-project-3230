@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.utils
 {
-	public enum Gender
+	public enum Sex
 	{
 		MALE,
 		FEMALE
