@@ -167,7 +167,7 @@
             genderLabel.Name = "genderLabel";
             genderLabel.Size = new Size(69, 25);
             genderLabel.TabIndex = 18;
-            genderLabel.Text = "Gender";
+            genderLabel.Text = "Sex";
             // 
             // addressOneLabel
             // 

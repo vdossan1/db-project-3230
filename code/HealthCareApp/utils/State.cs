@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthCareApp.utils
+﻿namespace HealthCareApp.utils
 {
-    public enum States
+    public enum State
     {
         AL,
         AK,

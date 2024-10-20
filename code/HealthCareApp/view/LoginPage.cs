@@ -16,7 +16,7 @@ namespace HealthCareApp.View
             this.mainPage = new MainPage(this);
         }
 
-        private void processValidLogin(string username)
+        private void ProcessValidLogin(string username)
         {
             this.Hide();
 
@@ -38,7 +38,7 @@ namespace HealthCareApp.View
 
             if (isValidLogin)
             {
-                this.processValidLogin(username);
+                this.ProcessValidLogin(username);
             }
             else
             {

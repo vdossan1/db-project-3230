@@ -8,7 +8,29 @@ namespace HealthCareApp.DAL
     {
         public static void RegisterPatient(Patient newPatient)
         {
-            throw new NotImplementedException();
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			string query = "INSERT INTO patient (first_name, last_name, date_of_birth, sex, address_line1, address_line2, city, state, zip_code, phone_number, ssn, status) " +
+			               "VALUES (@FirstName, @LastName, @DateOfBirth, @Sex, @Address1, @Address2, @City, @State, @ZipCode, @PhoneNumber, @Ssn, @Status)";
+
+			using MySqlCommand command = new MySqlCommand(query, connection);
+
+			command.Parameters.AddWithValue("@FirstName", newPatient.FirstName);
+			command.Parameters.AddWithValue("@LastName", newPatient.LastName);
+			command.Parameters.AddWithValue("@DateOfBirth", newPatient.DateOfBirth);
+			command.Parameters.AddWithValue("@Sex", newPatient.Sex.Substring(0, 1));
+			command.Parameters.AddWithValue("@Address1", newPatient.Address1);
+			command.Parameters.AddWithValue("@Address2", newPatient.Address2 ?? (object)DBNull.Value);
+			command.Parameters.AddWithValue("@City", newPatient.City);
+			command.Parameters.AddWithValue("@State", newPatient.State);
+			command.Parameters.AddWithValue("@ZipCode", newPatient.ZipCode);
+			command.Parameters.AddWithValue("@PhoneNumber", newPatient.PhoneNumber);
+			command.Parameters.AddWithValue("@Ssn", newPatient.Ssn);
+			command.Parameters.AddWithValue("@Status", newPatient.Status ? 1 : 0);
+
+			connection.Open();
+			command.ExecuteNonQuery();
         }
 
         public static List<Patient> GetAllPatients()
@@ -32,7 +54,6 @@ namespace HealthCareApp.DAL
                 patientList = (from row in table.AsEnumerable()
 
                     select new Patient(
-                        row.Field<int>("patient_id"),
                         row.Field<string>("first_name"),
                         row.Field<string>("last_name"),
                         row.Field<DateTime>("date_of_birth"),

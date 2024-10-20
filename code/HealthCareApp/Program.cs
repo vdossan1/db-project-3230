@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
+using HealthCareApp.view;
 using HealthCareApp.View;
 
 namespace HealthCareApp
@@ -15,7 +16,7 @@ namespace HealthCareApp
         {
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new LoginPage());
+            Application.Run(new AddPatientPage(new MainPage(new LoginPage())));
 
         }
 
