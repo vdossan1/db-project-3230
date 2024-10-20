@@ -71,11 +71,12 @@ namespace HealthCareApp.View
 			{
 				var selectedRow = patientsDataGridView.SelectedRows[0];
 				var selectedPatient = selectedRow.DataBoundItem as Patient;
+				this.editPatientPage.PatientToEdit = selectedPatient;
 
 				this.Hide();
 				if (this.editPatientPage == null || this.editPatientPage.IsDisposed)
 				{
-					this.editPatientPage = new EditPatientPage(this, selectedPatient);
+					this.editPatientPage = new EditPatientPage(this);
 				}
 				else
 				{

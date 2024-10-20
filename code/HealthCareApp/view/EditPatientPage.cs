@@ -6,20 +6,23 @@ namespace HealthCareApp.view
 {
     public partial class EditPatientPage : Form
     {
-        private AddPatientPageViewModel addPatientViewModel;
+	    public Patient PatientToEdit { get; set; }
+
+		private AddPatientPageViewModel addPatientViewModel;
         private MainPage activeMainPage;
-		public EditPatientPage(MainPage mainPage, Patient patientToEdit)
+
+		public EditPatientPage(MainPage mainPage)
         {
             InitializeComponent();
 
             this.addPatientViewModel = new AddPatientPageViewModel();
-            addPatientViewModel.PopulateFields(patientToEdit);
+            addPatientViewModel.PopulateFields(PatientToEdit);
 			this.activeMainPage = mainPage;
 
 			this.BindControls();
         }
 
-        private void BindControls()
+		private void BindControls()
         {
             this.stateCmbBox.DataSource = addPatientViewModel.StatesArray;
             this.genderCmbBox.DataSource = addPatientViewModel.SexArray;

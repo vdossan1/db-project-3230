@@ -7,7 +7,7 @@ namespace HealthCareApp.viewmodel
     {
 	    public List<Patient> Patients { get; set; }
 
-	    public void PopulatePatients()
+		public void PopulatePatients()
 	    {
 		    Patients = PatientDal.GetAllPatients();
 	    }
