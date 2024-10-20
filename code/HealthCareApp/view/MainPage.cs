@@ -40,6 +40,7 @@ namespace HealthCareApp.View
 			
 			this.loginPage = loginPage;
 			this.addPatientPage = new AddPatientPage(this);
+			this.editPatientPage = new EditPatientPage(this);
             this.mainPageViewModel = new MainPageViewModel();
 			this.mainPageViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = mainPageViewModel.Patients;
@@ -72,6 +73,7 @@ namespace HealthCareApp.View
 				var selectedRow = patientsDataGridView.SelectedRows[0];
 				var selectedPatient = selectedRow.DataBoundItem as Patient;
 				this.editPatientPage.PatientToEdit = selectedPatient;
+				this.editPatientPage.PopulateFields();
 
 				this.Hide();
 				if (this.editPatientPage == null || this.editPatientPage.IsDisposed)

@@ -16,7 +16,6 @@ namespace HealthCareApp.view
             InitializeComponent();
 
             this.addPatientViewModel = new AddPatientPageViewModel();
-            addPatientViewModel.PopulateFields(PatientToEdit);
 			this.activeMainPage = mainPage;
 
 			this.BindControls();
@@ -71,6 +70,11 @@ namespace HealthCareApp.view
         {
             this.Hide();
             this.activeMainPage.Show();
+        }
+
+        public void PopulateFields()
+        {
+            addPatientViewModel.PopulateFields(PatientToEdit);
         }
     }
 }
