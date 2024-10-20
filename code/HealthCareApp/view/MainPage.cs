@@ -12,7 +12,18 @@ namespace HealthCareApp.View
 		private EditPatientPage editPatientPage;
 		private MainPageViewModel mainPageViewModel;
 
-		private string userfullname;
+        private string username;
+        public string Username
+        {
+            get => username;
+            set
+            {
+                username = value;
+                this.usernameLabel.Text = Username;
+            }
+        }
+
+        private string userfullname;
 		public string UserFullName
 		{
 			get => userfullname;
@@ -29,7 +40,7 @@ namespace HealthCareApp.View
 			
 			this.loginPage = loginPage;
 			this.addPatientPage = new AddPatientPage(this);
-			this.mainPageViewModel = new MainPageViewModel();
+            this.mainPageViewModel = new MainPageViewModel();
 			this.mainPageViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = mainPageViewModel.Patients;
 		}

@@ -43,6 +43,7 @@ namespace HealthCareApp.View
 	        string userFullName = this.loginViewModel.GetUserFullName(username);
 
 	        this.mainPage.UserFullName = userFullName;
+            this.mainPage.Username = username;
 	        mainPage.ShowDialog();
         }
 	}

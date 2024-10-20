@@ -9,7 +9,7 @@ namespace HealthCareApp.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var query = "select count(*) from login_credential where username = @username and password = @password" +
+            var query = "select count(*) from login_credential where username = @username and password = @password " +
                         "and username in (select username from nurse union select username from administrator)";
 
             using MySqlCommand command = new MySqlCommand(query, connection);
@@ -30,7 +30,7 @@ namespace HealthCareApp.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var query = "select CONCAT(first_name, ' ' ,last_name) from nurse where username = @username" +
+            var query = "select CONCAT(first_name, ' ' ,last_name) from nurse where username = @username " +
                         "union select CONCAT(first_name, ' ' ,last_name) from administrator where username = @username";
 
             using MySqlCommand command = new MySqlCommand(query, connection);
