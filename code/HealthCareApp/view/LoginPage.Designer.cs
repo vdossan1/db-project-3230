@@ -38,44 +38,49 @@
             // 
             // usernameTextField
             // 
-            usernameTextField.Location = new Point(298, 108);
+            usernameTextField.Location = new Point(265, 98);
             usernameTextField.Name = "usernameTextField";
-            usernameTextField.Size = new Size(150, 31);
+            usernameTextField.Size = new Size(218, 31);
             usernameTextField.TabIndex = 0;
             // 
             // passwordTextField
             // 
-            passwordTextField.Location = new Point(298, 195);
+            passwordTextField.Location = new Point(265, 188);
             passwordTextField.Name = "passwordTextField";
-            passwordTextField.Size = new Size(150, 31);
+            passwordTextField.Size = new Size(218, 31);
             passwordTextField.TabIndex = 1;
             passwordTextField.UseSystemPasswordChar = true;
             // 
             // loginBtn
             // 
-            loginBtn.Location = new Point(327, 339);
+            loginBtn.BackColor = SystemColors.ActiveCaption;
+            loginBtn.FlatAppearance.BorderColor = Color.Black;
+            loginBtn.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            loginBtn.Location = new Point(264, 334);
             loginBtn.Name = "loginBtn";
-            loginBtn.Size = new Size(112, 34);
+            loginBtn.Size = new Size(244, 59);
             loginBtn.TabIndex = 2;
-            loginBtn.Text = "Login";
-            loginBtn.UseVisualStyleBackColor = true;
+            loginBtn.Text = "LOGIN";
+            loginBtn.UseVisualStyleBackColor = false;
             loginBtn.Click += loginBtn_Click;
             // 
             // passwordLogin
             // 
             passwordLogin.AutoSize = true;
-            passwordLogin.Location = new Point(327, 66);
+            passwordLogin.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            passwordLogin.Location = new Point(265, 70);
             passwordLogin.Name = "passwordLogin";
-            passwordLogin.Size = new Size(91, 25);
+            passwordLogin.Size = new Size(97, 25);
             passwordLogin.TabIndex = 3;
             passwordLogin.Text = "Username";
             // 
             // passwordLabel
             // 
             passwordLabel.AutoSize = true;
-            passwordLabel.Location = new Point(331, 167);
+            passwordLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            passwordLabel.Location = new Point(264, 160);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(87, 25);
+            passwordLabel.Size = new Size(92, 25);
             passwordLabel.TabIndex = 4;
             passwordLabel.Text = "Password";
             // 
@@ -84,7 +89,7 @@
             invalidLoginLabel.AutoSize = true;
             invalidLoginLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             invalidLoginLabel.ForeColor = Color.Red;
-            invalidLoginLabel.Location = new Point(248, 273);
+            invalidLoginLabel.Location = new Point(251, 266);
             invalidLoginLabel.Name = "invalidLoginLabel";
             invalidLoginLabel.Size = new Size(257, 25);
             invalidLoginLabel.TabIndex = 5;

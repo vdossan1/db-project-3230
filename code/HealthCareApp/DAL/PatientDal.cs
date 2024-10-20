@@ -94,7 +94,6 @@ namespace HealthCareApp.DAL
                         row.Field<string>("ssn"),
 						row.Field<bool>("status")
                     )).ToList();
-
             }
 
             return patientList;

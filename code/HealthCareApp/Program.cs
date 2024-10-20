@@ -18,14 +18,5 @@ namespace HealthCareApp
             Application.Run(new LoginPage());
 
         }
-
-        private static void PrintEmployees(List<Patient> patients)
-        {
-            Debug.WriteLine("====================================");
-            foreach (var patient in patients)
-            {
-                Debug.WriteLine(patient.FirstName + "\t\t" + patient.LastName + "\t\t" + patient.DateOfBirth);
-            }
-        }
     }
 }

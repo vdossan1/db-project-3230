@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using HealthCareApp.model;
 using HealthCareApp.view;
 using HealthCareApp.View;
@@ -10,9 +11,12 @@ namespace HealthCareApp.View
 		private LoginPage loginPage;
 		private AddPatientPage addPatientPage;
 		private EditPatientPage editPatientPage;
+
 		private MainPageViewModel mainPageViewModel;
 
-        private string username;
+        #region Properties
+
+		private string username;
         public string Username
         {
             get => username;
@@ -34,19 +38,30 @@ namespace HealthCareApp.View
 			}
 		}
 
-		public MainPage(LoginPage loginPage)
+        #endregion
+
+        public MainPage(LoginPage loginPage)
 		{
 			InitializeComponent();
 			
 			this.loginPage = loginPage;
 			this.addPatientPage = new AddPatientPage(this);
 			this.editPatientPage = new EditPatientPage(this);
+			this.editPatientPage.PatientUpdated += RefreshPatientListOnPatientUpdated;
+
             this.mainPageViewModel = new MainPageViewModel();
+
 			this.mainPageViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = mainPageViewModel.Patients;
-		}
+        }
 
-		private void logoutButton_Click(object sender, EventArgs e)
+        void RefreshPatientListOnPatientUpdated(object? sender, EventArgs e)
+        {
+            this.mainPageViewModel.PopulatePatients();
+            this.patientsDataGridView.DataSource = mainPageViewModel.Patients;
+        }
+
+        private void logoutButton_Click(object sender, EventArgs e)
 		{
 			this.Hide();
 			this.loginPage.Show();
@@ -55,7 +70,6 @@ namespace HealthCareApp.View
 		private void registerPatientBtn_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			/*this.addPatientPage.Show();*/
 			if (this.addPatientPage == null || this.addPatientPage.IsDisposed)
 			{
 				this.addPatientPage = new AddPatientPage(this);
@@ -74,15 +88,15 @@ namespace HealthCareApp.View
 				var selectedPatient = selectedRow.DataBoundItem as Patient;
 				this.editPatientPage.PatientToEdit = selectedPatient;
 				this.editPatientPage.PopulateFields();
-
-				this.Hide();
+				
 				if (this.editPatientPage == null || this.editPatientPage.IsDisposed)
 				{
 					this.editPatientPage = new EditPatientPage(this);
 				}
 				else
 				{
-					this.editPatientPage.Show();
+                    this.Hide();
+                    this.editPatientPage.Show();
 				}
 			}
 			else

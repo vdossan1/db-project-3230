@@ -6,7 +6,7 @@ using HealthCareApp.utils;
 
 namespace HealthCareApp.viewmodel
 {
-    public class AddPatientPageViewModel : INotifyPropertyChanged
+    public class ManagePatientPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 		public Array StatesArray => Enum.GetValues(typeof(State));
@@ -22,6 +22,7 @@ namespace HealthCareApp.viewmodel
 		{
 			Patient patientToEdit = new Patient(FirstName, LastName, DateOfBirth, Sex,
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
+
 			PatientDal.EditPatient(patientToEdit);
 			Debug.WriteLine(FirstName + " " + LastName + " " + DateOfBirth.ToShortDateString() + " " + Sex);
 		}
@@ -30,27 +31,30 @@ namespace HealthCareApp.viewmodel
         {
             Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Sex, 
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
+
             PatientDal.RegisterPatient(newPatient);
             Debug.WriteLine(FirstName + " " + LastName + " " + DateOfBirth.ToShortDateString() + " " + Sex);
         }
 
-		public void PopulateFields(Patient patient)
-		{
-			FirstName = patient.FirstName;
-			LastName = patient.LastName;
-			DateOfBirth = patient.DateOfBirth;
-			Sex = patient.Sex;
-			Address1 = patient.Address1;
-			Address2 = patient.Address2;
-			City = patient.City;
-			State = patient.State;
-			ZipCode = patient.ZipCode;
-			PhoneNumber = patient.PhoneNumber;
-			Ssn = patient.Ssn;
-			Status = patient.Status;
-		}
+        public void PopulateFields(Patient patient)
+        {
+            FirstName = patient.FirstName;
+            LastName = patient.LastName;
+            DateOfBirth = patient.DateOfBirth;
+            Sex = patient.Sex;
+            Address1 = patient.Address1;
+            Address2 = patient.Address2;
+            City = patient.City;
+            State = patient.State;
+            ZipCode = patient.ZipCode;
+            PhoneNumber = patient.PhoneNumber;
+            Ssn = patient.Ssn;
+            Status = patient.Status;
+        }
 
-		private string firstName;
+        #region Properties
+
+        private string firstName;
 		public string FirstName 
 		{
 			get => firstName;
@@ -217,5 +221,6 @@ namespace HealthCareApp.viewmodel
 				}
 			}
 		}
-	}
+        #endregion
+    }
 }
