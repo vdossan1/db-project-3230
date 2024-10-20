@@ -47,6 +47,8 @@ namespace HealthCareApp.View
 			this.loginPage = loginPage;
 			this.addPatientPage = new AddPatientPage(this);
 			this.editPatientPage = new EditPatientPage(this);
+
+            this.addPatientPage.PatientAdded += RefreshPatientListOnPatientUpdated;
 			this.editPatientPage.PatientUpdated += RefreshPatientListOnPatientUpdated;
 
             this.mainPageViewModel = new MainPageViewModel();

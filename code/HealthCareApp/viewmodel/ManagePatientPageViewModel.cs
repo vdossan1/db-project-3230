@@ -12,12 +12,6 @@ namespace HealthCareApp.viewmodel
 		public Array StatesArray => Enum.GetValues(typeof(State));
         public Array SexArray => Enum.GetValues(typeof(Sex));
 
-
-		protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
 		public void EditPatient()
 		{
 			Patient patientToEdit = new Patient(FirstName, LastName, DateOfBirth, Sex,
@@ -50,6 +44,11 @@ namespace HealthCareApp.viewmodel
             PhoneNumber = patient.PhoneNumber;
             Ssn = patient.Ssn;
             Status = patient.Status;
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #region Properties
