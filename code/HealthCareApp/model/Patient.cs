@@ -5,18 +5,18 @@
 	/// </summary>
 	public class Patient
     {
-        public string FirstName { get; }
-        public string LastName { get; }
-        public DateTime DateOfBirth { get; }
-        public string Sex { get; }
-        public string Address1 { get; }
-        public string? Address2 { get; }
-        public string City { get; }
-        public string State { get; }
-        public string ZipCode { get; }
-        public string PhoneNumber { get; }
-        public string Ssn { get; }
-		public bool Status { get; }
+        public string FirstName { get; set; }
+        public string LastName { get; set;  }
+        public DateTime DateOfBirth { get; set; }
+        public string Sex { get; set;  }
+        public string Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Ssn { get; set; }
+		public bool Status { get; set; }
 
         public Patient(string firstName, string lastName, DateTime dateOfBirth, string sex,
             string address1, string? address2, string city, string state, string zipCode, string phoneNumber,

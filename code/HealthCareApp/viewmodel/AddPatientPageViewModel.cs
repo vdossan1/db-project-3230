@@ -18,8 +18,24 @@ namespace HealthCareApp.viewmodel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+		public void EditPatient(Patient patient)
+		{
+			patient.FirstName = FirstName;
+			patient.LastName = LastName;
+			patient.DateOfBirth = DateOfBirth;
+			patient.Sex = Gender.ToString();
+			patient.Address1 = Address1;
+			patient.Address2 = Address2;
+			patient.City = City;
+			patient.State = State.ToString();
+			patient.ZipCode = ZipCode;
+			patient.PhoneNumber = PhoneNumber;
+			patient.Ssn = Ssn;
 
-        public void RegisterPatient()
+			PatientDal.EditPatient(patient);
+		}
+
+		public void RegisterPatient()
         {
             Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Gender.ToString(), 
 				Address1, Address2, City, State.ToString(), ZipCode, PhoneNumber, Ssn, true);

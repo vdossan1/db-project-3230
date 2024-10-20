@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-    partial class AddPatientPage
+    partial class EditPatientPage
     {
         /// <summary>
         /// Required designer variable.
@@ -50,7 +50,7 @@
 			zipCodeLabel = new Label();
 			phoneNumberLabel = new Label();
 			ssnLabel = new Label();
-			registerPatientBtn = new Button();
+			editPatientBtn = new Button();
 			cancelBtn = new Button();
 			SuspendLayout();
 			// 
@@ -254,16 +254,16 @@
 			ssnLabel.TabIndex = 25;
 			ssnLabel.Text = "SSN";
 			// 
-			// registerPatientBtn
+			// editPatientBtn
 			// 
-			registerPatientBtn.Location = new Point(96, 488);
-			registerPatientBtn.Margin = new Padding(2);
-			registerPatientBtn.Name = "registerPatientBtn";
-			registerPatientBtn.Size = new Size(156, 41);
-			registerPatientBtn.TabIndex = 26;
-			registerPatientBtn.Text = "Register Patient";
-			registerPatientBtn.UseVisualStyleBackColor = true;
-			registerPatientBtn.Click += this.registerPatientBtn_Click;
+			editPatientBtn.Location = new Point(96, 488);
+			editPatientBtn.Margin = new Padding(2);
+			editPatientBtn.Name = "editPatientBtn";
+			editPatientBtn.Size = new Size(156, 41);
+			editPatientBtn.TabIndex = 26;
+			editPatientBtn.Text = "Update Patient";
+			editPatientBtn.UseVisualStyleBackColor = true;
+			editPatientBtn.Click += registerPatientBtn_Click;
 			// 
 			// cancelBtn
 			// 
@@ -274,15 +274,15 @@
 			cancelBtn.TabIndex = 27;
 			cancelBtn.Text = "Cancel";
 			cancelBtn.UseVisualStyleBackColor = true;
-			cancelBtn.Click += this.cancelBtn_Click;
+			cancelBtn.Click += cancelBtn_Click;
 			// 
-			// AddPatientPage
+			// EditPatientPage
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(598, 563);
 			Controls.Add(cancelBtn);
-			Controls.Add(registerPatientBtn);
+			Controls.Add(editPatientBtn);
 			Controls.Add(ssnLabel);
 			Controls.Add(phoneNumberLabel);
 			Controls.Add(zipCodeLabel);
@@ -306,7 +306,7 @@
 			Controls.Add(lastNameTextBox);
 			Controls.Add(firstNameTextBox);
 			Margin = new Padding(2);
-			Name = "AddPatientPage";
+			Name = "EditPatientPage";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "AddPatientPage";
 			ResumeLayout(false);
@@ -337,7 +337,7 @@
         private Label zipCodeLabel;
         private Label phoneNumberLabel;
         private Label ssnLabel;
-        private Button registerPatientBtn;
+        private Button editPatientBtn;
         private Button cancelBtn;
     }
 }

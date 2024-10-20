@@ -6,7 +6,35 @@ namespace HealthCareApp.DAL
 {
     public class PatientDal
     {
-        public static void RegisterPatient(Patient newPatient)
+	    public static void EditPatient(Patient patient)
+	    {
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			string query = "UPDATE patient SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, " +
+			               "sex = @Sex, address_line1 = @Address1, address_line2 = @Address2, city = @City, state = @State, " +
+			               "zip_code = @ZipCode, phone_number = @PhoneNumber, status = @Status " +
+			               "WHERE ssn = @Ssn";
+
+			using MySqlCommand command = new MySqlCommand(query, connection);
+
+			command.Parameters.AddWithValue("@FirstName", patient.FirstName);
+			command.Parameters.AddWithValue("@LastName", patient.LastName);
+			command.Parameters.AddWithValue("@DateOfBirth", patient.DateOfBirth);
+			command.Parameters.AddWithValue("@Sex", patient.Sex.Substring(0, 1));
+			command.Parameters.AddWithValue("@Address1", patient.Address1);
+			command.Parameters.AddWithValue("@Address2", patient.Address2 ?? (object)DBNull.Value);
+			command.Parameters.AddWithValue("@City", patient.City);
+			command.Parameters.AddWithValue("@State", patient.State);
+			command.Parameters.AddWithValue("@ZipCode", patient.ZipCode);
+			command.Parameters.AddWithValue("@PhoneNumber", patient.PhoneNumber);
+			command.Parameters.AddWithValue("@Ssn", patient.Ssn);
+			command.Parameters.AddWithValue("@Status", patient.Status ? 1 : 0);
+
+			command.ExecuteNonQuery();
+		}
+
+		public static void RegisterPatient(Patient newPatient)
         {
 			using var connection = new MySqlConnection(Connection.ConnectionString());
 			connection.Open();

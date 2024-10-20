@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="view\EditPatientPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="view\LoginPage.cs">
       <SubType>Form</SubType>
     </Compile>
