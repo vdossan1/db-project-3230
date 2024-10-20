@@ -108,9 +108,8 @@ namespace HealthCareApp.view
         {
             bool requirements = true;
 
-            requirements = checkNumericFields(requirements);
-
             requirements = checkRequiredFields(requirements);
+            requirements = checkNumericFields(requirements);
 
             if (requirements)
             {
@@ -184,10 +183,15 @@ namespace HealthCareApp.view
             {
                 if (numericField == this.phoneNumberTxtBox)
                 {
-                    if (numericField.Text.All(char.IsDigit) == false)
+                    if (this.phoneNumberTxtBox.Text.All(char.IsDigit) == false)
                     {
                         requirements = false;
                         this.phoneNumNOLabel.Visible = true;
+                    }
+                    else if (this.phoneNumberTxtBox.Text.Length != 10)
+                    {
+                        requirements = false;
+                        this.phoneNumberTxtBox.BackColor = Color.Red;
                     }
                     else
                     {
@@ -197,10 +201,15 @@ namespace HealthCareApp.view
 
                 if (numericField == this.zipCodeTxtBox)
                 {
-                    if (numericField.Text.All(char.IsDigit) == false)
+                    if (this.zipCodeTxtBox.Text.All(char.IsDigit) == false)
                     {
                         requirements = false;
                         this.zipCodeNOLabel.Visible = true;
+                    }
+                    else if (this.zipCodeTxtBox.Text.Length != 5)
+                    {
+                        requirements = false;
+                        this.zipCodeTxtBox.BackColor = Color.Red;
                     }
                     else
                     {
@@ -211,10 +220,15 @@ namespace HealthCareApp.view
 
                 if (numericField == this.ssnTxtBox)
                 {
-                    if (numericField.Text.All(char.IsDigit) == false)
+                    if (this.ssnTxtBox.Text.All(char.IsDigit) == false)
                     {
                         requirements = false;
                         this.ssnNOLabel.Visible = true;
+                    }
+                    else if (this.ssnTxtBox.Text.Length != 9)
+                    {
+                        requirements = false;
+                        this.ssnTxtBox.BackColor = Color.Red;
                     }
                     else
                     {
