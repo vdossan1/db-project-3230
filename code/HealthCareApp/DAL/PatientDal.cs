@@ -29,7 +29,6 @@ namespace HealthCareApp.DAL
 			command.Parameters.AddWithValue("@Ssn", newPatient.Ssn);
 			command.Parameters.AddWithValue("@Status", newPatient.Status ? 1 : 0);
 
-			connection.Open();
 			command.ExecuteNonQuery();
         }
 
