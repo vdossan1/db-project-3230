@@ -1,12 +1,21 @@
 using HealthCareApp.viewmodel;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.View
 {
-    public partial class LoginPage : Form
+	/// <summary>
+	/// Represents the login interface for the healthcare application, 
+	/// allowing users to authenticate and access the main application features.
+	/// </summary>
+	public partial class LoginPage : Form
     {
         private LoginPageViewModel loginViewModel;
 
-        public LoginPage()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="LoginPage"/> class.
+		/// </summary>
+		public LoginPage()
         {
             InitializeComponent();
 			this.loginViewModel = new LoginPageViewModel();

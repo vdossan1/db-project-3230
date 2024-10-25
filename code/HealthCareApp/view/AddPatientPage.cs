@@ -1,9 +1,14 @@
 ﻿using HealthCareApp.View;
 using HealthCareApp.viewmodel;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
-    public partial class AddPatientPage : Form
+	/// <summary>
+	/// Represents the interface for adding a new patient in the healthcare application.
+	/// </summary>
+	public partial class AddPatientPage : Form
     {
         private List<Control> requiredFields;
         private List<Control> numericFields;
@@ -12,7 +17,12 @@ namespace HealthCareApp.view
 
         private MainPage activeMainPage;
         private ManagePatientPageViewModel managePatientViewModel;
-        public AddPatientPage(MainPage mainPage)
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AddPatientPage"/> class.
+		/// </summary>
+		/// <param name="mainPage">The <see cref="MainPage"/> instance that contains the data and logic for the main page.</param>
+		public AddPatientPage(MainPage mainPage)
         {
             InitializeComponent();
             this.InitializeRequiredFields();

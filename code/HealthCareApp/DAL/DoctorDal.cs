@@ -2,15 +2,29 @@
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.DAL
 {
+	/// <summary>
+	/// Provides data access methods for the Doctor entity.
+	/// </summary>
 	public class DoctorDal
 	{
+		/// <summary>
+		/// Registers a new doctor in the database.
+		/// </summary>
+		/// <param name="newDoctor">The <see cref="Doctor"/> object containing the doctor's details.</param>
+		/// <exception cref="NotImplementedException">This method is not implemented yet.</exception>
 		public static void RegisterDoctor(Doctor newDoctor)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Retrieves all doctors from the database.
+		/// </summary>
+		/// <returns>A list of <see cref="Doctor"/> objects representing all doctors in the database.</returns>
 		public static List<Doctor> GetAllDoctors()
 		{
 			var doctorList = new List<Doctor>();
@@ -30,7 +44,6 @@ namespace HealthCareApp.DAL
 			if (table.Rows.Count > 0)
 			{
 				doctorList = (from row in table.AsEnumerable()
-
 					select new Doctor(
 						row.Field<int>("doctor_id"),
 						row.Field<string>("first_name"),
@@ -45,10 +58,10 @@ namespace HealthCareApp.DAL
 						row.Field<string>("phone_number"),
 						row.Field<string>("ssn")
 					)).ToList();
-
 			}
 
 			return doctorList;
 		}
 	}
+
 }

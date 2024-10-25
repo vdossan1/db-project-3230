@@ -1,15 +1,19 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.DAL
 {
-    public static class Connection
+	/// <summary>
+	/// Provides methods for creating a connection string for a MySQL database.
+	/// </summary>
+	public static class Connection
     {
-        public static string ConnectionString()
+	    /// <summary>
+	    /// Builds and returns a MySQL connection string based on predefined parameters.
+	    /// </summary>
+	    /// <returns>A string representing the MySQL connection string.</returns>
+	    public static string ConnectionString()
         {
             var builder = new MySqlConnectionStringBuilder
             {

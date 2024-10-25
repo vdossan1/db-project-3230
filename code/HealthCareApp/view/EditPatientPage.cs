@@ -2,9 +2,14 @@
 using HealthCareApp.View;
 using HealthCareApp.viewmodel;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
-    public partial class EditPatientPage : Form
+	/// <summary>
+	/// Represents the interface for editing patient information in the healthcare application.
+	/// </summary>
+	public partial class EditPatientPage : Form
     {
         private List<Control> requiredFields;
         private List<Control> numericFields;
@@ -16,7 +21,11 @@ namespace HealthCareApp.view
         
         public Patient PatientToEdit { get; set; }
 
-        public EditPatientPage(MainPage mainPage)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditPatientPage"/> class.
+		/// </summary>
+		/// <param name="mainPage">The <see cref="MainPage"/> instance that contains the data and logic for the main page.</param>
+		public EditPatientPage(MainPage mainPage)
         {
             InitializeComponent();
             this.InitializeRequiredFields();
