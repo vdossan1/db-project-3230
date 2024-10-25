@@ -16,12 +16,20 @@ namespace HealthCareApp.View
 		public MainPage(MainPageViewModel mainPageViewModel)
 		{
 			InitializeComponent();
+			this.FormClosing += MainPage_FormClosing;
 
 			this.mainPageViewModel = mainPageViewModel;
 			this.addPatientPage = new AddPatientPage(this);
 			this.editPatientPage = new EditPatientPage(this);
 			//this.PatientsControl = new PatientsControl();
 			//this.AppointmentsControl = new AppointmentsControl();
+
+			this.displayUserInformation();
+		}
+
+		private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Application.Exit();
 		}
 
 		private void logoutButton_Click(object sender, EventArgs e)
@@ -32,16 +40,22 @@ namespace HealthCareApp.View
 			loginPage.Show();
 		}
 
-        private void patientsControlButton_Click(object sender, EventArgs e)
-        {
+		private void patientsControlButton_Click(object sender, EventArgs e)
+		{
 			//this.activePage = this.patientsControl;
 			//this.patientsPage.Show();
 		}
 
-        private void appointmentsControlButton_Click(object sender, EventArgs e)
-        {
+		private void appointmentsControlButton_Click(object sender, EventArgs e)
+		{
 			//this.activePage = this.appointmentsControl;
 			//this.appointmentsPage.Show();
+		}
+
+		private void displayUserInformation()
+		{
+			this.usernameLabel.Text = this.mainPageViewModel.Username;
+			this.userFullNameLabel.Text = this.mainPageViewModel.UserFullName;
 		}
 	}
 }

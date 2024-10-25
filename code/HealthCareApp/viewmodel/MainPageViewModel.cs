@@ -1,6 +1,4 @@
-﻿using HealthCareApp.View;
-
-namespace HealthCareApp.viewmodel
+﻿namespace HealthCareApp.viewmodel
 {
     public class MainPageViewModel
     {
