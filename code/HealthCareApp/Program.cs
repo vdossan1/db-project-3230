@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using HealthCareApp.model;
-using HealthCareApp.view;
 using HealthCareApp.View;
 
 namespace HealthCareApp
