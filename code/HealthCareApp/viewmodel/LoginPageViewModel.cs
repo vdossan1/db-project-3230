@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCareApp.DAL;
+﻿using HealthCareApp.DAL;
 
 namespace HealthCareApp.viewmodel
 {
     public class LoginPageViewModel
     {
+		public string Username { get; set; }
+		public string UserFullName { get; set; }
 
-        public bool TryLogin(string username, string password)
+		public bool AuthenticateUser(string username, string password)
         {
             return LoginCredentialDal.AuthenticateUser(username, password);
         }
 
-        public string GetUserFullName(string username)
-        {
-            return LoginCredentialDal.GetFullName(username);
-        }
+		public void StoreLoginCredentials(string username)
+		{
+			this.Username = username;
+			this.UserFullName = LoginCredentialDal.GetFullName(username);
+		}
     }
 }

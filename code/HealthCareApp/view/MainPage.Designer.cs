@@ -87,7 +87,6 @@
             registerPatientBtn.TabIndex = 3;
             registerPatientBtn.Text = "Register Patient";
             registerPatientBtn.UseVisualStyleBackColor = true;
-            registerPatientBtn.Click += registerPatientBtn_Click;
             // 
             // editPatientBtn
             // 
@@ -98,7 +97,6 @@
             editPatientBtn.TabIndex = 4;
             editPatientBtn.Text = "Edit Patient";
             editPatientBtn.UseVisualStyleBackColor = true;
-            editPatientBtn.Click += editPatientBtn_Click;
             // 
             // sidebarPanel
             // 

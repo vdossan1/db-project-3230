@@ -5,28 +5,24 @@ namespace HealthCareApp.View
     public partial class LoginPage : Form
     {
         private LoginPageViewModel loginViewModel;
-        private MainPage mainPage;
-
 
         public LoginPage()
         {
             InitializeComponent();
-
-            this.loginViewModel = new LoginPageViewModel();
-            this.mainPage = new MainPage(this);
-        }
+			this.loginViewModel = new LoginPageViewModel();
+		}
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            string username = this.usernameTextField.Text;
-            string password = this.passwordTextField.Text;
+            var username = this.usernameTextField.Text;
+            var password = this.passwordTextField.Text;
 
-            bool isValidLogin = this.loginViewModel.TryLogin(username, password);
+            var isValidLogin = this.loginViewModel.AuthenticateUser(username, password);
 
             if (isValidLogin)
             {
                 this.ProcessValidLogin(username);
-            }
+			}
             else
             {
                 this.invalidLoginLabel.Visible = true;
@@ -35,16 +31,19 @@ namespace HealthCareApp.View
 
         private void ProcessValidLogin(string username)
         {
-	        this.Hide();
+	        this.loginViewModel.StoreLoginCredentials(username);
+	        var mainPageViewModel = new MainPageViewModel
+	        {
+		        Username = loginViewModel.Username,
+		        UserFullName = loginViewModel.UserFullName
+	        };
 
-	        this.usernameTextField.Clear();
+			this.Hide();
+			MainPage mainPage = new MainPage(mainPageViewModel);
+	        mainPage.Show();
+
+			this.usernameTextField.Clear();
 	        this.passwordTextField.Clear();
-
-	        string userFullName = this.loginViewModel.GetUserFullName(username);
-
-	        this.mainPage.UserFullName = userFullName;
-            this.mainPage.Username = username;
-	        mainPage.ShowDialog();
-        }
+		}
 	}
 }

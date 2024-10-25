@@ -1,15 +1,10 @@
-﻿using HealthCareApp.DAL;
-using HealthCareApp.model;
+﻿using HealthCareApp.View;
 
 namespace HealthCareApp.viewmodel
 {
     public class MainPageViewModel
     {
-	    public List<Patient> Patients { get; set; }
-
-		public void PopulatePatients()
-	    {
-		    Patients = PatientDal.GetAllPatients();
-	    }
+	    public string Username { get; set; }
+		public string UserFullName { get; set; }
     }
 }
