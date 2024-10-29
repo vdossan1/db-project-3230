@@ -48,7 +48,6 @@ namespace HealthCareApp.DAL
 
             using var reader = command.ExecuteReader();
 
-            var idOrdinal = reader.GetOrdinal("nurse_id");
             var firstNameOrdinal = reader.GetOrdinal("first_name");
             var lastNameOrdinal = reader.GetOrdinal("last_name");
             var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
@@ -66,7 +65,7 @@ namespace HealthCareApp.DAL
             {
                 nurseList.Add(
                     CreateNurse(
-                        reader, idOrdinal, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender,
+                        reader, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender,
                         addressOneOrdinal, addressTwoOrdinal, cityOrdinal, stateOrdinal, zipCodeOrdinal,
                         phoneNumberOrdinal, ssnOrdinal, usernameOrdinal
                     ));
@@ -77,7 +76,6 @@ namespace HealthCareApp.DAL
 
         private static void AddAllNurseParamsToCommand(Nurse nurse, MySqlCommand command)
         {
-            command.Parameters.Add("@Id", MySqlDbType.Int32).Value = nurse.Id;
             command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = nurse.FirstName;
             command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = nurse.LastName;
             command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = nurse.DateOfBirth;
@@ -92,13 +90,12 @@ namespace HealthCareApp.DAL
             command.Parameters.Add("@Username", MySqlDbType.VarChar).Value = nurse.Username;
         }
 
-        private static Nurse CreateNurse(MySqlDataReader reader, int idOrdinal, int firstNameOrdinal, int lastNameOrdinal,
+        private static Nurse CreateNurse(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal,
             int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
             int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal, int usernameOrdinal)
         {
             return new Nurse
             (
-                reader.GetFieldValue<int>(idOrdinal),
                 reader.GetFieldValue<string>(firstNameOrdinal),
                 reader.GetFieldValue<string>(lastNameOrdinal),
                 reader.GetDateTime(dateOfBirthOrdinal),
