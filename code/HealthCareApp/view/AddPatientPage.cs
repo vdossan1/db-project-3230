@@ -12,7 +12,6 @@ namespace HealthCareApp.view
     {
         public event EventHandler PatientAdded;
 
-        private MainPage activeMainPage;
         private ManagePatientPageViewModel managePatientViewModel;
 
 		/// <summary>
@@ -26,7 +25,6 @@ namespace HealthCareApp.view
             this.dateOfBirthPicker.MaxDate = DateTime.Today;
 
             this.managePatientViewModel = new ManagePatientPageViewModel();
-            this.activeMainPage = mainPage;
 
             this.BindControls();
             this.BindValidationMessages();
@@ -131,7 +129,6 @@ namespace HealthCareApp.view
                 OnPatientAdded();
                 this.Hide();
                 this.Dispose();
-                this.activeMainPage.Show();
             }
         }
 
@@ -139,7 +136,6 @@ namespace HealthCareApp.view
         {
             this.Hide();
             this.Dispose();
-            this.activeMainPage.Show();
         }
     }
 }
