@@ -28,6 +28,13 @@ namespace HealthCareApp.view
 
             this.BindControls();
             this.BindValidationMessages();
+
+            this.managePatientViewModel.ErrorOccured += ErrorOccured;
+        }
+
+        private void ErrorOccured(object? sender, string e)
+        {
+            MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void BindControls()
@@ -109,23 +116,20 @@ namespace HealthCareApp.view
         private void OnPatientAdded()
         {
             PatientAdded?.Invoke(this, EventArgs.Empty);
+            MessageBox.Show("Patient registered successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void registerPatientBtn_Click(object sender, EventArgs e)
         {
-            managePatientViewModel.ValidateFields();
+            this.managePatientViewModel.ValidateFields();
 
-            if (managePatientViewModel.IsValid)
+            if (this.managePatientViewModel.RegisterPatient())
             {
-                managePatientViewModel.RegisterPatient();
+                
                 OnPatientAdded();
                 this.Hide();
                 this.Dispose();
-                activeMainPage.Show();
-            }
-            else
-            {
-                MessageBox.Show("Please fix the highlighted errors before continuing.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.activeMainPage.Show();
             }
         }
 

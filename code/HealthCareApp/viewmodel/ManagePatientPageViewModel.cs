@@ -4,6 +4,7 @@ using System.Diagnostics;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
 using HealthCareApp.utils;
+using MySql.Data.MySqlClient;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -16,7 +17,9 @@ namespace HealthCareApp.viewmodel
 	/// </summary>
 	public class ManagePatientPageViewModel : INotifyPropertyChanged
     {
-        private const string SSN_INVALID_SIZE = "This field needs 9 digits";
+        #region Constants
+
+		private const string SSN_INVALID_SIZE = "This field needs 9 digits";
         private const string ZIP_CODE_INVALID_SIZE = "This field need 5 digits";
         private const string PHONE_NUMBER_INVALID_SIZE = "This field needs 10 digits";
 
@@ -24,28 +27,40 @@ namespace HealthCareApp.viewmodel
         private const string INVALID_DATE = "Invalid Date";
         private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
 
+        #endregion
+
+        #region Events
+
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-		/// <summary>
-		/// Gets an array of all possible states as defined in the <see cref="State"/> enumeration.
-		/// </summary>
-		public Array StatesArray => Enum.GetValues(typeof(State));
+        public EventHandler<string> ErrorOccured;
 
+        protected virtual void OnErrorOccured(string message)
+        {
+            this.ErrorOccured?.Invoke(this, message);
+        }
 
-		/// <summary>
-		/// Gets an array of all possible sexes as defined in the <see cref="Sex"/> enumeration.
-		/// </summary>
-		public Array SexArray => Enum.GetValues(typeof(Gender));
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event for a property.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            ValidateFields();
+        }
+
+        #endregion
 
         #region FieldValidation
 
         /// <summary>
-		/// Determines if the data enter by the user is valid
-		/// </summary>
-		public bool IsValid { get; private set; }
+        /// Determines if the data enter by the user is valid
+        /// </summary>
+        public bool IsValid { get; private set; }
 
         public Dictionary<string, string> ValidationErrors { get; private set; }
 
@@ -141,8 +156,9 @@ namespace HealthCareApp.viewmodel
 		/// <summary>
 		/// Registers a new patient in the database using the current property values.
 		/// </summary>
-		public void RegisterPatient()
-		{
+		public bool RegisterPatient()
+        {
+            var result = false;
             try
             {
                 if (IsValid)
@@ -151,15 +167,23 @@ namespace HealthCareApp.viewmodel
                         Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
 
                     PatientDal.RegisterPatient(newPatient);
+                    result = true;
                     Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
                 }
+            }
+            catch (MySqlException sqlException)
+            {
+                Debug.WriteLine(sqlException);
+                this.OnErrorOccured($"{sqlException.Message}");
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw;
+                this.OnErrorOccured($"Exception \n {e.Message}");
             }
-		}
+
+            return result;
+        }
 
 		/// <summary>
 		/// Populates the ViewModel's fields with the data from the specified patient.
@@ -181,15 +205,7 @@ namespace HealthCareApp.viewmodel
 			Status = patient.Status;
 		}
 
-		/// <summary>
-		/// Raises the <see cref="PropertyChanged"/> event for a property.
-		/// </summary>
-		/// <param name="propertyName">The name of the property that changed.</param>
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			ValidateFields();
-		}
+
 
         public ManagePatientPageViewModel()
         {
@@ -230,9 +246,20 @@ namespace HealthCareApp.viewmodel
 
         #endregion
 
-		#region Properties
+        #region Properties
 
-		private string firstName;
+        /// <summary>
+        /// Gets an array of all possible states as defined in the <see cref="State"/> enumeration.
+        /// </summary>
+        public Array StatesArray => Enum.GetValues(typeof(State));
+
+
+        /// <summary>
+        /// Gets an array of all possible sexes as defined in the <see cref="Sex"/> enumeration.
+        /// </summary>
+        public Array SexArray => Enum.GetValues(typeof(Gender));
+
+        private string firstName;
 		/// <summary>
 		/// Gets or sets the first name of the patient. 
 		/// Raises the <see cref="PropertyChanged"/> event when changed.
