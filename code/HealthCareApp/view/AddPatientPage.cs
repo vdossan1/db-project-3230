@@ -32,6 +32,7 @@ namespace HealthCareApp.view
             this.activeMainPage = mainPage;
 
             this.BindControls();
+            this.BindValidationMessages();
         }
 
         private void InitializeRequiredFields()
@@ -62,8 +63,8 @@ namespace HealthCareApp.view
 
         private void BindControls()
         {
-            this.stateCmbBox.DataSource = managePatientViewModel.StatesArray;
             this.genderCmbBox.DataSource = managePatientViewModel.SexArray;
+            this.stateCmbBox.DataSource = managePatientViewModel.StatesArray;
 
             // Data Bindings
             this.firstNameTextBox.DataBindings.Add(
@@ -98,7 +99,43 @@ namespace HealthCareApp.view
 
             this.ssnTxtBox.DataBindings.Add(
 	            "Text", managePatientViewModel, nameof(managePatientViewModel.Ssn), true, DataSourceUpdateMode.OnPropertyChanged);
-		}
+
+            this.registerPatientBtn.DataBindings.Add(
+                "Enabled", managePatientViewModel, nameof(managePatientViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        private void BindValidationMessages()
+        {
+            this.firstNameErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.FirstNameValidationMessage));
+
+            this.lastNameErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.LastNameValidationMessage));
+
+            this.sexErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.SexValidationMessage));
+
+            this.dateOfBirthErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.DateOfBirthValidationMessage));
+
+            this.phoneNumberErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.PhoneNumberValidationMessage));
+
+            this.ssnErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.SsnValidationMessage));
+
+            this.addressOneErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.Address1ValidationMessage));
+
+            this.cityErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.CityValidationMessage));
+
+            this.stateErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.StateValidationMessage));
+
+            this.zipCodeErrorLabel.DataBindings.Add(
+                "Text", managePatientViewModel, nameof(managePatientViewModel.ZipCodeValidationMessage));
+        }
 
         private void OnPatientAdded()
         {
@@ -107,18 +144,19 @@ namespace HealthCareApp.view
 
         private void registerPatientBtn_Click(object sender, EventArgs e)
         {
-            bool requirements = true;
+            managePatientViewModel.ValidateFields();
 
-            requirements = checkRequiredFields(requirements);
-            requirements = checkNumericFields(requirements);
-
-            if (requirements)
+            if (managePatientViewModel.IsValid)
             {
-                this.managePatientViewModel.RegisterPatient();
-                this.OnPatientAdded();
+                managePatientViewModel.RegisterPatient();
+                OnPatientAdded();
                 this.Hide();
                 this.Dispose();
-                this.activeMainPage.Show();
+                activeMainPage.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please fix the highlighted errors before continuing.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -127,120 +165,6 @@ namespace HealthCareApp.view
             this.Hide();
             this.Dispose();
             this.activeMainPage.Show();
-        }
-
-        private bool checkRequiredFields(bool requirements)
-        {
-            foreach (Control requiredField in this.requiredFields)
-            {
-                if (requiredField is TextBox)
-                {
-                    if (string.IsNullOrWhiteSpace(requiredField.Text))
-                    {
-                        requirements = false;
-                        requiredField.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        requiredField.ResetBackColor();
-                    }
-                }
-
-                if (requiredField is ComboBox)
-                {
-                    var comboBox = requiredField as ComboBox;
-                    if (comboBox.SelectedItem == null)
-                    {
-                        requirements = false;
-                        requiredField.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        requiredField.ResetBackColor();
-                    }
-                }
-
-                if (requiredField is DateTimePicker)
-                {
-                    var dateTimePicker = requiredField as DateTimePicker;
-                    if (dateTimePicker.Value >= DateTime.Today)
-                    {
-                        requirements = false;
-                        requiredField.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        requiredField.ResetBackColor();
-                    }
-                }
-
-
-            }
-
-            return requirements;
-        }
-
-        private bool checkNumericFields(bool requirements)
-        {
-            foreach (Control numericField in this.numericFields)
-            {
-                if (numericField == this.phoneNumberTxtBox)
-                {
-                    if (this.phoneNumberTxtBox.Text.All(char.IsDigit) == false)
-                    {
-                        requirements = false;
-                        this.phoneNumNOLabel.Visible = true;
-                    }
-                    else if (this.phoneNumberTxtBox.Text.Length != 10)
-                    {
-                        requirements = false;
-                        this.phoneNumberTxtBox.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        this.phoneNumNOLabel.Visible = false;
-                    }
-                }
-
-                if (numericField == this.zipCodeTxtBox)
-                {
-                    if (this.zipCodeTxtBox.Text.All(char.IsDigit) == false)
-                    {
-                        requirements = false;
-                        this.zipCodeNOLabel.Visible = true;
-                    }
-                    else if (this.zipCodeTxtBox.Text.Length != 5)
-                    {
-                        requirements = false;
-                        this.zipCodeTxtBox.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        this.zipCodeNOLabel.Visible = false;
-                    }
-
-                }
-
-                if (numericField == this.ssnTxtBox)
-                {
-                    if (this.ssnTxtBox.Text.All(char.IsDigit) == false)
-                    {
-                        requirements = false;
-                        this.ssnNOLabel.Visible = true;
-                    }
-                    else if (this.ssnTxtBox.Text.Length != 9)
-                    {
-                        requirements = false;
-                        this.ssnTxtBox.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        this.ssnNOLabel.Visible = false;
-                    }
-                }
-            }
-
-            return requirements;
         }
     }
 }

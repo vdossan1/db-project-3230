@@ -52,9 +52,16 @@
             ssnLabel = new Label();
             registerPatientBtn = new Button();
             cancelBtn = new Button();
-            phoneNumNOLabel = new Label();
-            ssnNOLabel = new Label();
-            zipCodeNOLabel = new Label();
+            phoneNumberErrorLabel = new Label();
+            ssnErrorLabel = new Label();
+            zipCodeErrorLabel = new Label();
+            firstNameErrorLabel = new Label();
+            lastNameErrorLabel = new Label();
+            addressOneErrorLabel = new Label();
+            cityErrorLabel = new Label();
+            stateErrorLabel = new Label();
+            sexErrorLabel = new Label();
+            dateOfBirthErrorLabel = new Label();
             SuspendLayout();
             // 
             // firstNameTextBox
@@ -80,7 +87,7 @@
             // 
             // ssnTxtBox
             // 
-            ssnTxtBox.Location = new Point(291, 327);
+            ssnTxtBox.Location = new Point(379, 327);
             ssnTxtBox.MaxLength = 9;
             ssnTxtBox.Name = "ssnTxtBox";
             ssnTxtBox.Size = new Size(150, 31);
@@ -96,7 +103,7 @@
             // 
             // addressTwoTxtBox
             // 
-            addressTwoTxtBox.Location = new Point(89, 583);
+            addressTwoTxtBox.Location = new Point(89, 602);
             addressTwoTxtBox.Name = "addressTwoTxtBox";
             addressTwoTxtBox.Size = new Size(408, 31);
             addressTwoTxtBox.TabIndex = 7;
@@ -142,7 +149,7 @@
             // firstNameLabel
             // 
             firstNameLabel.AutoSize = true;
-            firstNameLabel.Location = new Point(96, 33);
+            firstNameLabel.Location = new Point(89, 54);
             firstNameLabel.Name = "firstNameLabel";
             firstNameLabel.Size = new Size(97, 25);
             firstNameLabel.TabIndex = 15;
@@ -151,7 +158,7 @@
             // lastNameLabel
             // 
             lastNameLabel.AutoSize = true;
-            lastNameLabel.Location = new Point(451, 33);
+            lastNameLabel.Location = new Point(443, 54);
             lastNameLabel.Name = "lastNameLabel";
             lastNameLabel.Size = new Size(95, 25);
             lastNameLabel.TabIndex = 16;
@@ -160,7 +167,7 @@
             // dateOfBirthLabel
             // 
             dateOfBirthLabel.AutoSize = true;
-            dateOfBirthLabel.Location = new Point(361, 143);
+            dateOfBirthLabel.Location = new Point(337, 155);
             dateOfBirthLabel.Name = "dateOfBirthLabel";
             dateOfBirthLabel.Size = new Size(112, 25);
             dateOfBirthLabel.TabIndex = 17;
@@ -169,7 +176,7 @@
             // genderLabel
             // 
             genderLabel.AutoSize = true;
-            genderLabel.Location = new Point(93, 155);
+            genderLabel.Location = new Point(89, 155);
             genderLabel.Name = "genderLabel";
             genderLabel.Size = new Size(39, 25);
             genderLabel.TabIndex = 18;
@@ -178,7 +185,7 @@
             // addressOneLabel
             // 
             addressOneLabel.AutoSize = true;
-            addressOneLabel.Location = new Point(89, 428);
+            addressOneLabel.Location = new Point(89, 444);
             addressOneLabel.Name = "addressOneLabel";
             addressOneLabel.Size = new Size(92, 25);
             addressOneLabel.TabIndex = 19;
@@ -187,7 +194,7 @@
             // addressTwoLabel
             // 
             addressTwoLabel.AutoSize = true;
-            addressTwoLabel.Location = new Point(94, 542);
+            addressTwoLabel.Location = new Point(89, 574);
             addressTwoLabel.Name = "addressTwoLabel";
             addressTwoLabel.Size = new Size(92, 25);
             addressTwoLabel.TabIndex = 20;
@@ -223,7 +230,7 @@
             // phoneNumberLabel
             // 
             phoneNumberLabel.AutoSize = true;
-            phoneNumberLabel.Location = new Point(91, 287);
+            phoneNumberLabel.Location = new Point(88, 299);
             phoneNumberLabel.Name = "phoneNumberLabel";
             phoneNumberLabel.Size = new Size(132, 25);
             phoneNumberLabel.TabIndex = 24;
@@ -232,7 +239,7 @@
             // ssnLabel
             // 
             ssnLabel.AutoSize = true;
-            ssnLabel.Location = new Point(296, 288);
+            ssnLabel.Location = new Point(379, 299);
             ssnLabel.Name = "ssnLabel";
             ssnLabel.Size = new Size(45, 25);
             ssnLabel.TabIndex = 25;
@@ -240,6 +247,7 @@
             // 
             // registerPatientBtn
             // 
+            registerPatientBtn.Enabled = false;
             registerPatientBtn.Location = new Point(137, 813);
             registerPatientBtn.Name = "registerPatientBtn";
             registerPatientBtn.Size = new Size(223, 68);
@@ -258,50 +266,131 @@
             cancelBtn.UseVisualStyleBackColor = true;
             cancelBtn.Click += cancelBtn_Click;
             // 
-            // phoneNumNOLabel
+            // phoneNumberErrorLabel
             // 
-            phoneNumNOLabel.AutoSize = true;
-            phoneNumNOLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            phoneNumNOLabel.ForeColor = Color.Red;
-            phoneNumNOLabel.Location = new Point(89, 371);
-            phoneNumNOLabel.Name = "phoneNumNOLabel";
-            phoneNumNOLabel.Size = new Size(158, 25);
-            phoneNumNOLabel.TabIndex = 26;
-            phoneNumNOLabel.Text = "NUMBERS ONLY!";
-            phoneNumNOLabel.Visible = false;
+            phoneNumberErrorLabel.AutoSize = true;
+            phoneNumberErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            phoneNumberErrorLabel.ForeColor = Color.Red;
+            phoneNumberErrorLabel.Location = new Point(89, 361);
+            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
+            phoneNumberErrorLabel.Size = new Size(222, 25);
+            phoneNumberErrorLabel.TabIndex = 26;
+            phoneNumberErrorLabel.Text = "phoneNumberErrorLabel";
             // 
-            // ssnNOLabel
+            // ssnErrorLabel
             // 
-            ssnNOLabel.AutoSize = true;
-            ssnNOLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            ssnNOLabel.ForeColor = Color.Red;
-            ssnNOLabel.Location = new Point(291, 371);
-            ssnNOLabel.Name = "ssnNOLabel";
-            ssnNOLabel.Size = new Size(158, 25);
-            ssnNOLabel.TabIndex = 27;
-            ssnNOLabel.Text = "NUMBERS ONLY!";
-            ssnNOLabel.Visible = false;
+            ssnErrorLabel.AutoSize = true;
+            ssnErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            ssnErrorLabel.ForeColor = Color.Red;
+            ssnErrorLabel.Location = new Point(379, 361);
+            ssnErrorLabel.Name = "ssnErrorLabel";
+            ssnErrorLabel.Size = new Size(126, 25);
+            ssnErrorLabel.TabIndex = 27;
+            ssnErrorLabel.Text = "ssnErrorLabel";
             // 
-            // zipCodeNOLabel
+            // zipCodeErrorLabel
             // 
-            zipCodeNOLabel.AutoSize = true;
-            zipCodeNOLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            zipCodeNOLabel.ForeColor = Color.Red;
-            zipCodeNOLabel.Location = new Point(549, 741);
-            zipCodeNOLabel.Name = "zipCodeNOLabel";
-            zipCodeNOLabel.Size = new Size(158, 25);
-            zipCodeNOLabel.TabIndex = 28;
-            zipCodeNOLabel.Text = "NUMBERS ONLY!";
-            zipCodeNOLabel.Visible = false;
+            zipCodeErrorLabel.AutoSize = true;
+            zipCodeErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            zipCodeErrorLabel.ForeColor = Color.Red;
+            zipCodeErrorLabel.Location = new Point(540, 750);
+            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
+            zipCodeErrorLabel.Size = new Size(167, 25);
+            zipCodeErrorLabel.TabIndex = 28;
+            zipCodeErrorLabel.Text = "zipCodeErrorLabel";
+            // 
+            // firstNameErrorLabel
+            // 
+            firstNameErrorLabel.AutoSize = true;
+            firstNameErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            firstNameErrorLabel.ForeColor = Color.Red;
+            firstNameErrorLabel.Location = new Point(89, 116);
+            firstNameErrorLabel.Name = "firstNameErrorLabel";
+            firstNameErrorLabel.Size = new Size(183, 25);
+            firstNameErrorLabel.TabIndex = 29;
+            firstNameErrorLabel.Text = "firstNameErrorLabel";
+            // 
+            // lastNameErrorLabel
+            // 
+            lastNameErrorLabel.AutoSize = true;
+            lastNameErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lastNameErrorLabel.ForeColor = Color.Red;
+            lastNameErrorLabel.Location = new Point(441, 116);
+            lastNameErrorLabel.Name = "lastNameErrorLabel";
+            lastNameErrorLabel.Size = new Size(179, 25);
+            lastNameErrorLabel.TabIndex = 30;
+            lastNameErrorLabel.Text = "lastNameErrorLabel";
+            // 
+            // addressOneErrorLabel
+            // 
+            addressOneErrorLabel.AutoSize = true;
+            addressOneErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            addressOneErrorLabel.ForeColor = Color.Red;
+            addressOneErrorLabel.Location = new Point(89, 517);
+            addressOneErrorLabel.Name = "addressOneErrorLabel";
+            addressOneErrorLabel.Size = new Size(199, 25);
+            addressOneErrorLabel.TabIndex = 31;
+            addressOneErrorLabel.Text = "addressOneErrorLabel";
+            // 
+            // cityErrorLabel
+            // 
+            cityErrorLabel.AutoSize = true;
+            cityErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            cityErrorLabel.ForeColor = Color.Red;
+            cityErrorLabel.Location = new Point(96, 750);
+            cityErrorLabel.Name = "cityErrorLabel";
+            cityErrorLabel.Size = new Size(130, 25);
+            cityErrorLabel.TabIndex = 32;
+            cityErrorLabel.Text = "cityErrorLabel";
+            // 
+            // stateErrorLabel
+            // 
+            stateErrorLabel.AutoSize = true;
+            stateErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            stateErrorLabel.ForeColor = Color.Red;
+            stateErrorLabel.Location = new Point(304, 750);
+            stateErrorLabel.Name = "stateErrorLabel";
+            stateErrorLabel.Size = new Size(141, 25);
+            stateErrorLabel.TabIndex = 33;
+            stateErrorLabel.Text = "stateErrorLabel";
+            // 
+            // sexErrorLabel
+            // 
+            sexErrorLabel.AutoSize = true;
+            sexErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            sexErrorLabel.ForeColor = Color.Red;
+            sexErrorLabel.Location = new Point(93, 228);
+            sexErrorLabel.Name = "sexErrorLabel";
+            sexErrorLabel.Size = new Size(127, 25);
+            sexErrorLabel.TabIndex = 34;
+            sexErrorLabel.Text = "sexErrorLabel";
+            // 
+            // dateOfBirthErrorLabel
+            // 
+            dateOfBirthErrorLabel.AutoSize = true;
+            dateOfBirthErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dateOfBirthErrorLabel.ForeColor = Color.Red;
+            dateOfBirthErrorLabel.Location = new Point(337, 228);
+            dateOfBirthErrorLabel.Name = "dateOfBirthErrorLabel";
+            dateOfBirthErrorLabel.Size = new Size(201, 25);
+            dateOfBirthErrorLabel.TabIndex = 35;
+            dateOfBirthErrorLabel.Text = "dateOfBirthErrorLabel";
             // 
             // AddPatientPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(854, 938);
-            Controls.Add(zipCodeNOLabel);
-            Controls.Add(ssnNOLabel);
-            Controls.Add(phoneNumNOLabel);
+            Controls.Add(dateOfBirthErrorLabel);
+            Controls.Add(sexErrorLabel);
+            Controls.Add(stateErrorLabel);
+            Controls.Add(cityErrorLabel);
+            Controls.Add(addressOneErrorLabel);
+            Controls.Add(lastNameErrorLabel);
+            Controls.Add(firstNameErrorLabel);
+            Controls.Add(zipCodeErrorLabel);
+            Controls.Add(ssnErrorLabel);
+            Controls.Add(phoneNumberErrorLabel);
             Controls.Add(cancelBtn);
             Controls.Add(registerPatientBtn);
             Controls.Add(ssnLabel);
@@ -359,8 +448,15 @@
         private Label ssnLabel;
         private Button registerPatientBtn;
         private Button cancelBtn;
-        private Label phoneNumNOLabel;
-        private Label ssnNOLabel;
-        private Label zipCodeNOLabel;
+        private Label phoneNumberErrorLabel;
+        private Label ssnErrorLabel;
+        private Label zipCodeErrorLabel;
+        private Label firstNameErrorLabel;
+        private Label lastNameErrorLabel;
+        private Label addressOneErrorLabel;
+        private Label cityErrorLabel;
+        private Label stateErrorLabel;
+        private Label sexErrorLabel;
+        private Label dateOfBirthErrorLabel;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.CodeDom;
+using System.ComponentModel;
 using System.Diagnostics;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
@@ -14,12 +15,19 @@ namespace HealthCareApp.viewmodel
 	/// and populating fields with patient data.
 	/// </summary>
 	public class ManagePatientPageViewModel : INotifyPropertyChanged
-	{
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+    {
+        private const string SSN_INVALID_SIZE = "This field needs 9 digits";
+        private const string ZIP_CODE_INVALID_SIZE = "This field need 5 digits";
+        private const string PHONE_NUMBER_INVALID_SIZE = "This field needs 10 digits";
 
+        private const string INVALID_FIELD_INPUT = "Required field";
+        private const string INVALID_DATE = "Invalid Date";
+        private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
 		/// Gets an array of all possible states as defined in the <see cref="State"/> enumeration.
@@ -32,11 +40,92 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public Array SexArray => Enum.GetValues(typeof(Gender));
 
+        /// <summary>
+        /// Determines if the data enter by the user is valid
+        /// </summary>
+        public bool IsValid { get; private set; }
 
-		/// <summary>
-		/// Edits an existing patient in the database using the current property values.
-		/// </summary>
-		public void EditPatient()
+        public Dictionary<string, string> ValidationErrors { get; private set; }
+
+        public void ValidateFields()
+        {
+            ValidationErrors.Clear();
+            IsValid = true;
+
+            if (string.IsNullOrWhiteSpace(FirstName))
+            {
+                ValidationErrors[nameof(FirstName)] = INVALID_FIELD_INPUT;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(LastName))
+            {
+                ValidationErrors[nameof(LastName)] = INVALID_FIELD_INPUT;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Sex))
+            {
+                ValidationErrors[nameof(Sex)] = INVALID_COMBO_BOX_SELECTION;
+                IsValid = false;
+            }
+
+            if (DateOfBirth >= DateTime.Now)
+            {
+                ValidationErrors[nameof(DateOfBirth)] = INVALID_DATE;
+                IsValid = false;
+            }
+
+            if (!IsValidPhoneNumber(PhoneNumber))
+            {
+                ValidationErrors[nameof(PhoneNumber)] = PHONE_NUMBER_INVALID_SIZE;
+                IsValid = false;
+            }
+
+            if (!IsValidSSN(Ssn))
+            {
+                ValidationErrors[nameof(Ssn)] = SSN_INVALID_SIZE;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Address1))
+            {
+                ValidationErrors[nameof(Address1)] = INVALID_FIELD_INPUT;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(City))
+            {
+                ValidationErrors[nameof(City)] = INVALID_FIELD_INPUT;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(State))
+            {
+                ValidationErrors[nameof(State)] = INVALID_COMBO_BOX_SELECTION;
+                IsValid = false;
+            }
+
+            if (!IsValidZipCode(ZipCode))
+            {
+                ValidationErrors[nameof(ZipCode)] = ZIP_CODE_INVALID_SIZE;
+                IsValid = false;
+            }
+        }
+
+        private bool IsValidPhoneNumber(string phoneNumberParam) =>
+            phoneNumberParam?.All(char.IsDigit) == true && phoneNumberParam.Length == 10;
+
+        private bool IsValidZipCode(string zipCodeParam) =>
+            zipCodeParam?.All(char.IsDigit) == true && zipCodeParam.Length == 5;
+
+        private bool IsValidSSN(string ssnParam) =>
+            ssnParam?.All(char.IsDigit) == true && ssnParam.Length == 9;
+
+        /// <summary>
+        /// Edits an existing patient in the database using the current property values.
+        /// </summary>
+        public void EditPatient()
 		{
 			Patient patientToEdit = new Patient(FirstName, LastName, DateOfBirth, Sex,
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
@@ -50,11 +139,22 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public void RegisterPatient()
 		{
-			Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Sex,
-				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
+            try
+            {
+                if (IsValid)
+                {
+                    Patient newPatient = new Patient(FirstName, LastName, DateOfBirth, Sex,
+                        Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
 
-			PatientDal.RegisterPatient(newPatient);
-			Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+                    PatientDal.RegisterPatient(newPatient);
+                    Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
 		}
 
 		/// <summary>
@@ -84,11 +184,47 @@ namespace HealthCareApp.viewmodel
 		protected void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			ValidateFields();
 		}
 
-		#region Properties
+        public ManagePatientPageViewModel()
+        {
+            this.ValidationErrors = new Dictionary<string, string>();
+        }
 
-		private string firstName;
+		public string FirstNameValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(FirstName)) ? ValidationErrors[nameof(FirstName)] : string.Empty;
+
+        public string LastNameValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(LastName)) ? ValidationErrors[nameof(LastName)] : string.Empty;
+
+		public string SexValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Sex)) ? ValidationErrors[nameof(Sex)] : string.Empty;
+
+        public string DateOfBirthValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(DateOfBirth)) ? ValidationErrors[nameof(DateOfBirth)] : string.Empty;
+
+        public string PhoneNumberValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(PhoneNumber)) ? ValidationErrors[nameof(PhoneNumber)] : string.Empty;
+
+        public string SsnValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Ssn)) ? ValidationErrors[nameof(Ssn)] : string.Empty;
+
+        public string Address1ValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Address1)) ? ValidationErrors[nameof(Address1)] : string.Empty;
+
+        public string CityValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(City)) ? ValidationErrors[nameof(City)] : string.Empty;
+
+        public string StateValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(State)) ? ValidationErrors[nameof(State)] : string.Empty;
+
+        public string ZipCodeValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(ZipCode)) ? ValidationErrors[nameof(ZipCode)] : string.Empty;
+
+        #region Properties
+
+        private string firstName;
 		/// <summary>
 		/// Gets or sets the first name of the patient. 
 		/// Raises the <see cref="PropertyChanged"/> event when changed.
