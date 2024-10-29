@@ -1,10 +1,5 @@
-﻿using System.Data;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -31,23 +26,12 @@ namespace HealthCareApp.DAL
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
 
-			command.Parameters.AddWithValue("@FirstName", patient.FirstName);
-			command.Parameters.AddWithValue("@LastName", patient.LastName);
-			command.Parameters.AddWithValue("@DateOfBirth", patient.DateOfBirth);
-			command.Parameters.AddWithValue("@Sex", patient.Sex.Substring(0, 1));
-			command.Parameters.AddWithValue("@Address1", patient.Address1);
-			command.Parameters.AddWithValue("@Address2", patient.Address2 ?? (object)DBNull.Value);
-			command.Parameters.AddWithValue("@City", patient.City);
-			command.Parameters.AddWithValue("@State", patient.State);
-			command.Parameters.AddWithValue("@ZipCode", patient.ZipCode);
-			command.Parameters.AddWithValue("@PhoneNumber", patient.PhoneNumber);
-			command.Parameters.AddWithValue("@Ssn", patient.Ssn);
-			command.Parameters.AddWithValue("@Status", patient.Status ? 1 : 0);
+			AddAllPatientParamsToCommand(patient, command);
 
-			command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Registers a new patient in the database.
 		/// </summary>
 		/// <param name="newPatient">The patient object containing information about the patient to be registered.</param>
@@ -61,27 +45,32 @@ namespace HealthCareApp.DAL
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
 
-			command.Parameters.AddWithValue("@FirstName", newPatient.FirstName);
-			command.Parameters.AddWithValue("@LastName", newPatient.LastName);
-			command.Parameters.AddWithValue("@DateOfBirth", newPatient.DateOfBirth);
-			command.Parameters.AddWithValue("@Sex", newPatient.Sex.Substring(0, 1));
-			command.Parameters.AddWithValue("@Address1", newPatient.Address1);
-			command.Parameters.AddWithValue("@Address2", newPatient.Address2 ?? (object)DBNull.Value);
-			command.Parameters.AddWithValue("@City", newPatient.City);
-			command.Parameters.AddWithValue("@State", newPatient.State);
-			command.Parameters.AddWithValue("@ZipCode", newPatient.ZipCode);
-			command.Parameters.AddWithValue("@PhoneNumber", newPatient.PhoneNumber);
-			command.Parameters.AddWithValue("@Ssn", newPatient.Ssn);
-			command.Parameters.AddWithValue("@Status", newPatient.Status ? 1 : 0);
+            AddAllPatientParamsToCommand(newPatient, command);
 
-			command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 		}
 
-		/// <summary>
-		/// Retrieves a list of all patients from the database.
-		/// </summary>
-		/// <returns>A list of <see cref="Patient"/> objects representing all patients in the database.</returns>
-		public static List<Patient> GetAllPatients()
+        private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
+        {
+            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = patient.FirstName;
+            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = patient.LastName;
+            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = patient.DateOfBirth;
+            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = patient.Sex;
+            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = patient.Address1;
+            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = patient.Address2;
+            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = patient.City;
+            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = patient.State;
+            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = patient.ZipCode;
+            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = patient.PhoneNumber;
+            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = patient.Ssn;
+            command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
+        }
+
+        /// <summary>
+        /// Retrieves a list of all patients from the database.
+        /// </summary>
+        /// <returns>A list of <see cref="Patient"/> objects representing all patients in the database.</returns>
+        public static List<Patient> GetAllPatients()
 		{
 			var patientList = new List<Patient>();
 

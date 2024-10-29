@@ -19,7 +19,9 @@ namespace HealthCareApp.View
         {
             InitializeComponent();
 			this.loginViewModel = new LoginPageViewModel();
-		}
+            this.usernameTextField.Text = "jd001";
+            this.passwordTextField.Text = "pass";
+        }
 
         private void loginBtn_Click(object sender, EventArgs e)
         {

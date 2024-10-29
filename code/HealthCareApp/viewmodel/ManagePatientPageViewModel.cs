@@ -30,7 +30,7 @@ namespace HealthCareApp.viewmodel
 		/// <summary>
 		/// Gets an array of all possible sexes as defined in the <see cref="Sex"/> enumeration.
 		/// </summary>
-		public Array SexArray => Enum.GetValues(typeof(Sex));
+		public Array SexArray => Enum.GetValues(typeof(Gender));
 
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace HealthCareApp.viewmodel
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
 
 			PatientDal.EditPatient(patientToEdit);
-			Debug.WriteLine($"{FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+			Debug.WriteLine($"Edited Patient: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace HealthCareApp.viewmodel
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
 
 			PatientDal.RegisterPatient(newPatient);
-			Debug.WriteLine($"{FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+			Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
 		}
 
 		/// <summary>
@@ -153,8 +153,8 @@ namespace HealthCareApp.viewmodel
 			set
 			{
 				if (sex != value)
-				{
-					sex = value;
+                {
+                    sex = value == Gender.MALE.ToString() ? "M" : "F";
 					OnPropertyChanged(nameof(Sex));
 				}
 			}

@@ -1,4 +1,5 @@
-﻿// Author: Vitor dos Santos & Jacob Evans
+﻿using HealthCareApp.utils;
+// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 namespace HealthCareApp.model
 {
@@ -10,17 +11,17 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Gets or sets the first name of the patient.
 		/// </summary>
-		public string FirstName { get; set; }
+		public string FirstName { get; }
 
 		/// <summary>
 		/// Gets or sets the last name of the patient.
 		/// </summary>
-		public string LastName { get; set; }
+		public string LastName { get; }
 
 		/// <summary>
 		/// Gets or sets the date of birth of the patient.
 		/// </summary>
-		public DateTime DateOfBirth { get; set; }
+		public DateTime DateOfBirth { get; }
 
 		/// <summary>
 		/// Gets or sets the sex of the patient.
@@ -30,42 +31,42 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Gets or sets the primary address of the patient.
 		/// </summary>
-		public string Address1 { get; set; }
+		public string Address1 { get; }
 
 		/// <summary>
 		/// Gets or sets the secondary address of the patient (optional).
 		/// </summary>
-		public string? Address2 { get; set; }
+		public string? Address2 { get; }
 
 		/// <summary>
 		/// Gets or sets the city of the patient.
 		/// </summary>
-		public string City { get; set; }
+		public string City { get; }
 
 		/// <summary>
 		/// Gets or sets the state of the patient.
 		/// </summary>
-		public string State { get; set; }
+		public string State { get; }
 
 		/// <summary>
 		/// Gets or sets the zip code of the patient.
 		/// </summary>
-		public string ZipCode { get; set; }
+		public string ZipCode { get; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the patient.
 		/// </summary>
-		public string PhoneNumber { get; set; }
+		public string PhoneNumber { get; }
 
 		/// <summary>
 		/// Gets or sets the social security number of the patient.
 		/// </summary>
-		public string Ssn { get; set; }
+		public string Ssn { get; }
 
 		/// <summary>
 		/// Gets or sets the status of the patient (active or inactive).
 		/// </summary>
-		public bool Status { get; set; }
+		public bool Status { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Patient"/> class with the specified details.

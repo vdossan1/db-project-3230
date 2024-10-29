@@ -5,7 +5,7 @@ namespace HealthCareApp.utils
 	/// <summary>
 	/// Represents the sex of a person.
 	/// </summary>
-	public enum Sex
+	public enum Gender
 	{
 		MALE,
 		FEMALE

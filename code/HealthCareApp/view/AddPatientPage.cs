@@ -117,6 +117,7 @@ namespace HealthCareApp.view
                 this.managePatientViewModel.RegisterPatient();
                 this.OnPatientAdded();
                 this.Hide();
+                this.Dispose();
                 this.activeMainPage.Show();
             }
         }
@@ -124,6 +125,7 @@ namespace HealthCareApp.view
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             this.Hide();
+            this.Dispose();
             this.activeMainPage.Show();
         }
 
