@@ -25,11 +25,8 @@ namespace HealthCareApp.DAL
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
 
-			command.Parameters.Add("@username", MySqlDbType.VarChar);
-			command.Parameters["@username"].Value = username;
-
-			command.Parameters.Add("@password", MySqlDbType.VarChar);
-			command.Parameters["@password"].Value = password;
+			command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
+			command.Parameters.Add("@password", MySqlDbType.VarChar).Value = password;
 
 			var count = Convert.ToInt32(command.ExecuteScalar());
 
@@ -51,10 +48,9 @@ namespace HealthCareApp.DAL
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
 
-			command.Parameters.Add("@username", MySqlDbType.VarChar);
-			command.Parameters["@username"].Value = username;
+			command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
 
-			string fullName = command.ExecuteScalar() as string;
+			string fullName = command.ExecuteScalar() as string ?? string.Empty;
 
 			return fullName;
 		}
