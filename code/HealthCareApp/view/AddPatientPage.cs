@@ -22,6 +22,8 @@ namespace HealthCareApp.view
 		public AddPatientPage(MainPage mainPage)
         {
             InitializeComponent();
+            this.dateOfBirthPicker.MinDate = DateTime.Parse("1924-01-01");
+            this.dateOfBirthPicker.MaxDate = DateTime.Today;
 
             this.managePatientViewModel = new ManagePatientPageViewModel();
             this.activeMainPage = mainPage;
