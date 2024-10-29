@@ -10,9 +10,6 @@ namespace HealthCareApp.view
 	/// </summary>
 	public partial class AddPatientPage : Form
     {
-        private List<Control> requiredFields;
-        private List<Control> numericFields;
-
         public event EventHandler PatientAdded;
 
         private MainPage activeMainPage;
@@ -25,40 +22,12 @@ namespace HealthCareApp.view
 		public AddPatientPage(MainPage mainPage)
         {
             InitializeComponent();
-            this.InitializeRequiredFields();
-            this.InitializeNumericFields();
 
             this.managePatientViewModel = new ManagePatientPageViewModel();
             this.activeMainPage = mainPage;
 
             this.BindControls();
             this.BindValidationMessages();
-        }
-
-        private void InitializeRequiredFields()
-        {
-            this.requiredFields = new List<Control>{
-                this.firstNameTextBox,
-                this.lastNameTextBox,
-                this.dateOfBirthPicker,
-                this.genderCmbBox,
-                this.addressOneTxtBox,
-                this.cityTxtBox,
-                this.stateCmbBox,
-                this.zipCodeTxtBox,
-                this.phoneNumberTxtBox,
-                this.ssnTxtBox,
-            };
-        }
-
-        private void InitializeNumericFields()
-        {
-            this.numericFields = new List<Control>
-            {
-                this.zipCodeTxtBox,
-                this.phoneNumberTxtBox,
-                this.ssnTxtBox,
-            };
         }
 
         private void BindControls()

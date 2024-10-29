@@ -40,10 +40,12 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public Array SexArray => Enum.GetValues(typeof(Gender));
 
+        #region FieldValidation
+
         /// <summary>
-        /// Determines if the data enter by the user is valid
-        /// </summary>
-        public bool IsValid { get; private set; }
+		/// Determines if the data enter by the user is valid
+		/// </summary>
+		public bool IsValid { get; private set; }
 
         public Dictionary<string, string> ValidationErrors { get; private set; }
 
@@ -122,6 +124,8 @@ namespace HealthCareApp.viewmodel
         private bool IsValidSSN(string ssnParam) =>
             ssnParam?.All(char.IsDigit) == true && ssnParam.Length == 9;
 
+        #endregion
+
         /// <summary>
         /// Edits an existing patient in the database using the current property values.
         /// </summary>
@@ -192,6 +196,8 @@ namespace HealthCareApp.viewmodel
             this.ValidationErrors = new Dictionary<string, string>();
         }
 
+        #region ValidationMessageProperties
+
 		public string FirstNameValidationMessage =>
             ValidationErrors.ContainsKey(nameof(FirstName)) ? ValidationErrors[nameof(FirstName)] : string.Empty;
 
@@ -222,9 +228,11 @@ namespace HealthCareApp.viewmodel
         public string ZipCodeValidationMessage =>
             ValidationErrors.ContainsKey(nameof(ZipCode)) ? ValidationErrors[nameof(ZipCode)] : string.Empty;
 
-        #region Properties
+        #endregion
 
-        private string firstName;
+		#region Properties
+
+		private string firstName;
 		/// <summary>
 		/// Gets or sets the first name of the patient. 
 		/// Raises the <see cref="PropertyChanged"/> event when changed.
