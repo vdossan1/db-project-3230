@@ -31,7 +31,7 @@
 			registerPatientBtn = new Button();
 			editPatientBtn = new Button();
 			patientsDataGridView = new DataGridView();
-			textBox1 = new TextBox();
+			patientsSearchBar = new TextBox();
 			((System.ComponentModel.ISupportInitialize)patientsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
@@ -75,22 +75,22 @@
 			patientsDataGridView.Size = new Size(704, 608);
 			patientsDataGridView.TabIndex = 8;
 			// 
-			// textBox1
+			// patientsSearchBar
 			// 
-			textBox1.BorderStyle = BorderStyle.FixedSingle;
-			textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			textBox1.ForeColor = SystemColors.ControlDarkDark;
-			textBox1.Location = new Point(17, 22);
-			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(295, 29);
-			textBox1.TabIndex = 9;
-			textBox1.Text = "  Search";
+			patientsSearchBar.BorderStyle = BorderStyle.FixedSingle;
+			patientsSearchBar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			patientsSearchBar.ForeColor = SystemColors.ControlDarkDark;
+			patientsSearchBar.Location = new Point(17, 22);
+			patientsSearchBar.Name = "patientsSearchBar";
+			patientsSearchBar.Size = new Size(295, 29);
+			patientsSearchBar.TabIndex = 9;
+			patientsSearchBar.Text = "  Search";
 			// 
 			// PatientsControl
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			Controls.Add(textBox1);
+			Controls.Add(patientsSearchBar);
 			Controls.Add(patientsDataGridView);
 			Controls.Add(editPatientBtn);
 			Controls.Add(registerPatientBtn);
@@ -106,6 +106,6 @@
 		private Button registerPatientBtn;
 		private Button editPatientBtn;
 		private DataGridView patientsDataGridView;
-		private TextBox textBox1;
+		private TextBox patientsSearchBar;
 	}
 }

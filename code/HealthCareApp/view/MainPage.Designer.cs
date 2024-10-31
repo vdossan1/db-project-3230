@@ -130,6 +130,7 @@
 			visitsButton.Text = "Visits";
 			visitsButton.TextAlign = ContentAlignment.MiddleLeft;
 			visitsButton.UseVisualStyleBackColor = false;
+			visitsButton.Click += visitsControlButton_Click;
 			visitsButton.MouseEnter += visitsButton_MouseEnter;
 			visitsButton.MouseLeave += visitsButton_MouseLeave;
 			// 
@@ -166,6 +167,7 @@
 			appointmentsButton.Text = "Appointments";
 			appointmentsButton.TextAlign = ContentAlignment.MiddleLeft;
 			appointmentsButton.UseVisualStyleBackColor = false;
+			appointmentsButton.Click += appointmentsControlButton_Click;
 			appointmentsButton.MouseEnter += appointmentsButton_MouseEnter;
 			appointmentsButton.MouseLeave += appointmentsButton_MouseLeave;
 			// 

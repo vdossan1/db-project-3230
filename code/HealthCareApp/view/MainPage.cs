@@ -12,7 +12,7 @@ namespace HealthCareApp.View
     public partial class MainPage : Form
     {
         private PatientsControl patientsControl;
-        //private AppointmentsControl appointmentsControl;
+        private AppointmentsControl appointmentsControl;
 
         private MainPageViewModel mainPageViewModel;
         private UserControl? activeControl;
@@ -29,7 +29,7 @@ namespace HealthCareApp.View
 
             this.mainPageViewModel = mainPageViewModel;
             this.patientsControl = new PatientsControl();
-            //this.AppointmentsControl = new AppointmentsControl();
+            this.appointmentsControl = new AppointmentsControl();
 
             this.DisplayUserInformation();
             this.initializeMainPageDesign();
@@ -63,11 +63,18 @@ namespace HealthCareApp.View
 
         private void appointmentsControlButton_Click(object sender, EventArgs e)
         {
-            //this.activePage = this.appointmentsControl;
-            //this.appointmentsPage.Show();
+            this.activeControl = this.appointmentsControl;
+            this.mainPanel.Controls.Clear();
+			this.mainPanel.Controls.Add(this.appointmentsControl);
+		}
+
+        private void visitsControlButton_Click(object sender, EventArgs e)
+        {
+	        this.activeControl = null;
+	        this.mainPanel.Controls.Clear();
         }
 
-        private void DisplayUserInformation()
+		private void DisplayUserInformation()
         {
             this.usernameLabel.Text = this.mainPageViewModel.Username;
             this.userFullNameLabel.Text = this.mainPageViewModel.UserFullName;
