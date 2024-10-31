@@ -46,27 +46,29 @@
 			// 
 			userFullNameLabel.AutoSize = true;
 			userFullNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			userFullNameLabel.ForeColor = SystemColors.Desktop;
-			userFullNameLabel.Location = new Point(43, 577);
+			userFullNameLabel.ForeColor = SystemColors.Control;
+			userFullNameLabel.Location = new Point(55, 588);
 			userFullNameLabel.Margin = new Padding(2, 0, 2, 0);
 			userFullNameLabel.Name = "userFullNameLabel";
 			userFullNameLabel.Size = new Size(129, 17);
 			userFullNameLabel.TabIndex = 1;
 			userFullNameLabel.Text = "last name, first name";
+			userFullNameLabel.TextAlign = ContentAlignment.MiddleCenter;
 			// 
 			// logoutButton
 			// 
 			logoutButton.FlatAppearance.BorderSize = 0;
 			logoutButton.FlatStyle = FlatStyle.Flat;
-			logoutButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			logoutButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			logoutButton.ForeColor = SystemColors.Control;
+			logoutButton.Image = Properties.Resources.sign_out;
+			logoutButton.ImageAlign = ContentAlignment.MiddleLeft;
 			logoutButton.Location = new Point(22, 622);
 			logoutButton.Margin = new Padding(2);
 			logoutButton.Name = "logoutButton";
 			logoutButton.Size = new Size(150, 35);
 			logoutButton.TabIndex = 2;
 			logoutButton.Text = "Sign Out";
-			logoutButton.TextAlign = ContentAlignment.MiddleLeft;
 			logoutButton.UseVisualStyleBackColor = true;
 			logoutButton.Click += logoutButton_Click;
 			// 
@@ -161,13 +163,15 @@
 			// usernameLabel
 			// 
 			usernameLabel.AutoSize = true;
+			usernameLabel.BackColor = Color.SlateGray;
 			usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			usernameLabel.ForeColor = SystemColors.Desktop;
-			usernameLabel.Location = new Point(65, 603);
+			usernameLabel.ForeColor = SystemColors.Control;
+			usernameLabel.Location = new Point(55, 605);
 			usernameLabel.Name = "usernameLabel";
 			usernameLabel.Size = new Size(65, 17);
 			usernameLabel.TabIndex = 7;
 			usernameLabel.Text = "username";
+			usernameLabel.TextAlign = ContentAlignment.MiddleCenter;
 			// 
 			// mainPanel
 			// 

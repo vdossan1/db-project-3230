@@ -68,12 +68,12 @@ namespace HealthCareApp.View
         private void homeButton_MouseEnter(object sender, EventArgs e)
         {
 	        homeButton.BackColor = Color.White;
-			homeButton.ForeColor = Color.SlateGray;
+			homeButton.ForeColor = Settings.AccentColor;
 		}
 
         private void homeButton_MouseLeave(object sender, EventArgs e)
         {
-			homeButton.BackColor = Color.SlateGray;
+			homeButton.BackColor = Settings.AccentColor;
 			homeButton.ForeColor = Color.White;
 		}
 	}
