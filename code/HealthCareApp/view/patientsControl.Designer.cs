@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-	partial class patientsControl
+	partial class PatientsControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -31,16 +31,17 @@
 			registerPatientBtn = new Button();
 			editPatientBtn = new Button();
 			patientsDataGridView = new DataGridView();
+			textBox1 = new TextBox();
 			((System.ComponentModel.ISupportInitialize)patientsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
 			// registerPatientBtn
 			// 
 			registerPatientBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			registerPatientBtn.Location = new Point(70, 24);
+			registerPatientBtn.Location = new Point(317, 21);
 			registerPatientBtn.Margin = new Padding(2);
 			registerPatientBtn.Name = "registerPatientBtn";
-			registerPatientBtn.Size = new Size(200, 30);
+			registerPatientBtn.Size = new Size(200, 31);
 			registerPatientBtn.TabIndex = 4;
 			registerPatientBtn.Text = "Register Patient";
 			registerPatientBtn.UseVisualStyleBackColor = true;
@@ -48,10 +49,10 @@
 			// editPatientBtn
 			// 
 			editPatientBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			editPatientBtn.Location = new Point(297, 24);
+			editPatientBtn.Location = new Point(521, 21);
 			editPatientBtn.Margin = new Padding(2);
 			editPatientBtn.Name = "editPatientBtn";
-			editPatientBtn.Size = new Size(200, 30);
+			editPatientBtn.Size = new Size(200, 31);
 			editPatientBtn.TabIndex = 5;
 			editPatientBtn.Text = "Edit Patient";
 			editPatientBtn.UseVisualStyleBackColor = true;
@@ -65,26 +66,39 @@
 			patientsDataGridView.BackgroundColor = SystemColors.Control;
 			patientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			patientsDataGridView.GridColor = SystemColors.Control;
-			patientsDataGridView.Location = new Point(33, 73);
+			patientsDataGridView.Location = new Point(17, 57);
 			patientsDataGridView.MultiSelect = false;
 			patientsDataGridView.Name = "patientsDataGridView";
 			patientsDataGridView.ReadOnly = true;
 			patientsDataGridView.RowHeadersWidth = 62;
 			patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			patientsDataGridView.Size = new Size(800, 430);
+			patientsDataGridView.Size = new Size(704, 608);
 			patientsDataGridView.TabIndex = 8;
 			// 
-			// patientsControl
+			// textBox1
+			// 
+			textBox1.BorderStyle = BorderStyle.FixedSingle;
+			textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			textBox1.ForeColor = SystemColors.ControlDarkDark;
+			textBox1.Location = new Point(17, 22);
+			textBox1.Name = "textBox1";
+			textBox1.Size = new Size(295, 29);
+			textBox1.TabIndex = 9;
+			textBox1.Text = "  Search";
+			// 
+			// PatientsControl
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(textBox1);
 			Controls.Add(patientsDataGridView);
 			Controls.Add(editPatientBtn);
 			Controls.Add(registerPatientBtn);
-			Name = "patientsControl";
-			Size = new Size(858, 530);
+			Name = "PatientsControl";
+			Size = new Size(1065, 680);
 			((System.ComponentModel.ISupportInitialize)patientsDataGridView).EndInit();
 			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -92,5 +106,6 @@
 		private Button registerPatientBtn;
 		private Button editPatientBtn;
 		private DataGridView patientsDataGridView;
+		private TextBox textBox1;
 	}
 }

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace HealthCareApp.view
 {
-	public partial class patientsControl : UserControl
+	public partial class PatientsControl : UserControl
 	{
-		public patientsControl()
+		public PatientsControl()
 		{
 			InitializeComponent();
 		}

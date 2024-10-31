@@ -61,7 +61,6 @@
 			logoutButton.FlatStyle = FlatStyle.Flat;
 			logoutButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			logoutButton.ForeColor = SystemColors.Control;
-			logoutButton.Image = Properties.Resources.sign_out;
 			logoutButton.ImageAlign = ContentAlignment.MiddleLeft;
 			logoutButton.Location = new Point(22, 622);
 			logoutButton.Margin = new Padding(2);
@@ -71,10 +70,12 @@
 			logoutButton.Text = "Sign Out";
 			logoutButton.UseVisualStyleBackColor = true;
 			logoutButton.Click += logoutButton_Click;
+			logoutButton.MouseEnter += logoutButton_MouseEnter;
+			logoutButton.MouseLeave += logoutButton_MouseLeave;
 			// 
 			// sidebarPanel
 			// 
-			sidebarPanel.BackColor = Color.SlateGray;
+			sidebarPanel.BackColor = Color.Transparent;
 			sidebarPanel.Controls.Add(sidebarButtonPanel);
 			sidebarPanel.Controls.Add(logoutButton);
 			sidebarPanel.Controls.Add(usernameLabel);
@@ -98,7 +99,7 @@
 			// 
 			// homeButton
 			// 
-			homeButton.BackColor = Color.SlateGray;
+			homeButton.BackColor = Color.Transparent;
 			homeButton.FlatAppearance.BorderSize = 0;
 			homeButton.FlatStyle = FlatStyle.Flat;
 			homeButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -110,12 +111,13 @@
 			homeButton.Text = "Home";
 			homeButton.TextAlign = ContentAlignment.MiddleLeft;
 			homeButton.UseVisualStyleBackColor = false;
+			homeButton.Click += homeButton_Click;
 			homeButton.MouseEnter += homeButton_MouseEnter;
 			homeButton.MouseLeave += homeButton_MouseLeave;
 			// 
 			// visitsButton
 			// 
-			visitsButton.BackColor = Color.SlateGray;
+			visitsButton.BackColor = Color.Transparent;
 			visitsButton.FlatAppearance.BorderColor = Color.SlateGray;
 			visitsButton.FlatAppearance.BorderSize = 0;
 			visitsButton.FlatStyle = FlatStyle.Flat;
@@ -128,10 +130,12 @@
 			visitsButton.Text = "Visits";
 			visitsButton.TextAlign = ContentAlignment.MiddleLeft;
 			visitsButton.UseVisualStyleBackColor = false;
+			visitsButton.MouseEnter += visitsButton_MouseEnter;
+			visitsButton.MouseLeave += visitsButton_MouseLeave;
 			// 
 			// patientsButton
 			// 
-			patientsButton.BackColor = Color.SlateGray;
+			patientsButton.BackColor = Color.Transparent;
 			patientsButton.FlatAppearance.BorderSize = 0;
 			patientsButton.FlatStyle = FlatStyle.Flat;
 			patientsButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -143,10 +147,13 @@
 			patientsButton.Text = "Patients";
 			patientsButton.TextAlign = ContentAlignment.MiddleLeft;
 			patientsButton.UseVisualStyleBackColor = false;
+			patientsButton.Click += patientsControlButton_Click;
+			patientsButton.MouseEnter += patientsButton_MouseEnter;
+			patientsButton.MouseLeave += patientsButton_MouseLeave;
 			// 
 			// appointmentsButton
 			// 
-			appointmentsButton.BackColor = Color.SlateGray;
+			appointmentsButton.BackColor = Color.Transparent;
 			appointmentsButton.FlatAppearance.BorderColor = Color.SlateGray;
 			appointmentsButton.FlatAppearance.BorderSize = 0;
 			appointmentsButton.FlatStyle = FlatStyle.Flat;
@@ -159,11 +166,13 @@
 			appointmentsButton.Text = "Appointments";
 			appointmentsButton.TextAlign = ContentAlignment.MiddleLeft;
 			appointmentsButton.UseVisualStyleBackColor = false;
+			appointmentsButton.MouseEnter += appointmentsButton_MouseEnter;
+			appointmentsButton.MouseLeave += appointmentsButton_MouseLeave;
 			// 
 			// usernameLabel
 			// 
 			usernameLabel.AutoSize = true;
-			usernameLabel.BackColor = Color.SlateGray;
+			usernameLabel.BackColor = Color.Transparent;
 			usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			usernameLabel.ForeColor = SystemColors.Control;
 			usernameLabel.Location = new Point(55, 605);
