@@ -65,19 +65,16 @@ namespace HealthCareApp.View
             this.userFullNameLabel.Text = this.mainPageViewModel.UserFullName;
         }
 
-        private void registerPatientBtn_Click(object sender, EventArgs e)
+        private void homeButton_MouseEnter(object sender, EventArgs e)
         {
-            var addPatientPage = new AddPatientPage(this);
-            addPatientPage.ShowDialog(); //ShowDialog blocks the MainPage while new page is active
-        }
+	        homeButton.BackColor = Color.White;
+			homeButton.ForeColor = Color.SlateGray;
+		}
 
-        private void editPatientBtn_Click(object sender, EventArgs e)
+        private void homeButton_MouseLeave(object sender, EventArgs e)
         {
-            if (this.patientsDataGridView.SelectedRows.Count > 0)
-            {
-                var editPatientPage = new EditPatientPage(this);
-                editPatientPage.ShowDialog();
-            }
-        }
-    }
+			homeButton.BackColor = Color.SlateGray;
+			homeButton.ForeColor = Color.White;
+		}
+	}
 }
