@@ -1,4 +1,4 @@
-﻿using HealthCareApp.model;
+using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
 // Author: Vitor dos Santos & Jacob Evans
@@ -132,5 +132,5 @@ namespace HealthCareApp.DAL
             );
         }
 	}
-
+    
 }

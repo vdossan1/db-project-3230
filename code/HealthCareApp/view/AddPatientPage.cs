@@ -17,8 +17,7 @@ namespace HealthCareApp.view
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AddPatientPage"/> class.
 		/// </summary>
-		/// <param name="mainPage">The <see cref="MainPage"/> instance that contains the data and logic for the main page.</param>
-		public AddPatientPage(MainPage mainPage)
+		public AddPatientPage()
         {
             InitializeComponent();
             this.dateOfBirthPicker.MinDate = DateTime.Parse("1924-01-01");

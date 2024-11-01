@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
@@ -204,8 +203,6 @@ namespace HealthCareApp.viewmodel
 			Ssn = patient.Ssn;
 			Status = patient.Status;
 		}
-
-
 
         public ManagePatientPageViewModel()
         {

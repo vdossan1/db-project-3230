@@ -20,181 +20,212 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            helloLabel = new Label();
-            userFullNameLabel = new Label();
-            logoutButton = new Button();
-            registerPatientBtn = new Button();
-            editPatientBtn = new Button();
-            sidebarPanel = new Panel();
-            usernameLabel = new Label();
-            headerPanel = new Panel();
-            mainPanel = new Panel();
-            patientsDataGridView = new DataGridView();
-            sidebarPanel.SuspendLayout();
-            headerPanel.SuspendLayout();
-            mainPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)patientsDataGridView).BeginInit();
-            SuspendLayout();
-            // 
-            // helloLabel
-            // 
-            helloLabel.AutoSize = true;
-            helloLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            helloLabel.ForeColor = SystemColors.Control;
-            helloLabel.Location = new Point(7, 8);
-            helloLabel.Name = "helloLabel";
-            helloLabel.Size = new Size(62, 28);
-            helloLabel.TabIndex = 0;
-            helloLabel.Text = "Hello,";
-            // 
-            // userFullNameLabel
-            // 
-            userFullNameLabel.AutoSize = true;
-            userFullNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            userFullNameLabel.ForeColor = SystemColors.Control;
-            userFullNameLabel.Location = new Point(71, 8);
-            userFullNameLabel.Name = "userFullNameLabel";
-            userFullNameLabel.Size = new Size(190, 28);
-            userFullNameLabel.TabIndex = 1;
-            userFullNameLabel.Text = "last name, first name";
-            // 
-            // logoutButton
-            // 
-            logoutButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            logoutButton.ForeColor = Color.LightSlateGray;
-            logoutButton.Location = new Point(50, 867);
-            logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(114, 50);
-            logoutButton.TabIndex = 2;
-            logoutButton.Text = "Logout";
-            logoutButton.UseVisualStyleBackColor = true;
-            logoutButton.Click += logoutButton_Click;
-            // 
-            // registerPatientBtn
-            // 
-            registerPatientBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            registerPatientBtn.Location = new Point(40, 48);
-            registerPatientBtn.Name = "registerPatientBtn";
-            registerPatientBtn.Size = new Size(286, 50);
-            registerPatientBtn.TabIndex = 3;
-            registerPatientBtn.Text = "Register Patient";
-            registerPatientBtn.UseVisualStyleBackColor = true;
-            registerPatientBtn.Click += registerPatientBtn_Click;
-            // 
-            // editPatientBtn
-            // 
-            editPatientBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            editPatientBtn.Location = new Point(331, 48);
-            editPatientBtn.Name = "editPatientBtn";
-            editPatientBtn.Size = new Size(286, 50);
-            editPatientBtn.TabIndex = 4;
-            editPatientBtn.Text = "Edit Patient";
-            editPatientBtn.UseVisualStyleBackColor = true;
-            editPatientBtn.Click += editPatientBtn_Click;
-            // 
-            // sidebarPanel
-            // 
-            sidebarPanel.BackColor = Color.LightSlateGray;
-            sidebarPanel.Controls.Add(usernameLabel);
-            sidebarPanel.Controls.Add(logoutButton);
-            sidebarPanel.Location = new Point(0, 0);
-            sidebarPanel.Margin = new Padding(4, 5, 4, 5);
-            sidebarPanel.Name = "sidebarPanel";
-            sidebarPanel.Size = new Size(214, 933);
-            sidebarPanel.TabIndex = 6;
-            // 
-            // usernameLabel
-            // 
-            usernameLabel.AutoSize = true;
-            usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            usernameLabel.ForeColor = SystemColors.HighlightText;
-            usernameLabel.Location = new Point(79, 825);
-            usernameLabel.Margin = new Padding(4, 0, 4, 0);
-            usernameLabel.Name = "usernameLabel";
-            usernameLabel.Size = new Size(96, 28);
-            usernameLabel.TabIndex = 7;
-            usernameLabel.Text = "username";
-            // 
-            // headerPanel
-            // 
-            headerPanel.BackColor = Color.LightSlateGray;
-            headerPanel.Controls.Add(userFullNameLabel);
-            headerPanel.Controls.Add(helloLabel);
-            headerPanel.Location = new Point(214, 0);
-            headerPanel.Margin = new Padding(4, 5, 4, 5);
-            headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(1226, 50);
-            headerPanel.TabIndex = 7;
-            // 
-            // mainPanel
-            // 
-            mainPanel.Controls.Add(patientsDataGridView);
-            mainPanel.Controls.Add(registerPatientBtn);
-            mainPanel.Controls.Add(editPatientBtn);
-            mainPanel.Location = new Point(214, 50);
-            mainPanel.Margin = new Padding(4, 5, 4, 5);
-            mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(1226, 883);
-            mainPanel.TabIndex = 8;
-            // 
-            // patientsDataGridView
-            // 
-            patientsDataGridView.AllowUserToAddRows = false;
-            patientsDataGridView.AllowUserToDeleteRows = false;
-            patientsDataGridView.AllowUserToResizeColumns = false;
-            patientsDataGridView.AllowUserToResizeRows = false;
-            patientsDataGridView.BackgroundColor = SystemColors.Control;
-            patientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            patientsDataGridView.GridColor = SystemColors.Control;
-            patientsDataGridView.Location = new Point(40, 107);
-            patientsDataGridView.Margin = new Padding(4, 5, 4, 5);
-            patientsDataGridView.MultiSelect = false;
-            patientsDataGridView.Name = "patientsDataGridView";
-            patientsDataGridView.ReadOnly = true;
-            patientsDataGridView.RowHeadersWidth = 62;
-            patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            patientsDataGridView.Size = new Size(1143, 717);
-            patientsDataGridView.TabIndex = 7;
-            // 
-            // MainPage
-            // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1440, 935);
-            Controls.Add(mainPanel);
-            Controls.Add(headerPanel);
-            Controls.Add(sidebarPanel);
-            Name = "MainPage";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Health Care App";
-            sidebarPanel.ResumeLayout(false);
-            sidebarPanel.PerformLayout();
-            headerPanel.ResumeLayout(false);
-            headerPanel.PerformLayout();
-            mainPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)patientsDataGridView).EndInit();
-            ResumeLayout(false);
-        }
+		/// <summary>
+		///  Required method for Designer support - do not modify
+		///  the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			userFullNameLabel = new Label();
+			logoutButton = new Button();
+			sidebarPanel = new Panel();
+			sidebarButtonPanel = new Panel();
+			homeButton = new Button();
+			visitsButton = new Button();
+			patientsButton = new Button();
+			appointmentsButton = new Button();
+			usernameLabel = new Label();
+			mainPanel = new Panel();
+			sidebarPanel.SuspendLayout();
+			sidebarButtonPanel.SuspendLayout();
+			SuspendLayout();
+			// 
+			// userFullNameLabel
+			// 
+			userFullNameLabel.AutoSize = true;
+			userFullNameLabel.BackColor = Color.Transparent;
+			userFullNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			userFullNameLabel.ForeColor = SystemColors.Control;
+			userFullNameLabel.Location = new Point(66, 576);
+			userFullNameLabel.Margin = new Padding(2, 0, 2, 0);
+			userFullNameLabel.Name = "userFullNameLabel";
+			userFullNameLabel.Size = new Size(129, 17);
+			userFullNameLabel.TabIndex = 1;
+			userFullNameLabel.Text = "last name, first name";
+			userFullNameLabel.TextAlign = ContentAlignment.MiddleCenter;
+			// 
+			// logoutButton
+			// 
+			logoutButton.BackColor = Color.Transparent;
+			logoutButton.FlatAppearance.BorderSize = 0;
+			logoutButton.FlatStyle = FlatStyle.Flat;
+			logoutButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			logoutButton.ForeColor = SystemColors.Control;
+			logoutButton.Image = Properties.Resources.logout_white;
+			logoutButton.ImageAlign = ContentAlignment.MiddleLeft;
+			logoutButton.Location = new Point(22, 622);
+			logoutButton.Margin = new Padding(2);
+			logoutButton.Name = "logoutButton";
+			logoutButton.Size = new Size(150, 35);
+			logoutButton.TabIndex = 2;
+			logoutButton.Text = "Sign Out";
+			logoutButton.UseVisualStyleBackColor = false;
+			logoutButton.Click += logoutButton_Click;
+			logoutButton.MouseEnter += logoutButton_MouseEnter;
+			logoutButton.MouseLeave += logoutButton_MouseLeave;
+			// 
+			// sidebarPanel
+			// 
+			sidebarPanel.BackColor = Color.Transparent;
+			sidebarPanel.Controls.Add(sidebarButtonPanel);
+			sidebarPanel.Controls.Add(logoutButton);
+			sidebarPanel.Controls.Add(usernameLabel);
+			sidebarPanel.Controls.Add(userFullNameLabel);
+			sidebarPanel.Location = new Point(0, 0);
+			sidebarPanel.Name = "sidebarPanel";
+			sidebarPanel.Size = new Size(200, 680);
+			sidebarPanel.TabIndex = 6;
+			// 
+			// sidebarButtonPanel
+			// 
+			sidebarButtonPanel.BackColor = Color.Transparent;
+			sidebarButtonPanel.Controls.Add(homeButton);
+			sidebarButtonPanel.Controls.Add(visitsButton);
+			sidebarButtonPanel.Controls.Add(patientsButton);
+			sidebarButtonPanel.Controls.Add(appointmentsButton);
+			sidebarButtonPanel.Location = new Point(22, 20);
+			sidebarButtonPanel.Name = "sidebarButtonPanel";
+			sidebarButtonPanel.Size = new Size(150, 420);
+			sidebarButtonPanel.TabIndex = 11;
+			// 
+			// homeButton
+			// 
+			homeButton.BackColor = Color.Transparent;
+			homeButton.FlatAppearance.BorderSize = 0;
+			homeButton.FlatStyle = FlatStyle.Flat;
+			homeButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			homeButton.ForeColor = SystemColors.Control;
+			homeButton.Image = Properties.Resources.home_white;
+			homeButton.ImageAlign = ContentAlignment.MiddleLeft;
+			homeButton.Location = new Point(0, 0);
+			homeButton.Name = "homeButton";
+			homeButton.Size = new Size(150, 35);
+			homeButton.TabIndex = 0;
+			homeButton.Text = "Home";
+			homeButton.UseVisualStyleBackColor = false;
+			homeButton.Click += homeButton_Click;
+			homeButton.MouseEnter += homeButton_MouseEnter;
+			homeButton.MouseLeave += homeButton_MouseLeave;
+			// 
+			// visitsButton
+			// 
+			visitsButton.BackColor = Color.Transparent;
+			visitsButton.FlatAppearance.BorderColor = Color.SlateGray;
+			visitsButton.FlatAppearance.BorderSize = 0;
+			visitsButton.FlatStyle = FlatStyle.Flat;
+			visitsButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			visitsButton.ForeColor = SystemColors.Control;
+			visitsButton.Image = Properties.Resources.checkup_white;
+			visitsButton.ImageAlign = ContentAlignment.MiddleLeft;
+			visitsButton.Location = new Point(0, 165);
+			visitsButton.Name = "visitsButton";
+			visitsButton.Size = new Size(150, 35);
+			visitsButton.TabIndex = 10;
+			visitsButton.Text = "Visits";
+			visitsButton.UseVisualStyleBackColor = false;
+			visitsButton.Click += visitsControlButton_Click;
+			visitsButton.MouseEnter += visitsButton_MouseEnter;
+			visitsButton.MouseLeave += visitsButton_MouseLeave;
+			// 
+			// patientsButton
+			// 
+			patientsButton.BackColor = Color.Transparent;
+			patientsButton.FlatAppearance.BorderSize = 0;
+			patientsButton.FlatStyle = FlatStyle.Flat;
+			patientsButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			patientsButton.ForeColor = SystemColors.Control;
+			patientsButton.Image = Properties.Resources.patients_white;
+			patientsButton.ImageAlign = ContentAlignment.MiddleLeft;
+			patientsButton.Location = new Point(0, 55);
+			patientsButton.Name = "patientsButton";
+			patientsButton.Size = new Size(150, 35);
+			patientsButton.TabIndex = 8;
+			patientsButton.Text = "Patients";
+			patientsButton.UseVisualStyleBackColor = false;
+			patientsButton.Click += patientsControlButton_Click;
+			patientsButton.MouseEnter += patientsButton_MouseEnter;
+			patientsButton.MouseLeave += patientsButton_MouseLeave;
+			// 
+			// appointmentsButton
+			// 
+			appointmentsButton.BackColor = Color.Transparent;
+			appointmentsButton.FlatAppearance.BorderColor = Color.SlateGray;
+			appointmentsButton.FlatAppearance.BorderSize = 0;
+			appointmentsButton.FlatStyle = FlatStyle.Flat;
+			appointmentsButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			appointmentsButton.ForeColor = SystemColors.Control;
+			appointmentsButton.Image = Properties.Resources.appointment_white;
+			appointmentsButton.ImageAlign = ContentAlignment.MiddleLeft;
+			appointmentsButton.Location = new Point(0, 110);
+			appointmentsButton.Name = "appointmentsButton";
+			appointmentsButton.Size = new Size(150, 35);
+			appointmentsButton.TabIndex = 9;
+			appointmentsButton.Text = "Appointments";
+			appointmentsButton.TextAlign = ContentAlignment.MiddleRight;
+			appointmentsButton.UseVisualStyleBackColor = false;
+			appointmentsButton.Click += appointmentsControlButton_Click;
+			appointmentsButton.MouseEnter += appointmentsButton_MouseEnter;
+			appointmentsButton.MouseLeave += appointmentsButton_MouseLeave;
+			// 
+			// usernameLabel
+			// 
+			usernameLabel.AutoSize = true;
+			usernameLabel.BackColor = Color.Transparent;
+			usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			usernameLabel.ForeColor = SystemColors.Control;
+			usernameLabel.Location = new Point(66, 593);
+			usernameLabel.Name = "usernameLabel";
+			usernameLabel.Size = new Size(65, 17);
+			usernameLabel.TabIndex = 7;
+			usernameLabel.Text = "username";
+			usernameLabel.TextAlign = ContentAlignment.MiddleCenter;
+			// 
+			// mainPanel
+			// 
+			mainPanel.Location = new Point(200, 0);
+			mainPanel.Name = "mainPanel";
+			mainPanel.Size = new Size(1065, 680);
+			mainPanel.TabIndex = 8;
+			// 
+			// MainPage
+			// 
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(1264, 681);
+			Controls.Add(mainPanel);
+			Controls.Add(sidebarPanel);
+			Margin = new Padding(2);
+			Name = "MainPage";
+			StartPosition = FormStartPosition.CenterScreen;
+			Text = "Health Care App";
+			sidebarPanel.ResumeLayout(false);
+			sidebarPanel.PerformLayout();
+			sidebarButtonPanel.ResumeLayout(false);
+			ResumeLayout(false);
+		}
 
-        #endregion
-
-        private Label helloLabel;
-        private Label userFullNameLabel;
+		#endregion
+		private Label userFullNameLabel;
         private Button logoutButton;
-        private Button registerPatientBtn;
-		private Button editPatientBtn;
 		private Panel sidebarPanel;
 		private Label usernameLabel;
-		private Panel headerPanel;
 		private Panel mainPanel;
-		private DataGridView patientsDataGridView;
+		private Button visitsButton;
+		private Button appointmentsButton;
+		private Button patientsButton;
+		private Button homeButton;
+		private Panel sidebarButtonPanel;
 	}
 }
