@@ -149,7 +149,7 @@ namespace HealthCareApp.viewmodel
 				Address1, Address2, City, State, ZipCode, PhoneNumber, Ssn, true);
 
 			PatientDal.EditPatient(patientToEdit);
-			Debug.WriteLine($"Edited Patient: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+			Debug.WriteLine($"Edited Patient: {FirstName} {LastName} {DateOfBirth.ToString()} {Sex}");
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace HealthCareApp.viewmodel
 
                     PatientDal.RegisterPatient(newPatient);
                     result = true;
-                    Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToShortDateString()} {Sex}");
+                    Debug.WriteLine($"Patient Registered: {FirstName} {LastName} {DateOfBirth.ToString()} {Sex}");
                 }
             }
             catch (MySqlException sqlException)
@@ -292,12 +292,12 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private DateTime dateOfBirth;
+		private DateTime? dateOfBirth;
 		/// <summary>
 		/// Gets or sets the date of birth of the patient. 
 		/// Raises the <see cref="PropertyChanged"/> event when changed.
 		/// </summary>
-		public DateTime DateOfBirth
+		public DateTime? DateOfBirth
 		{
 			get => dateOfBirth;
 			set

@@ -1,5 +1,10 @@
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -80,7 +85,6 @@ namespace HealthCareApp.DAL
 			var query = "select * from patient";
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
-			using var adapter = new MySqlDataAdapter(query, connection);
 
             using var reader = command.ExecuteReader();
 
@@ -117,18 +121,18 @@ namespace HealthCareApp.DAL
         {
             return new Patient
             (
-                reader.GetFieldValue<string>(firstNameOrdinal),
-				reader.GetFieldValue<string>(lastNameOrdinal),
+                reader.GetString(firstNameOrdinal),
+				reader.GetString(lastNameOrdinal),
 				reader.GetDateTime(dateOfBirthOrdinal),
-				reader.GetFieldValue<string>(gender),
-				reader.GetFieldValue<string>(addressOneOrdinal),
-                reader.GetFieldValue<string>(addressTwoOrdinal),
-                reader.GetFieldValue<string>(cityOrdinal),
-				reader.GetFieldValue<string>(stateOrdinal),
-				reader.GetFieldValue<string>(zipCodeOrdinal),
-                reader.GetFieldValue<string>(phoneNumberOrdinal),
-				reader.GetFieldValue<string>(ssnOrdinal),
-				reader.GetFieldValue<bool>(ssnOrdinal)
+				reader.GetString(gender),
+				reader.GetString(addressOneOrdinal),
+                reader.IsDBNull(addressTwoOrdinal) ? null : reader.GetString(addressTwoOrdinal),
+                reader.GetString(cityOrdinal),
+				reader.GetString(stateOrdinal),
+				reader.GetString(zipCodeOrdinal),
+                reader.GetString(phoneNumberOrdinal),
+				reader.GetString(ssnOrdinal),
+				reader.GetBoolean(statusOrdinal)
             );
         }
 	}

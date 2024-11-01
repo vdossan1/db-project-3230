@@ -20,7 +20,7 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Gets or sets the date of birth of the patient.
 		/// </summary>
-		public DateTime DateOfBirth { get; }
+		public DateTime? DateOfBirth { get; }
 
 		/// <summary>
 		/// Gets or sets the sex of the patient.
@@ -70,13 +70,13 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Patient"/> class with the specified details.
 		/// </summary>
-		public Patient(string firstName, string lastName, DateTime dateOfBirth, string sex,
+		public Patient(string firstName, string lastName, DateTime? dateOfBirth, string sex,
             string address1, string? address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn, bool status)
         {
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
-            DateOfBirth = dateOfBirth;
+            DateOfBirth = dateOfBirth ?? throw new ArgumentNullException(nameof(dateOfBirth)); ;
             Sex = sex ?? throw new ArgumentNullException(nameof(sex));
             Address1 = address1 ?? throw new ArgumentNullException(nameof(address1));
             Address2 = address2;
