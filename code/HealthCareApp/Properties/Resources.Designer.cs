@@ -103,16 +103,6 @@ namespace HealthCareApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap appointment_white1 {
-            get {
-                object obj = ResourceManager.GetObject("appointment-white1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap checkup_accent {
             get {
                 object obj = ResourceManager.GetObject("checkup-accent", resourceCulture);
@@ -126,16 +116,6 @@ namespace HealthCareApp.Properties {
         internal static System.Drawing.Bitmap checkup_white {
             get {
                 object obj = ResourceManager.GetObject("checkup-white", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap checkup_white1 {
-            get {
-                object obj = ResourceManager.GetObject("checkup-white1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,16 +183,6 @@ namespace HealthCareApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap home_white1 {
-            get {
-                object obj = ResourceManager.GetObject("home-white1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap logout_accent {
             get {
                 object obj = ResourceManager.GetObject("logout-accent", resourceCulture);
@@ -233,16 +203,6 @@ namespace HealthCareApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap logout_white1 {
-            get {
-                object obj = ResourceManager.GetObject("logout-white1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap patients_accent {
             get {
                 object obj = ResourceManager.GetObject("patients-accent", resourceCulture);
@@ -256,16 +216,6 @@ namespace HealthCareApp.Properties {
         internal static System.Drawing.Bitmap patients_white {
             get {
                 object obj = ResourceManager.GetObject("patients-white", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap patients_white1 {
-            get {
-                object obj = ResourceManager.GetObject("patients-white1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -306,16 +256,6 @@ namespace HealthCareApp.Properties {
         internal static System.Drawing.Bitmap search_white {
             get {
                 object obj = ResourceManager.GetObject("search-white", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap sign_out {
-            get {
-                object obj = ResourceManager.GetObject("sign-out", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

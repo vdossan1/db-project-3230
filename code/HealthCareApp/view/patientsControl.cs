@@ -27,10 +27,11 @@ namespace HealthCareApp.view
 		{
 			if (this.patientsDataGridView.SelectedRows.Count > 0)
 			{
-				var editPatientPage = new EditPatientPage();
-				editPatientPage.PatientToEdit = this.patientsDataGridView.SelectedRows[0].D;
+				//TODO
+				//var editPatientPage = new EditPatientPage();
+				/*editPatientPage.PatientToEdit = this.patientsDataGridView.SelectedRows[0].D;
 				editPatientPage.FormClosed += RefreshPatientList;
-				editPatientPage.ShowDialog();
+				editPatientPage.ShowDialog();*/
 			}
 		}
 
