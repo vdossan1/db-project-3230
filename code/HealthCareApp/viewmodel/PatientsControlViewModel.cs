@@ -9,7 +9,7 @@ namespace HealthCareApp.viewmodel
 
 		public PatientsControlViewModel() {
 			Patients = new List<Patient>();
-			PopulatePatients();
+			//PopulatePatients();
 		}
 
 		public void PopulatePatients()

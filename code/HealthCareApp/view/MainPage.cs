@@ -89,11 +89,13 @@ namespace HealthCareApp.View
         {
 	        homeButton.BackColor = Color.White;
 	        homeButton.ForeColor = Settings.AccentColor;
-        }
+	        homeButton.Image = Properties.Resources.home_accent;
+		}
 
         private void homeButton_MouseLeave(object sender, EventArgs e)
         {
-	        homeButton.BackColor = Settings.AccentColor;
+	        homeButton.Image = Properties.Resources.home_white;
+			homeButton.BackColor = Settings.AccentColor;
 	        homeButton.ForeColor = Color.White;
         }
 
@@ -101,11 +103,13 @@ namespace HealthCareApp.View
         {
 	        patientsButton.BackColor = Color.White;
 	        patientsButton.ForeColor = Settings.AccentColor;
-        }
+	        patientsButton.Image = Properties.Resources.patients_accent;
+		}
 
         private void patientsButton_MouseLeave(object sender, EventArgs e)
         {
-	        patientsButton.BackColor = Settings.AccentColor;
+	        patientsButton.Image = Properties.Resources.patients_white;
+			patientsButton.BackColor = Settings.AccentColor;
 	        patientsButton.ForeColor = Color.White;
         }
 
@@ -113,11 +117,13 @@ namespace HealthCareApp.View
         {
 	        appointmentsButton.BackColor = Color.White;
 	        appointmentsButton.ForeColor = Settings.AccentColor;
-        }
+	        appointmentsButton.Image = Properties.Resources.appointment_accent;
+		}
 
         private void appointmentsButton_MouseLeave(object sender, EventArgs e)
         {
-	        appointmentsButton.BackColor = Settings.AccentColor;
+	        appointmentsButton.Image = Properties.Resources.appointment_white;
+			appointmentsButton.BackColor = Settings.AccentColor;
 	        appointmentsButton.ForeColor = Color.White;
         }
 
@@ -125,11 +131,13 @@ namespace HealthCareApp.View
         {
 	        visitsButton.BackColor = Color.White;
 	        visitsButton.ForeColor = Settings.AccentColor;
-        }
+	        visitsButton.Image = Properties.Resources.checkup_accent;
+		}
 
         private void visitsButton_MouseLeave(object sender, EventArgs e)
         {
-	        visitsButton.BackColor = Settings.AccentColor;
+	        visitsButton.Image = Properties.Resources.checkup_white;
+			visitsButton.BackColor = Settings.AccentColor;
 	        visitsButton.ForeColor = Color.White;
         }
 
@@ -137,11 +145,13 @@ namespace HealthCareApp.View
         {
 	        logoutButton.BackColor = Color.White;
 	        logoutButton.ForeColor = Settings.AccentColor;
-        }
+	        logoutButton.Image = Properties.Resources.logout_accent;
+		}
 
         private void logoutButton_MouseLeave(object sender, EventArgs e)
         {
-	        logoutButton.BackColor = Settings.AccentColor;
+	        logoutButton.Image = Properties.Resources.logout_white;
+			logoutButton.BackColor = Settings.AccentColor;
 	        logoutButton.ForeColor = Color.White;
         }
 	}
