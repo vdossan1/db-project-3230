@@ -47,7 +47,7 @@
 			userFullNameLabel.AutoSize = true;
 			userFullNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			userFullNameLabel.ForeColor = SystemColors.Control;
-			userFullNameLabel.Location = new Point(55, 588);
+			userFullNameLabel.Location = new Point(66, 576);
 			userFullNameLabel.Margin = new Padding(2, 0, 2, 0);
 			userFullNameLabel.Name = "userFullNameLabel";
 			userFullNameLabel.Size = new Size(129, 17);
@@ -177,7 +177,7 @@
 			usernameLabel.BackColor = Color.Transparent;
 			usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			usernameLabel.ForeColor = SystemColors.Control;
-			usernameLabel.Location = new Point(55, 605);
+			usernameLabel.Location = new Point(66, 593);
 			usernameLabel.Name = "usernameLabel";
 			usernameLabel.Size = new Size(65, 17);
 			usernameLabel.TabIndex = 7;

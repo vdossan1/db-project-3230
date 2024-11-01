@@ -16,7 +16,6 @@ namespace HealthCareApp.view
 
         public event EventHandler PatientUpdated;
 
-        private MainPage activeMainPage;
         private ManagePatientPageViewModel managePatientViewModel;
         
         public Patient PatientToEdit { get; set; }
@@ -25,14 +24,13 @@ namespace HealthCareApp.view
 		/// Initializes a new instance of the <see cref="EditPatientPage"/> class.
 		/// </summary>
 		/// <param name="mainPage">The <see cref="MainPage"/> instance that contains the data and logic for the main page.</param>
-		public EditPatientPage(MainPage mainPage)
+		public EditPatientPage()
         {
             InitializeComponent();
             this.InitializeRequiredFields();
             this.InitializeNumericFields();
 
             this.managePatientViewModel = new ManagePatientPageViewModel();
-            this.activeMainPage = mainPage;
 
             this.BindControls();
         }
@@ -125,14 +123,12 @@ namespace HealthCareApp.view
                 this.managePatientViewModel.EditPatient();
                 this.OnPatientUpdated();
                 this.Hide();
-                this.activeMainPage.Show();
             }
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             this.Hide();
-            this.activeMainPage.Show();
         }
 
         private bool checkRequiredFields(bool requirements)

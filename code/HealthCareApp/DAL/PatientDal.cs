@@ -111,7 +111,6 @@ namespace HealthCareApp.DAL
 			return patientList;
 		}
 
-
         private static Patient CreatePatient(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal, 
             int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
             int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal, int statusOrdinal)

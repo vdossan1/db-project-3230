@@ -45,6 +45,7 @@
 			registerPatientBtn.TabIndex = 4;
 			registerPatientBtn.Text = "Register Patient";
 			registerPatientBtn.UseVisualStyleBackColor = true;
+			registerPatientBtn.Click += registerPatientBtn_Click;
 			// 
 			// editPatientBtn
 			// 
