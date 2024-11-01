@@ -57,6 +57,7 @@
 			editPatientBtn.TabIndex = 5;
 			editPatientBtn.Text = "Edit Patient";
 			editPatientBtn.UseVisualStyleBackColor = true;
+			editPatientBtn.Click += editPatientBtn_Click;
 			// 
 			// patientsDataGridView
 			// 
