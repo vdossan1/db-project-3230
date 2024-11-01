@@ -70,11 +70,10 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Doctor"/> class with the specified details.
 		/// </summary>
-		public Doctor(int id, string firstName, string lastName, DateTime dateOfBirth, string sex,
+		public Doctor(string firstName, string lastName, DateTime dateOfBirth, string sex,
 			string address1, string address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn)
 		{
-			Id = id;
 			FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
 			LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
 			DateOfBirth = dateOfBirth;

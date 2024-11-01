@@ -82,7 +82,6 @@ namespace HealthCareApp.DAL
 			using MySqlCommand command = new MySqlCommand(query, connection);
 			using var adapter = new MySqlDataAdapter(query, connection);
 
-
             using var reader = command.ExecuteReader();
 
             var firstNameOrdinal = reader.GetOrdinal("first_name");
