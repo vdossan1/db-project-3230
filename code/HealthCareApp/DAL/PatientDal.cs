@@ -1,4 +1,3 @@
-﻿using System.Data;
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
@@ -67,40 +66,71 @@ namespace HealthCareApp.DAL
             command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
         }
 
-		/// <summary>
-		/// Retrieves a list of all patients from the database.
-		/// </summary>
-		/// <returns>A list of <see cref="Patient"/> objects representing all patients in the database.</returns>
-		public static List<Patient> GetAllPatients()
+        /// <summary>
+        /// Retrieves a list of all patients from the database.
+        /// </summary>
+        /// <returns>A list of <see cref="Patient"/> objects representing all patients in the database.</returns>
+        public static List<Patient> GetAllPatients()
 		{
 			var patientList = new List<Patient>();
+
 			using var connection = new MySqlConnection(Connection.ConnectionString());
 			connection.Open();
+
 			var query = "select * from patient";
+
 			using MySqlCommand command = new MySqlCommand(query, connection);
 			using var adapter = new MySqlDataAdapter(query, connection);
-			var table = new DataTable();
-			adapter.Fill(table);
-			if (table.Rows.Count > 0)
-			{
-				patientList = (from row in table.AsEnumerable()
-					select new Patient(
-						row.Field<string>("first_name"),
-						row.Field<string>("last_name"),
-						row.Field<DateTime>("date_of_birth"),
-						row.Field<string>("sex"),
-						row.Field<string>("address_line1"),
-						row.Field<string>("address_line2"),
-						row.Field<string>("city"),
-						row.Field<string>("state"),
-						row.Field<string>("zip_code"),
-						row.Field<string>("phone_number"),
-						row.Field<string>("ssn"),
-						row.Field<bool>("status")
-					)).ToList();
-			}
+
+            using var reader = command.ExecuteReader();
+
+            var firstNameOrdinal = reader.GetOrdinal("first_name");
+            var lastNameOrdinal = reader.GetOrdinal("last_name");
+            var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
+            var gender = reader.GetOrdinal("sex");
+            var addressOneOrdinal = reader.GetOrdinal("address_line1");
+            var addressTwoOrdinal = reader.GetOrdinal("address_line2");
+            var cityOrdinal = reader.GetOrdinal("city");
+            var stateOrdinal = reader.GetOrdinal("state");
+            var zipCodeOrdinal = reader.GetOrdinal("zip_code");
+            var phoneNumberOrdinal = reader.GetOrdinal("phone_number");
+            var ssnOrdinal = reader.GetOrdinal("ssn");
+            var statusOrdinal = reader.GetOrdinal("status");
+
+            while (reader.Read())
+            {
+				patientList.Add(
+                    CreatePatient(
+                        reader, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender, 
+                        addressOneOrdinal, addressTwoOrdinal, cityOrdinal, stateOrdinal, zipCodeOrdinal, 
+                        phoneNumberOrdinal, ssnOrdinal, statusOrdinal
+                        ));
+            }
+
 			return patientList;
 		}
-	}
 
+
+        private static Patient CreatePatient(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal, 
+            int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
+            int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal, int statusOrdinal)
+        {
+            return new Patient
+            (
+                reader.GetFieldValue<string>(firstNameOrdinal),
+				reader.GetFieldValue<string>(lastNameOrdinal),
+				reader.GetDateTime(dateOfBirthOrdinal),
+				reader.GetFieldValue<string>(gender),
+				reader.GetFieldValue<string>(addressOneOrdinal),
+                reader.GetFieldValue<string>(addressTwoOrdinal),
+                reader.GetFieldValue<string>(cityOrdinal),
+				reader.GetFieldValue<string>(stateOrdinal),
+				reader.GetFieldValue<string>(zipCodeOrdinal),
+                reader.GetFieldValue<string>(phoneNumberOrdinal),
+				reader.GetFieldValue<string>(ssnOrdinal),
+				reader.GetFieldValue<bool>(ssnOrdinal)
+            );
+        }
+	}
+    
 }

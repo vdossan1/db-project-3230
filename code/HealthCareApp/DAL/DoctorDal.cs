@@ -18,10 +18,35 @@ namespace HealthCareApp.DAL
 		/// <exception cref="NotImplementedException">This method is not implemented yet.</exception>
 		public static void RegisterDoctor(Doctor newDoctor)
 		{
-			throw new NotImplementedException();
-		}
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
 
-		/// <summary>
+            string query = "INSERT INTO doctor (first_name, last_name, date_of_birth, sex, address_line1, address_line2, city, state, zip_code, phone_number, ssn) " +
+                           "VALUES (@FirstName, @LastName, @DateOfBirth, @Sex, @Address1, @Address2, @City, @State, @ZipCode, @PhoneNumber, @Ssn)";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+
+            AddAllDoctorParamsToCommand(newDoctor, command);
+
+            command.ExecuteNonQuery();
+        }
+
+        private static void AddAllDoctorParamsToCommand(Doctor doctor, MySqlCommand command)
+        {
+            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = doctor.FirstName;
+            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = doctor.LastName;
+            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = doctor.DateOfBirth;
+            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = doctor.Sex;
+            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = doctor.Address1;
+            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = doctor.Address2;
+            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = doctor.City;
+            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = doctor.State;
+            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = doctor.ZipCode;
+            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = doctor.PhoneNumber;
+            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = doctor.Ssn;
+        }
+
+        /// <summary>
 		/// Retrieves all doctors from the database.
 		/// </summary>
 		/// <returns>A list of <see cref="Doctor"/> objects representing all doctors in the database.</returns>
@@ -36,32 +61,52 @@ namespace HealthCareApp.DAL
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
 
-			using var adapter = new MySqlDataAdapter(query, connection);
+            using var reader = command.ExecuteReader();
 
-			var table = new DataTable();
-			adapter.Fill(table);
+            var firstNameOrdinal = reader.GetOrdinal("first_name");
+            var lastNameOrdinal = reader.GetOrdinal("last_name");
+            var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
+            var gender = reader.GetOrdinal("sex");
+            var addressOneOrdinal = reader.GetOrdinal("address_line1");
+            var addressTwoOrdinal = reader.GetOrdinal("address_line2");
+            var cityOrdinal = reader.GetOrdinal("city");
+            var stateOrdinal = reader.GetOrdinal("state");
+            var zipCodeOrdinal = reader.GetOrdinal("zip_code");
+            var phoneNumberOrdinal = reader.GetOrdinal("phone_number");
+            var ssnOrdinal = reader.GetOrdinal("ssn");
 
-			if (table.Rows.Count > 0)
-			{
-				doctorList = (from row in table.AsEnumerable()
-					select new Doctor(
-						row.Field<int>("doctor_id"),
-						row.Field<string>("first_name"),
-						row.Field<string>("last_name"),
-						row.Field<DateTime>("date_of_birth"),
-						row.Field<string>("gender"),
-						row.Field<string>("address1"),
-						row.Field<string>("address2"),
-						row.Field<string>("city"),
-						row.Field<string>("state"),
-						row.Field<string>("zip_code"),
-						row.Field<string>("phone_number"),
-						row.Field<string>("ssn")
-					)).ToList();
-			}
+            while (reader.Read())
+            {
+                doctorList.Add(
+                    CreateDoctor(
+                        reader, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender,
+                        addressOneOrdinal, addressTwoOrdinal, cityOrdinal, stateOrdinal, zipCodeOrdinal,
+                        phoneNumberOrdinal, ssnOrdinal
+                    ));
+            }
 
-			return doctorList;
+            return doctorList;
 		}
-	}
+
+        private static Doctor CreateDoctor(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal,
+            int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
+            int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal)
+        {
+            return new Doctor
+            (
+                reader.GetFieldValue<string>(firstNameOrdinal),
+                reader.GetFieldValue<string>(lastNameOrdinal),
+                reader.GetDateTime(dateOfBirthOrdinal),
+                reader.GetFieldValue<string>(gender),
+                reader.GetFieldValue<string>(addressOneOrdinal),
+                reader.GetFieldValue<string>(addressTwoOrdinal),
+                reader.GetFieldValue<string>(cityOrdinal),
+                reader.GetFieldValue<string>(stateOrdinal),
+                reader.GetFieldValue<string>(zipCodeOrdinal),
+                reader.GetFieldValue<string>(phoneNumberOrdinal),
+                reader.GetFieldValue<string>(ssnOrdinal)
+            );
+        }
+    }
 
 }
