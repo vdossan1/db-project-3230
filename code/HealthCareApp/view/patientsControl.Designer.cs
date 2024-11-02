@@ -32,7 +32,7 @@
             editPatientBtn = new Button();
             patientsDataGridView = new DataGridView();
             patientsSearchBar = new TextBox();
-            advancedSearchControl1 = new AdvancedSearchControl();
+            patientAdvancedSearchControl = new AdvancedSearchControl();
             ((System.ComponentModel.ISupportInitialize)patientsDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -90,18 +90,18 @@
             patientsSearchBar.TabIndex = 9;
             patientsSearchBar.Text = "  Search";
             // 
-            // advancedSearchControl1
+            // patientAdvancedSearchControl
             // 
-            advancedSearchControl1.Location = new Point(25, 96);
-            advancedSearchControl1.Name = "advancedSearchControl1";
-            advancedSearchControl1.Size = new Size(1028, 162);
-            advancedSearchControl1.TabIndex = 10;
+            patientAdvancedSearchControl.Location = new Point(25, 96);
+            patientAdvancedSearchControl.Name = "patientAdvancedSearchControl";
+            patientAdvancedSearchControl.Size = new Size(1028, 162);
+            patientAdvancedSearchControl.TabIndex = 10;
             // 
             // PatientsControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(advancedSearchControl1);
+            Controls.Add(patientAdvancedSearchControl);
             Controls.Add(patientsSearchBar);
             Controls.Add(patientsDataGridView);
             Controls.Add(editPatientBtn);
@@ -120,6 +120,6 @@
 		private Button editPatientBtn;
 		private DataGridView patientsDataGridView;
 		private TextBox patientsSearchBar;
-        private AdvancedSearchControl advancedSearchControl1;
+        private AdvancedSearchControl patientAdvancedSearchControl;
     }
 }

@@ -7,7 +7,7 @@ namespace HealthCareApp.viewmodel
 {
 	public class PatientsControlViewModel : INotifyPropertyChanged
 	{
-		public List<Patient> Patients { get; set; }
+		public List<Patient> Patients { get; private set; }
 
 		public PatientsControlViewModel() {
 			Patients = new List<Patient>();

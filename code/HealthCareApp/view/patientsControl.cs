@@ -15,8 +15,8 @@ namespace HealthCareApp.view
 			this.patientsControlViewModel = new PatientsControlViewModel();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
 
-            this.advancedSearchControl1.SearchBtnClick += RefreshPatientList;
-            this.advancedSearchControl1.ClearBtnClick += RefreshPatientList;
+            this.patientAdvancedSearchControl.SearchBtnClick += RefreshPatientList;
+            this.patientAdvancedSearchControl.ClearBtnClick += RefreshPatientList;
         }
 
 		private void registerPatientBtn_Click(object sender, EventArgs e)

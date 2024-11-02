@@ -32,7 +32,7 @@
             createAppointmentBtn = new Button();
             editAppointmentBtn = new Button();
             appointmentsSearchBar = new TextBox();
-            advancedSearchControl1 = new AdvancedSearchControl();
+            apptAdvancedSearchControl = new AdvancedSearchControl();
             ((System.ComponentModel.ISupportInitialize)appointmentsDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -89,18 +89,18 @@
             appointmentsSearchBar.Text = "  Search";
             appointmentsSearchBar.TextChanged += appointmentsSearchBar_TextChanged;
             // 
-            // advancedSearchControl1
+            // apptAdvancedSearchControl
             // 
-            advancedSearchControl1.Location = new Point(24, 105);
-            advancedSearchControl1.Name = "advancedSearchControl1";
-            advancedSearchControl1.Size = new Size(1039, 158);
-            advancedSearchControl1.TabIndex = 12;
+            apptAdvancedSearchControl.Location = new Point(24, 105);
+            apptAdvancedSearchControl.Name = "apptAdvancedSearchControl";
+            apptAdvancedSearchControl.Size = new Size(1039, 158);
+            apptAdvancedSearchControl.TabIndex = 12;
             // 
             // AppointmentsControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(advancedSearchControl1);
+            Controls.Add(apptAdvancedSearchControl);
             Controls.Add(appointmentsSearchBar);
             Controls.Add(editAppointmentBtn);
             Controls.Add(createAppointmentBtn);
@@ -119,6 +119,6 @@
 		private Button createAppointmentBtn;
 		private Button editAppointmentBtn;
 		private TextBox appointmentsSearchBar;
-        private AdvancedSearchControl advancedSearchControl1;
+        private AdvancedSearchControl apptAdvancedSearchControl;
     }
 }
