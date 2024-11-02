@@ -12,13 +12,12 @@ namespace HealthCareApp.view
 			InitializeComponent();
 
 			this.patientsControlViewModel = new PatientsControlViewModel();
-			this.patientsControlViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
 		}
 
 		private void registerPatientBtn_Click(object sender, EventArgs e)
 		{
-			var addPatientPage = new AddPatientPage();
+			var addPatientPage = new AddPatientPage(null);
 			addPatientPage.FormClosed += RefreshPatientList;
 			addPatientPage.ShowDialog();
 		}
@@ -27,11 +26,10 @@ namespace HealthCareApp.view
 		{
 			if (this.patientsDataGridView.SelectedRows.Count > 0)
 			{
-				//TODO
-				//var editPatientPage = new EditPatientPage();
-				/*editPatientPage.PatientToEdit = this.patientsDataGridView.SelectedRows[0].D;
-				editPatientPage.FormClosed += RefreshPatientList;
-				editPatientPage.ShowDialog();*/
+				var selectedPatient = (Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
+				var addPatientPage = new AddPatientPage(selectedPatient);
+				addPatientPage.FormClosed += RefreshPatientList;
+				addPatientPage.ShowDialog();
 			}
 		}
 
@@ -39,6 +37,7 @@ namespace HealthCareApp.view
 		{
 			this.patientsControlViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
-		}
+			this.patientsDataGridView.ClearSelection();
+        }
 	}
 }

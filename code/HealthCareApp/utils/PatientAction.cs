@@ -3,11 +3,11 @@
 namespace HealthCareApp.utils
 {
 	/// <summary>
-	/// Represents the sex of a person.
+	/// Represents the action of the manage patient page.
 	/// </summary>
-	public enum Gender
+	public enum PatientAction
 	{
-		M,
-		F
+		REGISTER,
+		EDIT
 	}
 }
