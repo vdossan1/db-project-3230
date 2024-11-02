@@ -30,12 +30,7 @@ namespace HealthCareApp.view
 
         private void advanSearchButton_Click(object sender, EventArgs e)
         {
-            var firstName = this.firstNameTxtBox.Text;
-            var lastName = this.lastNameTxtBox.Text;
-            var dateOfBirth = this.dateOfBirthPicker.Value.Date;
-            var patientsWithCritetia = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
-
-            this.appointmentsDataGridView.DataSource = patientsWithCritetia;
+            
         }
     }
 }

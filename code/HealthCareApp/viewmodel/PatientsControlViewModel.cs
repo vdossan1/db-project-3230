@@ -1,9 +1,11 @@
-﻿using HealthCareApp.DAL;
+﻿using System.ComponentModel;
+using HealthCareApp.DAL;
 using HealthCareApp.model;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.viewmodel
 {
-	public class PatientsControlViewModel
+	public class PatientsControlViewModel : INotifyPropertyChanged
 	{
 		public List<Patient> Patients { get; set; }
 
@@ -12,9 +14,22 @@ namespace HealthCareApp.viewmodel
 			PopulatePatients();
 		}
 
-		public void PopulatePatients()
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void PopulatePatients(SearchEventArgs eventArgs = null)
 		{
-			Patients = PatientDal.GetAllPatients();
+            if (eventArgs == null)
+            {
+                Patients = PatientDal.GetAllPatients();
+            }
+            else
+            {
+                var firstName = eventArgs.FirstName;
+                var lastName = eventArgs.LastName;
+                var dateOfBirth = eventArgs.DateOfBirth;
+
+                Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+            }
 		}
-	}
+    }
 }

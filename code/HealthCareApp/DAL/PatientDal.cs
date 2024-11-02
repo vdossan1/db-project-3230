@@ -1,13 +1,7 @@
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Windows.Automation;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -57,22 +51,6 @@ namespace HealthCareApp.DAL
 
             command.ExecuteNonQuery();
 		}
-
-        private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
-        {
-            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = patient.FirstName;
-            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = patient.LastName;
-            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = patient.DateOfBirth;
-            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = patient.Sex;
-            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = patient.Address1;
-            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = patient.Address2;
-            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = patient.City;
-            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = patient.State;
-            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = patient.ZipCode;
-            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = patient.PhoneNumber;
-            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = patient.Ssn;
-            command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
-        }
 
         /// <summary>
         /// Retrieves a list of all patients from the database.
@@ -149,11 +127,15 @@ namespace HealthCareApp.DAL
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
+            if (queryBuilder.Equals("select * from patient WHERE;"))
+            {
+                queryBuilder = new StringBuilder("select * from patient;");
+            }
+
             using MySqlCommand command = new MySqlCommand(queryBuilder.ToString(), connection);
             command.Parameters.AddRange(parameters.ToArray());
 
-            // TODO - Make private helper to create new patient
-            Debug.WriteLine($"Query: {queryBuilder}");
+            Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} DoB{dateOfBirth}");
             using var reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -164,7 +146,6 @@ namespace HealthCareApp.DAL
 
             return patientList;
         }
-
 
         private static Patient CreatePatient(MySqlDataReader reader)
         {
@@ -198,6 +179,22 @@ namespace HealthCareApp.DAL
 				reader.GetBoolean(statusOrdinal)
             );
         }
-	}
+
+        private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
+        {
+            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = patient.FirstName;
+            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = patient.LastName;
+            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = patient.DateOfBirth;
+            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = patient.Sex;
+            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = patient.Address1;
+            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = patient.Address2;
+            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = patient.City;
+            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = patient.State;
+            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = patient.ZipCode;
+            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = patient.PhoneNumber;
+            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = patient.Ssn;
+            command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
+        }
+    }
     
 }
