@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			textBox1 = new TextBox();
+			reasonTextBox = new TextBox();
 			datePicker = new DateTimePicker();
 			createAppointmentButton = new Button();
 			cancelButton = new Button();
@@ -38,8 +38,8 @@
 			timeLabel = new Label();
 			searchPatientTextBox = new TextBox();
 			searchDoctorTextBox = new TextBox();
-			dataGridView1 = new DataGridView();
-			dataGridView2 = new DataGridView();
+			patientsDataGridView = new DataGridView();
+			doctorsDataGridView = new DataGridView();
 			searchPatientButton = new Button();
 			searchDoctorButton = new Button();
 			searchPatientLabel = new Label();
@@ -49,17 +49,17 @@
 			reasonErrorLabel = new Label();
 			doctorErrorLabel = new Label();
 			patientErrorLabel = new Label();
-			((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-			((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+			((System.ComponentModel.ISupportInitialize)patientsDataGridView).BeginInit();
+			((System.ComponentModel.ISupportInitialize)doctorsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
-			// textBox1
+			// reasonTextBox
 			// 
-			textBox1.Location = new Point(367, 36);
-			textBox1.Multiline = true;
-			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(340, 166);
-			textBox1.TabIndex = 5;
+			reasonTextBox.Location = new Point(367, 36);
+			reasonTextBox.Multiline = true;
+			reasonTextBox.Name = "reasonTextBox";
+			reasonTextBox.Size = new Size(340, 166);
+			reasonTextBox.TabIndex = 5;
 			// 
 			// datePicker
 			// 
@@ -145,21 +145,25 @@
 			searchDoctorTextBox.Size = new Size(163, 23);
 			searchDoctorTextBox.TabIndex = 21;
 			// 
-			// dataGridView1
+			// patientsDataGridView
 			// 
-			dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridView1.Location = new Point(12, 64);
-			dataGridView1.Name = "dataGridView1";
-			dataGridView1.Size = new Size(339, 87);
-			dataGridView1.TabIndex = 22;
+			patientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			patientsDataGridView.Location = new Point(12, 64);
+			patientsDataGridView.MultiSelect = false;
+			patientsDataGridView.Name = "patientsDataGridView";
+			patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			patientsDataGridView.Size = new Size(339, 87);
+			patientsDataGridView.TabIndex = 22;
 			// 
-			// dataGridView2
+			// doctorsDataGridView
 			// 
-			dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridView2.Location = new Point(11, 223);
-			dataGridView2.Name = "dataGridView2";
-			dataGridView2.Size = new Size(340, 87);
-			dataGridView2.TabIndex = 23;
+			doctorsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			doctorsDataGridView.Location = new Point(11, 223);
+			doctorsDataGridView.MultiSelect = false;
+			doctorsDataGridView.Name = "doctorsDataGridView";
+			doctorsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			doctorsDataGridView.Size = new Size(340, 87);
+			doctorsDataGridView.TabIndex = 23;
 			// 
 			// searchPatientButton
 			// 
@@ -271,8 +275,8 @@
 			Controls.Add(searchPatientLabel);
 			Controls.Add(searchDoctorButton);
 			Controls.Add(searchPatientButton);
-			Controls.Add(dataGridView2);
-			Controls.Add(dataGridView1);
+			Controls.Add(doctorsDataGridView);
+			Controls.Add(patientsDataGridView);
 			Controls.Add(searchDoctorTextBox);
 			Controls.Add(searchPatientTextBox);
 			Controls.Add(timeLabel);
@@ -282,17 +286,17 @@
 			Controls.Add(cancelButton);
 			Controls.Add(createAppointmentButton);
 			Controls.Add(datePicker);
-			Controls.Add(textBox1);
+			Controls.Add(reasonTextBox);
 			Name = "CreateAppointmentPage";
 			Text = "Create New Appointment";
-			((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-			((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+			((System.ComponentModel.ISupportInitialize)patientsDataGridView).EndInit();
+			((System.ComponentModel.ISupportInitialize)doctorsDataGridView).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
 
 		#endregion
-		private TextBox textBox1;
+		private TextBox reasonTextBox;
 		private DateTimePicker datePicker;
 		private Button createAppointmentButton;
 		private Button cancelButton;
@@ -302,8 +306,8 @@
 		private Label timeLabel;
 		private TextBox searchPatientTextBox;
 		private TextBox searchDoctorTextBox;
-		private DataGridView dataGridView1;
-		private DataGridView dataGridView2;
+		private DataGridView patientsDataGridView;
+		private DataGridView doctorsDataGridView;
 		private Button searchPatientButton;
 		private Button searchDoctorButton;
 		private Label searchPatientLabel;
