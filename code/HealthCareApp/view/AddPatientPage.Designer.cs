@@ -30,15 +30,15 @@
 		{
 			firstNameTextBox = new TextBox();
 			lastNameTextBox = new TextBox();
-			addressOneTxtBox = new TextBox();
-			ssnTxtBox = new TextBox();
-			zipCodeTxtBox = new TextBox();
-			addressTwoTxtBox = new TextBox();
-			phoneNumberTxtBox = new TextBox();
-			cityTxtBox = new TextBox();
+			addressOneTextBox = new TextBox();
+			ssnTextBox = new TextBox();
+			zipCodeTextBox = new TextBox();
+			addressTwoTextBox = new TextBox();
+			phoneNumberTextBox = new TextBox();
+			cityTextBox = new TextBox();
 			dateOfBirthPicker = new DateTimePicker();
-			genderCmbBox = new ComboBox();
-			stateCmbBox = new ComboBox();
+			genderComboBox = new ComboBox();
+			stateComboBox = new ComboBox();
 			firstNameLabel = new Label();
 			lastNameLabel = new Label();
 			dateOfBirthLabel = new Label();
@@ -50,8 +50,8 @@
 			zipCodeLabel = new Label();
 			phoneNumberLabel = new Label();
 			ssnLabel = new Label();
-			registerPatientBtn = new Button();
-			cancelBtn = new Button();
+			actionButton = new Button();
+			cancelButton = new Button();
 			phoneNumberErrorLabel = new Label();
 			ssnErrorLabel = new Label();
 			zipCodeErrorLabel = new Label();
@@ -67,7 +67,7 @@
 			// firstNameTextBox
 			// 
 			firstNameTextBox.Location = new Point(62, 49);
-			firstNameTextBox.Margin = new Padding(2, 2, 2, 2);
+			firstNameTextBox.Margin = new Padding(2);
 			firstNameTextBox.Name = "firstNameTextBox";
 			firstNameTextBox.Size = new Size(199, 23);
 			firstNameTextBox.TabIndex = 0;
@@ -75,87 +75,87 @@
 			// lastNameTextBox
 			// 
 			lastNameTextBox.Location = new Point(309, 49);
-			lastNameTextBox.Margin = new Padding(2, 2, 2, 2);
+			lastNameTextBox.Margin = new Padding(2);
 			lastNameTextBox.Name = "lastNameTextBox";
 			lastNameTextBox.Size = new Size(215, 23);
 			lastNameTextBox.TabIndex = 1;
 			// 
-			// addressOneTxtBox
+			// addressOneTextBox
 			// 
-			addressOneTxtBox.Location = new Point(62, 283);
-			addressOneTxtBox.Margin = new Padding(2, 2, 2, 2);
-			addressOneTxtBox.Name = "addressOneTxtBox";
-			addressOneTxtBox.Size = new Size(287, 23);
-			addressOneTxtBox.TabIndex = 6;
+			addressOneTextBox.Location = new Point(62, 283);
+			addressOneTextBox.Margin = new Padding(2);
+			addressOneTextBox.Name = "addressOneTextBox";
+			addressOneTextBox.Size = new Size(287, 23);
+			addressOneTextBox.TabIndex = 6;
 			// 
-			// ssnTxtBox
+			// ssnTextBox
 			// 
-			ssnTxtBox.Location = new Point(265, 196);
-			ssnTxtBox.Margin = new Padding(2, 2, 2, 2);
-			ssnTxtBox.MaxLength = 9;
-			ssnTxtBox.Name = "ssnTxtBox";
-			ssnTxtBox.Size = new Size(106, 23);
-			ssnTxtBox.TabIndex = 5;
+			ssnTextBox.Location = new Point(265, 196);
+			ssnTextBox.Margin = new Padding(2);
+			ssnTextBox.MaxLength = 9;
+			ssnTextBox.Name = "ssnTextBox";
+			ssnTextBox.Size = new Size(106, 23);
+			ssnTextBox.TabIndex = 5;
 			// 
-			// zipCodeTxtBox
+			// zipCodeTextBox
 			// 
-			zipCodeTxtBox.Location = new Point(378, 424);
-			zipCodeTxtBox.Margin = new Padding(2, 2, 2, 2);
-			zipCodeTxtBox.MaxLength = 5;
-			zipCodeTxtBox.Name = "zipCodeTxtBox";
-			zipCodeTxtBox.Size = new Size(142, 23);
-			zipCodeTxtBox.TabIndex = 10;
+			zipCodeTextBox.Location = new Point(378, 424);
+			zipCodeTextBox.Margin = new Padding(2);
+			zipCodeTextBox.MaxLength = 5;
+			zipCodeTextBox.Name = "zipCodeTextBox";
+			zipCodeTextBox.Size = new Size(142, 23);
+			zipCodeTextBox.TabIndex = 10;
 			// 
-			// addressTwoTxtBox
+			// addressTwoTextBox
 			// 
-			addressTwoTxtBox.Location = new Point(62, 361);
-			addressTwoTxtBox.Margin = new Padding(2, 2, 2, 2);
-			addressTwoTxtBox.Name = "addressTwoTxtBox";
-			addressTwoTxtBox.Size = new Size(287, 23);
-			addressTwoTxtBox.TabIndex = 7;
+			addressTwoTextBox.Location = new Point(62, 361);
+			addressTwoTextBox.Margin = new Padding(2);
+			addressTwoTextBox.Name = "addressTwoTextBox";
+			addressTwoTextBox.Size = new Size(287, 23);
+			addressTwoTextBox.TabIndex = 7;
 			// 
-			// phoneNumberTxtBox
+			// phoneNumberTextBox
 			// 
-			phoneNumberTxtBox.Location = new Point(62, 196);
-			phoneNumberTxtBox.Margin = new Padding(2, 2, 2, 2);
-			phoneNumberTxtBox.MaxLength = 10;
-			phoneNumberTxtBox.Name = "phoneNumberTxtBox";
-			phoneNumberTxtBox.Size = new Size(106, 23);
-			phoneNumberTxtBox.TabIndex = 4;
+			phoneNumberTextBox.Location = new Point(62, 196);
+			phoneNumberTextBox.Margin = new Padding(2);
+			phoneNumberTextBox.MaxLength = 10;
+			phoneNumberTextBox.Name = "phoneNumberTextBox";
+			phoneNumberTextBox.Size = new Size(106, 23);
+			phoneNumberTextBox.TabIndex = 4;
 			// 
-			// cityTxtBox
+			// cityTextBox
 			// 
-			cityTxtBox.Location = new Point(66, 424);
-			cityTxtBox.Margin = new Padding(2, 2, 2, 2);
-			cityTxtBox.Name = "cityTxtBox";
-			cityTxtBox.Size = new Size(106, 23);
-			cityTxtBox.TabIndex = 8;
+			cityTextBox.Location = new Point(66, 424);
+			cityTextBox.Margin = new Padding(2);
+			cityTextBox.Name = "cityTextBox";
+			cityTextBox.Size = new Size(106, 23);
+			cityTextBox.TabIndex = 8;
 			// 
 			// dateOfBirthPicker
 			// 
 			dateOfBirthPicker.Location = new Point(236, 113);
-			dateOfBirthPicker.Margin = new Padding(2, 2, 2, 2);
+			dateOfBirthPicker.Margin = new Padding(2);
 			dateOfBirthPicker.Name = "dateOfBirthPicker";
 			dateOfBirthPicker.Size = new Size(211, 23);
 			dateOfBirthPicker.TabIndex = 3;
 			// 
-			// genderCmbBox
+			// genderComboBox
 			// 
-			genderCmbBox.FormattingEnabled = true;
-			genderCmbBox.Location = new Point(62, 113);
-			genderCmbBox.Margin = new Padding(2, 2, 2, 2);
-			genderCmbBox.Name = "genderCmbBox";
-			genderCmbBox.Size = new Size(129, 23);
-			genderCmbBox.TabIndex = 2;
+			genderComboBox.FormattingEnabled = true;
+			genderComboBox.Location = new Point(62, 113);
+			genderComboBox.Margin = new Padding(2);
+			genderComboBox.Name = "genderComboBox";
+			genderComboBox.Size = new Size(129, 23);
+			genderComboBox.TabIndex = 2;
 			// 
-			// stateCmbBox
+			// stateComboBox
 			// 
-			stateCmbBox.FormattingEnabled = true;
-			stateCmbBox.Location = new Point(213, 423);
-			stateCmbBox.Margin = new Padding(2, 2, 2, 2);
-			stateCmbBox.Name = "stateCmbBox";
-			stateCmbBox.Size = new Size(129, 23);
-			stateCmbBox.TabIndex = 9;
+			stateComboBox.FormattingEnabled = true;
+			stateComboBox.Location = new Point(213, 423);
+			stateComboBox.Margin = new Padding(2);
+			stateComboBox.Name = "stateComboBox";
+			stateComboBox.Size = new Size(129, 23);
+			stateComboBox.TabIndex = 9;
 			// 
 			// firstNameLabel
 			// 
@@ -267,27 +267,27 @@
 			ssnLabel.TabIndex = 25;
 			ssnLabel.Text = "SSN";
 			// 
-			// registerPatientBtn
+			// actionButton
 			// 
-			registerPatientBtn.Enabled = false;
-			registerPatientBtn.Location = new Point(96, 488);
-			registerPatientBtn.Margin = new Padding(2, 2, 2, 2);
-			registerPatientBtn.Name = "registerPatientBtn";
-			registerPatientBtn.Size = new Size(156, 41);
-			registerPatientBtn.TabIndex = 11;
-			registerPatientBtn.UseVisualStyleBackColor = true;
-			registerPatientBtn.Click += registerPatientBtn_Click;
+			actionButton.Enabled = false;
+			actionButton.Location = new Point(96, 488);
+			actionButton.Margin = new Padding(2);
+			actionButton.Name = "actionButton";
+			actionButton.Size = new Size(156, 41);
+			actionButton.TabIndex = 11;
+			actionButton.UseVisualStyleBackColor = true;
+			actionButton.Click += actionButton_Click;
 			// 
-			// cancelBtn
+			// cancelButton
 			// 
-			cancelBtn.Location = new Point(342, 492);
-			cancelBtn.Margin = new Padding(2, 2, 2, 2);
-			cancelBtn.Name = "cancelBtn";
-			cancelBtn.Size = new Size(125, 33);
-			cancelBtn.TabIndex = 12;
-			cancelBtn.Text = "Cancel";
-			cancelBtn.UseVisualStyleBackColor = true;
-			cancelBtn.Click += cancelBtn_Click;
+			cancelButton.Location = new Point(342, 492);
+			cancelButton.Margin = new Padding(2);
+			cancelButton.Name = "cancelButton";
+			cancelButton.Size = new Size(125, 33);
+			cancelButton.TabIndex = 12;
+			cancelButton.Text = "Cancel";
+			cancelButton.UseVisualStyleBackColor = true;
+			cancelButton.Click += cancelBtn_Click;
 			// 
 			// phoneNumberErrorLabel
 			// 
@@ -424,8 +424,8 @@
 			Controls.Add(zipCodeErrorLabel);
 			Controls.Add(ssnErrorLabel);
 			Controls.Add(phoneNumberErrorLabel);
-			Controls.Add(cancelBtn);
-			Controls.Add(registerPatientBtn);
+			Controls.Add(cancelButton);
+			Controls.Add(actionButton);
 			Controls.Add(ssnLabel);
 			Controls.Add(phoneNumberLabel);
 			Controls.Add(zipCodeLabel);
@@ -437,21 +437,20 @@
 			Controls.Add(dateOfBirthLabel);
 			Controls.Add(lastNameLabel);
 			Controls.Add(firstNameLabel);
-			Controls.Add(stateCmbBox);
-			Controls.Add(genderCmbBox);
+			Controls.Add(stateComboBox);
+			Controls.Add(genderComboBox);
 			Controls.Add(dateOfBirthPicker);
-			Controls.Add(cityTxtBox);
-			Controls.Add(phoneNumberTxtBox);
-			Controls.Add(addressTwoTxtBox);
-			Controls.Add(zipCodeTxtBox);
-			Controls.Add(ssnTxtBox);
-			Controls.Add(addressOneTxtBox);
+			Controls.Add(cityTextBox);
+			Controls.Add(phoneNumberTextBox);
+			Controls.Add(addressTwoTextBox);
+			Controls.Add(zipCodeTextBox);
+			Controls.Add(ssnTextBox);
+			Controls.Add(addressOneTextBox);
 			Controls.Add(lastNameTextBox);
 			Controls.Add(firstNameTextBox);
-			Margin = new Padding(2, 2, 2, 2);
+			Margin = new Padding(2);
 			Name = "AddPatientPage";
 			StartPosition = FormStartPosition.CenterScreen;
-			Text = "Add Patient";
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -460,15 +459,15 @@
 
 		private TextBox firstNameTextBox;
         private TextBox lastNameTextBox;
-        private TextBox addressOneTxtBox;
-        private TextBox ssnTxtBox;
-        private TextBox zipCodeTxtBox;
-        private TextBox addressTwoTxtBox;
-        private TextBox phoneNumberTxtBox;
-        private TextBox cityTxtBox;
+        private TextBox addressOneTextBox;
+        private TextBox ssnTextBox;
+        private TextBox zipCodeTextBox;
+        private TextBox addressTwoTextBox;
+        private TextBox phoneNumberTextBox;
+        private TextBox cityTextBox;
         private DateTimePicker dateOfBirthPicker;
-        private ComboBox genderCmbBox;
-        private ComboBox stateCmbBox;
+        private ComboBox genderComboBox;
+        private ComboBox stateComboBox;
         private Label firstNameLabel;
         private Label lastNameLabel;
         private Label dateOfBirthLabel;
@@ -480,8 +479,8 @@
         private Label zipCodeLabel;
         private Label phoneNumberLabel;
         private Label ssnLabel;
-        private Button registerPatientBtn;
-        private Button cancelBtn;
+        private Button actionButton;
+        private Button cancelButton;
         private Label phoneNumberErrorLabel;
         private Label ssnErrorLabel;
         private Label zipCodeErrorLabel;
