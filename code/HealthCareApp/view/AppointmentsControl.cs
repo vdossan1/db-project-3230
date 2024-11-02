@@ -7,19 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HealthCareApp.DAL;
 
 namespace HealthCareApp.view
 {
-	public partial class AppointmentsControl : UserControl
-	{
-		public AppointmentsControl()
-		{
-			InitializeComponent();
-		}
+    public partial class AppointmentsControl : UserControl
+    {
+        public AppointmentsControl()
+        {
+            InitializeComponent();
+        }
 
-		private void appointmentsSearchBar_TextChanged(object sender, EventArgs e)
-		{
+        private void appointmentsSearchBar_TextChanged(object sender, EventArgs e)
+        {
 
-		}
-	}
+        }
+
+        private void clearAdvSrcButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void advanSearchButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+    }
 }
