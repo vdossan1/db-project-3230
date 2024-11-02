@@ -1,4 +1,5 @@
 using HealthCareApp.viewmodel;
+using MySql.Data.MySqlClient;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -25,19 +26,28 @@ namespace HealthCareApp.View
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            var username = this.usernameTextField.Text;
-            var password = this.passwordTextField.Text;
-
-            var isValidLogin = this.loginViewModel.AuthenticateUser(username, password);
-
-            if (isValidLogin)
+            try
             {
-                this.ProcessValidLogin(username);
-			}
-            else
-            {
-                this.invalidLoginLabel.Visible = true;
+                var username = this.usernameTextField.Text;
+                var password = this.passwordTextField.Text;
+
+                var isValidLogin = this.loginViewModel.AuthenticateUser(username, password);
+
+                if (isValidLogin)
+                {
+                    this.ProcessValidLogin(username);
+                }
+                else
+                {
+                    this.invalidLoginLabel.Visible = true;
+                }
+
             }
+            catch (MySqlException exception)
+            {
+                MessageBox.Show($"Check your VPN", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void ProcessValidLogin(string username)
