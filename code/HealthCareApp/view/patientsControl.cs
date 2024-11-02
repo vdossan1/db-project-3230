@@ -1,5 +1,6 @@
 ﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.view
 {
@@ -13,7 +14,10 @@ namespace HealthCareApp.view
 
 			this.patientsControlViewModel = new PatientsControlViewModel();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
-		}
+
+            this.patientAdvancedSearchControl.SearchBtnClick += RefreshPatientList;
+            this.patientAdvancedSearchControl.ClearBtnClick += RefreshPatientList;
+        }
 
 		private void registerPatientBtn_Click(object sender, EventArgs e)
 		{
@@ -35,7 +39,14 @@ namespace HealthCareApp.view
 
 		private void RefreshPatientList(object sender, EventArgs e)
 		{
-			this.patientsControlViewModel.PopulatePatients();
+            if (e is SearchEventArgs searchArgs)
+            {
+                this.patientsControlViewModel.PopulatePatients(searchArgs);
+            }
+            else
+            {
+                this.patientsControlViewModel.PopulatePatients();
+            }
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
 			this.patientsDataGridView.ClearSelection();
         }

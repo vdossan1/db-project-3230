@@ -1,5 +1,8 @@
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+using System.Text;
+
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 namespace HealthCareApp.DAL
@@ -49,22 +52,6 @@ namespace HealthCareApp.DAL
             command.ExecuteNonQuery();
 		}
 
-        private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
-        {
-            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = patient.FirstName;
-            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = patient.LastName;
-            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = patient.DateOfBirth;
-            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = patient.Sex;
-            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = patient.Address1;
-            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = patient.Address2;
-            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = patient.City;
-            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = patient.State;
-            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = patient.ZipCode;
-            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = patient.PhoneNumber;
-            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = patient.Ssn;
-            command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
-        }
-
         /// <summary>
         /// Retrieves a list of all patients from the database.
         /// </summary>
@@ -82,6 +69,87 @@ namespace HealthCareApp.DAL
 
             using var reader = command.ExecuteReader();
 
+            while (reader.Read())
+            {
+				patientList.Add(
+                    CreatePatient(reader));
+            }
+
+			return patientList;
+		}
+
+        public static List<Patient> GetAllPatientsWithParams(string firstName, string lastName, DateTime? dateOfBirth)
+        {
+            var patientList = new List<Patient>();
+            var paramsCount = 0;
+            var queryBuilder = new StringBuilder("select * from patient WHERE");
+            var parameters = new List<MySqlParameter>();
+
+            var firstNameWhere = "first_name = @FirstName";
+            var lastNameWhere = "last_name = @LastName";
+            var birthDateWhere = "date_of_birth = @DateOfBirth";
+
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                queryBuilder.Append($" {firstNameWhere}");
+                parameters.Add(new MySqlParameter("@FirstName", firstName));
+                ++paramsCount;
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                if (paramsCount == 0)
+                {
+                    queryBuilder.Append($" {lastNameWhere}");
+                    ++paramsCount;
+                }
+                else
+                {
+                    queryBuilder.Append($" AND {lastNameWhere}");
+                }
+                parameters.Add(new MySqlParameter("@LastName", lastName));
+            }
+
+            if (dateOfBirth != DateTime.Today)
+            {
+                if (paramsCount == 0)
+                {
+                    queryBuilder.Append($" {birthDateWhere}");
+                }
+                else
+                {
+                    queryBuilder.Append($" AND {birthDateWhere}");
+                }
+                parameters.Add(new MySqlParameter("@DateOfBirth", dateOfBirth));
+            }
+            queryBuilder.Append(';');
+
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            if (queryBuilder.Equals("select * from patient WHERE;"))
+            {
+                queryBuilder = new StringBuilder("select * from patient;");
+            }
+
+            using MySqlCommand command = new MySqlCommand(queryBuilder.ToString(), connection);
+            command.Parameters.AddRange(parameters.ToArray());
+
+            Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} DoB{dateOfBirth}");
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                patientList.Add(
+                    CreatePatient(reader));
+            }
+
+            return patientList;
+        }
+
+        private static Patient CreatePatient(MySqlDataReader reader)
+        {
+
             var firstNameOrdinal = reader.GetOrdinal("first_name");
             var lastNameOrdinal = reader.GetOrdinal("last_name");
             var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
@@ -95,24 +163,6 @@ namespace HealthCareApp.DAL
             var ssnOrdinal = reader.GetOrdinal("ssn");
             var statusOrdinal = reader.GetOrdinal("status");
 
-            while (reader.Read())
-            {
-				patientList.Add(
-                    CreatePatient(
-                        reader, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender, 
-                        addressOneOrdinal, addressTwoOrdinal, cityOrdinal, stateOrdinal, zipCodeOrdinal, 
-                        phoneNumberOrdinal, ssnOrdinal, statusOrdinal
-                        ));
-            }
-
-			return patientList;
-		}
-
-
-        private static Patient CreatePatient(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal, 
-            int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
-            int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal, int statusOrdinal)
-        {
             return new Patient
             (
                 reader.GetString(firstNameOrdinal),
@@ -129,6 +179,22 @@ namespace HealthCareApp.DAL
 				reader.GetBoolean(statusOrdinal)
             );
         }
-	}
+
+        private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
+        {
+            command.Parameters.Add("@FirstName", MySqlDbType.VarChar).Value = patient.FirstName;
+            command.Parameters.Add("@LastName", MySqlDbType.VarChar).Value = patient.LastName;
+            command.Parameters.Add("@DateOfBirth", MySqlDbType.Date).Value = patient.DateOfBirth;
+            command.Parameters.Add("@Sex", MySqlDbType.VarChar).Value = patient.Sex;
+            command.Parameters.Add("@Address1", MySqlDbType.VarChar).Value = patient.Address1;
+            command.Parameters.Add("@Address2", MySqlDbType.VarChar).Value = patient.Address2;
+            command.Parameters.Add("@City", MySqlDbType.VarChar).Value = patient.City;
+            command.Parameters.Add("@State", MySqlDbType.VarChar).Value = patient.State;
+            command.Parameters.Add("@ZipCode", MySqlDbType.VarChar).Value = patient.ZipCode;
+            command.Parameters.Add("@PhoneNumber", MySqlDbType.VarChar).Value = patient.PhoneNumber;
+            command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = patient.Ssn;
+            command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
+        }
+    }
     
 }
