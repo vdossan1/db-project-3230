@@ -4,7 +4,10 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Windows.Automation;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -88,6 +91,84 @@ namespace HealthCareApp.DAL
 
             using var reader = command.ExecuteReader();
 
+            while (reader.Read())
+            {
+				patientList.Add(
+                    CreatePatient(reader));
+            }
+
+			return patientList;
+		}
+
+        public static List<Patient> GetAllPatientsWithParams(string firstName, string lastName, DateTime? dateOfBirth)
+        {
+            var patientList = new List<Patient>();
+            var paramsCount = 0;
+            var queryBuilder = new StringBuilder("select * from patient WHERE");
+            var parameters = new List<MySqlParameter>();
+
+            var firstNameWhere = "first_name = @FirstName";
+            var lastNameWhere = "last_name = @LastName";
+            var birthDateWhere = "date_of_birth = @DateOfBirth";
+
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                queryBuilder.Append($" {firstNameWhere}");
+                parameters.Add(new MySqlParameter("@FirstName", firstName));
+                ++paramsCount;
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                if (paramsCount == 0)
+                {
+                    queryBuilder.Append($" {lastNameWhere}");
+                    ++paramsCount;
+                }
+                else
+                {
+                    queryBuilder.Append($" AND {lastNameWhere}");
+                }
+                parameters.Add(new MySqlParameter("@LastName", lastName));
+            }
+
+            if (dateOfBirth != DateTime.Today)
+            {
+                if (paramsCount == 0)
+                {
+                    queryBuilder.Append($" {birthDateWhere}");
+                }
+                else
+                {
+                    queryBuilder.Append($" AND {birthDateWhere}");
+                }
+                parameters.Add(new MySqlParameter("@DateOfBirth", dateOfBirth));
+            }
+            queryBuilder.Append(';');
+
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            using MySqlCommand command = new MySqlCommand(queryBuilder.ToString(), connection);
+            command.Parameters.AddRange(parameters.ToArray());
+
+            // TODO - Make private helper to create new patient
+            Debug.WriteLine($"Query: {queryBuilder}");
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                patientList.Add(
+                    CreatePatient(reader));
+            }
+
+            return patientList;
+        }
+
+
+        private static Patient CreatePatient(MySqlDataReader reader)
+        {
+
             var firstNameOrdinal = reader.GetOrdinal("first_name");
             var lastNameOrdinal = reader.GetOrdinal("last_name");
             var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
@@ -101,24 +182,6 @@ namespace HealthCareApp.DAL
             var ssnOrdinal = reader.GetOrdinal("ssn");
             var statusOrdinal = reader.GetOrdinal("status");
 
-            while (reader.Read())
-            {
-				patientList.Add(
-                    CreatePatient(
-                        reader, firstNameOrdinal, lastNameOrdinal, dateOfBirthOrdinal, gender, 
-                        addressOneOrdinal, addressTwoOrdinal, cityOrdinal, stateOrdinal, zipCodeOrdinal, 
-                        phoneNumberOrdinal, ssnOrdinal, statusOrdinal
-                        ));
-            }
-
-			return patientList;
-		}
-
-
-        private static Patient CreatePatient(MySqlDataReader reader, int firstNameOrdinal, int lastNameOrdinal, 
-            int dateOfBirthOrdinal, int gender, int addressOneOrdinal, int addressTwoOrdinal, int cityOrdinal,
-            int stateOrdinal, int zipCodeOrdinal, int phoneNumberOrdinal, int ssnOrdinal, int statusOrdinal)
-        {
             return new Patient
             (
                 reader.GetString(firstNameOrdinal),
