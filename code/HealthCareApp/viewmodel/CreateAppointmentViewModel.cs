@@ -29,9 +29,15 @@ namespace HealthCareApp.viewmodel
 
 		#endregion
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateAppointmentViewModel"/> class.
+		/// </summary>
 		public CreateAppointmentViewModel()
 		{
 			this.ValidationErrors = new Dictionary<string, string>();
+			Patients = new List<Patient>();
+			Doctors = new List<Doctor>();
+			this.PopulateDataGrids();
 		}
 
 		/// <summary>
@@ -69,11 +75,17 @@ namespace HealthCareApp.viewmodel
 		/// <param name="appointment">The appointment object whose data will be used to populate the fields.</param>
 		public void PopulateFields(Appointment appointment)
 		{
-			//Patient = appointment.Patient;
-			//Doctor = appointment.Doctor;
+			Patient = appointment.Patient;
+			Doctor = appointment.Doctor;
 			Reason = appointment.Reason;
 			Date = appointment.Date;
 			Time = appointment.Time;
+		}
+
+		private void PopulateDataGrids()
+		{
+			Patients = PatientDal.GetAllPatients();
+			Doctors = DoctorDal.GetAllDoctors();
 		}
 
 		private void ExecuteAppointmentAction(AppointmentAction action)
@@ -83,10 +95,10 @@ namespace HealthCareApp.viewmodel
 			switch (action)
 			{
 				case AppointmentAction.CREATE:
-					AppointmentDal.CreateAppointment(newAppointment);
+					//AppointmentDal.CreateAppointment(newAppointment);
 					break;
 				case AppointmentAction.EDIT:
-					AppointmentDal.EditAppointment(newAppointment);
+					//AppointmentDal.EditAppointment(newAppointment);
 					break;
 			}
 		}
@@ -118,6 +130,9 @@ namespace HealthCareApp.viewmodel
 		#endregion
 
 		#region Properties
+
+		public List<Patient> Patients { get; set; }
+		public List<Doctor> Doctors { get; set; }
 
 		private Patient patient;
 		/// <summary>

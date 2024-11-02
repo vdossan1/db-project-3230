@@ -94,18 +94,18 @@ namespace HealthCareApp.DAL
         {
             return new Doctor
             (
-                reader.GetFieldValue<string>(firstNameOrdinal),
-                reader.GetFieldValue<string>(lastNameOrdinal),
-                reader.GetDateTime(dateOfBirthOrdinal),
-                reader.GetFieldValue<string>(gender),
-                reader.GetFieldValue<string>(addressOneOrdinal),
-                reader.GetFieldValue<string>(addressTwoOrdinal),
-                reader.GetFieldValue<string>(cityOrdinal),
-                reader.GetFieldValue<string>(stateOrdinal),
-                reader.GetFieldValue<string>(zipCodeOrdinal),
-                reader.GetFieldValue<string>(phoneNumberOrdinal),
-                reader.GetFieldValue<string>(ssnOrdinal)
-            );
+	            reader.GetString(firstNameOrdinal),
+				reader.GetString(lastNameOrdinal),
+				reader.GetDateTime(dateOfBirthOrdinal),
+				reader.GetString(gender),
+				reader.GetString(addressOneOrdinal),
+				reader.IsDBNull(addressTwoOrdinal) ? null : reader.GetString(addressTwoOrdinal),
+				reader.GetString(cityOrdinal),
+				reader.GetString(stateOrdinal),
+				reader.GetString(zipCodeOrdinal),
+				reader.GetString(phoneNumberOrdinal),
+				reader.GetString(ssnOrdinal)
+			);
         }
     }
 

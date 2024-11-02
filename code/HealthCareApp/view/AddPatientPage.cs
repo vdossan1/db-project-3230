@@ -11,7 +11,7 @@ namespace HealthCareApp.view
 	/// </summary>
 	public partial class AddPatientPage : Form
     {
-		private AddPatientPageViewModel addPatientViewModel;
+		private AddPatientViewModel addPatientViewModel;
 		private PatientAction patientAction;
 
 		private const string REGISTER_ACTION = "Register";
@@ -23,7 +23,7 @@ namespace HealthCareApp.view
 		public AddPatientPage(Patient? selectedPatient)
         {
             InitializeComponent();
-            this.addPatientViewModel = new AddPatientPageViewModel();
+            this.addPatientViewModel = new AddPatientViewModel();
             this.addPatientViewModel.ErrorOccured += ErrorOccured;
 			this.SetPageAction(selectedPatient);
 

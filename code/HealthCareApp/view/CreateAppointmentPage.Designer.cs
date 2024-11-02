@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-	partial class CreateAppointmentPage
+	partial class ManageAppointmentPage
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,7 +30,7 @@
 		{
 			reasonTextBox = new TextBox();
 			datePicker = new DateTimePicker();
-			createAppointmentButton = new Button();
+			actionButton = new Button();
 			cancelButton = new Button();
 			timePicker = new DateTimePicker();
 			reasonLabel = new Label();
@@ -70,16 +70,16 @@
 			datePicker.Size = new Size(211, 23);
 			datePicker.TabIndex = 6;
 			// 
-			// createAppointmentButton
+			// actionButton
 			// 
-			createAppointmentButton.Enabled = false;
-			createAppointmentButton.Location = new Point(195, 332);
-			createAppointmentButton.Margin = new Padding(2);
-			createAppointmentButton.Name = "createAppointmentButton";
-			createAppointmentButton.Size = new Size(156, 41);
-			createAppointmentButton.TabIndex = 12;
-			createAppointmentButton.Text = "Create Appointment";
-			createAppointmentButton.UseVisualStyleBackColor = true;
+			actionButton.Enabled = false;
+			actionButton.Location = new Point(195, 332);
+			actionButton.Margin = new Padding(2);
+			actionButton.Name = "actionButton";
+			actionButton.Size = new Size(156, 41);
+			actionButton.TabIndex = 12;
+			actionButton.Text = "Appointment";
+			actionButton.UseVisualStyleBackColor = true;
 			// 
 			// cancelButton
 			// 
@@ -261,7 +261,7 @@
 			patientErrorLabel.TabIndex = 40;
 			patientErrorLabel.Text = "patientErrorLabel";
 			// 
-			// CreateAppointmentPage
+			// ManageAppointmentPage
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -284,11 +284,10 @@
 			Controls.Add(reasonLabel);
 			Controls.Add(timePicker);
 			Controls.Add(cancelButton);
-			Controls.Add(createAppointmentButton);
+			Controls.Add(actionButton);
 			Controls.Add(datePicker);
 			Controls.Add(reasonTextBox);
-			Name = "CreateAppointmentPage";
-			Text = "Create New Appointment";
+			Name = "ManageAppointmentPage";
 			((System.ComponentModel.ISupportInitialize)patientsDataGridView).EndInit();
 			((System.ComponentModel.ISupportInitialize)doctorsDataGridView).EndInit();
 			ResumeLayout(false);
@@ -298,7 +297,7 @@
 		#endregion
 		private TextBox reasonTextBox;
 		private DateTimePicker datePicker;
-		private Button createAppointmentButton;
+		private Button actionButton;
 		private Button cancelButton;
 		private DateTimePicker timePicker;
 		private Label reasonLabel;
