@@ -1,11 +1,5 @@
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 namespace HealthCareApp.DAL
