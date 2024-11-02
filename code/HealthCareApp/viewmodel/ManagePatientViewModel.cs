@@ -14,7 +14,7 @@ namespace HealthCareApp.viewmodel
 	/// Responsible for editing and registering patients, 
 	/// and populating fields with patient data.
 	/// </summary>
-	public class AddPatientViewModel : INotifyPropertyChanged
+	public class ManagePatientViewModel : INotifyPropertyChanged
     {
         #region Constants
 
@@ -28,7 +28,7 @@ namespace HealthCareApp.viewmodel
 
 		#endregion
 
-		public AddPatientViewModel()
+		public ManagePatientViewModel()
 		{
 			this.ValidationErrors = new Dictionary<string, string>();
 		}

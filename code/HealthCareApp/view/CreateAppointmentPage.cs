@@ -12,7 +12,7 @@ namespace HealthCareApp.view
 	/// </summary>
 	public partial class ManageAppointmentPage : Form
 	{
-		private CreateAppointmentViewModel createAppointmentViewModel;
+		private ManageAppointmentViewModel manageAppointmentViewModel;
 		private AppointmentAction appointmentAction;
 
 		private const string CREATE_ACTION = "Create";
@@ -24,18 +24,18 @@ namespace HealthCareApp.view
 		public ManageAppointmentPage()
 		{
 			InitializeComponent();
-			this.createAppointmentViewModel = new CreateAppointmentViewModel();
+			this.manageAppointmentViewModel = new ManageAppointmentViewModel();
 
-			this.patientsDataGridView.DataSource = createAppointmentViewModel.Patients;
-			this.doctorsDataGridView.DataSource = createAppointmentViewModel.Doctors;
-			this.createAppointmentViewModel.ErrorOccured += ErrorOccured;
+			this.patientsDataGridView.DataSource = manageAppointmentViewModel.Patients;
+			this.doctorsDataGridView.DataSource = manageAppointmentViewModel.Doctors;
+			this.manageAppointmentViewModel.ErrorOccured += ErrorOccured;
 		}
 
 		private void SetPageAction(Appointment? selectedAppointment)
 		{
 			if (selectedAppointment != null)
 			{
-				this.createAppointmentViewModel.PopulateFields(selectedAppointment);
+				this.manageAppointmentViewModel.PopulateFields(selectedAppointment);
 				this.Text = EDIT_ACTION + " Appointment";
 				this.actionButton.Text = EDIT_ACTION;
 				this.appointmentAction = AppointmentAction.EDIT;
@@ -73,9 +73,9 @@ namespace HealthCareApp.view
 
 		private void createAppointmentButton_Click(object? sender, EventArgs e)
 		{
-			this.createAppointmentViewModel.ValidateFields();
+			this.manageAppointmentViewModel.ValidateFields();
 
-			if (this.createAppointmentViewModel.ManageAppointment(this.appointmentAction))
+			if (this.manageAppointmentViewModel.ManageAppointment(this.appointmentAction))
 			{
 				OnActionButtonPressed();
 				this.Hide();
@@ -104,7 +104,7 @@ namespace HealthCareApp.view
 			foreach (DataGridViewRow row in this.patientsDataGridView.Rows)
 			{
 				var patient = row.DataBoundItem as Patient;
-				if (patient != null && patient.Ssn == createAppointmentViewModel.Patient.Ssn)
+				if (patient != null && patient.Ssn == manageAppointmentViewModel.Patient.Ssn)
 				{
 					row.Selected = true;
 					this.patientsDataGridView.CurrentCell = row.Cells[0];
@@ -116,7 +116,7 @@ namespace HealthCareApp.view
 			foreach (DataGridViewRow row in this.doctorsDataGridView.Rows)
 			{
 				var doctor = row.DataBoundItem as Doctor;
-				if (doctor != null && doctor.Ssn == createAppointmentViewModel.Doctor.Ssn)
+				if (doctor != null && doctor.Ssn == manageAppointmentViewModel.Doctor.Ssn)
 				{
 					row.Selected = true;
 					this.doctorsDataGridView.CurrentCell = row.Cells[0];
@@ -126,34 +126,34 @@ namespace HealthCareApp.view
 
 			// Data Bindings
 			this.reasonTextBox.DataBindings.Add(
-				"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.Reason), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.Reason), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.datePicker.DataBindings.Add(
-				"Value", createAppointmentViewModel, nameof(createAppointmentViewModel.Date), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Value", manageAppointmentViewModel, nameof(manageAppointmentViewModel.Date), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.timePicker.DataBindings.Add(
-				"Value", createAppointmentViewModel, nameof(createAppointmentViewModel.Time), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Value", manageAppointmentViewModel, nameof(manageAppointmentViewModel.Time), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.actionButton.DataBindings.Add(
-				"Enabled", createAppointmentViewModel, nameof(createAppointmentViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Enabled", manageAppointmentViewModel, nameof(manageAppointmentViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
 		}
 
 		private void BindValidationMessages()
 		{
 			//this.patientErrorLabel.DataBindings.Add(
-			//	"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.PatientValidationMessage));
+			//	"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.PatientValidationMessage));
 
 			//this.doctorErrorLabel.DataBindings.Add(
-			//	"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.DoctorValidationMessage));
+			//	"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.DoctorValidationMessage));
 
 			this.reasonErrorLabel.DataBindings.Add(
-				"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.ReasonValidationMessage));
+				"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.ReasonValidationMessage));
 
 			this.dateErrorLabel.DataBindings.Add(
-				"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.DateValidationMessage));
+				"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.DateValidationMessage));
 
 			this.timeErrorLabel.DataBindings.Add(
-				"Text", createAppointmentViewModel, nameof(createAppointmentViewModel.TimeValidationMessage));
+				"Text", manageAppointmentViewModel, nameof(manageAppointmentViewModel.TimeValidationMessage));
 		}
 
 		#endregion

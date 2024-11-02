@@ -15,7 +15,7 @@ namespace HealthCareApp.viewmodel
 	/// Responsible for editing and creating appointments, 
 	/// and populating fields with appointment data.
 	/// </summary>
-	public class CreateAppointmentViewModel : INotifyPropertyChanged
+	public class ManageAppointmentViewModel : INotifyPropertyChanged
 	{
 		#region Constants
 
@@ -30,9 +30,9 @@ namespace HealthCareApp.viewmodel
 		#endregion
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CreateAppointmentViewModel"/> class.
+		/// Initializes a new instance of the <see cref="ManageAppointmentViewModel"/> class.
 		/// </summary>
-		public CreateAppointmentViewModel()
+		public ManageAppointmentViewModel()
 		{
 			this.ValidationErrors = new Dictionary<string, string>();
 			Patients = new List<Patient>();
