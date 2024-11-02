@@ -7,7 +7,7 @@ namespace HealthCareApp.utils
 	/// </summary>
 	public enum Gender
 	{
-		MALE,
-		FEMALE
+		M,
+		F
 	}
 }

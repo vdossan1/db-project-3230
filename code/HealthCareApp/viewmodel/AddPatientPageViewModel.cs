@@ -138,13 +138,12 @@ namespace HealthCareApp.viewmodel
 		/// <summary>
 		/// Gets an array of all possible states as defined in the <see cref="State"/> enumeration.
 		/// </summary>
-		public Array StatesArray => Enum.GetValues(typeof(State));
-
+		public string[] StatesArray => Enum.GetNames(typeof(State));
 
         /// <summary>
         /// Gets an array of all possible sexes as defined in the <see cref="Sex"/> enumeration.
         /// </summary>
-        public Array SexArray => Enum.GetValues(typeof(Gender));
+        public string[] SexArray => Enum.GetNames(typeof(Gender));
 
         private string firstName;
 		/// <summary>
@@ -212,7 +211,7 @@ namespace HealthCareApp.viewmodel
 			{
 				if (sex != value)
                 {
-                    sex = value == Gender.MALE.ToString() ? "M" : "F";
+                    sex = value == Gender.M.ToString() ? "M" : "F";
 					OnPropertyChanged(nameof(Sex));
 				}
 			}

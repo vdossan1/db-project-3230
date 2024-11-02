@@ -37,6 +37,7 @@ namespace HealthCareApp.view
 		{
 			this.patientsControlViewModel.PopulatePatients();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
-		}
+			this.patientsDataGridView.ClearSelection();
+        }
 	}
 }

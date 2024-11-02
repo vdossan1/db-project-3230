@@ -146,7 +146,13 @@ namespace HealthCareApp.view
 
 			this.actionButton.DataBindings.Add(
 				"Enabled", addPatientViewModel, nameof(addPatientViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
-		}
+
+            if (this.patientAction == PatientAction.REGISTER)
+            {
+                this.genderComboBox.SelectedItem = null;
+                this.stateComboBox.SelectedItem = null;
+            }
+        }
 
 		private void BindValidationMessages()
 		{
