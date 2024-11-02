@@ -50,6 +50,7 @@
             appointmentsDataGridView.MultiSelect = false;
             appointmentsDataGridView.Name = "appointmentsDataGridView";
             appointmentsDataGridView.ReadOnly = true;
+            appointmentsDataGridView.RowHeadersVisible = false;
             appointmentsDataGridView.RowHeadersWidth = 62;
             appointmentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             appointmentsDataGridView.Size = new Size(1006, 820);

@@ -72,6 +72,7 @@
             patientsDataGridView.MultiSelect = false;
             patientsDataGridView.Name = "patientsDataGridView";
             patientsDataGridView.ReadOnly = true;
+            patientsDataGridView.RowHeadersVisible = false;
             patientsDataGridView.RowHeadersWidth = 62;
             patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             patientsDataGridView.Size = new Size(1006, 801);
