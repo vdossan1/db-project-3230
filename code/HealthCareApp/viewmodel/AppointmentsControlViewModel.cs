@@ -31,7 +31,7 @@ namespace HealthCareApp.viewmodel
 				var lastName = eventArgs.LastName;
 				var dateOfBirth = eventArgs.DateOfBirth;
 
-				//Appointments = AppointmentDal.GetAllAppointmentsWithParams(firstName, lastName, dateOfBirth);
+				Appointments = AppointmentDal.GetAllAppointmentsWithParams(firstName, lastName, dateOfBirth);
 			}
 		}
 	}

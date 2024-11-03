@@ -2,6 +2,8 @@
 // Version: Fall 2024
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+using System.Text;
 
 namespace HealthCareApp.DAL
 {
@@ -73,6 +75,65 @@ namespace HealthCareApp.DAL
 
 			return appointmentList;
 		}
+
+		public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName, DateTime? appointmentDate)
+		{
+			var appointmentList = new List<Appointment>();
+			var paramsCount = 0;
+			var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
+			queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
+			queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE");
+			var parameters = new List<MySqlParameter>();
+
+			var patientFirstNameWhere = "patient.first_name = @PatientFirstName";
+			var patientLastNameWhere = "patient.last_name = @PatientLastName";
+			var doctorFirstNameWhere = "doctor.first_name = @DoctorFirstName";
+			var doctorLastNameWhere = "doctor.last_name = @DoctorLastName";
+			var appointmentDateWhere = "appointment.appointment_date = @AppointmentDate";
+
+			if (!string.IsNullOrWhiteSpace(firstName))
+			{
+				queryBuilder.Append($" {patientFirstNameWhere} OR {doctorFirstNameWhere}");
+				parameters.Add(new MySqlParameter("@PatientFirstName", firstName));
+				parameters.Add(new MySqlParameter("@DoctorFirstName", firstName));
+				paramsCount++;
+			}
+
+			if (!string.IsNullOrWhiteSpace(lastName))
+			{
+				if (paramsCount > 0) queryBuilder.Append(" AND ");
+				queryBuilder.Append($"{patientLastNameWhere} OR {doctorLastNameWhere}");
+				parameters.Add(new MySqlParameter("@PatientLastName", lastName));
+				parameters.Add(new MySqlParameter("@DoctorLastName", lastName));
+				paramsCount++;
+			}
+
+			if (appointmentDate != null && appointmentDate != DateTime.Today)
+			{
+				if (paramsCount > 0) queryBuilder.Append(" AND ");
+				queryBuilder.Append(appointmentDateWhere);
+				parameters.Add(new MySqlParameter("@AppointmentDate", appointmentDate));
+			}
+
+			queryBuilder.Append(';');
+
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			using MySqlCommand command = new MySqlCommand(queryBuilder.ToString(), connection);
+			command.Parameters.AddRange(parameters.ToArray());
+
+			Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} Date: {appointmentDate}");
+			using var reader = command.ExecuteReader();
+
+			while (reader.Read())
+			{
+				appointmentList.Add(CreateAppointment(reader));
+			}
+
+			return appointmentList;
+		}
+
 
 		private static Appointment CreateAppointment(MySqlDataReader reader)
 		{
