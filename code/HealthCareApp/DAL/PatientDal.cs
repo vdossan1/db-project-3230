@@ -30,7 +30,7 @@ namespace HealthCareApp.DAL
 
 			if (reader.Read())
 			{
-				return CreatePatient(reader);
+				return CreatePatientObj(reader);
 			}
 			return null;
 		}
@@ -95,7 +95,7 @@ namespace HealthCareApp.DAL
             while (reader.Read())
             {
 				patientList.Add(
-                    CreatePatient(reader));
+                    CreatePatientObj(reader));
             }
 
 			return patientList;
@@ -164,13 +164,13 @@ namespace HealthCareApp.DAL
             while (reader.Read())
             {
                 patientList.Add(
-                    CreatePatient(reader));
+                    CreatePatientObj(reader));
             }
 
             return patientList;
         }
 
-        private static Patient CreatePatient(MySqlDataReader reader)
+        private static Patient CreatePatientObj(MySqlDataReader reader)
         {
 	        var idOrdinal = reader.GetOrdinal("patient_id");
 			var firstNameOrdinal = reader.GetOrdinal("first_name");

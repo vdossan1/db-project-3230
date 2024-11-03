@@ -20,7 +20,7 @@ namespace HealthCareApp.View
         {
             InitializeComponent();
 			this.loginViewModel = new LoginPageViewModel();
-            this.usernameTextField.Text = "jd001";
+            this.usernameTextField.Text = "ab001";
             this.passwordTextField.Text = "pass";
         }
 
