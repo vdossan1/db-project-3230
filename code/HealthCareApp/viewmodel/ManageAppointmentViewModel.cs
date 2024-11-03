@@ -21,7 +21,6 @@ namespace HealthCareApp.viewmodel
 
 		private const string INVALID_FIELD_INPUT = "Required field";
 		private const string INVALID_DATE = "Invalid Appointment Date";
-		private const string INVALID_TIME = "Invalid Appointment Time";
 		private const string INVALID_PATIENT_SELECTION = "Please select a Patient";
 		private const string INVALID_DOCTOR_SELECTION = "Please select a Doctor";
 

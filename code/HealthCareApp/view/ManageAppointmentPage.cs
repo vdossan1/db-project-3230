@@ -136,7 +136,12 @@ namespace HealthCareApp.view
 
 		private void ErrorOccured(object? sender, string e)
 		{
-			MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			if (e.Contains("appointment.doctor_appointment_unique"))
+			{
+				MessageBox.Show("Doctor is booked for this time.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else 
+				MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		#endregion
