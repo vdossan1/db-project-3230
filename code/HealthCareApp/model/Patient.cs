@@ -7,6 +7,11 @@ namespace HealthCareApp.model
 	/// </summary>
 	public class Patient
     {
+	    /// <summary>
+	    /// Gets or sets the Id of the patient.
+	    /// </summary>
+	    public int PatientId { get; set; }
+
 		/// <summary>
 		/// Gets or sets the first name of the patient.
 		/// </summary>
@@ -73,7 +78,7 @@ namespace HealthCareApp.model
 		public Patient(string firstName, string lastName, DateTime? dateOfBirth, string sex,
             string address1, string? address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn, bool status)
-        {
+		{
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             DateOfBirth = dateOfBirth ?? throw new ArgumentNullException(nameof(dateOfBirth)); ;

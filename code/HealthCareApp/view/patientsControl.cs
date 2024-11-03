@@ -2,6 +2,8 @@
 using HealthCareApp.viewmodel;
 using static HealthCareApp.view.AdvancedSearchControl;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
 	public partial class PatientsControl : UserControl
@@ -14,14 +16,15 @@ namespace HealthCareApp.view
 
 			this.patientsControlViewModel = new PatientsControlViewModel();
 			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
+			this.patientsDataGridView.Columns["PatientId"].Visible = false;
 
-            this.patientAdvancedSearchControl.SearchBtnClick += RefreshPatientList;
+			this.patientAdvancedSearchControl.SearchBtnClick += RefreshPatientList;
             this.patientAdvancedSearchControl.ClearBtnClick += RefreshPatientList;
         }
 
 		private void registerPatientBtn_Click(object sender, EventArgs e)
 		{
-			var addPatientPage = new AddPatientPage(null);
+			var addPatientPage = new ManagePatientPage(null);
 			addPatientPage.FormClosed += RefreshPatientList;
 			addPatientPage.ShowDialog();
 		}
@@ -31,9 +34,9 @@ namespace HealthCareApp.view
 			if (this.patientsDataGridView.SelectedRows.Count > 0)
 			{
 				var selectedPatient = (Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
-				var addPatientPage = new AddPatientPage(selectedPatient);
-				addPatientPage.FormClosed += RefreshPatientList;
-				addPatientPage.ShowDialog();
+				var editPatientPage = new ManagePatientPage(selectedPatient);
+				editPatientPage.FormClosed += RefreshPatientList;
+				editPatientPage.ShowDialog();
 			}
 		}
 

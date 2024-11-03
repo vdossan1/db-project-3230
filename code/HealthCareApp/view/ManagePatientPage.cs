@@ -9,22 +9,22 @@ namespace HealthCareApp.view
 	/// <summary>
 	/// Represents the interface for adding a new patient in the healthcare application.
 	/// </summary>
-	public partial class AddPatientPage : Form
+	public partial class ManagePatientPage : Form
     {
-		private AddPatientPageViewModel addPatientViewModel;
+		private ManagePatientViewModel managePatientViewModel;
 		private PatientAction patientAction;
 
 		private const string REGISTER_ACTION = "Register";
 		private const string EDIT_ACTION = "Update";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AddPatientPage"/> class.
+		/// Initializes a new instance of the <see cref="ManagePatientPage"/> class.
 		/// </summary>
-		public AddPatientPage(Patient? selectedPatient)
+		public ManagePatientPage(Patient? selectedPatient)
         {
             InitializeComponent();
-            this.addPatientViewModel = new AddPatientPageViewModel();
-            this.addPatientViewModel.ErrorOccured += ErrorOccured;
+            this.managePatientViewModel = new ManagePatientViewModel();
+            this.managePatientViewModel.ErrorOccured += ErrorOccured;
 			this.SetPageAction(selectedPatient);
 
 			this.BindControls();
@@ -40,7 +40,7 @@ namespace HealthCareApp.view
 		{
 			if (selectedPatient != null)
 			{
-				this.addPatientViewModel.PopulateFields(selectedPatient);
+				this.managePatientViewModel.PopulateFields(selectedPatient);
 				this.Text = EDIT_ACTION + " Patient";
 				this.actionButton.Text = EDIT_ACTION;
 				this.patientAction = PatientAction.EDIT;
@@ -80,9 +80,9 @@ namespace HealthCareApp.view
 
 		private void actionButton_Click(object? sender, EventArgs e)
 		{
-			this.addPatientViewModel.ValidateFields();
+			this.managePatientViewModel.ValidateFields();
 
-			if (this.addPatientViewModel.ManagePatient(this.patientAction))
+			if (this.managePatientViewModel.ManagePatient(this.patientAction))
 			{
 				OnActionButtonPressed();
 				this.Hide();
@@ -107,45 +107,45 @@ namespace HealthCareApp.view
 
 		private void BindControls()
 		{
-			this.genderComboBox.DataSource = addPatientViewModel.SexArray;
-			this.stateComboBox.DataSource = addPatientViewModel.StatesArray;
+			this.genderComboBox.DataSource = managePatientViewModel.SexArray;
+			this.stateComboBox.DataSource = managePatientViewModel.StatesArray;
 
 			// Data Bindings
 			this.firstNameTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.FirstName), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.FirstName), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.lastNameTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.LastName), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.LastName), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.dateOfBirthPicker.DataBindings.Add(
-				"Value", addPatientViewModel, nameof(addPatientViewModel.DateOfBirth), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Value", managePatientViewModel, nameof(managePatientViewModel.DateOfBirth), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.genderComboBox.DataBindings.Add(
-				"SelectedItem", addPatientViewModel, nameof(addPatientViewModel.Sex), true, DataSourceUpdateMode.OnPropertyChanged);
+				"SelectedItem", managePatientViewModel, nameof(managePatientViewModel.Sex), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.addressOneTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.Address1), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.Address1), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.addressTwoTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.Address2), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.Address2), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.cityTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.City), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.City), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.stateComboBox.DataBindings.Add(
-				"SelectedItem", addPatientViewModel, nameof(addPatientViewModel.State), true, DataSourceUpdateMode.OnPropertyChanged);
+				"SelectedItem", managePatientViewModel, nameof(managePatientViewModel.State), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.zipCodeTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.ZipCode), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.ZipCode), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.phoneNumberTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.PhoneNumber), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.PhoneNumber), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.ssnTextBox.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.Ssn), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Text", managePatientViewModel, nameof(managePatientViewModel.Ssn), true, DataSourceUpdateMode.OnPropertyChanged);
 
 			this.actionButton.DataBindings.Add(
-				"Enabled", addPatientViewModel, nameof(addPatientViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+				"Enabled", managePatientViewModel, nameof(managePatientViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
 
             if (this.patientAction == PatientAction.REGISTER)
             {
@@ -157,34 +157,34 @@ namespace HealthCareApp.view
 		private void BindValidationMessages()
 		{
 			this.firstNameErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.FirstNameValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.FirstNameValidationMessage));
 
 			this.lastNameErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.LastNameValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.LastNameValidationMessage));
 
 			this.sexErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.SexValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.SexValidationMessage));
 
 			this.dateOfBirthErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.DateOfBirthValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.DateOfBirthValidationMessage));
 
 			this.phoneNumberErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.PhoneNumberValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.PhoneNumberValidationMessage));
 
 			this.ssnErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.SsnValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.SsnValidationMessage));
 
 			this.addressOneErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.Address1ValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.Address1ValidationMessage));
 
 			this.cityErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.CityValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.CityValidationMessage));
 
 			this.stateErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.StateValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.StateValidationMessage));
 
 			this.zipCodeErrorLabel.DataBindings.Add(
-				"Text", addPatientViewModel, nameof(addPatientViewModel.ZipCodeValidationMessage));
+				"Text", managePatientViewModel, nameof(managePatientViewModel.ZipCodeValidationMessage));
 		}
 
 		#endregion

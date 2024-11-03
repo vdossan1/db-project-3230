@@ -13,6 +13,29 @@ namespace HealthCareApp.DAL
 	public class PatientDal
 	{
 		/// <summary>
+		/// Finds a patient by their ID in the database.
+		/// </summary>
+		/// <param name="patientId">The ID of the patient to find.</param>
+		public static Patient GetPatientById(int patientId)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			string query = "SELECT * FROM patient WHERE patient_id = @PatientId";
+
+			using MySqlCommand command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@PatientId", patientId);
+
+			using var reader = command.ExecuteReader();
+
+			if (reader.Read())
+			{
+				return CreatePatient(reader);
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Edits an existing patient's information in the database.
 		/// </summary>
 		/// <param name="patient">The patient object containing updated information about the patient.</param>
@@ -149,8 +172,8 @@ namespace HealthCareApp.DAL
 
         private static Patient CreatePatient(MySqlDataReader reader)
         {
-
-            var firstNameOrdinal = reader.GetOrdinal("first_name");
+	        var idOrdinal = reader.GetOrdinal("patient_id");
+			var firstNameOrdinal = reader.GetOrdinal("first_name");
             var lastNameOrdinal = reader.GetOrdinal("last_name");
             var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
             var gender = reader.GetOrdinal("sex");
@@ -163,9 +186,9 @@ namespace HealthCareApp.DAL
             var ssnOrdinal = reader.GetOrdinal("ssn");
             var statusOrdinal = reader.GetOrdinal("status");
 
-            return new Patient
-            (
-                reader.GetString(firstNameOrdinal),
+            var newPatient = new Patient
+			(
+				reader.GetString(firstNameOrdinal),
 				reader.GetString(lastNameOrdinal),
 				reader.GetDateTime(dateOfBirthOrdinal),
 				reader.GetString(gender),
@@ -178,7 +201,10 @@ namespace HealthCareApp.DAL
 				reader.GetString(ssnOrdinal),
 				reader.GetBoolean(statusOrdinal)
             );
-        }
+
+            newPatient.PatientId = reader.GetInt32(idOrdinal);
+			return newPatient;
+		}
 
         private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
         {

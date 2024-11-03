@@ -8,9 +8,9 @@ namespace HealthCareApp.model
 	public class Doctor
 	{
 		/// <summary>
-		/// Gets the unique identifier of the doctor.
+		/// Gets or sets the Id of the doctor.
 		/// </summary>
-		public int Id { get; }
+		public int DoctorId { get; set; }
 
 		/// <summary>
 		/// Gets the first name of the doctor.
@@ -71,7 +71,7 @@ namespace HealthCareApp.model
 		/// Initializes a new instance of the <see cref="Doctor"/> class with the specified details.
 		/// </summary>
 		public Doctor(string firstName, string lastName, DateTime dateOfBirth, string sex,
-			string address1, string address2, string city, string state, string zipCode, string phoneNumber,
+			string address1, string? address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn)
 		{
 			FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));

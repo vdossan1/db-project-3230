@@ -3,15 +3,18 @@ using HealthCareApp.DAL;
 using HealthCareApp.model;
 using static HealthCareApp.view.AdvancedSearchControl;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.viewmodel
 {
 	public class PatientsControlViewModel : INotifyPropertyChanged
 	{
 		public List<Patient> Patients { get; private set; }
 
-		public PatientsControlViewModel() {
+		public PatientsControlViewModel() 
+		{
 			Patients = new List<Patient>();
-			PopulatePatients();
+			this.PopulatePatients();
 		}
 
         public event PropertyChangedEventHandler? PropertyChanged;
