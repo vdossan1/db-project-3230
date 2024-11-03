@@ -2,9 +2,9 @@
 using HealthCareApp.model;
 using HealthCareApp.utils;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Utilities.Encoders;
 using System.ComponentModel;
 using System.Diagnostics;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -19,15 +19,15 @@ namespace HealthCareApp.viewmodel
 	{
 		#region Constants
 
-		private const string SSN_INVALID_SIZE = "This field needs 9 digits";
-		private const string ZIP_CODE_INVALID_SIZE = "This field need 5 digits";
-		private const string PHONE_NUMBER_INVALID_SIZE = "This field needs 10 digits";
-
 		private const string INVALID_FIELD_INPUT = "Required field";
-		private const string INVALID_DATE = "Invalid AppointmentDate";
-		private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
+		private const string INVALID_DATE = "Invalid Appointment Date";
+		private const string INVALID_TIME = "Invalid Appointment Time";
+		private const string INVALID_PATIENT_SELECTION = "Please select a Patient";
+		private const string INVALID_DOCTOR_SELECTION = "Please select a Doctor";
 
 		#endregion
+
+		public Appointment SelectedAppointment { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ManageAppointmentViewModel"/> class.
@@ -53,7 +53,7 @@ namespace HealthCareApp.viewmodel
 				{
 					this.ExecuteAppointmentAction(action);
 					result = true;
-					Debug.WriteLine($"Appointment Created: {Patient.FirstName} {Doctor.FirstName} {Reason} {Date.ToString()} {Time.ToString()}");
+					Debug.WriteLine($"Appointment Created: {Patient.FirstName} {Doctor.FirstName} {Reason} {Date.ToString()}");
 				}
 			}
 			catch (MySqlException sqlException)
@@ -75,22 +75,28 @@ namespace HealthCareApp.viewmodel
 		/// <param name="appointment">The appointment object whose data will be used to populate the fields.</param>
 		public void PopulateFields(Appointment appointment)
 		{
-			this.SetIdToObjects(appointment);
-			Reason = appointment.Reason;
-			Date = appointment.AppointmentDate;
-			Time = appointment.AppointmentDate.Value.TimeOfDay;
-		}
-
-		private void SetIdToObjects(Appointment appointment)
-		{
 			Patient = Patients.Find(p => p.PatientId == appointment.PatientId);
 			Doctor = Doctors.Find(d => d.DoctorId == appointment.DoctorId);
+			Reason = appointment.Reason;
+			Date = appointment.AppointmentDate;
 		}
 
-		private void PopulateDataGrids()
+		public void PopulateDataGrids(SearchEventArgs eventArgs = null)
 		{
-			Patients = PatientDal.GetAllPatients();
-			Doctors = DoctorDal.GetAllDoctors();
+			if (eventArgs == null)
+			{
+				Patients = PatientDal.GetAllPatients();
+				Doctors = DoctorDal.GetAllDoctors();
+			}
+			else
+			{
+				var firstName = eventArgs.FirstName;
+				var lastName = eventArgs.LastName;
+				var dateOfBirth = eventArgs.DateOfBirth;
+
+				Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+				Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
+			}
 		}
 
 		private void ExecuteAppointmentAction(AppointmentAction action)
@@ -103,6 +109,7 @@ namespace HealthCareApp.viewmodel
 					AppointmentDal.CreateAppointment(newAppointment);
 					break;
 				case AppointmentAction.EDIT:
+					newAppointment.AppointmentId = SelectedAppointment.AppointmentId;
 					AppointmentDal.EditAppointment(newAppointment);
 					break;
 			}
@@ -211,27 +218,15 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private TimeSpan? time;
-		/// <summary>
-		/// Gets or sets the time of the appointment. 
-		/// Raises the <see cref="PropertyChanged"/> event when changed.
-		/// </summary>
-		public TimeSpan? Time
-		{
-			get => time;
-			set
-			{
-				if (time != value)
-				{
-					time = value;
-					OnPropertyChanged(nameof(Time));
-				}
-			}
-		}
-
 		#endregion
 
 		#region ValidationMessageProperties
+
+		public string PatientValidationMessage =>
+			ValidationErrors.ContainsKey(nameof(Patient)) ? ValidationErrors[nameof(Patient)] : string.Empty;
+
+		public string DoctorValidationMessage =>
+			ValidationErrors.ContainsKey(nameof(Doctor)) ? ValidationErrors[nameof(Doctor)] : string.Empty;
 
 		public string ReasonValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Reason)) ? ValidationErrors[nameof(Reason)] : string.Empty;
@@ -239,15 +234,12 @@ namespace HealthCareApp.viewmodel
 		public string DateValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Date)) ? ValidationErrors[nameof(Date)] : string.Empty;
 
-		public string TimeValidationMessage =>
-			ValidationErrors.ContainsKey(nameof(Time)) ? ValidationErrors[nameof(Time)] : string.Empty;
-
 		#endregion
 
 		#region FieldValidation
 
 		/// <summary>
-		/// Determines if the data enter by the user is valid
+		/// Determines if the data entered by the user is valid
 		/// </summary>
 		public bool IsValid { get; private set; }
 
@@ -258,13 +250,25 @@ namespace HealthCareApp.viewmodel
 			ValidationErrors.Clear();
 			IsValid = true;
 
+			if (Patient == null)
+			{
+				ValidationErrors[nameof(Patient)] = INVALID_PATIENT_SELECTION;
+				IsValid = false;
+			}
+
+			if (Doctor == null)
+			{
+				ValidationErrors[nameof(Doctor)] = INVALID_DOCTOR_SELECTION;
+				IsValid = false;
+			}
+
 			if (string.IsNullOrWhiteSpace(Reason))
 			{
 				ValidationErrors[nameof(Reason)] = INVALID_FIELD_INPUT;
 				IsValid = false;
 			}
 
-			if (Date >= DateTime.Now)
+			if (Date <= DateTime.Now)
 			{
 				ValidationErrors[nameof(Date)] = INVALID_DATE;
 				IsValid = false;

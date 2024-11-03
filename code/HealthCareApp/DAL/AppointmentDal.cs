@@ -21,7 +21,7 @@ namespace HealthCareApp.DAL
 			using var connection = new MySqlConnection(Connection.ConnectionString());
 			connection.Open();
 
-			string query = "UPDATE appointment SET patient_id = @PatientId, doctor_id = @DoctorId, appointment_date = @AppointmentDate, " +
+			string query = "UPDATE appointment SET patient_id = @PatientId, doctor_id = @DoctorId, appointment_date = @AppointmentDate, reason = @Reason " +
 						   "WHERE appointment_id = @AppointmentId";
 
 			using MySqlCommand command = new MySqlCommand(query, connection);
@@ -157,6 +157,7 @@ namespace HealthCareApp.DAL
 
 		private static void AddAllAppointmentParamsToCommand(Appointment appointment, MySqlCommand command)
 		{
+			command.Parameters.AddWithValue("@AppointmentId", appointment.AppointmentId);
 			command.Parameters.AddWithValue("@PatientId", appointment.PatientId);
 			command.Parameters.AddWithValue("@DoctorId", appointment.DoctorId);
 			command.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
