@@ -13,6 +13,29 @@ namespace HealthCareApp.DAL
 	public class DoctorDal
 	{
 		/// <summary>
+		/// Finds a doctor by their ID in the database.
+		/// </summary>
+		/// <param name="doctorId">The ID of the doctor to find.</param>
+		public static Doctor GetDoctorById(int doctorId)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			string query = "SELECT * FROM doctor WHERE doctor_id = @DoctorId";
+
+			using MySqlCommand command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@DoctorId", doctorId);
+
+			using var reader = command.ExecuteReader();
+
+			if (reader.Read())
+			{
+				return CreateDoctor(reader);
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Registers a new doctor in the database.
 		/// </summary>
 		/// <param name="newDoctor">The <see cref="Doctor"/> object containing the doctor's details.</param>

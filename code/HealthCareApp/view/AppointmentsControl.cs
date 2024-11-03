@@ -1,4 +1,5 @@
-﻿using HealthCareApp.model;
+﻿using HealthCareApp.DAL;
+using HealthCareApp.model;
 using HealthCareApp.viewmodel;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -15,8 +16,8 @@ namespace HealthCareApp.view
             InitializeComponent();
 
             this.appointmentsControlViewModel = new AppointmentsControlViewModel();
-			this.appointmentsDataGridView.DataSource = appointmentsControlViewModel.Appointments;
-
+            this.SetUpDataGrid();
+            
 			this.apptAdvancedSearchControl.SearchBtnClick += RefreshAppointmentsList;
 			this.apptAdvancedSearchControl.ClearBtnClick += RefreshAppointmentsList;
 		}
@@ -51,6 +52,16 @@ namespace HealthCareApp.view
 			}
 			this.appointmentsDataGridView.DataSource = appointmentsControlViewModel.Appointments;
 			this.appointmentsDataGridView.ClearSelection();
+		}
+
+		private void SetUpDataGrid()
+		{
+			this.appointmentsDataGridView.DataSource = appointmentsControlViewModel.Appointments;
+			this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
+			this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
+			this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
+			this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 150;
+			this.appointmentsDataGridView.Columns["Reason"].Width = 150;
 		}
 	}
 }

@@ -13,6 +13,29 @@ namespace HealthCareApp.DAL
 	public class PatientDal
 	{
 		/// <summary>
+		/// Finds a patient by their ID in the database.
+		/// </summary>
+		/// <param name="patientId">The ID of the patient to find.</param>
+		public static Patient GetPatientById(int patientId)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			string query = "SELECT * FROM patient WHERE patient_id = @PatientId";
+
+			using MySqlCommand command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@PatientId", patientId);
+
+			using var reader = command.ExecuteReader();
+
+			if (reader.Read())
+			{
+				return CreatePatient(reader);
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Edits an existing patient's information in the database.
 		/// </summary>
 		/// <param name="patient">The patient object containing updated information about the patient.</param>

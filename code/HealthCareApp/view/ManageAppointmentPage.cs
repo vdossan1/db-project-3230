@@ -33,6 +33,8 @@ namespace HealthCareApp.view
 
 			this.patientsDataGridView.DataSource = manageAppointmentViewModel.Patients;
 			this.doctorsDataGridView.DataSource = manageAppointmentViewModel.Doctors;
+			this.patientsDataGridView.Columns["PatientId"].Visible = false;
+			this.doctorsDataGridView.Columns["DoctorId"].Visible = false;
 		}
 
 		private void SetPageAction(Appointment? selectedAppointment)

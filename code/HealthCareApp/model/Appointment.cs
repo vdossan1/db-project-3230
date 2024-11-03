@@ -1,5 +1,7 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
+using HealthCareApp.DAL;
+
 namespace HealthCareApp.model
 {
 	/// <summary>
@@ -18,9 +20,19 @@ namespace HealthCareApp.model
 		public int PatientId { get; }
 
 		/// <summary>
+		/// Gets or sets the Patient name for the appointment.
+		/// </summary>
+		public string PatientName { get; set; }
+
+		/// <summary>
 		/// Gets or sets the Doctor Id for the appointment.
 		/// </summary>
 		public int DoctorId { get; }
+
+		/// <summary>
+		/// Gets or sets the Doctor name for the appointment.
+		/// </summary>
+		public string DoctorName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the date of the appointment.
@@ -39,8 +51,23 @@ namespace HealthCareApp.model
 		{
 			PatientId = patientId;
 			DoctorId = doctorId;
+			this.setPatientName(patientId);
+			this.setDoctorName(doctorId);
 			AppointmentDate = date ?? throw new ArgumentNullException(nameof(date));
 			Reason = reason ?? throw new ArgumentNullException(nameof(reason));
+		}
+
+		private void setPatientName(int patientId)
+		{
+			var patient = PatientDal.GetPatientById(patientId);
+			PatientName = $"{patient.FirstName} {patient.LastName}";
+		}
+
+		private void setDoctorName(int doctorId)
+		{
+			var doctor = DoctorDal.GetDoctorById(doctorId); 
+			DoctorName = $"{doctor.FirstName} {doctor.LastName}";
+			
 		}
 	}
 }
