@@ -149,8 +149,8 @@ namespace HealthCareApp.DAL
 
         private static Patient CreatePatient(MySqlDataReader reader)
         {
-
-            var firstNameOrdinal = reader.GetOrdinal("first_name");
+	        var idOrdinal = reader.GetOrdinal("patient_id");
+			var firstNameOrdinal = reader.GetOrdinal("first_name");
             var lastNameOrdinal = reader.GetOrdinal("last_name");
             var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
             var gender = reader.GetOrdinal("sex");
@@ -163,9 +163,9 @@ namespace HealthCareApp.DAL
             var ssnOrdinal = reader.GetOrdinal("ssn");
             var statusOrdinal = reader.GetOrdinal("status");
 
-            return new Patient
-            (
-                reader.GetString(firstNameOrdinal),
+            var newPatient = new Patient
+			(
+				reader.GetString(firstNameOrdinal),
 				reader.GetString(lastNameOrdinal),
 				reader.GetDateTime(dateOfBirthOrdinal),
 				reader.GetString(gender),
@@ -178,7 +178,10 @@ namespace HealthCareApp.DAL
 				reader.GetString(ssnOrdinal),
 				reader.GetBoolean(statusOrdinal)
             );
-        }
+
+            newPatient.PatientId = reader.GetInt32(idOrdinal);
+			return newPatient;
+		}
 
         private static void AddAllPatientParamsToCommand(Patient patient, MySqlCommand command)
         {

@@ -84,7 +84,7 @@
             dateOfBirthLabel.Name = "dateOfBirthLabel";
             dateOfBirthLabel.Size = new Size(112, 25);
             dateOfBirthLabel.TabIndex = 5;
-            dateOfBirthLabel.Text = "Date of Birth";
+            dateOfBirthLabel.Text = "AppointmentDate of Birth";
             // 
             // lastNameLabel
             // 

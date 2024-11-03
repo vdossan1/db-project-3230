@@ -119,7 +119,7 @@
 			dateLabel.Name = "dateLabel";
 			dateLabel.Size = new Size(123, 15);
 			dateLabel.TabIndex = 18;
-			dateLabel.Text = "Date for Appointment";
+			dateLabel.Text = "AppointmentDate for Appointment";
 			// 
 			// timeLabel
 			// 
@@ -129,7 +129,7 @@
 			timeLabel.Name = "timeLabel";
 			timeLabel.Size = new Size(125, 15);
 			timeLabel.TabIndex = 19;
-			timeLabel.Text = "Time for Appointment";
+			timeLabel.Text = "AppointmentTime for Appointment";
 			// 
 			// searchPatientTextBox
 			// 

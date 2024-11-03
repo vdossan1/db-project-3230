@@ -8,9 +8,9 @@ namespace HealthCareApp.model
 	public class Nurse
     {
 		/// <summary>
-		/// Gets the unique identifier of the nurse.
+		/// Gets or sets the Id of the nurse.
 		/// </summary>
-		public int Id { get; }
+		public int NurseId { get; set; }
 
 		/// <summary>
 		/// Gets the first name of the nurse.
@@ -79,7 +79,7 @@ namespace HealthCareApp.model
             string address1, string address2, string city, string state, string zipCode, string phoneNumber,
 			string ssn, string username)
         {
-            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
+			FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             DateOfBirth = dateOfBirth;
             Sex = sex ?? throw new ArgumentNullException(nameof(sex));

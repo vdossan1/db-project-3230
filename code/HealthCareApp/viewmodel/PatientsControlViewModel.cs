@@ -11,7 +11,8 @@ namespace HealthCareApp.viewmodel
 	{
 		public List<Patient> Patients { get; private set; }
 
-		public PatientsControlViewModel() {
+		public PatientsControlViewModel() 
+		{
 			Patients = new List<Patient>();
 			this.PopulatePatients();
 		}

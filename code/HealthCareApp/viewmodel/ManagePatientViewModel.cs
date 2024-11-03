@@ -23,7 +23,7 @@ namespace HealthCareApp.viewmodel
         private const string PHONE_NUMBER_INVALID_SIZE = "This field needs 10 digits";
 
         private const string INVALID_FIELD_INPUT = "Required field";
-        private const string INVALID_DATE = "Invalid Date";
+        private const string INVALID_DATE = "Invalid AppointmentDate";
         private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
 
 		#endregion

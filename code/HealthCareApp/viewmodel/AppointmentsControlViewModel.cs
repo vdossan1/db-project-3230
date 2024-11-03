@@ -2,12 +2,14 @@
 // Version: Fall 2024
 using HealthCareApp.DAL;
 using HealthCareApp.model;
+using System.ComponentModel;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.viewmodel
 {
 	public class AppointmentsControlViewModel
 	{
-		public List<Appointment> Appointments { get; set; }
+		public List<Appointment> Appointments { get; private set; }
 
 		public AppointmentsControlViewModel()
 		{
@@ -15,9 +17,22 @@ namespace HealthCareApp.viewmodel
 			this.PopulateAppointments();
 		}
 
-		public void PopulateAppointments()
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public void PopulateAppointments(SearchEventArgs eventArgs = null)
 		{
-			Appointments = AppointmentDal.GetAllAppointments();
+			if (eventArgs == null)
+			{
+				Appointments = AppointmentDal.GetAllAppointments();
+			}
+			else
+			{
+				var firstName = eventArgs.FirstName;
+				var lastName = eventArgs.LastName;
+				var dateOfBirth = eventArgs.DateOfBirth;
+
+				//Appointments = AppointmentDal.GetAllAppointmentsWithParams(firstName, lastName, dateOfBirth);
+			}
 		}
 	}
 }

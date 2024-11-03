@@ -8,6 +8,11 @@ namespace HealthCareApp.model
 	public class Doctor
 	{
 		/// <summary>
+		/// Gets or sets the Id of the doctor.
+		/// </summary>
+		public int DoctorId { get; set; }
+
+		/// <summary>
 		/// Gets the first name of the doctor.
 		/// </summary>
 		public string FirstName { get; }

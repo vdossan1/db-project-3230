@@ -8,14 +8,24 @@ namespace HealthCareApp.model
 	public class Appointment
 	{
 		/// <summary>
-		/// Gets or sets the Patient for the appointment.
+		/// Gets or sets the Appointment Id for the appointment.
 		/// </summary>
-		public Patient Patient { get; }
+		public int AppointmentId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the Doctor for the appointment.
+		/// Gets or sets the Patient Id for the appointment.
 		/// </summary>
-		public Doctor Doctor { get; }
+		public int PatientId { get; }
+
+		/// <summary>
+		/// Gets or sets the Doctor Id for the appointment.
+		/// </summary>
+		public int DoctorId { get; }
+
+		/// <summary>
+		/// Gets or sets the date of the appointment.
+		/// </summary>
+		public DateTime? AppointmentDate { get; }
 
 		/// <summary>
 		/// Gets or sets the reason for the appointment.
@@ -23,25 +33,14 @@ namespace HealthCareApp.model
 		public string Reason { get; }
 
 		/// <summary>
-		/// Gets or sets the date of the appointment.
-		/// </summary>
-		public DateTime? Date { get; }
-
-		/// <summary>
-		/// Gets or sets the time of the appointment.
-		/// </summary>
-		public DateTime? Time { get; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Appointment"/> class with the specified details.
 		/// </summary>
-		public Appointment(Patient patient, Doctor doctor, string reason, DateTime? date, DateTime? time)
+		public Appointment(int patientId, int doctorId, DateTime? date, string reason)
 		{
-			Patient = patient ?? throw new ArgumentNullException(nameof(patient));
-			Doctor = doctor ?? throw new ArgumentNullException(nameof(doctor));
+			PatientId = patientId;
+			DoctorId = doctorId;
+			AppointmentDate = date ?? throw new ArgumentNullException(nameof(date));
 			Reason = reason ?? throw new ArgumentNullException(nameof(reason));
-			Date = date ?? throw new ArgumentNullException(nameof(date));
-			Time = time ?? throw new ArgumentNullException(nameof(time));
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace HealthCareApp.viewmodel
 		private const string PHONE_NUMBER_INVALID_SIZE = "This field needs 10 digits";
 
 		private const string INVALID_FIELD_INPUT = "Required field";
-		private const string INVALID_DATE = "Invalid Date";
+		private const string INVALID_DATE = "Invalid AppointmentDate";
 		private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
 
 		#endregion
@@ -75,11 +75,16 @@ namespace HealthCareApp.viewmodel
 		/// <param name="appointment">The appointment object whose data will be used to populate the fields.</param>
 		public void PopulateFields(Appointment appointment)
 		{
-			Patient = appointment.Patient;
-			Doctor = appointment.Doctor;
+			this.SetIdToObjects(appointment);
 			Reason = appointment.Reason;
-			Date = appointment.Date;
-			Time = appointment.Time;
+			Date = appointment.AppointmentDate;
+			Time = appointment.AppointmentDate.Value.TimeOfDay;
+		}
+
+		private void SetIdToObjects(Appointment appointment)
+		{
+			Patient = Patients.Find(p => p.PatientId == appointment.PatientId);
+			Doctor = Doctors.Find(d => d.DoctorId == appointment.DoctorId);
 		}
 
 		private void PopulateDataGrids()
@@ -90,15 +95,15 @@ namespace HealthCareApp.viewmodel
 
 		private void ExecuteAppointmentAction(AppointmentAction action)
 		{
-			Appointment newAppointment = new Appointment(Patient, Doctor, Reason, Date, Time);
+			Appointment newAppointment = new Appointment(Patient.PatientId, Doctor.DoctorId, Date, Reason);
 
 			switch (action)
 			{
 				case AppointmentAction.CREATE:
-					//AppointmentDal.CreateAppointment(newAppointment);
+					AppointmentDal.CreateAppointment(newAppointment);
 					break;
 				case AppointmentAction.EDIT:
-					//AppointmentDal.EditAppointment(newAppointment);
+					AppointmentDal.EditAppointment(newAppointment);
 					break;
 			}
 		}
@@ -206,12 +211,12 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private DateTime? time;
+		private TimeSpan? time;
 		/// <summary>
 		/// Gets or sets the time of the appointment. 
 		/// Raises the <see cref="PropertyChanged"/> event when changed.
 		/// </summary>
-		public DateTime? Time
+		public TimeSpan? Time
 		{
 			get => time;
 			set
@@ -262,12 +267,6 @@ namespace HealthCareApp.viewmodel
 			if (Date >= DateTime.Now)
 			{
 				ValidationErrors[nameof(Date)] = INVALID_DATE;
-				IsValid = false;
-			}
-
-			if (Time >= DateTime.Now)
-			{
-				ValidationErrors[nameof(Time)] = INVALID_DATE;
 				IsValid = false;
 			}
 		}

@@ -185,7 +185,7 @@
 			dateOfBirthLabel.Name = "dateOfBirthLabel";
 			dateOfBirthLabel.Size = new Size(73, 15);
 			dateOfBirthLabel.TabIndex = 17;
-			dateOfBirthLabel.Text = "Date of Birth";
+			dateOfBirthLabel.Text = "AppointmentDate of Birth";
 			// 
 			// genderLabel
 			// 
