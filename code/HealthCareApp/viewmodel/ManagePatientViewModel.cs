@@ -98,15 +98,6 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		private bool IsValidPhoneNumber(string phoneNumberParam) =>
-			phoneNumberParam?.All(char.IsDigit) == true && phoneNumberParam.Length == 10;
-
-		private bool IsValidZipCode(string zipCodeParam) =>
-			zipCodeParam?.All(char.IsDigit) == true && zipCodeParam.Length == 5;
-
-		private bool IsValidSSN(string ssnParam) =>
-			ssnParam?.All(char.IsDigit) == true && ssnParam.Length == 9;
-
 		#region Events
 
 		/// <summary>
@@ -395,14 +386,23 @@ namespace HealthCareApp.viewmodel
 		public string ZipCodeValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(ZipCode)) ? ValidationErrors[nameof(ZipCode)] : string.Empty;
 
-		#endregion
+        #endregion
 
-		#region FieldValidation
+        #region FieldValidation
 
-		/// <summary>
-		/// Determines if the data enter by the user is valid
-		/// </summary>
-		public bool IsValid { get; private set; }
+        private bool IsValidPhoneNumber(string phoneNumberParam) =>
+            phoneNumberParam?.All(char.IsDigit) == true && phoneNumberParam.Length == 10;
+
+        private bool IsValidZipCode(string zipCodeParam) =>
+            zipCodeParam?.All(char.IsDigit) == true && zipCodeParam.Length == 5;
+
+        private bool IsValidSSN(string ssnParam) =>
+            ssnParam?.All(char.IsDigit) == true && ssnParam.Length == 9;
+
+        /// <summary>
+        /// Determines if the data enter by the user is valid
+        /// </summary>
+        public bool IsValid { get; private set; }
 
 		public Dictionary<string, string> ValidationErrors { get; private set; }
 

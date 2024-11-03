@@ -50,6 +50,29 @@ namespace HealthCareApp.DAL
 			command.ExecuteNonQuery();
 		}
 
+        public static List<int> GetAllAppointmentsIds()
+        {
+            var appointmentIdList = new List<int>();
+
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            string query = "SELECT appointment_id FROM appointment";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+
+            using MySqlDataReader reader = command.ExecuteReader();
+
+            var apptIdOrdinal = reader.GetOrdinal("appointment_id");
+
+            while (reader.Read())
+            {
+                appointmentIdList.Add(reader.GetInt32(apptIdOrdinal));
+            }
+
+            return appointmentIdList;
+        }
+
 		/// <summary>
 		/// Retrieves a list of all appointments from the database.
 		/// </summary>

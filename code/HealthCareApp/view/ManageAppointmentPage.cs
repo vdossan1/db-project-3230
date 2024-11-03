@@ -31,6 +31,7 @@ namespace HealthCareApp.view
 			this.manageAppointmentViewModel.ErrorOccured += ErrorOccured;
 			this.SetPageAction(selectedAppointment);
 
+
 			this.BindControls();
 			this.BindValidationMessages();
 
