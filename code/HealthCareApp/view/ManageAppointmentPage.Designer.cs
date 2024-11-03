@@ -59,7 +59,7 @@
 			reasonTextBox.Multiline = true;
 			reasonTextBox.Name = "reasonTextBox";
 			reasonTextBox.Size = new Size(340, 166);
-			reasonTextBox.TabIndex = 5;
+			reasonTextBox.TabIndex = 6;
 			// 
 			// datePicker
 			// 
@@ -68,7 +68,7 @@
 			datePicker.Margin = new Padding(2);
 			datePicker.Name = "datePicker";
 			datePicker.Size = new Size(211, 23);
-			datePicker.TabIndex = 6;
+			datePicker.TabIndex = 7;
 			// 
 			// actionButton
 			// 
@@ -77,7 +77,7 @@
 			actionButton.Margin = new Padding(2);
 			actionButton.Name = "actionButton";
 			actionButton.Size = new Size(156, 41);
-			actionButton.TabIndex = 12;
+			actionButton.TabIndex = 9;
 			actionButton.Text = "Appointment";
 			actionButton.UseVisualStyleBackColor = true;
 			// 
@@ -87,9 +87,10 @@
 			cancelButton.Margin = new Padding(2);
 			cancelButton.Name = "cancelButton";
 			cancelButton.Size = new Size(125, 33);
-			cancelButton.TabIndex = 13;
+			cancelButton.TabIndex = 10;
 			cancelButton.Text = "Cancel";
 			cancelButton.UseVisualStyleBackColor = true;
+			cancelButton.Click += cancelBtn_Click;
 			// 
 			// timePicker
 			// 
@@ -99,7 +100,7 @@
 			timePicker.Margin = new Padding(2);
 			timePicker.Name = "timePicker";
 			timePicker.Size = new Size(125, 23);
-			timePicker.TabIndex = 14;
+			timePicker.TabIndex = 8;
 			// 
 			// reasonLabel
 			// 
@@ -117,7 +118,7 @@
 			dateLabel.Location = new Point(367, 230);
 			dateLabel.Margin = new Padding(2, 0, 2, 0);
 			dateLabel.Name = "dateLabel";
-			dateLabel.Size = new Size(123, 15);
+			dateLabel.Size = new Size(194, 15);
 			dateLabel.TabIndex = 18;
 			dateLabel.Text = "AppointmentDate for Appointment";
 			// 
@@ -127,7 +128,7 @@
 			timeLabel.Location = new Point(581, 230);
 			timeLabel.Margin = new Padding(2, 0, 2, 0);
 			timeLabel.Name = "timeLabel";
-			timeLabel.Size = new Size(125, 15);
+			timeLabel.Size = new Size(196, 15);
 			timeLabel.TabIndex = 19;
 			timeLabel.Text = "AppointmentTime for Appointment";
 			// 
@@ -136,41 +137,49 @@
 			searchPatientTextBox.Location = new Point(12, 35);
 			searchPatientTextBox.Name = "searchPatientTextBox";
 			searchPatientTextBox.Size = new Size(163, 23);
-			searchPatientTextBox.TabIndex = 20;
+			searchPatientTextBox.TabIndex = 0;
 			// 
 			// searchDoctorTextBox
 			// 
 			searchDoctorTextBox.Location = new Point(12, 194);
 			searchDoctorTextBox.Name = "searchDoctorTextBox";
 			searchDoctorTextBox.Size = new Size(163, 23);
-			searchDoctorTextBox.TabIndex = 21;
+			searchDoctorTextBox.TabIndex = 3;
 			// 
 			// patientsDataGridView
 			// 
+			patientsDataGridView.BackgroundColor = SystemColors.Control;
 			patientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			patientsDataGridView.GridColor = SystemColors.Control;
 			patientsDataGridView.Location = new Point(12, 64);
 			patientsDataGridView.MultiSelect = false;
 			patientsDataGridView.Name = "patientsDataGridView";
+			patientsDataGridView.RowHeadersVisible = false;
 			patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			patientsDataGridView.Size = new Size(339, 87);
-			patientsDataGridView.TabIndex = 22;
+			patientsDataGridView.StandardTab = true;
+			patientsDataGridView.TabIndex = 2;
 			// 
 			// doctorsDataGridView
 			// 
+			doctorsDataGridView.BackgroundColor = SystemColors.Control;
 			doctorsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			doctorsDataGridView.GridColor = SystemColors.Control;
 			doctorsDataGridView.Location = new Point(11, 223);
 			doctorsDataGridView.MultiSelect = false;
 			doctorsDataGridView.Name = "doctorsDataGridView";
+			doctorsDataGridView.RowHeadersVisible = false;
 			doctorsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			doctorsDataGridView.Size = new Size(340, 87);
-			doctorsDataGridView.TabIndex = 23;
+			doctorsDataGridView.StandardTab = true;
+			doctorsDataGridView.TabIndex = 4;
 			// 
 			// searchPatientButton
 			// 
 			searchPatientButton.Location = new Point(181, 35);
 			searchPatientButton.Name = "searchPatientButton";
 			searchPatientButton.Size = new Size(75, 23);
-			searchPatientButton.TabIndex = 24;
+			searchPatientButton.TabIndex = 2;
 			searchPatientButton.Text = "Search";
 			searchPatientButton.UseVisualStyleBackColor = true;
 			// 
@@ -179,7 +188,7 @@
 			searchDoctorButton.Location = new Point(181, 194);
 			searchDoctorButton.Name = "searchDoctorButton";
 			searchDoctorButton.Size = new Size(75, 23);
-			searchDoctorButton.TabIndex = 25;
+			searchDoctorButton.TabIndex = 5;
 			searchDoctorButton.Text = "Search";
 			searchDoctorButton.UseVisualStyleBackColor = true;
 			// 

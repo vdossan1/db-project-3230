@@ -82,7 +82,7 @@ namespace HealthCareApp.DAL
 			var paramsCount = 0;
 			var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
 			queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
-			queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE");
+			queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE ");
 			var parameters = new List<MySqlParameter>();
 
 			var patientFirstNameWhere = "patient.first_name = @PatientFirstName";
