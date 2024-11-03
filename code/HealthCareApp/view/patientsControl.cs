@@ -23,7 +23,7 @@ namespace HealthCareApp.view
 
 		private void registerPatientBtn_Click(object sender, EventArgs e)
 		{
-			var addPatientPage = new AddPatientPage(null);
+			var addPatientPage = new ManagePatientPage(null);
 			addPatientPage.FormClosed += RefreshPatientList;
 			addPatientPage.ShowDialog();
 		}
@@ -33,9 +33,9 @@ namespace HealthCareApp.view
 			if (this.patientsDataGridView.SelectedRows.Count > 0)
 			{
 				var selectedPatient = (Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
-				var addPatientPage = new AddPatientPage(selectedPatient);
-				addPatientPage.FormClosed += RefreshPatientList;
-				addPatientPage.ShowDialog();
+				var editPatientPage = new ManagePatientPage(selectedPatient);
+				editPatientPage.FormClosed += RefreshPatientList;
+				editPatientPage.ShowDialog();
 			}
 		}
 

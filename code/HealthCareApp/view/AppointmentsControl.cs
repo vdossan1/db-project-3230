@@ -23,34 +23,34 @@ namespace HealthCareApp.view
 
 		private void createAppointmentBtn_Click(object sender, EventArgs e)
 		{
-			var createAppointmentPage = new CreateAppointmentPage(null);
-			addPatientPage.FormClosed += RefreshPatientList;
-			addPatientPage.ShowDialog();
+			var createAppointmentPage = new ManageAppointmentPage(null);
+			createAppointmentPage.FormClosed += RefreshAppointmentsList;
+			createAppointmentPage.ShowDialog();
 		}
 
-		private void editPatientBtn_Click(object sender, EventArgs e)
+		private void editAppointmentBtn_Click(object sender, EventArgs e)
 		{
-			if (this.patientsDataGridView.SelectedRows.Count > 0)
+			if (this.appointmentsDataGridView.SelectedRows.Count > 0)
 			{
-				var selectedPatient = (Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
-				var addPatientPage = new AddPatientPage(selectedPatient);
-				addPatientPage.FormClosed += RefreshPatientList;
-				addPatientPage.ShowDialog();
+				var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
+				var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
+				editAppointmentPage.FormClosed += RefreshAppointmentsList;
+				editAppointmentPage.ShowDialog();
 			}
 		}
 
-		private void RefreshPatientList(object sender, EventArgs e)
+		private void RefreshAppointmentsList(object sender, EventArgs e)
 		{
 			if (e is SearchEventArgs searchArgs)
 			{
-				this.patientsControlViewModel.PopulatePatients(searchArgs);
+				this.appointmentsControlViewModel.PopulateAppointments(searchArgs);
 			}
 			else
 			{
-				this.patientsControlViewModel.PopulatePatients();
+				this.appointmentsControlViewModel.PopulateAppointments();
 			}
-			this.patientsDataGridView.DataSource = patientsControlViewModel.Patients;
-			this.patientsDataGridView.ClearSelection();
+			this.appointmentsDataGridView.DataSource = appointmentsControlViewModel.Appointments;
+			this.appointmentsDataGridView.ClearSelection();
 		}
 	}
 }

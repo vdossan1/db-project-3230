@@ -21,14 +21,18 @@ namespace HealthCareApp.view
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ManageAppointmentPage"/> class.
 		/// </summary>
-		public ManageAppointmentPage()
+		public ManageAppointmentPage(Appointment? selectedAppointment)
 		{
 			InitializeComponent();
 			this.manageAppointmentViewModel = new ManageAppointmentViewModel();
+			this.manageAppointmentViewModel.ErrorOccured += ErrorOccured;
+			this.SetPageAction(selectedAppointment);
+
+			this.BindControls();
+			this.BindValidationMessages();
 
 			this.patientsDataGridView.DataSource = manageAppointmentViewModel.Patients;
 			this.doctorsDataGridView.DataSource = manageAppointmentViewModel.Doctors;
-			this.manageAppointmentViewModel.ErrorOccured += ErrorOccured;
 		}
 
 		private void SetPageAction(Appointment? selectedAppointment)

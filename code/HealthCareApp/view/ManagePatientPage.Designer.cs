@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-    partial class AddPatientPage
+    partial class ManagePatientPage
     {
         /// <summary>
         /// Required designer variable.
@@ -409,7 +409,7 @@
 			dateOfBirthErrorLabel.TabIndex = 35;
 			dateOfBirthErrorLabel.Text = "dateOfBirthErrorLabel";
 			// 
-			// AddPatientPage
+			// ManagePatientPage
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -449,7 +449,7 @@
 			Controls.Add(lastNameTextBox);
 			Controls.Add(firstNameTextBox);
 			Margin = new Padding(2);
-			Name = "AddPatientPage";
+			Name = "ManagePatientPage";
 			StartPosition = FormStartPosition.CenterScreen;
 			ResumeLayout(false);
 			PerformLayout();

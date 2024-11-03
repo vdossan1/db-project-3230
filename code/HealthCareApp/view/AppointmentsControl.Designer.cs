@@ -87,7 +87,6 @@
             appointmentsSearchBar.Size = new Size(421, 39);
             appointmentsSearchBar.TabIndex = 11;
             appointmentsSearchBar.Text = "  Search";
-            appointmentsSearchBar.TextChanged += appointmentsSearchBar_TextChanged;
             // 
             // apptAdvancedSearchControl
             // 

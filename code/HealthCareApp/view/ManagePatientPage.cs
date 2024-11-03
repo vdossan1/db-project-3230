@@ -9,7 +9,7 @@ namespace HealthCareApp.view
 	/// <summary>
 	/// Represents the interface for adding a new patient in the healthcare application.
 	/// </summary>
-	public partial class AddPatientPage : Form
+	public partial class ManagePatientPage : Form
     {
 		private ManagePatientViewModel managePatientViewModel;
 		private PatientAction patientAction;
@@ -18,9 +18,9 @@ namespace HealthCareApp.view
 		private const string EDIT_ACTION = "Update";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AddPatientPage"/> class.
+		/// Initializes a new instance of the <see cref="ManagePatientPage"/> class.
 		/// </summary>
-		public AddPatientPage(Patient? selectedPatient)
+		public ManagePatientPage(Patient? selectedPatient)
         {
             InitializeComponent();
             this.managePatientViewModel = new ManagePatientViewModel();
