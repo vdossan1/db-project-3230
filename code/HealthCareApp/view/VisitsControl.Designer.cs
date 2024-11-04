@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             visitAdvancedSearchControl = new AdvancedSearchControl();
-            visitsSearchBar = new TextBox();
             editVisitBtn = new Button();
             createVisitBtn = new Button();
             visitsDataGridView = new DataGridView();
@@ -45,22 +44,10 @@
             visitAdvancedSearchControl.Size = new Size(1039, 158);
             visitAdvancedSearchControl.TabIndex = 17;
             // 
-            // visitsSearchBar
-            // 
-            visitsSearchBar.BorderStyle = BorderStyle.FixedSingle;
-            visitsSearchBar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            visitsSearchBar.ForeColor = SystemColors.ControlDarkDark;
-            visitsSearchBar.Location = new Point(30, 26);
-            visitsSearchBar.Margin = new Padding(4, 5, 4, 5);
-            visitsSearchBar.Name = "visitsSearchBar";
-            visitsSearchBar.Size = new Size(421, 39);
-            visitsSearchBar.TabIndex = 16;
-            visitsSearchBar.Text = "  Search";
-            // 
             // editVisitBtn
             // 
             editVisitBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            editVisitBtn.Location = new Point(750, 24);
+            editVisitBtn.Location = new Point(467, 27);
             editVisitBtn.Name = "editVisitBtn";
             editVisitBtn.Size = new Size(286, 52);
             editVisitBtn.TabIndex = 14;
@@ -71,7 +58,7 @@
             // createVisitBtn
             // 
             createVisitBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            createVisitBtn.Location = new Point(459, 24);
+            createVisitBtn.Location = new Point(176, 27);
             createVisitBtn.Name = "createVisitBtn";
             createVisitBtn.Size = new Size(286, 52);
             createVisitBtn.TabIndex = 15;
@@ -103,7 +90,7 @@
             // 
             createVisitLabel.AutoSize = true;
             createVisitLabel.ForeColor = Color.Red;
-            createVisitLabel.Location = new Point(492, 79);
+            createVisitLabel.Location = new Point(209, 82);
             createVisitLabel.Name = "createVisitLabel";
             createVisitLabel.Size = new Size(225, 25);
             createVisitLabel.TabIndex = 18;
@@ -115,7 +102,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(createVisitLabel);
             Controls.Add(visitAdvancedSearchControl);
-            Controls.Add(visitsSearchBar);
             Controls.Add(editVisitBtn);
             Controls.Add(createVisitBtn);
             Controls.Add(visitsDataGridView);
@@ -129,7 +115,6 @@
         #endregion
 
         private AdvancedSearchControl visitAdvancedSearchControl;
-        private TextBox visitsSearchBar;
         private Button editVisitBtn;
         private Button createVisitBtn;
         private DataGridView visitsDataGridView;

@@ -50,6 +50,10 @@ namespace HealthCareApp.DAL
 			command.ExecuteNonQuery();
 		}
 
+        /// <summary>
+        /// Retrieves a list of appointment IDs for appointments with no associated visits.
+        /// </summary>
+        /// <returns>A list of integers representing the IDs of appointments with no visits.</returns>
         public static List<int> GetAllAppointmentsIdsWithNoVisits()
         {
             var appointmentIdList = new List<int>();
@@ -99,7 +103,14 @@ namespace HealthCareApp.DAL
 			return appointmentList;
 		}
 
-		public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName, DateTime? appointmentDate)
+        /// <summary>
+        /// Retrieves a list of all appointments that match the specified search criteria.
+        /// </summary>
+        /// <param name="firstName">The first name of the patient or doctor to search for.</param>
+        /// <param name="lastName">The last name of the patient or doctor to search for.</param>
+        /// <param name="appointmentDate">The date of the appointment to search for.</param>
+        /// <returns>A list of <see cref="Appointment"/> objects representing the matching appointments.</returns>
+        public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName, DateTime? appointmentDate)
 		{
 			var appointmentList = new List<Appointment>();
 			var paramsCount = 0;
@@ -156,7 +167,6 @@ namespace HealthCareApp.DAL
 
 			return appointmentList;
 		}
-
 
 		private static Appointment CreateAppointment(MySqlDataReader reader)
 		{

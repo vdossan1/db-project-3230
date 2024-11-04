@@ -81,7 +81,14 @@ namespace HealthCareApp.DAL
             return doctorList;
 		}
 
-		public static List<Doctor> GetAllDoctorsWithParams(string firstName, string lastName, DateTime? dateOfBirth)
+        /// <summary>
+        /// Retrieves all doctors that match the specified search criteria.
+        /// </summary>
+        /// <param name="firstName">The first name of the doctor to search for.</param>
+        /// <param name="lastName">The last name of the doctor to search for.</param>
+        /// <param name="dateOfBirth">The date of birth of the doctor to search for.</param>
+        /// <returns>A list of <see cref="Doctor"/> objects representing the matching doctors.</returns>
+        public static List<Doctor> GetAllDoctorsWithParams(string firstName, string lastName, DateTime? dateOfBirth)
 		{
 			var doctorList = new List<Doctor>();
 			var paramsCount = 0;

@@ -101,6 +101,13 @@ namespace HealthCareApp.DAL
 			return patientList;
 		}
 
+        /// <summary>
+        /// Retrieves all patients that match the specified search criteria.
+        /// </summary>
+        /// <param name="firstName">The first name of the patient to search for.</param>
+        /// <param name="lastName">The last name of the patient to search for.</param>
+        /// <param name="dateOfBirth">The date of birth of the patient to search for.</param>
+        /// <returns>A list of <see cref="Patient"/> objects representing the matching patients.</returns>
         public static List<Patient> GetAllPatientsWithParams(string firstName, string lastName, DateTime? dateOfBirth)
         {
             var patientList = new List<Patient>();
@@ -222,5 +229,4 @@ namespace HealthCareApp.DAL
             command.Parameters.Add("@Status", MySqlDbType.Bit).Value = patient.Status;
         }
     }
-    
 }

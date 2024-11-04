@@ -32,6 +32,11 @@ namespace HealthCareApp.DAL
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves the ID of a nurse based on their username.
+        /// </summary>
+        /// <param name="nurseUsername">The username of the nurse.</param>
+        /// <returns>The ID of the nurse if found, otherwise 0.</returns>
         public static int GetIdFromUsername(string nurseUsername)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -81,7 +86,14 @@ namespace HealthCareApp.DAL
             return nurseList;
 		}
 
-		public static List<Nurse> GetAllNurseWithParams(string firstName, string lastName, DateTime? dateOfBirth)
+        /// <summary>
+        /// Retrieves all nurses that match the specified search criteria.
+        /// </summary>
+        /// <param name="firstName">The first name of the nurse to search for.</param>
+        /// <param name="lastName">The last name of the nurse to search for.</param>
+        /// <param name="dateOfBirth">The date of birth of the nurse to search for.</param>
+        /// <returns>A list of <see cref="Nurse"/> objects representing the matching nurses.</returns>
+        public static List<Nurse> GetAllNurseWithParams(string firstName, string lastName, DateTime? dateOfBirth)
 		{
 			var nurseList = new List<Nurse>();
 			var paramsCount = 0;

@@ -80,7 +80,11 @@ namespace HealthCareApp.viewmodel
 			Date = appointment.AppointmentDate;
 		}
 
-		public void PopulateDataGrids(SearchEventArgs eventArgs = null)
+        /// <summary>
+        /// Populates the data grids with a list of patients and doctors, optionally filtered by search criteria.
+        /// </summary>
+        /// <param name="eventArgs">Optional. The <see cref="SearchEventArgs"/> containing the search criteria. If null, all patients and doctors are retrieved.</param>
+        public void PopulateDataGrids(SearchEventArgs eventArgs = null)
 		{
 			if (eventArgs == null)
 			{
@@ -122,7 +126,10 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public EventHandler<string> ErrorOccured;
+        /// <summary>
+        /// Occurs when an error message needs to be displayed.
+        /// </summary>
+        public EventHandler<string> ErrorOccured;
 
 		protected virtual void OnErrorOccured(string message)
 		{
@@ -139,6 +146,9 @@ namespace HealthCareApp.viewmodel
 			ValidateFields();
 		}
 
+        /// <summary>
+        /// Occurs when a new appointment is added.
+        /// </summary>
         public static event EventHandler AddAppointment;
 
         private void OnAddAppointment()
@@ -225,20 +235,32 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region ValidationMessageProperties
+        #region ValidationMessageProperties
 
-		public string PatientValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Patient field.
+        /// </summary>
+        public string PatientValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Patient)) ? ValidationErrors[nameof(Patient)] : string.Empty;
 
-		public string DoctorValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Doctor field.
+        /// </summary>
+        public string DoctorValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Doctor)) ? ValidationErrors[nameof(Doctor)] : string.Empty;
 
-		public string ReasonValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Reason field.
+        /// </summary>
+        public string ReasonValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Reason)) ? ValidationErrors[nameof(Reason)] : string.Empty;
 
-		public string DateValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Date field.
+        /// </summary>
+        public string DateValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Date)) ? ValidationErrors[nameof(Date)] : string.Empty;
 
 		#endregion
@@ -250,9 +272,15 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public bool IsValid { get; private set; }
 
-		public Dictionary<string, string> ValidationErrors { get; private set; }
+        /// <summary>
+        /// Gets the dictionary of validation error messages for form fields.
+        /// </summary>
+        public Dictionary<string, string> ValidationErrors { get; private set; }
 
-		public void ValidateFields()
+        /// <summary>
+        /// Validates the fields and updates the <see cref="ValidationErrors"/> dictionary with any validation errors.
+        /// </summary>
+        public void ValidateFields()
 		{
 			ValidationErrors.Clear();
 			IsValid = true;
