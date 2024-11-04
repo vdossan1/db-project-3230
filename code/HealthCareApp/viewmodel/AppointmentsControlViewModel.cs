@@ -9,17 +9,30 @@ namespace HealthCareApp.viewmodel
 {
 	public class AppointmentsControlViewModel
 	{
-		public List<Appointment> Appointments { get; private set; }
+        /// <summary>
+        /// Gets the list of appointments.
+        /// </summary>
+        public List<Appointment> Appointments { get; private set; }
 
-		public AppointmentsControlViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppointmentsControlViewModel"/> class.
+        /// </summary>
+        public AppointmentsControlViewModel()
 		{
 			Appointments = new List<Appointment>();
 			this.PopulateAppointments();
 		}
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-		public void PopulateAppointments(SearchEventArgs eventArgs = null)
+        /// <summary>
+        /// Populates the Appointments list with either all appointments or filtered appointments based on the provided search criteria.
+        /// </summary>
+        /// <param name="eventArgs">Optional. The <see cref="SearchEventArgs"/> containing the search criteria. If null, all appointments are retrieved.</param>
+        public void PopulateAppointments(SearchEventArgs eventArgs = null)
 		{
 			if (eventArgs == null)
 			{

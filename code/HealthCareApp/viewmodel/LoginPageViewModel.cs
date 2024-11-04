@@ -41,5 +41,4 @@ namespace HealthCareApp.viewmodel
 			this.UserFullName = LoginCredentialDal.GetFullName(username);
 		}
 	}
-
 }

@@ -26,9 +26,12 @@ namespace HealthCareApp.viewmodel
         private const string INVALID_DATE = "Invalid AppointmentDate";
         private const string INVALID_COMBO_BOX_SELECTION = "Please select valid option";
 
-		#endregion
+        #endregion
 
-		public ManagePatientViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManagePatientViewModel"/> class.
+        /// </summary>
+        public ManagePatientViewModel()
 		{
 			this.ValidationErrors = new Dictionary<string, string>();
 		}
@@ -105,6 +108,9 @@ namespace HealthCareApp.viewmodel
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Occurs when an error message needs to be displayed.
+        /// </summary>
         public EventHandler<string> ErrorOccured;
 
         protected virtual void OnErrorOccured(string message)
@@ -352,38 +358,70 @@ namespace HealthCareApp.viewmodel
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region ValidationMessageProperties
+        #region ValidationMessageProperties
 
-		public string FirstNameValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the First Name field.
+        /// </summary>
+        public string FirstNameValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(FirstName)) ? ValidationErrors[nameof(FirstName)] : string.Empty;
 
-		public string LastNameValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Last Name field.
+        /// </summary>
+        public string LastNameValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(LastName)) ? ValidationErrors[nameof(LastName)] : string.Empty;
 
-		public string SexValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Sex field.
+        /// </summary>
+        public string SexValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Sex)) ? ValidationErrors[nameof(Sex)] : string.Empty;
 
-		public string DateOfBirthValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Date of Birth field.
+        /// </summary>
+        public string DateOfBirthValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(DateOfBirth)) ? ValidationErrors[nameof(DateOfBirth)] : string.Empty;
 
-		public string PhoneNumberValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Phone Number field.
+        /// </summary>
+        public string PhoneNumberValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(PhoneNumber)) ? ValidationErrors[nameof(PhoneNumber)] : string.Empty;
 
-		public string SsnValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the SSN field.
+        /// </summary>
+        public string SsnValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Ssn)) ? ValidationErrors[nameof(Ssn)] : string.Empty;
 
-		public string Address1ValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Address Line 1 field.
+        /// </summary>
+        public string Address1ValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(Address1)) ? ValidationErrors[nameof(Address1)] : string.Empty;
 
-		public string CityValidationMessage =>
+
+        /// <summary>
+        /// Gets the validation message for the City field.
+        /// </summary>
+        public string CityValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(City)) ? ValidationErrors[nameof(City)] : string.Empty;
 
-		public string StateValidationMessage =>
+
+        /// <summary>
+        /// Gets the validation message for the State field.
+        /// </summary>
+        public string StateValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(State)) ? ValidationErrors[nameof(State)] : string.Empty;
 
-		public string ZipCodeValidationMessage =>
+        /// <summary>
+        /// Gets the validation message for the Zip Code field.
+        /// </summary>
+        public string ZipCodeValidationMessage =>
 			ValidationErrors.ContainsKey(nameof(ZipCode)) ? ValidationErrors[nameof(ZipCode)] : string.Empty;
 
         #endregion
@@ -404,9 +442,15 @@ namespace HealthCareApp.viewmodel
         /// </summary>
         public bool IsValid { get; private set; }
 
-		public Dictionary<string, string> ValidationErrors { get; private set; }
+        /// <summary>
+        /// Gets the dictionary of validation error messages for form fields.
+        /// </summary>
+        public Dictionary<string, string> ValidationErrors { get; private set; }
 
-		public void ValidateFields()
+        /// <summary>
+        /// Validates the fields and updates the <see cref="ValidationErrors"/> dictionary with any validation errors.
+        /// </summary>
+        public void ValidateFields()
 		{
 			ValidationErrors.Clear();
 			IsValid = true;

@@ -9,16 +9,29 @@ namespace HealthCareApp.viewmodel
 {
 	public class PatientsControlViewModel : INotifyPropertyChanged
 	{
-		public List<Patient> Patients { get; private set; }
+        /// <summary>
+        /// Gets the list of patients.
+        /// </summary>
+        public List<Patient> Patients { get; private set; }
 
-		public PatientsControlViewModel() 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientsControlViewModel"/> class.
+        /// </summary>
+        public PatientsControlViewModel() 
 		{
 			Patients = new List<Patient>();
 			this.PopulatePatients();
 		}
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        /// <summary>
+        /// Populates the Patients list with either all patients or filtered patients based on the provided search criteria.
+        /// </summary>
+        /// <param name="eventArgs">Optional. The <see cref="SearchEventArgs"/> containing the search criteria. If null, all patients are retrieved.</param>
         public void PopulatePatients(SearchEventArgs eventArgs = null)
 		{
             if (eventArgs == null)

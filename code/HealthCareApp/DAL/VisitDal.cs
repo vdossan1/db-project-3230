@@ -1,10 +1,16 @@
 ﻿using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.DAL
 {
     public class VisitDal
     {
+        /// <summary>
+        /// Creates a new visit record in the database.
+        /// </summary>
+        /// <param name="newVisit">The <see cref="Visit"/> object containing details about the visit to be created.</param>
         public static void CreateVisit(Visit newVisit)
         {
             string query = "INSERT INTO visit (appointment_id, nurse_id, bp_systolic, bp_diastolic, body_temperature, weight, height, pulse_rate, symptoms, initial_diagnosis, final_diagnosis) " +
@@ -19,6 +25,10 @@ namespace HealthCareApp.DAL
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves a list of all visits from the database.
+        /// </summary>
+        /// <returns>A list of <see cref="Visit"/> objects representing all visits in the database.</returns>
         public static List<Visit> GetAllVisits()
         {
             string query = "SELECT * FROM visit";
