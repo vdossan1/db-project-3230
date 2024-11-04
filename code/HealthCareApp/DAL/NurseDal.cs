@@ -32,11 +32,34 @@ namespace HealthCareApp.DAL
             command.ExecuteNonQuery();
         }
 
-		/// <summary>
-		/// Retrieves a list of all nurses from the database.
-		/// </summary>
-		/// <returns>A list of <see cref="Nurse"/> objects representing all nurses in the database.</returns>
-		public static List<Nurse> GetAllNurses()
+        public static int GetIdFromUsername(string nurseUsername)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            var query = "select nurse_id from nurse where username = @Username";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.Add("@Username", MySqlDbType.VarChar).Value = nurseUsername;
+
+            using var reader = command.ExecuteReader();
+
+            int nurseId = 0;
+
+            if (reader.Read())
+            {
+                var idOrdinal = reader.GetOrdinal("nurse_id");
+                nurseId = reader.GetInt32(idOrdinal);
+            }
+
+            return nurseId;
+        }
+
+        /// <summary>
+        /// Retrieves a list of all nurses from the database.
+        /// </summary>
+        /// <returns>A list of <see cref="Nurse"/> objects representing all nurses in the database.</returns>
+        public static List<Nurse> GetAllNurses()
 		{
 			var nurseList = new List<Nurse>();
 
@@ -145,18 +168,18 @@ namespace HealthCareApp.DAL
 
 			var newNurse = new Nurse
             (
-				reader.GetFieldValue<string>(firstNameOrdinal),
-                reader.GetFieldValue<string>(lastNameOrdinal),
+				reader.GetString(firstNameOrdinal),
+                reader.GetString(lastNameOrdinal),
                 reader.GetDateTime(dateOfBirthOrdinal),
-                reader.GetFieldValue<string>(gender),
-                reader.GetFieldValue<string>(addressOneOrdinal),
-                reader.GetFieldValue<string>(addressTwoOrdinal),
-                reader.GetFieldValue<string>(cityOrdinal),
-                reader.GetFieldValue<string>(stateOrdinal),
-                reader.GetFieldValue<string>(zipCodeOrdinal),
-                reader.GetFieldValue<string>(phoneNumberOrdinal),
-                reader.GetFieldValue<string>(ssnOrdinal),
-                reader.GetFieldValue<string>(usernameOrdinal)
+                reader.GetString(gender),
+                reader.GetString(addressOneOrdinal),
+                reader.IsDBNull(addressTwoOrdinal) ? null : reader.GetString(addressTwoOrdinal),
+                reader.GetString(cityOrdinal),
+                reader.GetString(stateOrdinal),
+                reader.GetString(zipCodeOrdinal),
+                reader.GetString(phoneNumberOrdinal),
+                reader.GetString(ssnOrdinal),
+                reader.GetString(usernameOrdinal)
             );
 
 			newNurse.NurseId = reader.GetInt32(idOrdinal);
@@ -178,5 +201,5 @@ namespace HealthCareApp.DAL
 	        command.Parameters.Add("@Ssn", MySqlDbType.VarChar).Value = nurse.Ssn;
 	        command.Parameters.Add("@Username", MySqlDbType.VarChar).Value = nurse.Username;
         }
-	}
+    }
 }

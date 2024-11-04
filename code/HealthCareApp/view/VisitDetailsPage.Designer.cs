@@ -39,17 +39,29 @@
             symptomsLabel = new Label();
             initialDiagnosesLabel = new Label();
             finalDiagnosesLabel = new Label();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            textBox6 = new TextBox();
-            textBox7 = new TextBox();
-            textBox8 = new TextBox();
-            richTextBox1 = new RichTextBox();
-            richTextBox2 = new RichTextBox();
-            richTextBox3 = new RichTextBox();
+            bloodPressureSysTxtField = new TextBox();
+            bloodPressureDiasTxtField = new TextBox();
+            weightTxtField = new TextBox();
+            heightTxtField = new TextBox();
+            bodyTempTxtField = new TextBox();
+            pulseTxtField = new TextBox();
+            symptomsTxtBox = new RichTextBox();
+            initDiagnosesTxtBox = new RichTextBox();
+            finalDiagnosesTxtBox = new RichTextBox();
             apptTextLabel = new Label();
             nurseIdTextLabel = new Label();
+            saveButton = new Button();
+            cancelButton = new Button();
+            apptIdCmbBox = new ComboBox();
+            apptIdErrorLabel = new Label();
+            bloodPressSysErrorLabel = new Label();
+            bloodPressDiasErrorLabel = new Label();
+            weightErrorLabel = new Label();
+            heightErrorLabel = new Label();
+            pulseErrorLabel = new Label();
+            bodyTempErrorLabel = new Label();
+            symptomsErrorLabel = new Label();
+            initialDiagErrorLabel = new Label();
             SuspendLayout();
             // 
             // apptIdLabel
@@ -136,7 +148,7 @@
             // initialDiagnosesLabel
             // 
             initialDiagnosesLabel.AutoSize = true;
-            initialDiagnosesLabel.Location = new Point(31, 514);
+            initialDiagnosesLabel.Location = new Point(31, 552);
             initialDiagnosesLabel.Name = "initialDiagnosesLabel";
             initialDiagnosesLabel.Size = new Size(142, 25);
             initialDiagnosesLabel.TabIndex = 9;
@@ -145,86 +157,94 @@
             // finalDiagnosesLabel
             // 
             finalDiagnosesLabel.AutoSize = true;
-            finalDiagnosesLabel.Location = new Point(31, 781);
+            finalDiagnosesLabel.Location = new Point(32, 832);
             finalDiagnosesLabel.Name = "finalDiagnosesLabel";
             finalDiagnosesLabel.Size = new Size(136, 25);
             finalDiagnosesLabel.TabIndex = 10;
             finalDiagnosesLabel.Text = "Final Diagnoses";
             // 
-            // textBox3
+            // bloodPressureSysTxtField
             // 
-            textBox3.Location = new Point(327, 92);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(150, 31);
-            textBox3.TabIndex = 13;
+            bloodPressureSysTxtField.Location = new Point(327, 92);
+            bloodPressureSysTxtField.MaxLength = 3;
+            bloodPressureSysTxtField.Name = "bloodPressureSysTxtField";
+            bloodPressureSysTxtField.Size = new Size(150, 31);
+            bloodPressureSysTxtField.TabIndex = 1;
             // 
-            // textBox4
+            // bloodPressureDiasTxtField
             // 
-            textBox4.Location = new Point(746, 92);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(150, 31);
-            textBox4.TabIndex = 14;
+            bloodPressureDiasTxtField.Location = new Point(746, 92);
+            bloodPressureDiasTxtField.MaxLength = 3;
+            bloodPressureDiasTxtField.Name = "bloodPressureDiasTxtField";
+            bloodPressureDiasTxtField.Size = new Size(150, 31);
+            bloodPressureDiasTxtField.TabIndex = 2;
             // 
-            // textBox5
+            // weightTxtField
             // 
-            textBox5.Location = new Point(110, 161);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(150, 31);
-            textBox5.TabIndex = 15;
+            weightTxtField.Location = new Point(110, 161);
+            weightTxtField.MaxLength = 6;
+            weightTxtField.Name = "weightTxtField";
+            weightTxtField.Size = new Size(150, 31);
+            weightTxtField.TabIndex = 3;
             // 
-            // textBox6
+            // heightTxtField
             // 
-            textBox6.Location = new Point(348, 161);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(150, 31);
-            textBox6.TabIndex = 16;
+            heightTxtField.Location = new Point(348, 161);
+            heightTxtField.MaxLength = 6;
+            heightTxtField.Name = "heightTxtField";
+            heightTxtField.Size = new Size(150, 31);
+            heightTxtField.TabIndex = 4;
             // 
-            // textBox7
+            // bodyTempTxtField
             // 
-            textBox7.Location = new Point(924, 161);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(95, 31);
-            textBox7.TabIndex = 17;
+            bodyTempTxtField.Location = new Point(924, 161);
+            bodyTempTxtField.MaxLength = 5;
+            bodyTempTxtField.Name = "bodyTempTxtField";
+            bodyTempTxtField.Size = new Size(95, 31);
+            bodyTempTxtField.TabIndex = 6;
             // 
-            // textBox8
+            // pulseTxtField
             // 
-            textBox8.Location = new Point(582, 161);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(150, 31);
-            textBox8.TabIndex = 18;
+            pulseTxtField.Location = new Point(582, 161);
+            pulseTxtField.MaxLength = 4;
+            pulseTxtField.Name = "pulseTxtField";
+            pulseTxtField.Size = new Size(150, 31);
+            pulseTxtField.TabIndex = 5;
             // 
-            // richTextBox1
+            // symptomsTxtBox
             // 
-            richTextBox1.Location = new Point(30, 281);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(984, 204);
-            richTextBox1.TabIndex = 19;
-            richTextBox1.Text = "";
+            symptomsTxtBox.Location = new Point(30, 281);
+            symptomsTxtBox.MaxLength = 200;
+            symptomsTxtBox.Name = "symptomsTxtBox";
+            symptomsTxtBox.Size = new Size(984, 204);
+            symptomsTxtBox.TabIndex = 7;
+            symptomsTxtBox.Text = "";
             // 
-            // richTextBox2
+            // initDiagnosesTxtBox
             // 
-            richTextBox2.Location = new Point(30, 542);
-            richTextBox2.Name = "richTextBox2";
-            richTextBox2.Size = new Size(984, 204);
-            richTextBox2.TabIndex = 20;
-            richTextBox2.Text = "";
+            initDiagnosesTxtBox.Location = new Point(30, 580);
+            initDiagnosesTxtBox.MaxLength = 200;
+            initDiagnosesTxtBox.Name = "initDiagnosesTxtBox";
+            initDiagnosesTxtBox.Size = new Size(984, 204);
+            initDiagnosesTxtBox.TabIndex = 8;
+            initDiagnosesTxtBox.Text = "";
             // 
-            // richTextBox3
+            // finalDiagnosesTxtBox
             // 
-            richTextBox3.Location = new Point(30, 809);
-            richTextBox3.Name = "richTextBox3";
-            richTextBox3.Size = new Size(984, 204);
-            richTextBox3.TabIndex = 21;
-            richTextBox3.Text = "";
+            finalDiagnosesTxtBox.Location = new Point(31, 860);
+            finalDiagnosesTxtBox.MaxLength = 200;
+            finalDiagnosesTxtBox.Name = "finalDiagnosesTxtBox";
+            finalDiagnosesTxtBox.Size = new Size(984, 204);
+            finalDiagnosesTxtBox.TabIndex = 9;
+            finalDiagnosesTxtBox.Text = "";
             // 
             // apptTextLabel
             // 
             apptTextLabel.AutoSize = true;
             apptTextLabel.Location = new Point(294, 26);
             apptTextLabel.Name = "apptTextLabel";
-            apptTextLabel.Size = new Size(67, 25);
+            apptTextLabel.Size = new Size(0, 25);
             apptTextLabel.TabIndex = 22;
-            apptTextLabel.Text = "apptID";
             // 
             // nurseIdTextLabel
             // 
@@ -235,22 +255,161 @@
             nurseIdTextLabel.TabIndex = 23;
             nurseIdTextLabel.Text = "nurseId";
             // 
+            // saveButton
+            // 
+            saveButton.Location = new Point(257, 1109);
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(220, 57);
+            saveButton.TabIndex = 10;
+            saveButton.Text = "Save";
+            saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += saveButton_Click;
+            // 
+            // cancelButton
+            // 
+            cancelButton.Location = new Point(570, 1109);
+            cancelButton.Name = "cancelButton";
+            cancelButton.Size = new Size(220, 57);
+            cancelButton.TabIndex = 11;
+            cancelButton.Text = "Cancel";
+            cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
+            // 
+            // apptIdCmbBox
+            // 
+            apptIdCmbBox.FormattingEnabled = true;
+            apptIdCmbBox.Location = new Point(295, 23);
+            apptIdCmbBox.Name = "apptIdCmbBox";
+            apptIdCmbBox.Size = new Size(182, 33);
+            apptIdCmbBox.TabIndex = 0;
+            // 
+            // apptIdErrorLabel
+            // 
+            apptIdErrorLabel.AutoSize = true;
+            apptIdErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            apptIdErrorLabel.ForeColor = Color.Red;
+            apptIdErrorLabel.Location = new Point(295, 59);
+            apptIdErrorLabel.Name = "apptIdErrorLabel";
+            apptIdErrorLabel.Size = new Size(155, 25);
+            apptIdErrorLabel.TabIndex = 24;
+            apptIdErrorLabel.Text = "apptIdErrorLabel";
+            // 
+            // bloodPressSysErrorLabel
+            // 
+            bloodPressSysErrorLabel.AutoSize = true;
+            bloodPressSysErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bloodPressSysErrorLabel.ForeColor = Color.Red;
+            bloodPressSysErrorLabel.Location = new Point(327, 126);
+            bloodPressSysErrorLabel.Name = "bloodPressSysErrorLabel";
+            bloodPressSysErrorLabel.Size = new Size(220, 25);
+            bloodPressSysErrorLabel.TabIndex = 25;
+            bloodPressSysErrorLabel.Text = "bloodPressSysErrorLabel";
+            // 
+            // bloodPressDiasErrorLabel
+            // 
+            bloodPressDiasErrorLabel.AutoSize = true;
+            bloodPressDiasErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bloodPressDiasErrorLabel.ForeColor = Color.Red;
+            bloodPressDiasErrorLabel.Location = new Point(746, 126);
+            bloodPressDiasErrorLabel.Name = "bloodPressDiasErrorLabel";
+            bloodPressDiasErrorLabel.Size = new Size(228, 25);
+            bloodPressDiasErrorLabel.TabIndex = 26;
+            bloodPressDiasErrorLabel.Text = "bloodPressDiasErrorLabel";
+            // 
+            // weightErrorLabel
+            // 
+            weightErrorLabel.AutoSize = true;
+            weightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            weightErrorLabel.ForeColor = Color.Red;
+            weightErrorLabel.Location = new Point(114, 195);
+            weightErrorLabel.Name = "weightErrorLabel";
+            weightErrorLabel.Size = new Size(157, 25);
+            weightErrorLabel.TabIndex = 27;
+            weightErrorLabel.Text = "weightErrorLabel";
+            // 
+            // heightErrorLabel
+            // 
+            heightErrorLabel.AutoSize = true;
+            heightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            heightErrorLabel.ForeColor = Color.Red;
+            heightErrorLabel.Location = new Point(348, 195);
+            heightErrorLabel.Name = "heightErrorLabel";
+            heightErrorLabel.Size = new Size(154, 25);
+            heightErrorLabel.TabIndex = 28;
+            heightErrorLabel.Text = "heightErrorLabel";
+            // 
+            // pulseErrorLabel
+            // 
+            pulseErrorLabel.AutoSize = true;
+            pulseErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            pulseErrorLabel.ForeColor = Color.Red;
+            pulseErrorLabel.Location = new Point(582, 195);
+            pulseErrorLabel.Name = "pulseErrorLabel";
+            pulseErrorLabel.Size = new Size(144, 25);
+            pulseErrorLabel.TabIndex = 29;
+            pulseErrorLabel.Text = "pulseErrorLabel";
+            // 
+            // bodyTempErrorLabel
+            // 
+            bodyTempErrorLabel.AutoSize = true;
+            bodyTempErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bodyTempErrorLabel.ForeColor = Color.Red;
+            bodyTempErrorLabel.Location = new Point(860, 195);
+            bodyTempErrorLabel.Name = "bodyTempErrorLabel";
+            bodyTempErrorLabel.Size = new Size(188, 25);
+            bodyTempErrorLabel.TabIndex = 30;
+            bodyTempErrorLabel.Text = "bodyTempErrorLabel";
+            // 
+            // symptomsErrorLabel
+            // 
+            symptomsErrorLabel.AutoSize = true;
+            symptomsErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            symptomsErrorLabel.ForeColor = Color.Red;
+            symptomsErrorLabel.Location = new Point(30, 489);
+            symptomsErrorLabel.Name = "symptomsErrorLabel";
+            symptomsErrorLabel.Size = new Size(186, 25);
+            symptomsErrorLabel.TabIndex = 31;
+            symptomsErrorLabel.Text = "symptomsErrorLabel";
+            // 
+            // initialDiagErrorLabel
+            // 
+            initialDiagErrorLabel.AutoSize = true;
+            initialDiagErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            initialDiagErrorLabel.ForeColor = Color.Red;
+            initialDiagErrorLabel.Location = new Point(30, 787);
+            initialDiagErrorLabel.Name = "initialDiagErrorLabel";
+            initialDiagErrorLabel.Size = new Size(186, 25);
+            initialDiagErrorLabel.TabIndex = 32;
+            initialDiagErrorLabel.Text = "initialDiagErrorLabel";
+            // 
             // VisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1060, 1025);
+            ClientSize = new Size(1060, 1187);
+            Controls.Add(initialDiagErrorLabel);
+            Controls.Add(symptomsErrorLabel);
+            Controls.Add(bodyTempErrorLabel);
+            Controls.Add(pulseErrorLabel);
+            Controls.Add(heightErrorLabel);
+            Controls.Add(weightErrorLabel);
+            Controls.Add(bloodPressDiasErrorLabel);
+            Controls.Add(bloodPressSysErrorLabel);
+            Controls.Add(apptIdErrorLabel);
+            Controls.Add(apptIdCmbBox);
+            Controls.Add(cancelButton);
+            Controls.Add(saveButton);
             Controls.Add(nurseIdTextLabel);
             Controls.Add(apptTextLabel);
-            Controls.Add(richTextBox3);
-            Controls.Add(richTextBox2);
-            Controls.Add(richTextBox1);
-            Controls.Add(textBox8);
-            Controls.Add(textBox7);
-            Controls.Add(textBox6);
-            Controls.Add(textBox5);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
+            Controls.Add(finalDiagnosesTxtBox);
+            Controls.Add(initDiagnosesTxtBox);
+            Controls.Add(symptomsTxtBox);
+            Controls.Add(pulseTxtField);
+            Controls.Add(bodyTempTxtField);
+            Controls.Add(heightTxtField);
+            Controls.Add(weightTxtField);
+            Controls.Add(bloodPressureDiasTxtField);
+            Controls.Add(bloodPressureSysTxtField);
             Controls.Add(finalDiagnosesLabel);
             Controls.Add(initialDiagnosesLabel);
             Controls.Add(symptomsLabel);
@@ -282,16 +441,28 @@
         private Label symptomsLabel;
         private Label initialDiagnosesLabel;
         private Label finalDiagnosesLabel;
-        private TextBox textBox3;
-        private TextBox textBox4;
-        private TextBox textBox5;
-        private TextBox textBox6;
-        private TextBox textBox7;
-        private TextBox textBox8;
-        private RichTextBox richTextBox1;
-        private RichTextBox richTextBox2;
-        private RichTextBox richTextBox3;
+        private TextBox bloodPressureSysTxtField;
+        private TextBox bloodPressureDiasTxtField;
+        private TextBox weightTxtField;
+        private TextBox heightTxtField;
+        private TextBox bodyTempTxtField;
+        private TextBox pulseTxtField;
+        private RichTextBox symptomsTxtBox;
+        private RichTextBox initDiagnosesTxtBox;
+        private RichTextBox finalDiagnosesTxtBox;
         private Label apptTextLabel;
         private Label nurseIdTextLabel;
+        public Button saveButton;
+        private Button cancelButton;
+        private ComboBox apptIdCmbBox;
+        private Label apptIdErrorLabel;
+        private Label bloodPressSysErrorLabel;
+        private Label bloodPressDiasErrorLabel;
+        private Label weightErrorLabel;
+        private Label heightErrorLabel;
+        private Label pulseErrorLabel;
+        private Label bodyTempErrorLabel;
+        private Label symptomsErrorLabel;
+        private Label initialDiagErrorLabel;
     }
 }

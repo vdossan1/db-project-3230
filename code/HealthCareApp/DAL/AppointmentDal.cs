@@ -50,6 +50,29 @@ namespace HealthCareApp.DAL
 			command.ExecuteNonQuery();
 		}
 
+        public static List<int> GetAllAppointmentsIdsWithNoVisits()
+        {
+            var appointmentIdList = new List<int>();
+
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            string query = "SELECT appointment_id FROM appointment WHERE appointment_id NOT IN (SELECT appointment_id from visit);";
+
+            using MySqlCommand command = new MySqlCommand(query, connection);
+
+            using MySqlDataReader reader = command.ExecuteReader();
+
+            var apptIdOrdinal = reader.GetOrdinal("appointment_id");
+
+            while (reader.Read())
+            {
+                appointmentIdList.Add(reader.GetInt32(apptIdOrdinal));
+            }
+
+            return appointmentIdList;
+        }
+
 		/// <summary>
 		/// Retrieves a list of all appointments from the database.
 		/// </summary>
@@ -157,11 +180,11 @@ namespace HealthCareApp.DAL
 
 		private static void AddAllAppointmentParamsToCommand(Appointment appointment, MySqlCommand command)
 		{
-			command.Parameters.AddWithValue("@AppointmentId", appointment.AppointmentId);
-			command.Parameters.AddWithValue("@PatientId", appointment.PatientId);
-			command.Parameters.AddWithValue("@DoctorId", appointment.DoctorId);
-			command.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
-			command.Parameters.AddWithValue("@Reason", appointment.Reason);
+			command.Parameters.Add("@AppointmentId", MySqlDbType.Int32).Value = appointment.AppointmentId;
+			command.Parameters.Add("@PatientId", MySqlDbType.Int32).Value = appointment.PatientId;
+			command.Parameters.Add("@DoctorId", MySqlDbType.Int32).Value = appointment.DoctorId;
+			command.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime).Value = appointment.AppointmentDate;
+			command.Parameters.Add("@Reason", MySqlDbType.VarChar).Value = appointment.Reason;
 		}
 	}
 }
