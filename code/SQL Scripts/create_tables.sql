@@ -14,6 +14,12 @@ DROP TABLE IF EXISTS `visit`;
 DROP TABLE IF EXISTS `lab_test_result`;
 DROP TABLE IF EXISTS `lab_test`;
 
+CREATE TABLE `login_credential`
+(
+username VARCHAR(40) UNIQUE,
+`password` VARCHAR(100)
+);
+
 CREATE TABLE `administrator`
 (
 administrator_id INTEGER AUTO_INCREMENT,
@@ -29,7 +35,8 @@ zip_code VARCHAR(5),
 phone_number VARCHAR(10),
 ssn CHAR(9) UNIQUE,
 username VARCHAR(30) UNIQUE,
-PRIMARY KEY (administrator_id)
+PRIMARY KEY (administrator_id),
+FOREIGN KEY (username) REFERENCES login_credential(username)
 );
 
 CREATE TABLE `doctor`
@@ -64,7 +71,8 @@ zip_code VARCHAR(5),
 phone_number VARCHAR(10),
 ssn CHAR(9) UNIQUE,
 username VARCHAR(30) UNIQUE,
-PRIMARY KEY (nurse_id)
+PRIMARY KEY (nurse_id),
+FOREIGN KEY (username) REFERENCES login_credential(username)
 );
 
 CREATE TABLE `patient`
@@ -105,13 +113,16 @@ CREATE TABLE `appointment`
 (
 appointment_id INTEGER AUTO_INCREMENT,
 patient_id INTEGER,
-doctor_id INTEGER UNIQUE,
-appointment_date DATETIME UNIQUE,
+doctor_id INTEGER,
+appointment_date DATETIME,
 reason VARCHAR(300),
 PRIMARY KEY (appointment_id),
 FOREIGN KEY (patient_id) REFERENCES patient(patient_id),
-FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
+UNIQUE KEY doctor_appointment_unique (doctor_id, appointment_date),
+UNIQUE KEY patient_appointment_unique (patient_id, appointment_date)
 );
+
 
 CREATE TABLE `visit`
 (
