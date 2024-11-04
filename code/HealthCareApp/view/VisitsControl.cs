@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using HealthCareApp.DAL;
+﻿using HealthCareApp.DAL;
 using HealthCareApp.viewmodel;
 
 namespace HealthCareApp.view
@@ -22,16 +16,24 @@ namespace HealthCareApp.view
             this.visitsControlViewModel = new VisitsControlViewModel();
 
             this.visitsDataGridView.DataSource = visitsControlViewModel.Visits;
+
+            this.createVisitBtn.DataBindings.Add(
+                "Enabled", visitsControlViewModel, nameof(visitsControlViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+
+            this.createVisitLabel.DataBindings.Add(
+                "Visible", visitsControlViewModel, nameof(visitsControlViewModel.ShowLabel), true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void editVisitBtn_Click(object sender, EventArgs e)
         {
-            
+            MessageBox.Show("Feature not implemented yet", "TODO", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void RefreshVisitsList(object? sender, FormClosedEventArgs e)
+        public void RefreshVisitsList(object? sender, FormClosedEventArgs e)
         {
             this.visitsControlViewModel.PopulateVisits();
+            this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
+            this.visitsDataGridView.ClearSelection();
         }
 
         private void createVisitBtn_Click(object sender, EventArgs e)

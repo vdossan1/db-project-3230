@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using HealthCareApp.viewmodel;
-using static System.Net.Mime.MediaTypeNames;
+﻿using HealthCareApp.viewmodel;
+using MySql.Data.MySqlClient;
 
 namespace HealthCareApp.view
 {
@@ -24,15 +15,36 @@ namespace HealthCareApp.view
             this.visitDetailsPageViewModel.NurseId = nurseId;
 
             BindControls();
+            BindValidationMessages();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            this.visitDetailsPageViewModel.SaveVisitDetails();
-            MessageBox.Show($"Visit Details Saved Successfully", "Visit Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.visitDetailsPageViewModel.ValidateFields();
 
+            string messageText;
+            string messageCaption;
+            MessageBoxIcon messageIcon;
+
+            try
+            {
+                this.visitDetailsPageViewModel.SaveVisitDetails();
+
+                messageText = "Visit Details Saved Successfully";
+                messageCaption = "Visit Confirmation";
+                messageIcon = MessageBoxIcon.Information;
+            }
+            catch (MySqlException sqlError)
+            {
+                messageText = sqlError.Message;
+                messageCaption = "Database error";
+                messageIcon = MessageBoxIcon.Error;
+            }
+
+            MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
             this.Hide();
             this.Dispose(true);
+
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -74,6 +86,39 @@ namespace HealthCareApp.view
 
             this.finalDiagnosesTxtBox.DataBindings.Add(
                 "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.FinalDiagnoses), true, DataSourceUpdateMode.OnPropertyChanged);
+
+            this.saveButton.DataBindings.Add(
+                "Enabled", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        private void BindValidationMessages()
+        {
+            this.apptIdErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.AppointmentIdValidationMessage));
+
+            this.bloodPressSysErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.BloodPressureSysValidationMessage));
+
+            this.bloodPressDiasErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.BloodPressureDiasValidationMessage));
+
+            this.weightErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.WeightValidationMessage));
+
+            this.heightErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.HeightValidationMessage));
+
+            this.pulseErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.PulseValidationMessage));
+
+            this.bodyTempErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.BodyTempValidationMessage));
+
+            this.symptomsErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.SymptomsValidationMessage));
+
+            this.initialDiagErrorLabel.DataBindings.Add(
+                "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.InitialDiagValidationMessage));
         }
     }
 }

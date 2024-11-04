@@ -106,7 +106,8 @@ namespace HealthCareApp.viewmodel
 			{
 				case AppointmentAction.CREATE:
 					AppointmentDal.CreateAppointment(newAppointment);
-					break;
+                    OnAddAppointment();
+                    break;
 				case AppointmentAction.EDIT:
 					newAppointment.AppointmentId = SelectedAppointment.AppointmentId;
 					AppointmentDal.EditAppointment(newAppointment);
@@ -138,11 +139,18 @@ namespace HealthCareApp.viewmodel
 			ValidateFields();
 		}
 
-		#endregion
+        public static event EventHandler AddAppointment;
 
-		#region Properties
+        private void OnAddAppointment()
+        {
+            AddAppointment?.Invoke(this, EventArgs.Empty);
+        }
 
-		public List<Patient> Patients { get; set; }
+        #endregion
+
+        #region Properties
+
+        public List<Patient> Patients { get; set; }
 		public List<Doctor> Doctors { get; set; }
 
 		private Patient patient;

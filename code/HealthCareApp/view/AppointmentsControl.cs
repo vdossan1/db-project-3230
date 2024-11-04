@@ -1,5 +1,4 @@
-﻿using HealthCareApp.DAL;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel;
 using static HealthCareApp.view.AdvancedSearchControl;
 

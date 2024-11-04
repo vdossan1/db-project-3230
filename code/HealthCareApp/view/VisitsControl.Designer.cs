@@ -33,6 +33,7 @@
             editVisitBtn = new Button();
             createVisitBtn = new Button();
             visitsDataGridView = new DataGridView();
+            createVisitLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)visitsDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -98,10 +99,21 @@
             visitsDataGridView.Size = new Size(1006, 820);
             visitsDataGridView.TabIndex = 13;
             // 
+            // createVisitLabel
+            // 
+            createVisitLabel.AutoSize = true;
+            createVisitLabel.ForeColor = Color.Red;
+            createVisitLabel.Location = new Point(492, 79);
+            createVisitLabel.Name = "createVisitLabel";
+            createVisitLabel.Size = new Size(225, 25);
+            createVisitLabel.TabIndex = 18;
+            createVisitLabel.Text = "No available appointments";
+            // 
             // VisitsControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(createVisitLabel);
             Controls.Add(visitAdvancedSearchControl);
             Controls.Add(visitsSearchBar);
             Controls.Add(editVisitBtn);
@@ -121,5 +133,6 @@
         private Button editVisitBtn;
         private Button createVisitBtn;
         private DataGridView visitsDataGridView;
+        private Label createVisitLabel;
     }
 }

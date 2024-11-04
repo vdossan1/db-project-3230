@@ -1,6 +1,5 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
-using HealthCareApp.DAL;
 using HealthCareApp.model;
 using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
@@ -67,7 +66,7 @@ namespace HealthCareApp.view
 		private void OnActionButtonPressed()
 		{
 			var text = this.GetActionString();
-			MessageBox.Show($"Appointment {text} Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Appointment {text} Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private string GetActionString()

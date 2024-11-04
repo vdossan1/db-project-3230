@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
-using MySql.Data.MySqlClient;
 
 namespace HealthCareApp.viewmodel
 {
@@ -18,26 +11,21 @@ namespace HealthCareApp.viewmodel
 
         public VisitDetailsPageViewModel()
         {
-            this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIds());
+            this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
+            this.ValidationErrors = new Dictionary<string, string>();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            ValidateFields();
         }
 
         public void SaveVisitDetails()
         {
-            try
-            {
-                Visit newVisit = new Visit(AppointmentId, NurseId, BloodPressureSystolic, BloodPressureDiastolic,
-                    BodyTemp, Weight, Height, PulseRate, Symptoms, InitialDiagnoses, FinalDiagnoses);
-                VisitDal.CreateVisit(newVisit);
-            }
-            catch (MySqlException sqlException)
-            {
-                MessageBox.Show(sqlException.Message, "Sql Error", MessageBoxButtons.OK);
-            }
+            Visit newVisit = new Visit(AppointmentId, NurseId, BloodPressureSystolic, BloodPressureDiastolic,
+                BodyTemp, Weight, Height, PulseRate, Symptoms, InitialDiagnoses, FinalDiagnoses);
+            VisitDal.CreateVisit(newVisit);
         }
 
         #region Properties
@@ -210,5 +198,101 @@ namespace HealthCareApp.viewmodel
         }
 
         #endregion
-    }
+
+        #region ValidationErrorProperties
+
+        public Dictionary<string, string> ValidationErrors { get; private set; }
+
+        public string AppointmentIdValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(AppointmentId)) ? ValidationErrors[nameof(AppointmentId)] : string.Empty;
+
+        public string BloodPressureSysValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(BloodPressureSystolic)) ? ValidationErrors[nameof(BloodPressureSystolic)] : string.Empty;
+
+        public string BloodPressureDiasValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(BloodPressureDiastolic)) ? ValidationErrors[nameof(BloodPressureDiastolic)] : string.Empty;
+
+        public string WeightValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Weight)) ? ValidationErrors[nameof(Weight)] : string.Empty;
+
+        public string HeightValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Height)) ? ValidationErrors[nameof(Height)] : string.Empty;
+
+        public string PulseValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(PulseRate)) ? ValidationErrors[nameof(PulseRate)] : string.Empty;
+
+        public string BodyTempValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(BodyTemp)) ? ValidationErrors[nameof(BodyTemp)] : string.Empty;
+
+        public string SymptomsValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(Symptoms)) ? ValidationErrors[nameof(Symptoms)] : string.Empty;
+
+        public string InitialDiagValidationMessage =>
+            ValidationErrors.ContainsKey(nameof(InitialDiagnoses)) ? ValidationErrors[nameof(InitialDiagnoses)] : string.Empty;
+
+        private bool IsValidNumeric(string numericFieldText) =>
+            numericFieldText?.All(char.IsDigit) == true && decimal.Parse(numericFieldText) == 0;
+
+        public bool IsValid { get; private set; }
+
+        private const string CANNOT_BE_ZERO = "This field cannot be 0";
+        private const string REQUIRED_FIELD = "This field is required";
+
+        public void ValidateFields()
+        {
+            ValidationErrors.Clear();
+            IsValid = true;
+
+            if (BloodPressureSystolic == 0)
+            {
+                ValidationErrors[nameof(BloodPressureSystolic)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (BloodPressureDiastolic == 0)
+            {
+                ValidationErrors[nameof(BloodPressureDiastolic)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (Weight == 0)
+            {
+                ValidationErrors[nameof(Weight)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (Height == 0)
+            {
+                ValidationErrors[nameof(Height)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (PulseRate == 0)
+            {
+                ValidationErrors[nameof(PulseRate)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (BodyTemp == 0)
+            {
+                ValidationErrors[nameof(BodyTemp)] = CANNOT_BE_ZERO;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Symptoms))
+            {
+                ValidationErrors[nameof(Symptoms)] = REQUIRED_FIELD;
+                IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(InitialDiagnoses))
+            {
+                ValidationErrors[nameof(InitialDiagnoses)] = REQUIRED_FIELD;
+                IsValid = false;
+            }
+        }
+
+        #endregion
+
+        }
 }

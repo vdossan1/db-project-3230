@@ -53,6 +53,15 @@
             saveButton = new Button();
             cancelButton = new Button();
             apptIdCmbBox = new ComboBox();
+            apptIdErrorLabel = new Label();
+            bloodPressSysErrorLabel = new Label();
+            bloodPressDiasErrorLabel = new Label();
+            weightErrorLabel = new Label();
+            heightErrorLabel = new Label();
+            pulseErrorLabel = new Label();
+            bodyTempErrorLabel = new Label();
+            symptomsErrorLabel = new Label();
+            initialDiagErrorLabel = new Label();
             SuspendLayout();
             // 
             // apptIdLabel
@@ -139,7 +148,7 @@
             // initialDiagnosesLabel
             // 
             initialDiagnosesLabel.AutoSize = true;
-            initialDiagnosesLabel.Location = new Point(31, 514);
+            initialDiagnosesLabel.Location = new Point(31, 552);
             initialDiagnosesLabel.Name = "initialDiagnosesLabel";
             initialDiagnosesLabel.Size = new Size(142, 25);
             initialDiagnosesLabel.TabIndex = 9;
@@ -148,7 +157,7 @@
             // finalDiagnosesLabel
             // 
             finalDiagnosesLabel.AutoSize = true;
-            finalDiagnosesLabel.Location = new Point(31, 781);
+            finalDiagnosesLabel.Location = new Point(32, 832);
             finalDiagnosesLabel.Name = "finalDiagnosesLabel";
             finalDiagnosesLabel.Size = new Size(136, 25);
             finalDiagnosesLabel.TabIndex = 10;
@@ -173,7 +182,7 @@
             // weightTxtField
             // 
             weightTxtField.Location = new Point(110, 161);
-            weightTxtField.MaxLength = 5;
+            weightTxtField.MaxLength = 6;
             weightTxtField.Name = "weightTxtField";
             weightTxtField.Size = new Size(150, 31);
             weightTxtField.TabIndex = 3;
@@ -181,7 +190,7 @@
             // heightTxtField
             // 
             heightTxtField.Location = new Point(348, 161);
-            heightTxtField.MaxLength = 5;
+            heightTxtField.MaxLength = 6;
             heightTxtField.Name = "heightTxtField";
             heightTxtField.Size = new Size(150, 31);
             heightTxtField.TabIndex = 4;
@@ -189,7 +198,7 @@
             // bodyTempTxtField
             // 
             bodyTempTxtField.Location = new Point(924, 161);
-            bodyTempTxtField.MaxLength = 4;
+            bodyTempTxtField.MaxLength = 5;
             bodyTempTxtField.Name = "bodyTempTxtField";
             bodyTempTxtField.Size = new Size(95, 31);
             bodyTempTxtField.TabIndex = 6;
@@ -213,7 +222,7 @@
             // 
             // initDiagnosesTxtBox
             // 
-            initDiagnosesTxtBox.Location = new Point(30, 542);
+            initDiagnosesTxtBox.Location = new Point(30, 580);
             initDiagnosesTxtBox.MaxLength = 200;
             initDiagnosesTxtBox.Name = "initDiagnosesTxtBox";
             initDiagnosesTxtBox.Size = new Size(984, 204);
@@ -222,7 +231,7 @@
             // 
             // finalDiagnosesTxtBox
             // 
-            finalDiagnosesTxtBox.Location = new Point(30, 809);
+            finalDiagnosesTxtBox.Location = new Point(31, 860);
             finalDiagnosesTxtBox.MaxLength = 200;
             finalDiagnosesTxtBox.Name = "finalDiagnosesTxtBox";
             finalDiagnosesTxtBox.Size = new Size(984, 204);
@@ -248,7 +257,7 @@
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(257, 1046);
+            saveButton.Location = new Point(257, 1109);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(220, 57);
             saveButton.TabIndex = 10;
@@ -258,7 +267,7 @@
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(571, 1046);
+            cancelButton.Location = new Point(570, 1109);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(220, 57);
             cancelButton.TabIndex = 11;
@@ -274,11 +283,119 @@
             apptIdCmbBox.Size = new Size(182, 33);
             apptIdCmbBox.TabIndex = 0;
             // 
+            // apptIdErrorLabel
+            // 
+            apptIdErrorLabel.AutoSize = true;
+            apptIdErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            apptIdErrorLabel.ForeColor = Color.Red;
+            apptIdErrorLabel.Location = new Point(295, 59);
+            apptIdErrorLabel.Name = "apptIdErrorLabel";
+            apptIdErrorLabel.Size = new Size(155, 25);
+            apptIdErrorLabel.TabIndex = 24;
+            apptIdErrorLabel.Text = "apptIdErrorLabel";
+            // 
+            // bloodPressSysErrorLabel
+            // 
+            bloodPressSysErrorLabel.AutoSize = true;
+            bloodPressSysErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bloodPressSysErrorLabel.ForeColor = Color.Red;
+            bloodPressSysErrorLabel.Location = new Point(327, 126);
+            bloodPressSysErrorLabel.Name = "bloodPressSysErrorLabel";
+            bloodPressSysErrorLabel.Size = new Size(220, 25);
+            bloodPressSysErrorLabel.TabIndex = 25;
+            bloodPressSysErrorLabel.Text = "bloodPressSysErrorLabel";
+            // 
+            // bloodPressDiasErrorLabel
+            // 
+            bloodPressDiasErrorLabel.AutoSize = true;
+            bloodPressDiasErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bloodPressDiasErrorLabel.ForeColor = Color.Red;
+            bloodPressDiasErrorLabel.Location = new Point(746, 126);
+            bloodPressDiasErrorLabel.Name = "bloodPressDiasErrorLabel";
+            bloodPressDiasErrorLabel.Size = new Size(228, 25);
+            bloodPressDiasErrorLabel.TabIndex = 26;
+            bloodPressDiasErrorLabel.Text = "bloodPressDiasErrorLabel";
+            // 
+            // weightErrorLabel
+            // 
+            weightErrorLabel.AutoSize = true;
+            weightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            weightErrorLabel.ForeColor = Color.Red;
+            weightErrorLabel.Location = new Point(114, 195);
+            weightErrorLabel.Name = "weightErrorLabel";
+            weightErrorLabel.Size = new Size(157, 25);
+            weightErrorLabel.TabIndex = 27;
+            weightErrorLabel.Text = "weightErrorLabel";
+            // 
+            // heightErrorLabel
+            // 
+            heightErrorLabel.AutoSize = true;
+            heightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            heightErrorLabel.ForeColor = Color.Red;
+            heightErrorLabel.Location = new Point(348, 195);
+            heightErrorLabel.Name = "heightErrorLabel";
+            heightErrorLabel.Size = new Size(154, 25);
+            heightErrorLabel.TabIndex = 28;
+            heightErrorLabel.Text = "heightErrorLabel";
+            // 
+            // pulseErrorLabel
+            // 
+            pulseErrorLabel.AutoSize = true;
+            pulseErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            pulseErrorLabel.ForeColor = Color.Red;
+            pulseErrorLabel.Location = new Point(582, 195);
+            pulseErrorLabel.Name = "pulseErrorLabel";
+            pulseErrorLabel.Size = new Size(144, 25);
+            pulseErrorLabel.TabIndex = 29;
+            pulseErrorLabel.Text = "pulseErrorLabel";
+            // 
+            // bodyTempErrorLabel
+            // 
+            bodyTempErrorLabel.AutoSize = true;
+            bodyTempErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bodyTempErrorLabel.ForeColor = Color.Red;
+            bodyTempErrorLabel.Location = new Point(860, 195);
+            bodyTempErrorLabel.Name = "bodyTempErrorLabel";
+            bodyTempErrorLabel.Size = new Size(188, 25);
+            bodyTempErrorLabel.TabIndex = 30;
+            bodyTempErrorLabel.Text = "bodyTempErrorLabel";
+            // 
+            // symptomsErrorLabel
+            // 
+            symptomsErrorLabel.AutoSize = true;
+            symptomsErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            symptomsErrorLabel.ForeColor = Color.Red;
+            symptomsErrorLabel.Location = new Point(30, 489);
+            symptomsErrorLabel.Name = "symptomsErrorLabel";
+            symptomsErrorLabel.Size = new Size(186, 25);
+            symptomsErrorLabel.TabIndex = 31;
+            symptomsErrorLabel.Text = "symptomsErrorLabel";
+            // 
+            // initialDiagErrorLabel
+            // 
+            initialDiagErrorLabel.AutoSize = true;
+            initialDiagErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            initialDiagErrorLabel.ForeColor = Color.Red;
+            initialDiagErrorLabel.Location = new Point(30, 787);
+            initialDiagErrorLabel.Name = "initialDiagErrorLabel";
+            initialDiagErrorLabel.Size = new Size(186, 25);
+            initialDiagErrorLabel.TabIndex = 32;
+            initialDiagErrorLabel.Text = "initialDiagErrorLabel";
+            // 
             // VisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1060, 1129);
+            ClientSize = new Size(1060, 1187);
+            Controls.Add(initialDiagErrorLabel);
+            Controls.Add(symptomsErrorLabel);
+            Controls.Add(bodyTempErrorLabel);
+            Controls.Add(pulseErrorLabel);
+            Controls.Add(heightErrorLabel);
+            Controls.Add(weightErrorLabel);
+            Controls.Add(bloodPressDiasErrorLabel);
+            Controls.Add(bloodPressSysErrorLabel);
+            Controls.Add(apptIdErrorLabel);
             Controls.Add(apptIdCmbBox);
             Controls.Add(cancelButton);
             Controls.Add(saveButton);
@@ -335,8 +452,17 @@
         private RichTextBox finalDiagnosesTxtBox;
         private Label apptTextLabel;
         private Label nurseIdTextLabel;
-        private Button saveButton;
+        public Button saveButton;
         private Button cancelButton;
         private ComboBox apptIdCmbBox;
+        private Label apptIdErrorLabel;
+        private Label bloodPressSysErrorLabel;
+        private Label bloodPressDiasErrorLabel;
+        private Label weightErrorLabel;
+        private Label heightErrorLabel;
+        private Label pulseErrorLabel;
+        private Label bodyTempErrorLabel;
+        private Label symptomsErrorLabel;
+        private Label initialDiagErrorLabel;
     }
 }
