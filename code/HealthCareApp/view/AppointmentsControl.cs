@@ -36,9 +36,10 @@ namespace HealthCareApp.view
 
 		private void editAppointmentBtn_Click(object sender, EventArgs e)
 		{
-			if (this.appointmentsDataGridView.SelectedRows.Count > 0)
+			var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
+
+			if (this.appointmentsDataGridView.SelectedRows.Count > 0 && selectedAppointment.AppointmentDate > DateTime.Today)
 			{
-				var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
 				var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
 				editAppointmentPage.FormClosed += RefreshAppointmentsList;
 				editAppointmentPage.ShowDialog();
