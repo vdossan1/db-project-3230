@@ -1,7 +1,7 @@
-﻿// Author: Vitor dos Santos & Jacob Evans
-// Version: Fall 2024
-using HealthCareApp.DAL;
+﻿using HealthCareApp.DAL;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.model
 {
 	/// <summary>

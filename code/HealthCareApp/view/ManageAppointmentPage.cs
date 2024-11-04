@@ -1,10 +1,10 @@
-﻿// Author: Vitor dos Santos & Jacob Evans
-// Version: Fall 2024
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using static HealthCareApp.view.AdvancedSearchControl;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
 	/// <summary>

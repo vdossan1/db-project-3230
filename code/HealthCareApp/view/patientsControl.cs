@@ -6,10 +6,16 @@ using static HealthCareApp.view.AdvancedSearchControl;
 // Version: Fall 2024
 namespace HealthCareApp.view
 {
+	/// <summary>
+	/// Represents a user control for managing patients, allowing users to create, edit, and search for patients.
+	/// </summary>
 	public partial class PatientsControl : UserControl
 	{
 		private PatientsControlViewModel patientsControlViewModel;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PatientsControl"/> class and sets up the data grid and event handlers.
+		/// </summary>
 		public PatientsControl()
 		{
 			InitializeComponent();

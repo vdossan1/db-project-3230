@@ -1,22 +1,28 @@
-﻿using HealthCareApp.model;
+﻿using static HealthCareApp.view.AdvancedSearchControl;
 using HealthCareApp.viewmodel;
-using static HealthCareApp.view.AdvancedSearchControl;
+using HealthCareApp.model;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 namespace HealthCareApp.view
 {
-    public partial class AppointmentsControl : UserControl
+	/// <summary>
+	/// Represents a user control for managing appointments, allowing users to create, edit, and search for appointments.
+	/// </summary>
+	public partial class AppointmentsControl : UserControl
     {
 		private AppointmentsControlViewModel appointmentsControlViewModel;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AppointmentsControl"/> class and sets up the data grid and event handlers.
+		/// </summary>
 		public AppointmentsControl()
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
 
-            this.appointmentsControlViewModel = new AppointmentsControlViewModel();
-            this.SetUpDataGrid();
-            
+			this.appointmentsControlViewModel = new AppointmentsControlViewModel();
+			this.SetUpDataGrid();
+
 			this.apptAdvancedSearchControl.SearchBtnClick += RefreshAppointmentsList;
 			this.apptAdvancedSearchControl.ClearBtnClick += RefreshAppointmentsList;
 		}
