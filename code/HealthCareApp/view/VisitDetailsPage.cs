@@ -1,12 +1,21 @@
 ﻿using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
-    public partial class VisitDetailsPage : Form
+	/// <summary>
+	/// Represents the interface for adding a new visit in the healthcare application.
+	/// </summary>
+	public partial class VisitDetailsPage : Form
     {
         private VisitDetailsPageViewModel visitDetailsPageViewModel;
-        public VisitDetailsPage(int nurseId)
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VisitDetailsPage"/> class and sets up the data grid and event handlers.
+		/// </summary>
+		public VisitDetailsPage(int nurseId)
         {
             InitializeComponent();
             this.visitDetailsPageViewModel = new VisitDetailsPageViewModel();
@@ -53,7 +62,9 @@ namespace HealthCareApp.view
             this.Dispose();
         }
 
-        private void BindControls()
+		#region Bindings
+
+		private void BindControls()
         {
             this.apptIdCmbBox.DataSource = this.visitDetailsPageViewModel.ApptIdsArray;
 
@@ -120,5 +131,7 @@ namespace HealthCareApp.view
             this.initialDiagErrorLabel.DataBindings.Add(
                 "Text", visitDetailsPageViewModel, nameof(visitDetailsPageViewModel.InitialDiagValidationMessage));
         }
-    }
+
+		#endregion
+	}
 }

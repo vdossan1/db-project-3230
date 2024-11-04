@@ -1,14 +1,22 @@
 ﻿using HealthCareApp.DAL;
 using HealthCareApp.viewmodel;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.view
 {
-    public partial class VisitsControl : UserControl
+	/// <summary>
+	/// Represents a user control for managing appointments, allowing users to create, edit, and search for appointments.
+	/// </summary>
+	public partial class VisitsControl : UserControl
     {
         private VisitsControlViewModel visitsControlViewModel;
         private int nurseId;
 
-        public VisitsControl(string nurseUsername)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VisitsControl"/> class and sets up the data grid and event handlers.
+		/// </summary>
+		public VisitsControl(string nurseUsername)
         {
             InitializeComponent();
 
