@@ -1,315 +1,335 @@
-﻿using HealthCareApp.DAL;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using HealthCareApp.DAL;
 using HealthCareApp.model;
 using HealthCareApp.utils;
 using MySql.Data.MySqlClient;
-using System.ComponentModel;
-using System.Diagnostics;
 using static HealthCareApp.view.AdvancedSearchControl;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
-namespace HealthCareApp.viewmodel
+namespace HealthCareApp.viewmodel;
+
+/// <summary>
+///     ViewModel for managing appointment information in the application.
+///     Responsible for editing and creating appointments,
+///     and populating fields with appointment data.
+/// </summary>
+public class ManageAppointmentViewModel : INotifyPropertyChanged
 {
-	/// <summary>
-	/// ViewModel for managing appointment information in the application. 
-	/// Responsible for editing and creating appointments, 
-	/// and populating fields with appointment data.
-	/// </summary>
-	public class ManageAppointmentViewModel : INotifyPropertyChanged
-	{
-		#region Constants
+    #region Data members
 
-		private const string INVALID_FIELD_INPUT = "Required field";
-		private const string INVALID_DATE = "Invalid Appointment Date";
-		private const string INVALID_PATIENT_SELECTION = "Please select a Patient";
-		private const string INVALID_DOCTOR_SELECTION = "Please select a Doctor";
+    private Patient patient;
 
-		#endregion
+    private Doctor doctor;
 
-		public Appointment SelectedAppointment { get; set; }
+    private string reason;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ManageAppointmentViewModel"/> class.
-		/// </summary>
-		public ManageAppointmentViewModel()
-		{
-			this.ValidationErrors = new Dictionary<string, string>();
-			Patients = new List<Patient>();
-			Doctors = new List<Doctor>();
-			this.PopulateDataGrids();
-		}
+    private DateTime? date;
 
-		/// <summary>
-		/// Handles the management of appointment information in the application based on the specified action.
-		/// </summary>
-		/// <param name="action">The AppointmentAction which determines the action to be taken by this method.</param>
-		public bool ManageAppointment(AppointmentAction action)
-		{
-			var result = false;
-			try
-			{
-				if (IsValid)
-				{
-					this.ExecuteAppointmentAction(action);
-					result = true;
-					Debug.WriteLine($"Appointment Created: {Patient.FirstName} {Doctor.FirstName} {Reason} {Date.ToString()}");
-				}
-			}
-			catch (MySqlException sqlException)
-			{
-				Debug.WriteLine(sqlException);
-				this.OnErrorOccured($"{sqlException.Message}");
-			}
-			catch (Exception e)
-			{
-				Debug.WriteLine(e);
-				this.OnErrorOccured($"Exception \n {e.Message}");
-			}
-			return result;
-		}
+    #endregion
 
-		/// <summary>
-		/// Populates the ViewModel's fields with the data from the specified appointment.
-		/// </summary>
-		/// <param name="appointment">The appointment object whose data will be used to populate the fields.</param>
-		public void PopulateFields(Appointment appointment)
-		{
-			Patient = Patients.Find(p => p.PatientId == appointment.PatientId);
-			Doctor = Doctors.Find(d => d.DoctorId == appointment.DoctorId);
-			Reason = appointment.Reason;
-			Date = appointment.AppointmentDate;
-		}
+    #region Properties
 
-        /// <summary>
-        /// Populates the data grids with a list of patients and doctors, optionally filtered by search criteria.
-        /// </summary>
-        /// <param name="eventArgs">Optional. The <see cref="SearchEventArgs"/> containing the search criteria. If null, all patients and doctors are retrieved.</param>
-        public void PopulateDataGrids(SearchEventArgs eventArgs = null)
-		{
-			if (eventArgs == null)
-			{
-				Patients = PatientDal.GetAllPatients();
-				Doctors = DoctorDal.GetAllDoctors();
-			}
-			else
-			{
-				var firstName = eventArgs.FirstName;
-				var lastName = eventArgs.LastName;
-				var dateOfBirth = eventArgs.DateOfBirth;
+    public Appointment SelectedAppointment { get; set; }
 
-				Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
-				Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
-			}
-		}
+    public List<Patient> Patients { get; set; }
+    public List<Doctor> Doctors { get; set; }
 
-		private void ExecuteAppointmentAction(AppointmentAction action)
-		{
-			Appointment newAppointment = new Appointment(Patient.PatientId, Doctor.DoctorId, Date, Reason);
-
-			switch (action)
-			{
-				case AppointmentAction.CREATE:
-					AppointmentDal.CreateAppointment(newAppointment);
-                    OnAddAppointment();
-                    break;
-				case AppointmentAction.EDIT:
-					newAppointment.AppointmentId = SelectedAppointment.AppointmentId;
-					AppointmentDal.EditAppointment(newAppointment);
-					break;
-			}
-		}
-
-		#region Events
-
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Occurs when an error message needs to be displayed.
-        /// </summary>
-        public EventHandler<string> ErrorOccured;
-
-		protected virtual void OnErrorOccured(string message)
-		{
-			this.ErrorOccured?.Invoke(this, message);
-		}
-
-		/// <summary>
-		/// Raises the <see cref="PropertyChanged"/> event for a property.
-		/// </summary>
-		/// <param name="propertyName">The name of the property that changed.</param>
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			ValidateFields();
-		}
-
-        /// <summary>
-        /// Occurs when a new appointment is added.
-        /// </summary>
-        public static event EventHandler AddAppointment;
-
-        private void OnAddAppointment()
+    /// <summary>
+    ///     Gets or sets the Patient for the appointment.
+    ///     Raises the <see cref="PropertyChanged" /> event when changed.
+    /// </summary>
+    public Patient Patient
+    {
+        get => this.patient;
+        set
         {
-            AddAppointment?.Invoke(this, EventArgs.Empty);
+            if (this.patient != value)
+            {
+                this.patient = value;
+                this.OnPropertyChanged(nameof(this.Patient));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets the Doctor for the appointment.
+    ///     Raises the <see cref="PropertyChanged" /> event when changed.
+    /// </summary>
+    public Doctor Doctor
+    {
+        get => this.doctor;
+        set
+        {
+            if (this.doctor != value)
+            {
+                this.doctor = value;
+                this.OnPropertyChanged(nameof(this.Doctor));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets the reason for the appointment.
+    ///     Raises the <see cref="PropertyChanged" /> event when changed.
+    /// </summary>
+    public string Reason
+    {
+        get => this.reason;
+        set
+        {
+            if (this.reason != value)
+            {
+                this.reason = value;
+                this.OnPropertyChanged(nameof(this.Reason));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets the date of the appointment.
+    ///     Raises the <see cref="PropertyChanged" /> event when changed.
+    /// </summary>
+    public DateTime? Date
+    {
+        get => this.date;
+        set
+        {
+            if (this.date != value)
+            {
+                this.date = value;
+                this.OnPropertyChanged(nameof(this.Date));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Gets the validation message for the Patient field.
+    /// </summary>
+    public string PatientValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Patient))
+        ? this.ValidationErrors[nameof(this.Patient)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Doctor field.
+    /// </summary>
+    public string DoctorValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Doctor))
+        ? this.ValidationErrors[nameof(this.Doctor)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Reason field.
+    /// </summary>
+    public string ReasonValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Reason))
+        ? this.ValidationErrors[nameof(this.Reason)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Date field.
+    /// </summary>
+    public string DateValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Date))
+        ? this.ValidationErrors[nameof(this.Date)]
+        : string.Empty;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ManageAppointmentViewModel" /> class.
+    /// </summary>
+    public ManageAppointmentViewModel()
+    {
+        this.ValidationErrors = new Dictionary<string, string>();
+        this.Patients = new List<Patient>();
+        this.Doctors = new List<Doctor>();
+        this.PopulateDataGrids();
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    ///     Handles the management of appointment information in the application based on the specified action.
+    /// </summary>
+    /// <param name="action">The AppointmentAction which determines the action to be taken by this method.</param>
+    public bool ManageAppointment(AppointmentAction action)
+    {
+        var result = false;
+        try
+        {
+            if (this.IsValid)
+            {
+                this.ExecuteAppointmentAction(action);
+                result = true;
+                Debug.WriteLine(
+                    $"Appointment Created: {this.Patient.FirstName} {this.Doctor.FirstName} {this.Reason} {this.Date.ToString()}");
+            }
+        }
+        catch (MySqlException sqlException)
+        {
+            Debug.WriteLine(sqlException);
+            this.OnErrorOccured($"{sqlException.Message}");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+            this.OnErrorOccured($"Exception \n {e.Message}");
         }
 
-        #endregion
+        return result;
+    }
 
-        #region Properties
+    /// <summary>
+    ///     Populates the ViewModel's fields with the data from the specified appointment.
+    /// </summary>
+    /// <param name="appointment">The appointment object whose data will be used to populate the fields.</param>
+    public void PopulateFields(Appointment appointment)
+    {
+        this.Patient = this.Patients.Find(p => p.PatientId == appointment.PatientId);
+        this.Doctor = this.Doctors.Find(d => d.DoctorId == appointment.DoctorId);
+        this.Reason = appointment.Reason;
+        this.Date = appointment.AppointmentDate;
+    }
 
-        public List<Patient> Patients { get; set; }
-		public List<Doctor> Doctors { get; set; }
+    /// <summary>
+    ///     Populates the data grids with a list of patients and doctors, optionally filtered by search criteria.
+    /// </summary>
+    /// <param name="eventArgs">
+    ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
+    ///     patients and doctors are retrieved.
+    /// </param>
+    public void PopulateDataGrids(SearchEventArgs eventArgs = null)
+    {
+        if (eventArgs == null)
+        {
+            this.Patients = PatientDal.GetAllPatients();
+            this.Doctors = DoctorDal.GetAllDoctors();
+        }
+        else
+        {
+            var firstName = eventArgs.FirstName;
+            var lastName = eventArgs.LastName;
+            var dateOfBirth = eventArgs.DateOfBirth;
 
-		private Patient patient;
-		/// <summary>
-		/// Gets or sets the Patient for the appointment. 
-		/// Raises the <see cref="PropertyChanged"/> event when changed.
-		/// </summary>
-		public Patient Patient
-		{
-			get => patient;
-			set
-			{
-				if (patient != value)
-				{
-					patient = value;
-					OnPropertyChanged(nameof(Patient));
-				}
-			}
-		}
+            this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+            this.Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
+        }
+    }
 
-		private Doctor doctor;
-		/// <summary>
-		/// Gets or sets the Doctor for the appointment. 
-		/// Raises the <see cref="PropertyChanged"/> event when changed.
-		/// </summary>
-		public Doctor Doctor
-		{
-			get => doctor;
-			set
-			{
-				if (doctor != value)
-				{
-					doctor = value;
-					OnPropertyChanged(nameof(Doctor));
-				}
-			}
-		}
+    private void ExecuteAppointmentAction(AppointmentAction action)
+    {
+        var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, this.Date, this.Reason);
 
-		private string reason;
-		/// <summary>
-		/// Gets or sets the reason for the appointment. 
-		/// Raises the <see cref="PropertyChanged"/> event when changed.
-		/// </summary>
-		public string Reason
-		{
-			get => reason;
-			set
-			{
-				if (reason != value)
-				{
-					reason = value;
-					OnPropertyChanged(nameof(Reason));
-				}
-			}
-		}
+        switch (action)
+        {
+            case AppointmentAction.CREATE:
+                AppointmentDal.CreateAppointment(newAppointment);
+                this.OnAddAppointment();
+                break;
+            case AppointmentAction.EDIT:
+                newAppointment.AppointmentId = this.SelectedAppointment.AppointmentId;
+                AppointmentDal.EditAppointment(newAppointment);
+                break;
+        }
+    }
 
-		private DateTime? date;
-		/// <summary>
-		/// Gets or sets the date of the appointment. 
-		/// Raises the <see cref="PropertyChanged"/> event when changed.
-		/// </summary>
-		public DateTime? Date
-		{
-			get => date;
-			set
-			{
-				if (date != value)
-				{
-					date = value;
-					OnPropertyChanged(nameof(Date));
-				}
-			}
-		}
+    #endregion
 
-        #endregion
+    #region Constants
 
-        #region ValidationMessageProperties
+    private const string INVALID_FIELD_INPUT = "Required field";
+    private const string INVALID_DATE = "Invalid Appointment Date";
+    private const string INVALID_PATIENT_SELECTION = "Please select a Patient";
+    private const string INVALID_DOCTOR_SELECTION = "Please select a Doctor";
 
-        /// <summary>
-        /// Gets the validation message for the Patient field.
-        /// </summary>
-        public string PatientValidationMessage =>
-			ValidationErrors.ContainsKey(nameof(Patient)) ? ValidationErrors[nameof(Patient)] : string.Empty;
+    #endregion
 
-        /// <summary>
-        /// Gets the validation message for the Doctor field.
-        /// </summary>
-        public string DoctorValidationMessage =>
-			ValidationErrors.ContainsKey(nameof(Doctor)) ? ValidationErrors[nameof(Doctor)] : string.Empty;
+    #region Events
 
-        /// <summary>
-        /// Gets the validation message for the Reason field.
-        /// </summary>
-        public string ReasonValidationMessage =>
-			ValidationErrors.ContainsKey(nameof(Reason)) ? ValidationErrors[nameof(Reason)] : string.Empty;
+    /// <summary>
+    ///     Occurs when a property value changes.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets the validation message for the Date field.
-        /// </summary>
-        public string DateValidationMessage =>
-			ValidationErrors.ContainsKey(nameof(Date)) ? ValidationErrors[nameof(Date)] : string.Empty;
+    /// <summary>
+    ///     Occurs when an error message needs to be displayed.
+    /// </summary>
+    public EventHandler<string> ErrorOccured;
 
-		#endregion
+    protected virtual void OnErrorOccured(string message)
+    {
+        this.ErrorOccured?.Invoke(this, message);
+    }
 
-		#region FieldValidation
+    /// <summary>
+    ///     Raises the <see cref="PropertyChanged" /> event for a property.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.ValidateFields();
+    }
 
-		/// <summary>
-		/// Determines if the data entered by the user is valid
-		/// </summary>
-		public bool IsValid { get; private set; }
+    /// <summary>
+    ///     Occurs when a new appointment is added.
+    /// </summary>
+    public static event EventHandler AddAppointment;
 
-        /// <summary>
-        /// Gets the dictionary of validation error messages for form fields.
-        /// </summary>
-        public Dictionary<string, string> ValidationErrors { get; private set; }
+    private void OnAddAppointment()
+    {
+        AddAppointment?.Invoke(this, EventArgs.Empty);
+    }
 
-        /// <summary>
-        /// Validates the fields and updates the <see cref="ValidationErrors"/> dictionary with any validation errors.
-        /// </summary>
-        public void ValidateFields()
-		{
-			ValidationErrors.Clear();
-			IsValid = true;
+    #endregion
 
-			if (Patient == null)
-			{
-				ValidationErrors[nameof(Patient)] = INVALID_PATIENT_SELECTION;
-				IsValid = false;
-			}
+    #region FieldValidation
 
-			if (Doctor == null)
-			{
-				ValidationErrors[nameof(Doctor)] = INVALID_DOCTOR_SELECTION;
-				IsValid = false;
-			}
+    /// <summary>
+    ///     Determines if the data entered by the user is valid
+    /// </summary>
+    public bool IsValid { get; private set; }
 
-			if (string.IsNullOrWhiteSpace(Reason))
-			{
-				ValidationErrors[nameof(Reason)] = INVALID_FIELD_INPUT;
-				IsValid = false;
-			}
+    /// <summary>
+    ///     Gets the dictionary of validation error messages for form fields.
+    /// </summary>
+    public Dictionary<string, string> ValidationErrors { get; }
 
-			if (Date <= DateTime.Now)
-			{
-				ValidationErrors[nameof(Date)] = INVALID_DATE;
-				IsValid = false;
-			}
-		}
+    /// <summary>
+    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
+    /// </summary>
+    public void ValidateFields()
+    {
+        this.ValidationErrors.Clear();
+        this.IsValid = true;
 
-		#endregion
-	}
+        if (this.Patient == null)
+        {
+            this.ValidationErrors[nameof(this.Patient)] = INVALID_PATIENT_SELECTION;
+            this.IsValid = false;
+        }
+
+        if (this.Doctor == null)
+        {
+            this.ValidationErrors[nameof(this.Doctor)] = INVALID_DOCTOR_SELECTION;
+            this.IsValid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(this.Reason))
+        {
+            this.ValidationErrors[nameof(this.Reason)] = INVALID_FIELD_INPUT;
+            this.IsValid = false;
+        }
+
+        if (this.Date <= DateTime.Now)
+        {
+            this.ValidationErrors[nameof(this.Date)] = INVALID_DATE;
+            this.IsValid = false;
+        }
+    }
+
+    #endregion
 }

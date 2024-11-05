@@ -2,20 +2,22 @@ using HealthCareApp.View;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
-namespace HealthCareApp
+namespace HealthCareApp;
+
+public class Program
 {
-	public class Program
+    #region Methods
+
+    /// <summary>
+    ///     The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    public static void Main()
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        public static void Main()
-        {
-            ApplicationConfiguration.Initialize();
+        ApplicationConfiguration.Initialize();
 
-            Application.Run(new LoginPage());
-
-        }
+        Application.Run(new LoginPage());
     }
+
+    #endregion
 }

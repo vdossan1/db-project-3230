@@ -1,29 +1,37 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
-namespace HealthCareApp.model
+
+namespace HealthCareApp.model;
+
+/// <summary>
+///     The LoginCredential Class.
+/// </summary>
+public class LoginCredential
 {
-	/// <summary>
-	/// The LoginCredential Class.
-	/// </summary>
-	public class LoginCredential
+    #region Properties
+
+    /// <summary>
+    ///     Gets the username used by the user for system login.
+    /// </summary>
+    public string Username { get; }
+
+    /// <summary>
+    ///     Gets the password used by the user for system login.
+    /// </summary>
+    public string Password { get; }
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="LoginCredential" /> class with the specified details.
+    /// </summary>
+    public LoginCredential(string username, string password)
     {
-	    /// <summary>
-	    /// Gets the username used by the user for system login.
-	    /// </summary>
-		public string Username { get; }
-
-        /// <summary>
-        /// Gets the password used by the user for system login.
-        /// </summary>
-		public string Password { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoginCredential"/> class with the specified details.
-        /// </summary>
-		public LoginCredential(string username, string password)
-        {
-            this.Username = username ?? throw new ArgumentNullException(nameof(username));
-            this.Password = password ?? throw new ArgumentNullException(nameof(password));
-        }
+        this.Username = username ?? throw new ArgumentNullException(nameof(username));
+        this.Password = password ?? throw new ArgumentNullException(nameof(password));
     }
+
+    #endregion
 }
