@@ -26,11 +26,13 @@ public partial class ManagePatientPage : Form
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManagePatientPage" /> class.
     /// </summary>
-    public ManagePatientPage(Patient? selectedPatient)
+    public ManagePatientPage(Patient? selectedPatient = null)
     {
         this.InitializeComponent();
-        this.managePatientViewModel = new ManagePatientViewModel();
+
+        this.managePatientViewModel = selectedPatient == null ? new ManagePatientViewModel() : new ManagePatientViewModel(selectedPatient);
         this.managePatientViewModel.ErrorOccured += this.ErrorOccured;
+
         this.SetPageAction(selectedPatient);
 
         this.BindControls();
@@ -63,25 +65,8 @@ public partial class ManagePatientPage : Form
 
     private void OnActionButtonPressed()
     {
-        var text = this.GetActionString();
-        MessageBox.Show($"Patient {text} Successfully", "Confirmation", MessageBoxButtons.OK,
+        MessageBox.Show($"{Text} Complete", "Confirmation", MessageBoxButtons.OK,
             MessageBoxIcon.Information);
-    }
-
-    private string GetActionString()
-    {
-        var actionString = "";
-        switch (this.patientAction)
-        {
-            case PatientAction.REGISTER:
-                actionString = REGISTER_ACTION + "ed";
-                break;
-            case PatientAction.EDIT:
-                actionString = EDIT_ACTION + "d";
-                break;
-        }
-
-        return actionString;
     }
 
     #endregion

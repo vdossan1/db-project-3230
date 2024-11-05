@@ -353,7 +353,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManagePatientViewModel" /> class.
     /// </summary>
-    public ManagePatientViewModel()
+    public ManagePatientViewModel(Patient? selectedPatient = null)
     {
         this.ValidationErrors = new Dictionary<string, string>();
     }

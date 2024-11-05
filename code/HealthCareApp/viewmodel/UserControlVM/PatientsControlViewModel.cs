@@ -16,6 +16,46 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public List<Patient> Patients { get; private set; }
 
+    private Patient? selectedPatient;
+    public Patient? SelectedPatient
+    {
+        get => this.selectedPatient;
+        set
+        {
+            if (this.selectedPatient != value)
+            {
+                this.selectedPatient = value;
+                this.OnPropertyChanged(nameof(this.SelectedPatient));
+
+                this.IsValid = this.selectedPatient != null;
+                this.OnPropertyChanged(nameof(this.IsValid));
+            }
+        }
+    }
+
+    private bool isValid;
+    public bool IsValid
+    {
+        get => this.isValid;
+        private set
+        {
+            if (this.isValid != value)
+            {
+                this.isValid = value;
+                this.OnPropertyChanged(nameof(this.IsValid));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Raises the <see cref="PropertyChanged" /> event for a property.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected void OnPropertyChanged(string propertyName)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     #endregion
 
     #region Constructors
@@ -25,8 +65,10 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public PatientsControlViewModel()
     {
-        Patients = new List<Patient>();
-        PopulatePatients();
+        this.Patients = new List<Patient>();
+        this.PopulatePatients();
+
+        this.IsValid = false;
     }
 
     #endregion
@@ -45,11 +87,11 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
     ///     patients are retrieved.
     /// </param>
-    public void PopulatePatients(SearchEventArgs eventArgs = null)
+    public void PopulatePatients(SearchEventArgs? eventArgs = null)
     {
         if (eventArgs == null)
         {
-            Patients = PatientDal.GetAllPatients();
+            this.Patients = PatientDal.GetAllPatients();
         }
         else
         {
@@ -57,7 +99,7 @@ public class PatientsControlViewModel : INotifyPropertyChanged
             var lastName = eventArgs.LastName;
             var dateOfBirth = eventArgs.DateOfBirth;
 
-            Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+            this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
         }
     }
 

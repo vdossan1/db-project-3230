@@ -48,6 +48,7 @@
             // 
             // editPatientBtn
             // 
+            editPatientBtn.Enabled = false;
             editPatientBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editPatientBtn.Location = new Point(513, 40);
             editPatientBtn.Name = "editPatientBtn";

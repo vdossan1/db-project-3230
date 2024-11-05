@@ -42,7 +42,7 @@ public class PatientDal
     ///     Edits an existing patient's information in the database.
     /// </summary>
     /// <param name="patient">The patient object containing updated information about the patient.</param>
-    public static void EditPatient(Patient patient)
+    public static int EditPatient(Patient patient)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -58,7 +58,7 @@ public class PatientDal
         AddAllPatientParamsToCommand(patient, command);
         command.Parameters.Add("@PatientId", MySqlDbType.Int32).Value = patient.PatientId;
 
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery();
     }
 
     /// <summary>
