@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-    partial class VisitDetailsPage
+    partial class ManageVisitDetailsPage
     {
         /// <summary>
         /// Required designer variable.
@@ -382,7 +382,7 @@
             initialDiagErrorLabel.TabIndex = 32;
             initialDiagErrorLabel.Text = "initialDiagErrorLabel";
             // 
-            // VisitDetailsPage
+            // ManageVisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -421,7 +421,7 @@
             Controls.Add(bloodPressureSysLabel);
             Controls.Add(nurseIdLabel);
             Controls.Add(apptIdLabel);
-            Name = "VisitDetailsPage";
+            Name = "ManageVisitDetailsPage";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Visit Details Page";
             ResumeLayout(false);

@@ -46,7 +46,7 @@ namespace HealthCareApp.view
 
         private void createVisitBtn_Click(object sender, EventArgs e)
         {
-            var createVisitPage = new VisitDetailsPage(this.nurseId);
+            var createVisitPage = new ManageVisitDetailsPage(this.nurseId);
             createVisitPage.FormClosed += RefreshVisitsList;
             createVisitPage.ShowDialog();
         }

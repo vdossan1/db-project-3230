@@ -8,14 +8,14 @@ namespace HealthCareApp.view
 	/// <summary>
 	/// Represents the interface for adding a new visit in the healthcare application.
 	/// </summary>
-	public partial class VisitDetailsPage : Form
+	public partial class ManageVisitDetailsPage : Form
     {
         private VisitDetailsPageViewModel visitDetailsPageViewModel;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="VisitDetailsPage"/> class and sets up the data grid and event handlers.
+		/// Initializes a new instance of the <see cref="ManageVisitDetailsPage"/> class and sets up the data grid and event handlers.
 		/// </summary>
-		public VisitDetailsPage(int nurseId)
+		public ManageVisitDetailsPage(int nurseId)
         {
             InitializeComponent();
             this.visitDetailsPageViewModel = new VisitDetailsPageViewModel();
