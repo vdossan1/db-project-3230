@@ -18,6 +18,8 @@ public class ManagePatientViewModel : INotifyPropertyChanged
 {
     #region Data members
 
+    private int patientId;
+
     private string firstName;
 
     private string lastName;
@@ -56,10 +58,24 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// </summary>
     public string[] SexArray => Enum.GetNames(typeof(Gender));
 
+    public int PatientId
+    {
+        get => this.patientId;
+        set
+        {
+            if (this.patientId != value)
+            {
+                this.patientId = value;
+                this.OnPropertyChanged(nameof(this.patientId));
+            }
+        }
+    }
+
     /// <summary>
     ///     Gets or sets the first name of the patient.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
+    /// 
     public string FirstName
     {
         get => this.firstName;
@@ -383,6 +399,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// <param name="patient">The patient object whose data will be used to populate the fields.</param>
     public void PopulateFields(Patient patient)
     {
+        this.PatientId = patient.PatientId;
         this.FirstName = patient.FirstName;
         this.LastName = patient.LastName;
         this.DateOfBirth = patient.DateOfBirth;
@@ -408,6 +425,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
                 PatientDal.RegisterPatient(newPatient);
                 break;
             case PatientAction.EDIT:
+                newPatient.PatientId = this.PatientId;
                 PatientDal.EditPatient(newPatient);
                 break;
         }

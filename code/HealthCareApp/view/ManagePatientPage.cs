@@ -15,6 +15,7 @@ public partial class ManagePatientPage : Form
 
     private const string REGISTER_ACTION = "Register";
     private const string EDIT_ACTION = "Update";
+
     private readonly ManagePatientViewModel managePatientViewModel;
     private PatientAction patientAction;
 

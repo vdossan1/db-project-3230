@@ -16,12 +16,12 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Gets a value indicating whether there are any appointments with no associated visit.
     /// </summary>
-    public bool IsValid => GetCountOfAppointmentsWithNoVisit() > 0;
+    public bool IsValid => this.GetCountOfAppointmentsWithNoVisit() > 0;
 
     /// <summary>
     ///     Gets a value indicating whether the label should be shown based on validation status.
     /// </summary>
-    public bool ShowLabel => !IsValid;
+    public bool ShowLabel => !this.IsValid;
 
     #endregion
 
@@ -32,9 +32,9 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public VisitsControlViewModel()
     {
-        Visits = new List<Visit>();
-        PopulateVisits();
-        ManageAppointmentViewModel.AddAppointment += OnAppointmentAdded;
+        this.Visits = new List<Visit>();
+        this.PopulateVisits();
+        ManageAppointmentViewModel.AddAppointment += this.OnAppointmentAdded;
     }
 
     #endregion
@@ -53,7 +53,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <param name="e">The event arguments.</param>
     private void OnAppointmentAdded(object? sender, EventArgs e)
     {
-        GetCountOfAppointmentsWithNoVisit();
+        this.GetCountOfAppointmentsWithNoVisit();
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateVisits()
     {
-        Visits = VisitDal.GetAllVisits();
+        this.Visits = VisitDal.GetAllVisits();
     }
 
     /// <summary>
@@ -71,8 +71,8 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     public int GetCountOfAppointmentsWithNoVisit()
     {
         var count = AppointmentDal.GetAllAppointmentsIdsWithNoVisits().Count;
-        OnPropertyChanged(nameof(IsValid));
-        OnPropertyChanged(nameof(ShowLabel));
+        this.OnPropertyChanged(nameof(this.IsValid));
+        this.OnPropertyChanged(nameof(this.ShowLabel));
 
         return count;
     }
@@ -83,7 +83,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <param name="propertyName">The name of the property that changed.</param>
     protected virtual void OnPropertyChanged(string propertyName)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     #endregion

@@ -51,11 +51,12 @@ public class PatientDal
             "UPDATE patient SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, " +
             "sex = @Sex, address_line1 = @Address1, address_line2 = @Address2, city = @City, state = @State, " +
             "zip_code = @ZipCode, phone_number = @PhoneNumber, status = @Status " +
-            "WHERE ssn = @Ssn";
+            "WHERE patient_id = @PatientId";
 
         using var command = new MySqlCommand(query, connection);
 
         AddAllPatientParamsToCommand(patient, command);
+        command.Parameters.Add("@PatientId", MySqlDbType.Int32).Value = patient.PatientId;
 
         command.ExecuteNonQuery();
     }
