@@ -1,4 +1,5 @@
-﻿using HealthCareApp.viewmodel;
+﻿using HealthCareApp.DAL;
+using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 
 // Author: Vitor dos Santos & Jacob Evans
@@ -22,13 +23,13 @@ public partial class ManageVisitDetailsPage : Form
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPage" /> class and sets up the data grid and event
     ///     handlers.
     /// </summary>
-    public ManageVisitDetailsPage(int nurseId)
+    public ManageVisitDetailsPage(string nurseFullName, string username)
     {
         this.InitializeComponent();
         this.visitDetailsPageViewModel = new VisitDetailsPageViewModel();
 
-        this.nurseIdTextLabel.Text = nurseId.ToString();
-        this.visitDetailsPageViewModel.NurseId = nurseId;
+        this.nurseIdTextLabel.Text = nurseFullName;
+        this.visitDetailsPageViewModel.NurseId = NurseDal.GetIdFromUsername(username);
 
         this.BindControls();
         this.BindValidationMessages();

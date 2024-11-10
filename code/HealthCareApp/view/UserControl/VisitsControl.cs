@@ -13,7 +13,8 @@ public partial class VisitsControl : UserControl
     #region Data members
 
     private readonly VisitsControlViewModel visitsControlViewModel;
-    private readonly int nurseId;
+    private readonly string nurseFullName;
+    private readonly string username;
 
     #endregion
 
@@ -22,11 +23,12 @@ public partial class VisitsControl : UserControl
     /// <summary>
     ///     Initializes a new instance of the <see cref="VisitsControl" /> class and sets up the data grid and event handlers.
     /// </summary>
-    public VisitsControl(string nurseUsername)
+    public VisitsControl(string nurseFullName, string userName)
     {
         this.InitializeComponent();
 
-        this.nurseId = NurseDal.GetIdFromUsername(nurseUsername);
+        this.nurseFullName = nurseFullName;
+        this.username = userName;
         this.visitsControlViewModel = new VisitsControlViewModel();
 
         this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
@@ -58,7 +60,7 @@ public partial class VisitsControl : UserControl
 
     private void createVisitBtn_Click(object sender, EventArgs e)
     {
-        var createVisitPage = new ManageVisitDetailsPage(this.nurseId);
+        var createVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username);
         createVisitPage.FormClosed += this.RefreshVisitsList;
         createVisitPage.ShowDialog();
     }

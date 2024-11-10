@@ -41,7 +41,7 @@ public partial class MainPage : Form
         this.mainPageViewModel = mainPageViewModel;
         this.patientsControl = new PatientsControl();
         this.appointmentsControl = new AppointmentsControl();
-        this.visitsControl = new VisitsControl(this.mainPageViewModel.Username);
+        this.visitsControl = new VisitsControl(this.mainPageViewModel.UserFullName, this.mainPageViewModel.Username);
 
         this.DisplayUserInformation();
         this.initializeMainPageDesign();
