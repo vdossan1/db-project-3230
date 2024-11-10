@@ -77,7 +77,7 @@ public partial class ManagePatientPage : Form
     {
         this.managePatientViewModel.ValidateFields();
 
-        if (this.managePatientViewModel.ManagePatient(this.patientAction))
+        if (this.managePatientViewModel.ManagePatient())
         {
             this.OnActionButtonPressed();
             Hide();

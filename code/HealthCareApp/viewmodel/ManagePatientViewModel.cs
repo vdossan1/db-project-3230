@@ -18,8 +18,6 @@ public class ManagePatientViewModel : INotifyPropertyChanged
 {
     #region Data members
 
-    private int patientId;
-
     private string firstName;
 
     private string lastName;
@@ -58,18 +56,9 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// </summary>
     public string[] SexArray => Enum.GetNames(typeof(Gender));
 
-    public int PatientId
-    {
-        get => this.patientId;
-        set
-        {
-            if (this.patientId != value)
-            {
-                this.patientId = value;
-                this.OnPropertyChanged(nameof(this.patientId));
-            }
-        }
-    }
+    public Patient? SelectedPatient { get; set; }
+
+    public int PatientId { get; set; }
 
     /// <summary>
     ///     Gets or sets the first name of the patient.
@@ -355,6 +344,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// </summary>
     public ManagePatientViewModel(Patient? selectedPatient = null)
     {
+        this.SelectedPatient = selectedPatient;
         this.ValidationErrors = new Dictionary<string, string>();
     }
 
@@ -363,21 +353,14 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     #region Methods
 
     /// <summary>
-    ///     Handles the management of patient information in the application based on the specified action.
+    ///     Handles the (Register or Edit patient) management of patient information in the application based on the specified action.
     /// </summary>
-    /// <param name="action">The PatientAction which determines the action to be taken by this method.</param>
-    public bool ManagePatient(PatientAction action)
+    public bool ManagePatient()
     {
-        var result = false;
+        bool result = false;
         try
         {
-            if (this.IsValid)
-            {
-                this.ExecutePatientAction(action);
-                result = true;
-                Debug.WriteLine(
-                    $"Patient Registered: {this.FirstName} {this.LastName} {this.DateOfBirth.ToString()} {this.Sex}");
-            }
+            result = this.ExecutePatientAction() != 0;
         }
         catch (MySqlException sqlException)
         {
@@ -387,10 +370,29 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         catch (Exception e)
         {
             Debug.WriteLine(e);
-            this.OnErrorOccured($"Exception \n {e.Message}");
+            this.OnErrorOccured($"Error \n {e.Message}");
         }
 
         return result;
+    }
+
+    private int ExecutePatientAction()
+    {
+        var newPatient = new Patient(this.FirstName, this.LastName, this.DateOfBirth, this.Sex, this.Address1,
+            this.Address2, this.City, this.State, this.ZipCode, this.PhoneNumber, this.Ssn, true);
+
+        switch (this.SelectedPatient == null)
+        {
+            case true:
+                Debug.WriteLine(
+                    $"Register Patient: {this.FirstName} {this.LastName} {this.DateOfBirth.ToString()} {this.Sex}");
+                return PatientDal.RegisterPatient(newPatient);
+            case false:
+                newPatient.PatientId = this.PatientId;
+                Debug.WriteLine(
+                    $"Updating Patient: {this.FirstName} {this.LastName} {this.DateOfBirth.ToString()} {this.Sex}");
+                return PatientDal.EditPatient(newPatient);
+        }
     }
 
     /// <summary>
@@ -412,23 +414,6 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         this.PhoneNumber = patient.PhoneNumber;
         this.Ssn = patient.Ssn;
         this.Status = patient.Status;
-    }
-
-    private void ExecutePatientAction(PatientAction action)
-    {
-        var newPatient = new Patient(this.FirstName, this.LastName, this.DateOfBirth, this.Sex, this.Address1,
-            this.Address2, this.City, this.State, this.ZipCode, this.PhoneNumber, this.Ssn, true);
-
-        switch (action)
-        {
-            case PatientAction.REGISTER:
-                PatientDal.RegisterPatient(newPatient);
-                break;
-            case PatientAction.EDIT:
-                newPatient.PatientId = this.PatientId;
-                PatientDal.EditPatient(newPatient);
-                break;
-        }
     }
 
     #endregion

@@ -69,7 +69,7 @@ public partial class PatientsControl : UserControl
 
     private void registerPatientBtn_Click(object sender, EventArgs e)
     {
-        var addPatientPage = new ManagePatientPage(null);
+        var addPatientPage = new ManagePatientPage();
         addPatientPage.FormClosed += this.RefreshPatientList;
         addPatientPage.ShowDialog();
     }

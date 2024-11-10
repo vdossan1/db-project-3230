@@ -65,7 +65,7 @@ public class PatientDal
     ///     Registers a new patient in the database.
     /// </summary>
     /// <param name="newPatient">The patient object containing information about the patient to be registered.</param>
-    public static void RegisterPatient(Patient newPatient)
+    public static int RegisterPatient(Patient newPatient)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -78,7 +78,7 @@ public class PatientDal
 
         AddAllPatientParamsToCommand(newPatient, command);
 
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery();
     }
 
     /// <summary>
