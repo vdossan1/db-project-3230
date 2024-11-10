@@ -128,16 +128,13 @@ public partial class ManageVisitDetailsPage : Form
     private void BindValidationMessages()
     {
         this.apptIdErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel,
-            nameof(this.visitDetailsPageViewModel.AppointmentIdValidationMessage));
+            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.AppointmentIdValidationMessage));
 
         this.bloodPressSysErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel,
-            nameof(this.visitDetailsPageViewModel.BloodPressureSysValidationMessage));
+            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureSysValidationMessage));
 
         this.bloodPressDiasErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel,
-            nameof(this.visitDetailsPageViewModel.BloodPressureDiasValidationMessage));
+            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureDiasValidationMessage));
 
         this.weightErrorLabel.DataBindings.Add(
             "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.WeightValidationMessage));
@@ -155,8 +152,7 @@ public partial class ManageVisitDetailsPage : Form
             "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.SymptomsValidationMessage));
 
         this.initialDiagErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel,
-            nameof(this.visitDetailsPageViewModel.InitialDiagValidationMessage));
+            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.InitialDiagValidationMessage));
     }
 
     #endregion

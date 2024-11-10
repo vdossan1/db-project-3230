@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
 
@@ -10,6 +11,9 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
 
     private const string CANNOT_BE_ZERO = "This field cannot be 0";
     private const string REQUIRED_FIELD = "This field is required";
+    private const string INVALID_TEMP = "Invalid value.\nValid value example:\n102.5\n90.5";
+    private const string INVALID_WEIGHT = "Invalid value.\nValid value example:\n90.21\n180";
+    private const string INVALID_HEIGHT = "Invalid value.\nValid value example:\n5.3\n6.11";
 
     private readonly List<int> apptIdList;
 
@@ -339,15 +343,29 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
         VisitDal.CreateVisit(newVisit);
     }
 
-    private bool IsValidNumeric(string numericFieldText)
+    private bool isValidWeight(string weightString)
     {
-        return numericFieldText?.All(char.IsDigit) == true && decimal.Parse(numericFieldText) == 0;
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
+        return Regex.IsMatch(weightString, pattern);
     }
 
-    /// <summary>
-    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
-    /// </summary>
-    public void ValidateFields()
+    private bool isValidHeight(string heightString)
+    {
+        string pattern = @"^\d(\.\d{1,2})?$";
+        return Regex.IsMatch(heightString, pattern);
+    }
+
+    private bool IsValidBodyTemperature(string bodyTempString)
+    {
+        // Regex to validate body temperature
+        string pattern = @"^\d{1,3}(\.\d)?$";
+        return Regex.IsMatch(bodyTempString, pattern);
+    }
+
+/// <summary>
+///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
+/// </summary>
+public void ValidateFields()
     {
         this.ValidationErrors.Clear();
         this.IsValid = true;
@@ -370,9 +388,21 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
             this.IsValid = false;
         }
 
+        if (this.isValidWeight(this.Weight.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
+            this.IsValid = false;
+        }
+
         if (this.Height == 0)
         {
             this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidHeight(this.Height.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
             this.IsValid = false;
         }
 
@@ -385,6 +415,12 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
         if (this.BodyTemp == 0)
         {
             this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
             this.IsValid = false;
         }
 
