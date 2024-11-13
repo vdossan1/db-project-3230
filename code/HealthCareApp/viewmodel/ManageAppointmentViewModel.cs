@@ -25,7 +25,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 
     private string reason;
 
-    private DateTime? date;
+    private DateTime date;
 
     #endregion
 
@@ -91,7 +91,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
     ///     Gets or sets the date of the appointment.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
-    public DateTime? Date
+    public DateTime Date
     {
         get => this.date;
         set
@@ -222,7 +222,8 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 
     private void ExecuteAppointmentAction(AppointmentAction action)
     {
-        var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, this.Date, this.Reason);
+	    var trimmedDate = new DateTime(this.Date.Year, this.Date.Month, this.Date.Day, this.Date.Hour, this.Date.Minute, 0);
+		var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, trimmedDate, this.Reason);
 
         switch (action)
         {

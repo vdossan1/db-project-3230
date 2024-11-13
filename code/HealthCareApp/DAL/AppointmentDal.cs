@@ -108,81 +108,70 @@ public class AppointmentDal
         return appointmentList;
     }
 
-    /// <summary>
-    ///     Retrieves a list of all appointments that match the specified search criteria.
-    /// </summary>
-    /// <param name="firstName">The first name of the patient or doctor to search for.</param>
-    /// <param name="lastName">The last name of the patient or doctor to search for.</param>
-    /// <param name="appointmentDate">The date of the appointment to search for.</param>
-    /// <returns>A list of <see cref="Appointment" /> objects representing the matching appointments.</returns>
-    public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName,
-        DateTime? appointmentDate)
-    {
-        var appointmentList = new List<Appointment>();
-        var paramsCount = 0;
-        var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
-        queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
-        queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE ");
-        var parameters = new List<MySqlParameter>();
+	/// <summary>
+	///     Retrieves a list of all appointments that match the specified search criteria.
+	/// </summary>
+	/// <param name="firstName">The first name of the patient or doctor to search for.</param>
+	/// <param name="lastName">The last name of the patient or doctor to search for.</param>
+	/// <param name="appointmentDate">The date of the appointment to search for.</param>
+	/// <returns>A list of <see cref="Appointment" /> objects representing the matching appointments.</returns>
+	public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName, DateTime? appointmentDate)
+	{
+		var appointmentList = new List<Appointment>();
+		var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
+		queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
+		queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id ");
 
-        var patientFirstNameWhere = "patient.first_name = @PatientFirstName";
-        var patientLastNameWhere = "patient.last_name = @PatientLastName";
-        var doctorFirstNameWhere = "doctor.first_name = @DoctorFirstName";
-        var doctorLastNameWhere = "doctor.last_name = @DoctorLastName";
-        var appointmentDateWhere = "appointment.appointment_date = @AppointmentDate";
+		var parameters = new List<MySqlParameter>();
+		var conditions = new List<string>();
 
-        if (!string.IsNullOrWhiteSpace(firstName))
-        {
-            queryBuilder.Append($" {patientFirstNameWhere} OR {doctorFirstNameWhere}");
-            parameters.Add(new MySqlParameter("@PatientFirstName", firstName));
-            parameters.Add(new MySqlParameter("@DoctorFirstName", firstName));
-            paramsCount++;
-        }
+		if (!string.IsNullOrWhiteSpace(firstName))
+		{
+			conditions.Add("(patient.first_name = @PatientFirstName OR doctor.first_name = @DoctorFirstName)");
+			parameters.Add(new MySqlParameter("@PatientFirstName", firstName));
+			parameters.Add(new MySqlParameter("@DoctorFirstName", firstName));
+		}
 
-        if (!string.IsNullOrWhiteSpace(lastName))
-        {
-            if (paramsCount > 0)
-            {
-                queryBuilder.Append(" AND ");
-            }
+		if (!string.IsNullOrWhiteSpace(lastName))
+		{
+			conditions.Add("(patient.last_name = @PatientLastName OR doctor.last_name = @DoctorLastName)");
+			parameters.Add(new MySqlParameter("@PatientLastName", lastName));
+			parameters.Add(new MySqlParameter("@DoctorLastName", lastName));
+		}
 
-            queryBuilder.Append($"{patientLastNameWhere} OR {doctorLastNameWhere}");
-            parameters.Add(new MySqlParameter("@PatientLastName", lastName));
-            parameters.Add(new MySqlParameter("@DoctorLastName", lastName));
-            paramsCount++;
-        }
+		if (appointmentDate != null && appointmentDate != DateTime.Today)
+		{
+			conditions.Add("appointment.appointment_date = @AppointmentDate");
+			parameters.Add(new MySqlParameter("@AppointmentDate", appointmentDate));
+		}
 
-        if (appointmentDate != null && appointmentDate != DateTime.Today)
-        {
-            if (paramsCount > 0)
-            {
-                queryBuilder.Append(" AND ");
-            }
+		if (conditions.Count > 0)
+		{
+			queryBuilder.Append("WHERE ");
+			queryBuilder.Append(string.Join(" AND ", conditions));
+		}
 
-            queryBuilder.Append(appointmentDateWhere);
-            parameters.Add(new MySqlParameter("@AppointmentDate", appointmentDate));
-        }
+		queryBuilder.Append(';');
 
-        queryBuilder.Append(';');
+		using var connection = new MySqlConnection(Connection.ConnectionString());
+		connection.Open();
 
-        using var connection = new MySqlConnection(Connection.ConnectionString());
-        connection.Open();
+		using var command = new MySqlCommand(queryBuilder.ToString(), connection);
+		command.Parameters.AddRange(parameters.ToArray());
 
-        using var command = new MySqlCommand(queryBuilder.ToString(), connection);
-        command.Parameters.AddRange(parameters.ToArray());
+		Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} Date: {appointmentDate}");
+		using var reader = command.ExecuteReader();
 
-        Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} Date: {appointmentDate}");
-        using var reader = command.ExecuteReader();
+		while (reader.Read())
+		{
+			appointmentList.Add(CreateAppointment(reader));
+		}
 
-        while (reader.Read())
-        {
-            appointmentList.Add(CreateAppointment(reader));
-        }
+		return appointmentList;
+	}
 
-        return appointmentList;
-    }
 
-    private static Appointment CreateAppointment(MySqlDataReader reader)
+	private static Appointment CreateAppointment(MySqlDataReader reader)
     {
         var idOrdinal = reader.GetOrdinal("appointment_id");
         var patientIdOrdinal = reader.GetOrdinal("patient_id");

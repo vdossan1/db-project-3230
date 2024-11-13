@@ -10,18 +10,20 @@ namespace HealthCareApp.view;
 /// </summary>
 public partial class AdvancedSearchControl : UserControl
 {
-    #region Constructors
+	private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="AdvancedSearchControl" /> class and sets the date of birth picker
-    ///     constraints.
-    /// </summary>
-    public AdvancedSearchControl()
+	#region Constructors
+
+	/// <summary>
+	///     Initializes a new instance of the <see cref="AdvancedSearchControl" /> class and sets the date of birth picker
+	///     constraints.
+	/// </summary>
+	public AdvancedSearchControl()
     {
         this.InitializeComponent();
 
-        this.dateOfBirthPicker.MinDate = DateTime.Parse("1924-01-01");
-        this.dateOfBirthPicker.MaxDate = DateTime.Today;
+        this.datePicker.MinDate = DateTime.Parse("1924-01-01");
+        this.datePicker.MaxDate = DateTime.Today;
     }
 
     #endregion
@@ -38,24 +40,32 @@ public partial class AdvancedSearchControl : UserControl
     /// </summary>
     public event EventHandler ClearBtnClick;
 
+    public void SetDatePickerStyle()
+    {
+        this.datePicker.Format = DateTimePickerFormat.Custom;
+		this.datePicker.CustomFormat = TIME_FORMAT;
+		this.datePicker.MaxDate = DateTime.Parse("2124-01-01");
+	}
+
     private void advanSearchButton_Click(object sender, EventArgs e)
     {
         var firstName = this.firstNameTxtBox.Text;
         var lastName = this.lastNameTxtBox.Text;
-        var dateOfBirth = this.dateOfBirthPicker.Value.Date;
+        var dateTime = this.datePicker.Value;
+        var trimmedDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0);
 
-        var searchArgs = new SearchEventArgs(firstName, lastName, dateOfBirth);
+		var searchArgs = new SearchEventArgs(firstName, lastName, trimmedDate);
 
         this.SearchBtnClick?.Invoke(this, searchArgs);
     }
 
     private void clearAdvSrcButton_Click(object sender, EventArgs e)
     {
-        this.firstNameTxtBox.ResetText();
-        this.lastNameTxtBox.ResetText();
-        this.dateOfBirthPicker.ResetText();
+	    this.firstNameTxtBox.ResetText();
+	    this.lastNameTxtBox.ResetText();
+	    this.datePicker.ResetText();
 
-        this.ClearBtnClick?.Invoke(this, EventArgs.Empty);
+	    this.ClearBtnClick?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
