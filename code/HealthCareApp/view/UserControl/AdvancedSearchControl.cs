@@ -52,7 +52,7 @@ public partial class AdvancedSearchControl : UserControl
         var firstName = this.firstNameTxtBox.Text;
         var lastName = this.lastNameTxtBox.Text;
         var dateTime = this.datePicker.Value;
-        var trimmedDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0);
+        var trimmedDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0, 0, 0);
 
 		var searchArgs = new SearchEventArgs(firstName, lastName, trimmedDate);
 

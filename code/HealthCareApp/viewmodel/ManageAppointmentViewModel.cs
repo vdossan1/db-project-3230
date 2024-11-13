@@ -222,7 +222,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 
     private void ExecuteAppointmentAction(AppointmentAction action)
     {
-	    var trimmedDate = new DateTime(this.Date.Year, this.Date.Month, this.Date.Day, this.Date.Hour, this.Date.Minute, 0);
+	    var trimmedDate = new DateTime(this.Date.Year, this.Date.Month, this.Date.Day, this.Date.Hour, this.Date.Minute, 0, 0, 0);
 		var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, trimmedDate, this.Reason);
 
         switch (action)
