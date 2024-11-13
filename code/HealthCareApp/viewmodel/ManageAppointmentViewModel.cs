@@ -31,7 +31,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 
     #region Properties
 
-    public Appointment SelectedAppointment { get; set; }
+    public Appointment? SelectedAppointment { get; set; }
 
     public List<Patient> Patients { get; set; }
     public List<Doctor> Doctors { get; set; }
@@ -139,9 +139,10 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManageAppointmentViewModel" /> class.
     /// </summary>
-    public ManageAppointmentViewModel()
+    public ManageAppointmentViewModel(Appointment? selectedAppointment = null)
     {
-        this.ValidationErrors = new Dictionary<string, string>();
+        this.SelectedAppointment = selectedAppointment;
+		this.ValidationErrors = new Dictionary<string, string>();
         this.Patients = new List<Patient>();
         this.Doctors = new List<Doctor>();
         this.PopulateDataGrids();
@@ -201,7 +202,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
     ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
     ///     patients and doctors are retrieved.
     /// </param>
-    public void PopulateDataGrids(SearchEventArgs eventArgs = null)
+    public void PopulateDataGrids(SearchEventArgs? eventArgs = null)
     {
         if (eventArgs == null)
         {

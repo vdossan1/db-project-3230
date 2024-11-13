@@ -17,6 +17,7 @@ public partial class ManageAppointmentPage : Form
     private const string CREATE_ACTION = "Create";
     private const string EDIT_ACTION = "Update";
     private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
+
     private readonly ManageAppointmentViewModel manageAppointmentViewModel;
     private AppointmentAction appointmentAction;
 
@@ -27,12 +28,13 @@ public partial class ManageAppointmentPage : Form
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManageAppointmentPage" /> class.
     /// </summary>
-    public ManageAppointmentPage(Appointment? selectedAppointment)
+    public ManageAppointmentPage(Appointment? selectedAppointment = null)
     {
         this.InitializeComponent();
-        this.manageAppointmentViewModel = new ManageAppointmentViewModel();
-        this.manageAppointmentViewModel.SelectedAppointment = selectedAppointment;
+
+		this.manageAppointmentViewModel = selectedAppointment == null ? new ManageAppointmentViewModel() : new ManageAppointmentViewModel(selectedAppointment);
         this.manageAppointmentViewModel.ErrorOccured += this.ErrorOccured;
+
         this.SetPageAction(selectedAppointment);
 
         this.BindControls();
@@ -62,7 +64,8 @@ public partial class ManageAppointmentPage : Form
             Text = EDIT_ACTION + " Appointment";
             this.actionButton.Text = EDIT_ACTION;
             this.appointmentAction = AppointmentAction.EDIT;
-        }
+            this.patientsDataGridView.Enabled = false;
+		}
         else
         {
             Text = CREATE_ACTION + " Appointment";
@@ -73,25 +76,8 @@ public partial class ManageAppointmentPage : Form
 
     private void OnActionButtonPressed()
     {
-        var text = this.GetActionString();
-        MessageBox.Show($"Appointment {text} Successfully", "Confirmation", MessageBoxButtons.OK,
+        MessageBox.Show($"{Text} complete", "Confirmation", MessageBoxButtons.OK,
             MessageBoxIcon.Information);
-    }
-
-    private string GetActionString()
-    {
-        var actionString = "";
-        switch (this.appointmentAction)
-        {
-            case AppointmentAction.CREATE:
-                actionString = CREATE_ACTION + "d";
-                break;
-            case AppointmentAction.EDIT:
-                actionString = EDIT_ACTION + "d";
-                break;
-        }
-
-        return actionString;
     }
 
     private void RefreshDataGrids(object sender, EventArgs e)

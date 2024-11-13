@@ -67,7 +67,6 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     {
         this.Patients = new List<Patient>();
         this.PopulatePatients();
-
         this.IsValid = false;
     }
 

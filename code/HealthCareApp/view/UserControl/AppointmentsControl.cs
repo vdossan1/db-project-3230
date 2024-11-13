@@ -13,7 +13,7 @@ public partial class AppointmentsControl : UserControl
 {
     #region Data members
 
-    private readonly AppointmentsControlViewModel appointmentsControlViewModel;
+    private AppointmentsControlViewModel appointmentsControlViewModel;
 
     #endregion
 
@@ -26,12 +26,7 @@ public partial class AppointmentsControl : UserControl
     public AppointmentsControl()
     {
         this.InitializeComponent();
-
-        this.appointmentsControlViewModel = new AppointmentsControlViewModel();
-        this.SetUpDataGrid();
-
-        this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
-        this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
+        this.SetUpPage();
     }
 
     #endregion
@@ -47,14 +42,12 @@ public partial class AppointmentsControl : UserControl
 
     private void editAppointmentBtn_Click(object sender, EventArgs e)
     {
-        var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
-
-        if (this.appointmentsDataGridView.SelectedRows.Count > 0 &&
-            selectedAppointment.AppointmentDate > DateTime.Today)
+        if (this.appointmentsDataGridView.SelectedRows.Count > 0)
         {
-            var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
+	        var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
+			var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
             editAppointmentPage.FormClosed += this.RefreshAppointmentsList;
-            editAppointmentPage.ShowDialog();
+			editAppointmentPage.ShowDialog();
         }
     }
 
@@ -73,15 +66,43 @@ public partial class AppointmentsControl : UserControl
         this.appointmentsDataGridView.ClearSelection();
     }
 
-    private void SetUpDataGrid()
+    private void AppointmentsDataGridView_SelectionChanged(object? sender, EventArgs e)
     {
-        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
+		if (this.appointmentsDataGridView.SelectedRows.Count > 0)
+	    {
+		    if (this.appointmentsDataGridView.SelectedRows[0].DataBoundItem is Appointment selectedAppointment && selectedAppointment.AppointmentDate > DateTime.Today)
+			{
+				this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
+				this.editAppointmentBtn.Enabled = true;
+			}
+			else
+			{
+				this.appointmentsControlViewModel.SelectedAppointment = null;
+				this.editAppointmentBtn.Enabled = false;
+			}
+		}
+	    else
+	    {
+			this.appointmentsControlViewModel.SelectedAppointment = null;
+            this.editAppointmentBtn.Enabled = false;
+		}
+    }
+
+	private void SetUpPage()
+    {
+		// Set up the data grid view
+		this.appointmentsControlViewModel = new AppointmentsControlViewModel();
+		this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
         this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
         this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
         this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
-        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 150;
-        this.appointmentsDataGridView.Columns["Reason"].Width = 150;
-    }
+        this.appointmentsDataGridView.ClearSelection();
 
-    #endregion
+		// Bindings and events
+		this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+		this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
+		this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
+	}
+
+	#endregion
 }

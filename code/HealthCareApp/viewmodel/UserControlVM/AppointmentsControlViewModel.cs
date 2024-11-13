@@ -1,11 +1,10 @@
-﻿// Author: Vitor dos Santos & Jacob Evans
-// Version: Fall 2024
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
 using static HealthCareApp.view.AdvancedSearchControl;
 
+// Author: Vitor dos Santos & Jacob Evans
+// Version: Fall 2024
 namespace HealthCareApp.viewmodel.UserControlVM;
 
 public class AppointmentsControlViewModel
@@ -17,18 +16,59 @@ public class AppointmentsControlViewModel
     /// </summary>
     public List<Appointment> Appointments { get; private set; }
 
-    #endregion
+    private Appointment? selectedAppointment;
+    public Appointment? SelectedAppointment
+	{
+	    get => this.selectedAppointment;
+	    set
+	    {
+		    if (this.selectedAppointment != value)
+		    {
+			    this.selectedAppointment = value;
+			    this.OnPropertyChanged(nameof(this.SelectedAppointment));
 
-    #region Constructors
+			    this.IsValid = this.selectedAppointment != null;
+			    this.OnPropertyChanged(nameof(this.IsValid));
+		    }
+	    }
+    }
+
+    private bool isValid;
+    public bool IsValid
+    {
+	    get => this.isValid;
+	    private set
+	    {
+		    if (this.isValid != value)
+		    {
+			    this.isValid = value;
+			    this.OnPropertyChanged(nameof(this.IsValid));
+		    }
+	    }
+    }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AppointmentsControlViewModel" /> class.
+    ///     Raises the <see cref="PropertyChanged" /> event for a property.
     /// </summary>
-    public AppointmentsControlViewModel()
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected void OnPropertyChanged(string propertyName)
     {
-        Appointments = new List<Appointment>();
-        PopulateAppointments();
+	    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+	#endregion
+
+	#region Constructors
+
+	/// <summary>
+	///     Initializes a new instance of the <see cref="AppointmentsControlViewModel" /> class.
+	/// </summary>
+	public AppointmentsControlViewModel()
+    {
+        this.Appointments = new List<Appointment>();
+        this.PopulateAppointments();
+        this.IsValid = false;
+	}
 
     #endregion
 
@@ -47,7 +87,7 @@ public class AppointmentsControlViewModel
     ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
     ///     appointments are retrieved.
     /// </param>
-    public void PopulateAppointments(SearchEventArgs eventArgs = null)
+    public void PopulateAppointments(SearchEventArgs? eventArgs = null)
     {
         if (eventArgs == null)
         {
