@@ -44,7 +44,7 @@ public partial class AdvancedSearchControl : UserControl
 	/// </summary>
 	public void SetDateOfBirthSearch()
 	{
-		this.SearchBtnClick += this.advancedSearchDateOfBirthButton_Click;
+		this.advancedSearchButton.Click += this.advancedSearchDateOfBirthButton_Click;
 	}
 
 	/// <summary>
@@ -52,7 +52,7 @@ public partial class AdvancedSearchControl : UserControl
 	/// </summary>
 	public void SetDateTimeSearch()
 	{
-		this.SearchBtnClick += this.advancedSearchDateTimeButton_Click;
+		this.advancedSearchButton.Click += this.advancedSearchDateTimeButton_Click;
 	}
 
 	/// <summary>
