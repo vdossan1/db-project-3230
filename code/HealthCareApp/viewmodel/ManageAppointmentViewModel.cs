@@ -145,8 +145,9 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 		this.ValidationErrors = new Dictionary<string, string>();
         this.Patients = new List<Patient>();
         this.Doctors = new List<Doctor>();
-        this.PopulateDataGrids();
-    }
+        this.PopulatePatientsDataGrid();
+		this.PopulateDoctorsDataGrid();
+	}
 
     #endregion
 
@@ -195,32 +196,49 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
         this.Date = appointment.AppointmentDate;
     }
 
-    /// <summary>
-    ///     Populates the data grids with a list of patients and doctors, optionally filtered by search criteria.
-    /// </summary>
-    /// <param name="eventArgs">
-    ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
-    ///     patients and doctors are retrieved.
-    /// </param>
-    public void PopulateDataGrids(SearchEventArgs? eventArgs = null)
-    {
-        if (eventArgs == null)
-        {
-            this.Patients = PatientDal.GetAllPatients();
-            this.Doctors = DoctorDal.GetAllDoctors();
-        }
-        else
-        {
-            var firstName = eventArgs.FirstName;
-            var lastName = eventArgs.LastName;
-            var dateOfBirth = eventArgs.DateOfBirth;
+	/// <summary>
+	/// Populates the patients data grid, optionally filtered by search criteria.
+	/// </summary>
+	/// <param name="eventArgs">
+	/// Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all patients are retrieved.
+	/// </param>
+	public void PopulatePatientsDataGrid(SearchEventArgs? eventArgs = null)
+	{
+		if (eventArgs == null)
+		{
+			this.Patients = PatientDal.GetAllPatients();
+		}
+		else
+		{
+			var firstName = eventArgs.FirstName;
+			var lastName = eventArgs.LastName;
+			var dateOfBirth = eventArgs.DateOfBirth;
+			this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+		}
+	}
 
-            this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
-            this.Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
-        }
-    }
+	/// <summary>
+	/// Populates the doctors data grid, optionally filtered by search criteria.
+	/// </summary>
+	/// <param name="eventArgs">
+	/// Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all doctors are retrieved.
+	/// </param>
+	public void PopulateDoctorsDataGrid(SearchEventArgs? eventArgs = null)
+	{
+		if (eventArgs == null)
+		{
+			this.Doctors = DoctorDal.GetAllDoctors();
+		}
+		else
+		{
+			var firstName = eventArgs.FirstName;
+			var lastName = eventArgs.LastName;
+			var dateOfBirth = eventArgs.DateOfBirth;
+			this.Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
+		}
+	}
 
-    private void ExecuteAppointmentAction(AppointmentAction action)
+	private void ExecuteAppointmentAction(AppointmentAction action)
     {
 	    var trimmedDate = new DateTime(this.Date.Year, this.Date.Month, this.Date.Day, this.Date.Hour, this.Date.Minute, 0, 0, 0);
 		var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, trimmedDate, this.Reason);

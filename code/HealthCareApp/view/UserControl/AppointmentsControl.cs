@@ -93,19 +93,19 @@ public partial class AppointmentsControl : UserControl
 		// Set up the data grid view
 		this.appointmentsControlViewModel = new AppointmentsControlViewModel();
 		this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
-        this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
+		this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+		this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
         this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
         this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
         this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 150;
         this.appointmentsDataGridView.Columns["Reason"].Width = 150;
 		this.appointmentsDataGridView.ClearSelection();
 
-		// Bindings and events
-		this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+		// Set up the advanced search control
 		this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
 		this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
-
-        this.apptAdvancedSearchControl.SetDatePickerStyle();
+		this.apptAdvancedSearchControl.SetDateTimeSearch();
+		this.apptAdvancedSearchControl.SetDatePickerStyle();
 	}
 
 	#endregion

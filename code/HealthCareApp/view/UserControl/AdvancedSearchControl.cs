@@ -1,6 +1,5 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
-
 namespace HealthCareApp.view;
 
 /// <summary>
@@ -40,26 +39,56 @@ public partial class AdvancedSearchControl : UserControl
     /// </summary>
     public event EventHandler ClearBtnClick;
 
-    public void SetDatePickerStyle()
-    {
-        this.datePicker.Format = DateTimePickerFormat.Custom;
+	/// <summary>
+	/// Configures the search functionality to handle advanced date of birth searches.
+	/// </summary>
+	public void SetDateOfBirthSearch()
+	{
+		this.SearchBtnClick += this.advancedSearchDateOfBirthButton_Click;
+	}
+
+	/// <summary>
+	/// Configures the search functionality to handle advanced date and time searches.
+	/// </summary>
+	public void SetDateTimeSearch()
+	{
+		this.SearchBtnClick += this.advancedSearchDateTimeButton_Click;
+	}
+
+	/// <summary>
+	/// Configures the style of the date picker control with a custom format, maximum date, and appearance.
+	/// </summary>
+	public void SetDatePickerStyle()
+	{
+		this.datePicker.Format = DateTimePickerFormat.Custom;
 		this.datePicker.CustomFormat = TIME_FORMAT;
 		this.datePicker.MaxDate = DateTime.Parse("2124-01-01");
 	}
 
-    private void advanSearchButton_Click(object sender, EventArgs e)
+	private void advancedSearchDateOfBirthButton_Click(object sender, EventArgs e)
     {
         var firstName = this.firstNameTxtBox.Text;
         var lastName = this.lastNameTxtBox.Text;
-        var dateTime = this.datePicker.Value;
-        var trimmedDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0, 0, 0);
+        var dateOfBirth = this.datePicker.Value.Date;
 
-		var searchArgs = new SearchEventArgs(firstName, lastName, trimmedDate);
+		var searchArgs = new SearchEventArgs(firstName, lastName, dateOfBirth);
 
         this.SearchBtnClick?.Invoke(this, searchArgs);
     }
 
-    private void clearAdvSrcButton_Click(object sender, EventArgs e)
+	private void advancedSearchDateTimeButton_Click(object sender, EventArgs e)
+	{
+		var firstName = this.firstNameTxtBox.Text;
+		var lastName = this.lastNameTxtBox.Text;
+		var dateTime = this.datePicker.Value;
+		var trimmedDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 0, 0, 0);
+
+		var searchArgs = new SearchEventArgs(firstName, lastName, trimmedDate);
+
+		this.SearchBtnClick?.Invoke(this, searchArgs);
+	}
+
+	private void clearAdvSrcButton_Click(object sender, EventArgs e)
     {
 	    this.firstNameTxtBox.ResetText();
 	    this.lastNameTxtBox.ResetText();

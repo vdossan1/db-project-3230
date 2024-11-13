@@ -30,7 +30,7 @@
 		{
 			advancedSearchGroupBox = new GroupBox();
 			clearAdvSrcButton = new Button();
-			advanSearchButton = new Button();
+			advancedSearchButton = new Button();
 			dateOfBirthLabel = new Label();
 			lastNameLabel = new Label();
 			firstNameLabel = new Label();
@@ -43,7 +43,7 @@
 			// advancedSearchGroupBox
 			// 
 			advancedSearchGroupBox.Controls.Add(clearAdvSrcButton);
-			advancedSearchGroupBox.Controls.Add(advanSearchButton);
+			advancedSearchGroupBox.Controls.Add(advancedSearchButton);
 			advancedSearchGroupBox.Controls.Add(dateOfBirthLabel);
 			advancedSearchGroupBox.Controls.Add(lastNameLabel);
 			advancedSearchGroupBox.Controls.Add(firstNameLabel);
@@ -51,9 +51,9 @@
 			advancedSearchGroupBox.Controls.Add(lastNameTxtBox);
 			advancedSearchGroupBox.Controls.Add(firstNameTxtBox);
 			advancedSearchGroupBox.Location = new Point(10, 8);
-			advancedSearchGroupBox.Margin = new Padding(2, 2, 2, 2);
+			advancedSearchGroupBox.Margin = new Padding(2);
 			advancedSearchGroupBox.Name = "advancedSearchGroupBox";
-			advancedSearchGroupBox.Padding = new Padding(2, 2, 2, 2);
+			advancedSearchGroupBox.Padding = new Padding(2);
 			advancedSearchGroupBox.Size = new Size(704, 80);
 			advancedSearchGroupBox.TabIndex = 13;
 			advancedSearchGroupBox.TabStop = false;
@@ -62,7 +62,7 @@
 			// clearAdvSrcButton
 			// 
 			clearAdvSrcButton.Location = new Point(582, 17);
-			clearAdvSrcButton.Margin = new Padding(2, 2, 2, 2);
+			clearAdvSrcButton.Margin = new Padding(2);
 			clearAdvSrcButton.Name = "clearAdvSrcButton";
 			clearAdvSrcButton.Size = new Size(94, 20);
 			clearAdvSrcButton.TabIndex = 7;
@@ -70,16 +70,16 @@
 			clearAdvSrcButton.UseVisualStyleBackColor = true;
 			clearAdvSrcButton.Click += clearAdvSrcButton_Click;
 			// 
-			// advanSearchButton
+			// advancedSearchButton
 			// 
-			advanSearchButton.Location = new Point(582, 44);
-			advanSearchButton.Margin = new Padding(2, 2, 2, 2);
-			advanSearchButton.Name = "advanSearchButton";
-			advanSearchButton.Size = new Size(94, 20);
-			advanSearchButton.TabIndex = 6;
-			advanSearchButton.Text = "Search";
-			advanSearchButton.UseVisualStyleBackColor = true;
-			advanSearchButton.Click += advanSearchButton_Click;
+			advancedSearchButton.Location = new Point(582, 44);
+			advancedSearchButton.Margin = new Padding(2);
+			advancedSearchButton.Name = "advancedSearchButton";
+			advancedSearchButton.Size = new Size(94, 20);
+			advancedSearchButton.TabIndex = 6;
+			advancedSearchButton.Text = "Search";
+			advancedSearchButton.UseVisualStyleBackColor = true;
+			advancedSearchButton.Click += advancedSearchDateOfBirthButton_Click;
 			// 
 			// dateOfBirthLabel
 			// 
@@ -114,7 +114,7 @@
 			// datePicker
 			// 
 			datePicker.Location = new Point(354, 44);
-			datePicker.Margin = new Padding(2, 2, 2, 2);
+			datePicker.Margin = new Padding(2);
 			datePicker.Name = "datePicker";
 			datePicker.Size = new Size(211, 23);
 			datePicker.TabIndex = 2;
@@ -122,7 +122,7 @@
 			// lastNameTxtBox
 			// 
 			lastNameTxtBox.Location = new Point(195, 45);
-			lastNameTxtBox.Margin = new Padding(2, 2, 2, 2);
+			lastNameTxtBox.Margin = new Padding(2);
 			lastNameTxtBox.Name = "lastNameTxtBox";
 			lastNameTxtBox.Size = new Size(130, 23);
 			lastNameTxtBox.TabIndex = 1;
@@ -130,7 +130,7 @@
 			// firstNameTxtBox
 			// 
 			firstNameTxtBox.Location = new Point(34, 45);
-			firstNameTxtBox.Margin = new Padding(2, 2, 2, 2);
+			firstNameTxtBox.Margin = new Padding(2);
 			firstNameTxtBox.Name = "firstNameTxtBox";
 			firstNameTxtBox.Size = new Size(130, 23);
 			firstNameTxtBox.TabIndex = 0;
@@ -140,7 +140,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(advancedSearchGroupBox);
-			Margin = new Padding(2, 2, 2, 2);
+			Margin = new Padding(2);
 			Name = "AdvancedSearchControl";
 			Size = new Size(729, 101);
 			advancedSearchGroupBox.ResumeLayout(false);
@@ -152,7 +152,7 @@
 
 		private GroupBox advancedSearchGroupBox;
         private Button clearAdvSrcButton;
-        private Button advanSearchButton;
+        private Button advancedSearchButton;
         private Label dateOfBirthLabel;
         private Label lastNameLabel;
         private Label firstNameLabel;
