@@ -1,5 +1,6 @@
 ﻿using HealthCareApp.DAL;
 using HealthCareApp.viewmodel.UserControlVM;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -33,6 +34,9 @@ public partial class VisitsControl : UserControl
 
         this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
 
+        this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
+        this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
+
         this.createVisitBtn.DataBindings.Add(
             "Enabled", this.visitsControlViewModel, nameof(this.visitsControlViewModel.IsValid), true,
             DataSourceUpdateMode.OnPropertyChanged);
@@ -64,6 +68,23 @@ public partial class VisitsControl : UserControl
         createVisitPage.FormClosed += this.RefreshVisitsList;
         createVisitPage.ShowDialog();
     }
+
+    private void RefreshPatientList(object sender, EventArgs e)
+    {
+        if (e is SearchEventArgs searchArgs)
+        {
+            this.visitsControlViewModel.PopulateVisits(searchArgs);
+        }
+        else
+        {
+            this.visitsControlViewModel.PopulateVisits();
+        }
+
+        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
+        this.visitsDataGridView.ClearSelection();
+    }
+
+
 
     #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.viewmodel.UserControlVM;
 
@@ -59,9 +60,20 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Populates the Visits list with all visits from the database.
     /// </summary>
-    public void PopulateVisits()
+    public void PopulateVisits(SearchEventArgs? eventArgs = null)
     {
-        this.Visits = VisitDal.GetAllVisits();
+        if (eventArgs == null)
+        {
+            this.Visits = VisitDal.GetAllVisits();
+        }
+        else
+        {
+            var firstName = eventArgs.FirstName;
+            var lastName = eventArgs.LastName;
+            var dateOfBirth = eventArgs.DateOfBirth;
+
+            this.Visits = VisitDal.GetAllVisitsWithParams(firstName, lastName, dateOfBirth);
+        }
     }
 
     /// <summary>

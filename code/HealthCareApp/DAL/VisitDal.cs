@@ -1,4 +1,6 @@
-﻿using HealthCareApp.model;
+﻿using System.Data;
+using System.Diagnostics;
+using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
 // Author: Vitor dos Santos & Jacob Evans
@@ -42,6 +44,35 @@ public class VisitDal
         using var command = new MySqlCommand(query, connection);
         using var reader = command.ExecuteReader();
 
+        var visitList = new List<Visit>();
+        while (reader.Read())
+        {
+            visitList.Add(
+                CreateVisitObj(reader));
+        }
+
+        return visitList;
+    }
+
+    public static List<Visit> GetAllVisitsWithParams(string? firstName, string? lastName, DateTime? dateOfBirth)
+    {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand("getVisitsWithPatientParams", connection);
+        command.CommandType = CommandType.StoredProcedure;
+
+        firstName = firstName.Equals("") ? null : firstName;
+        lastName = lastName.Equals("") ? null : lastName;
+        dateOfBirth = dateOfBirth == DateTime.Today ? null : dateOfBirth.Value.Date;
+
+
+        command.Parameters.Add("@firstName", MySqlDbType.VarChar).Value = firstName;
+        command.Parameters.Add("@lastName", MySqlDbType.VarChar).Value = lastName;
+        command.Parameters.Add("@dateOfBirth", MySqlDbType.Date).Value = dateOfBirth;
+
+        using var reader = command.ExecuteReader();
+        Debug.WriteLine(dateOfBirth);
         var visitList = new List<Visit>();
         while (reader.Read())
         {
