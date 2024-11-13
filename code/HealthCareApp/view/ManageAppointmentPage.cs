@@ -12,187 +12,190 @@ namespace HealthCareApp.view;
 /// </summary>
 public partial class ManageAppointmentPage : Form
 {
-    #region Data members
+	#region Data members
 
-    private const string CREATE_ACTION = "Create";
-    private const string EDIT_ACTION = "Update";
-    private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
-    private readonly ManageAppointmentViewModel manageAppointmentViewModel;
-    private AppointmentAction appointmentAction;
+	private const string CREATE_ACTION = "Create";
+	private const string EDIT_ACTION = "Update";
+	private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
-    #endregion
+	private readonly ManageAppointmentViewModel manageAppointmentViewModel;
+	private AppointmentAction appointmentAction;
 
-    #region Constructors
+	#endregion
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ManageAppointmentPage" /> class.
-    /// </summary>
-    public ManageAppointmentPage(Appointment? selectedAppointment)
-    {
-        this.InitializeComponent();
-        this.manageAppointmentViewModel = new ManageAppointmentViewModel();
-        this.manageAppointmentViewModel.SelectedAppointment = selectedAppointment;
-        this.manageAppointmentViewModel.ErrorOccured += this.ErrorOccured;
-        this.SetPageAction(selectedAppointment);
+	#region Constructors
 
-        this.BindControls();
-        this.BindValidationMessages();
+	/// <summary>
+	///     Initializes a new instance of the <see cref="ManageAppointmentPage" /> class.
+	/// </summary>
+	public ManageAppointmentPage(Appointment? selectedAppointment = null)
+	{
+		this.InitializeComponent();
 
-        this.patientsDataGridView.DataSource = this.manageAppointmentViewModel.Patients;
-        this.doctorsDataGridView.DataSource = this.manageAppointmentViewModel.Doctors;
-        this.patientsDataGridView.Columns["PatientId"].Visible = false;
-        this.doctorsDataGridView.Columns["DoctorId"].Visible = false;
+		this.manageAppointmentViewModel = selectedAppointment == null ? new ManageAppointmentViewModel() : new ManageAppointmentViewModel(selectedAppointment);
+		this.manageAppointmentViewModel.ErrorOccured += this.ErrorOccured;
 
-        this.datePicker.Format = DateTimePickerFormat.Custom;
-        this.datePicker.CustomFormat = TIME_FORMAT;
-        this.datePicker.MaxDate = DateTime.Parse("2124-01-01");
-        this.datePicker.MinDate = DateTime.Today;
-    }
+		this.SetPageAction(selectedAppointment);
 
-    #endregion
+		this.BindControls();
+		this.BindValidationMessages();
 
-    #region Methods
+		this.patientsDataGridView.DataSource = this.manageAppointmentViewModel.Patients;
+		this.doctorsDataGridView.DataSource = this.manageAppointmentViewModel.Doctors;
+		this.patientsDataGridView.Columns["PatientId"].Visible = false;
+		this.doctorsDataGridView.Columns["DoctorId"].Visible = false;
 
-    private void SetPageAction(Appointment? selectedAppointment)
-    {
-        if (selectedAppointment != null)
-        {
-            this.manageAppointmentViewModel.PopulateFields(selectedAppointment);
-            this.RefreshDataGrids(this, EventArgs.Empty);
-            Text = EDIT_ACTION + " Appointment";
-            this.actionButton.Text = EDIT_ACTION;
-            this.appointmentAction = AppointmentAction.EDIT;
-        }
-        else
-        {
-            Text = CREATE_ACTION + " Appointment";
-            this.actionButton.Text = CREATE_ACTION;
-            this.appointmentAction = AppointmentAction.CREATE;
-        }
-    }
+		this.datePicker.Format = DateTimePickerFormat.Custom;
+		this.datePicker.CustomFormat = TIME_FORMAT;
+		this.datePicker.MaxDate = DateTime.Parse("2124-01-01");
+		this.datePicker.MinDate = DateTime.Today;
 
-    private void OnActionButtonPressed()
-    {
-        var text = this.GetActionString();
-        MessageBox.Show($"Appointment {text} Successfully", "Confirmation", MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
-    }
+		this.advancedSearchControlPatient.SearchBtnClick += this.RefreshPatientsDataGrid;
+		this.advancedSearchControlPatient.ClearBtnClick += this.RefreshPatientsDataGrid;
+		this.advancedSearchControlDoctor.SearchBtnClick += this.RefreshDoctorsDataGrid;
+		this.advancedSearchControlDoctor.ClearBtnClick += this.RefreshDoctorsDataGrid;
+	}
 
-    private string GetActionString()
-    {
-        var actionString = "";
-        switch (this.appointmentAction)
-        {
-            case AppointmentAction.CREATE:
-                actionString = CREATE_ACTION + "d";
-                break;
-            case AppointmentAction.EDIT:
-                actionString = EDIT_ACTION + "d";
-                break;
-        }
+	#endregion
 
-        return actionString;
-    }
+	#region Methods
 
-    private void RefreshDataGrids(object sender, EventArgs e)
-    {
-        if (e is SearchEventArgs searchArgs)
-        {
-            this.manageAppointmentViewModel.PopulateDataGrids(searchArgs);
-        }
-        else
-        {
-            this.manageAppointmentViewModel.PopulateDataGrids();
-        }
+	private void SetPageAction(Appointment? selectedAppointment)
+	{
+		if (selectedAppointment != null)
+		{
+			this.manageAppointmentViewModel.PopulateFields(selectedAppointment);
+			this.RefreshPatientsDataGrid(this, EventArgs.Empty);
+			this.RefreshDoctorsDataGrid(this, EventArgs.Empty);
+			Text = EDIT_ACTION + " Appointment";
+			this.actionButton.Text = EDIT_ACTION;
+			this.appointmentAction = AppointmentAction.EDIT;
+			this.patientsDataGridView.Enabled = false;
+		}
+		else
+		{
+			Text = CREATE_ACTION + " Appointment";
+			this.actionButton.Text = CREATE_ACTION;
+			this.appointmentAction = AppointmentAction.CREATE;
+		}
+	}
 
-        this.patientsDataGridView.DataSource = this.manageAppointmentViewModel.Patients;
-        this.doctorsDataGridView.DataSource = this.manageAppointmentViewModel.Doctors;
-    }
+	private void OnActionButtonPressed()
+	{
+		MessageBox.Show($"{Text} complete", "Confirmation", MessageBoxButtons.OK,
+			MessageBoxIcon.Information);
+	}
 
-    #endregion
+	private void RefreshPatientsDataGrid(object sender, EventArgs e)
+	{
+		if (e is SearchEventArgs searchArgs)
+		{
+			this.manageAppointmentViewModel.PopulatePatientsDataGrid(searchArgs);
+		}
+		else
+		{
+			this.manageAppointmentViewModel.PopulatePatientsDataGrid();
+		}
+		this.patientsDataGridView.DataSource = this.manageAppointmentViewModel.Patients;
+	}
 
-    #region Events
+	private void RefreshDoctorsDataGrid(object sender, EventArgs e)
+	{
+		if (e is SearchEventArgs searchArgs)
+		{
+			this.manageAppointmentViewModel.PopulateDoctorsDataGrid(searchArgs);
+		}
+		else
+		{
+			this.manageAppointmentViewModel.PopulateDoctorsDataGrid();
+		}
+		this.doctorsDataGridView.DataSource = this.manageAppointmentViewModel.Doctors;
+	}
 
-    private void createAppointmentButton_Click(object? sender, EventArgs e)
-    {
-        this.manageAppointmentViewModel.ValidateFields();
+	#endregion
 
-        if (this.manageAppointmentViewModel.ManageAppointment(this.appointmentAction))
-        {
-            this.OnActionButtonPressed();
-            Hide();
-            Dispose();
-        }
-    }
+	#region Events
 
-    private void cancelBtn_Click(object sender, EventArgs e)
-    {
-        Hide();
-        Dispose();
-    }
+	private void createAppointmentButton_Click(object? sender, EventArgs e)
+	{
+		this.manageAppointmentViewModel.ValidateFields();
 
-    private void patientsDataGridView_SelectionChanged(object sender, EventArgs e)
-    {
-        if (this.patientsDataGridView.CurrentRow?.DataBoundItem is Patient selectedPatient)
-        {
-            this.manageAppointmentViewModel.Patient = selectedPatient;
-        }
-    }
+		if (this.manageAppointmentViewModel.ManageAppointment(this.appointmentAction))
+		{
+			this.OnActionButtonPressed();
+			Hide();
+			Dispose();
+		}
+	}
 
-    private void doctorsDataGridView_SelectionChanged(object sender, EventArgs e)
-    {
-        if (this.doctorsDataGridView.CurrentRow?.DataBoundItem is Doctor selectedDoctor)
-        {
-            this.manageAppointmentViewModel.Doctor = selectedDoctor;
-        }
-    }
+	private void cancelBtn_Click(object sender, EventArgs e)
+	{
+		Hide();
+		Dispose();
+	}
 
-    private void ErrorOccured(object? sender, string e)
-    {
-        if (e.Contains("appointment.doctor_appointment_unique"))
-        {
-            MessageBox.Show("Doctor is booked for this time.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        else
-        {
-            MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
+	private void patientsDataGridView_SelectionChanged(object sender, EventArgs e)
+	{
+		if (this.patientsDataGridView.CurrentRow?.DataBoundItem is Patient selectedPatient)
+		{
+			this.manageAppointmentViewModel.Patient = selectedPatient;
+		}
+	}
 
-    #endregion
+	private void doctorsDataGridView_SelectionChanged(object sender, EventArgs e)
+	{
+		if (this.doctorsDataGridView.CurrentRow?.DataBoundItem is Doctor selectedDoctor)
+		{
+			this.manageAppointmentViewModel.Doctor = selectedDoctor;
+		}
+	}
 
-    #region Bindings
+	private void ErrorOccured(object? sender, string e)
+	{
+		if (e.Contains("appointment.doctor_appointment_unique"))
+		{
+			MessageBox.Show("Doctor is booked for this time.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+		else
+		{
+			MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+	}
 
-    private void BindControls()
-    {
-        // Data Bindings
-        this.reasonTextBox.DataBindings.Add(
-            "Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.Reason), true,
-            DataSourceUpdateMode.OnPropertyChanged);
+	#endregion
 
-        this.datePicker.DataBindings.Add(
-            "Value", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.Date), true,
-            DataSourceUpdateMode.OnPropertyChanged);
+	#region Bindings
 
-        this.actionButton.DataBindings.Add(
-            "Enabled", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.IsValid), true,
-            DataSourceUpdateMode.OnPropertyChanged);
-    }
+	private void BindControls()
+	{
+		// Data Bindings
+		this.reasonTextBox.DataBindings.Add(
+			"Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.Reason), true,
+			DataSourceUpdateMode.OnPropertyChanged);
 
-    private void BindValidationMessages()
-    {
-        this.patientErrorLabel.DataBindings.Add(
-            "Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.PatientValidationMessage));
+		this.datePicker.DataBindings.Add(
+			"Value", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.Date), true,
+			DataSourceUpdateMode.OnPropertyChanged);
 
-        this.doctorErrorLabel.DataBindings.Add(
-            "Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.DoctorValidationMessage));
+		this.actionButton.DataBindings.Add(
+			"Enabled", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.IsValid), true,
+			DataSourceUpdateMode.OnPropertyChanged);
+	}
 
-        this.reasonErrorLabel.DataBindings.Add(
-            "Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.ReasonValidationMessage));
+	private void BindValidationMessages()
+	{
+		this.patientErrorLabel.DataBindings.Add(
+			"Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.PatientValidationMessage));
 
-        this.dateErrorLabel.DataBindings.Add(
-            "Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.DateValidationMessage));
-    }
+		this.doctorErrorLabel.DataBindings.Add(
+			"Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.DoctorValidationMessage));
 
-    #endregion
+		this.reasonErrorLabel.DataBindings.Add(
+			"Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.ReasonValidationMessage));
+
+		this.dateErrorLabel.DataBindings.Add(
+			"Text", this.manageAppointmentViewModel, nameof(this.manageAppointmentViewModel.DateValidationMessage));
+	}
+
+	#endregion
 }

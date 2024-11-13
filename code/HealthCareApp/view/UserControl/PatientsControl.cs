@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -27,40 +26,7 @@ public partial class PatientsControl : UserControl
     public PatientsControl()
     {
         this.InitializeComponent();
-
-        this.setupPatientDataGridView();
-
-        this.patientAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
-        this.patientAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
-
-        this.patientsDataGridView.ClearSelection();
-    }
-
-    private void setupPatientDataGridView()
-    {
-        this.patientsControlViewModel = new PatientsControlViewModel();
-        this.patientsDataGridView.DataSource = this.patientsControlViewModel.Patients;
-        this.patientsDataGridView.Columns["PatientId"].Visible = false;
-
-        this.editPatientBtn.DataBindings.Add("Enabled", this.patientsControlViewModel,
-            nameof(this.patientsControlViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.patientsDataGridView.SelectionChanged += this.PatientsDataGridView_SelectionChanged;
-    }
-
-    private void PatientsDataGridView_SelectionChanged(object? sender, EventArgs e)
-    {
-        if (this.patientsDataGridView.SelectedRows.Count > 0)
-        {
-            // Set the SelectedPatient in the ViewModel to the selected row's data item
-            this.patientsControlViewModel.SelectedPatient =
-                (Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
-        }
-        else
-        {
-            // Clear the SelectedPatient if no row is selected
-            this.patientsControlViewModel.SelectedPatient = null;
-        }
+        this.SetupPage();
     }
 
     #endregion
@@ -100,5 +66,37 @@ public partial class PatientsControl : UserControl
         this.patientsDataGridView.ClearSelection();
     }
 
-    #endregion
+	private void PatientsDataGridView_SelectionChanged(object? sender, EventArgs e)
+	{
+		if (this.patientsDataGridView.SelectedRows.Count > 0)
+		{
+			// Set the SelectedPatient in the ViewModel to the selected row's data item
+			this.patientsControlViewModel.SelectedPatient =
+				(Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
+		}
+		else
+		{
+			// Clear the SelectedPatient if no row is selected
+			this.patientsControlViewModel.SelectedPatient = null;
+		}
+	}
+
+	private void SetupPage()
+    {
+		// Set up the data grid view
+		this.patientsControlViewModel = new PatientsControlViewModel();
+	    this.patientsDataGridView.DataSource = this.patientsControlViewModel.Patients;
+	    this.patientsDataGridView.Columns["PatientId"].Visible = false;
+	    this.patientsDataGridView.ClearSelection();
+
+		// Bindings and events
+		this.editPatientBtn.DataBindings.Add("Enabled", this.patientsControlViewModel,
+		    nameof(this.patientsControlViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+
+	    this.patientsDataGridView.SelectionChanged += this.PatientsDataGridView_SelectionChanged;
+	    this.patientAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
+	    this.patientAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
+	}
+
+	#endregion
 }

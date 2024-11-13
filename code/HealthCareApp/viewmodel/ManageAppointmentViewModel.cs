@@ -25,13 +25,13 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
 
     private string reason;
 
-    private DateTime? date;
+    private DateTime date;
 
     #endregion
 
     #region Properties
 
-    public Appointment SelectedAppointment { get; set; }
+    public Appointment? SelectedAppointment { get; set; }
 
     public List<Patient> Patients { get; set; }
     public List<Doctor> Doctors { get; set; }
@@ -91,7 +91,7 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
     ///     Gets or sets the date of the appointment.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
-    public DateTime? Date
+    public DateTime Date
     {
         get => this.date;
         set
@@ -139,13 +139,15 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManageAppointmentViewModel" /> class.
     /// </summary>
-    public ManageAppointmentViewModel()
+    public ManageAppointmentViewModel(Appointment? selectedAppointment = null)
     {
-        this.ValidationErrors = new Dictionary<string, string>();
+        this.SelectedAppointment = selectedAppointment;
+		this.ValidationErrors = new Dictionary<string, string>();
         this.Patients = new List<Patient>();
         this.Doctors = new List<Doctor>();
-        this.PopulateDataGrids();
-    }
+        this.PopulatePatientsDataGrid();
+		this.PopulateDoctorsDataGrid();
+	}
 
     #endregion
 
@@ -194,34 +196,52 @@ public class ManageAppointmentViewModel : INotifyPropertyChanged
         this.Date = appointment.AppointmentDate;
     }
 
-    /// <summary>
-    ///     Populates the data grids with a list of patients and doctors, optionally filtered by search criteria.
-    /// </summary>
-    /// <param name="eventArgs">
-    ///     Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all
-    ///     patients and doctors are retrieved.
-    /// </param>
-    public void PopulateDataGrids(SearchEventArgs eventArgs = null)
-    {
-        if (eventArgs == null)
-        {
-            this.Patients = PatientDal.GetAllPatients();
-            this.Doctors = DoctorDal.GetAllDoctors();
-        }
-        else
-        {
-            var firstName = eventArgs.FirstName;
-            var lastName = eventArgs.LastName;
-            var dateOfBirth = eventArgs.DateOfBirth;
+	/// <summary>
+	/// Populates the patients data grid, optionally filtered by search criteria.
+	/// </summary>
+	/// <param name="eventArgs">
+	/// Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all patients are retrieved.
+	/// </param>
+	public void PopulatePatientsDataGrid(SearchEventArgs? eventArgs = null)
+	{
+		if (eventArgs == null)
+		{
+			this.Patients = PatientDal.GetAllPatients();
+		}
+		else
+		{
+			var firstName = eventArgs.FirstName;
+			var lastName = eventArgs.LastName;
+			var dateOfBirth = eventArgs.DateOfBirth;
+			this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
+		}
+	}
 
-            this.Patients = PatientDal.GetAllPatientsWithParams(firstName, lastName, dateOfBirth);
-            this.Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
-        }
-    }
+	/// <summary>
+	/// Populates the doctors data grid, optionally filtered by search criteria.
+	/// </summary>
+	/// <param name="eventArgs">
+	/// Optional. The <see cref="SearchEventArgs" /> containing the search criteria. If null, all doctors are retrieved.
+	/// </param>
+	public void PopulateDoctorsDataGrid(SearchEventArgs? eventArgs = null)
+	{
+		if (eventArgs == null)
+		{
+			this.Doctors = DoctorDal.GetAllDoctors();
+		}
+		else
+		{
+			var firstName = eventArgs.FirstName;
+			var lastName = eventArgs.LastName;
+			var dateOfBirth = eventArgs.DateOfBirth;
+			this.Doctors = DoctorDal.GetAllDoctorsWithParams(firstName, lastName, dateOfBirth);
+		}
+	}
 
-    private void ExecuteAppointmentAction(AppointmentAction action)
+	private void ExecuteAppointmentAction(AppointmentAction action)
     {
-        var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, this.Date, this.Reason);
+	    var trimmedDate = new DateTime(this.Date.Year, this.Date.Month, this.Date.Day, this.Date.Hour, this.Date.Minute, 0, 0, 0);
+		var newAppointment = new Appointment(this.Patient.PatientId, this.Doctor.DoctorId, trimmedDate, this.Reason);
 
         switch (action)
         {

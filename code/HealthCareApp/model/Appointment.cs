@@ -39,7 +39,7 @@ public class Appointment
     /// <summary>
     ///     Gets or sets the date of the appointment.
     /// </summary>
-    public DateTime? AppointmentDate { get; }
+    public DateTime AppointmentDate { get; }
 
     /// <summary>
     ///     Gets or sets the reason for the appointment.

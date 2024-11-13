@@ -378,7 +378,8 @@ public class ManagePatientViewModel : INotifyPropertyChanged
 
     private int ExecutePatientAction()
     {
-        var newPatient = new Patient(this.FirstName, this.LastName, this.DateOfBirth, this.Sex, this.Address1,
+	    var trimmedDateOfBirth = this.DateOfBirth.Value.Date;
+        var newPatient = new Patient(this.FirstName, this.LastName, trimmedDateOfBirth, this.Sex, this.Address1,
             this.Address2, this.City, this.State, this.ZipCode, this.PhoneNumber, this.Ssn, true);
 
         switch (this.SelectedPatient == null)
