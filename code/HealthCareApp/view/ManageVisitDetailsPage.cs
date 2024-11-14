@@ -1,4 +1,6 @@
 ﻿using HealthCareApp.DAL;
+using HealthCareApp.model;
+using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 
@@ -13,7 +15,12 @@ public partial class ManageVisitDetailsPage : Form
 {
     #region Data members
 
-    private readonly VisitDetailsPageViewModel visitDetailsPageViewModel;
+    private readonly ManageVisitDetailsPageViewModel manageVisitDetailsPageViewModel;
+
+    private const string CREATE_VISIT = "Create";
+    private const string EDIT_VISIT = "Edit";
+
+    private PageAction pageAction;
 
     #endregion
 
@@ -23,16 +30,29 @@ public partial class ManageVisitDetailsPage : Form
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPage" /> class and sets up the data grid and event
     ///     handlers.
     /// </summary>
-    public ManageVisitDetailsPage(string nurseFullName, string username)
+    public ManageVisitDetailsPage(string nurseFullName, string username, Visit? selectedVisit = null)
     {
         this.InitializeComponent();
-        this.visitDetailsPageViewModel = new VisitDetailsPageViewModel();
+        this.manageVisitDetailsPageViewModel = selectedVisit == null ? new ManageVisitDetailsPageViewModel() : new ManageVisitDetailsPageViewModel(selectedVisit);
 
         this.nurseIdTextLabel.Text = nurseFullName;
-        this.visitDetailsPageViewModel.NurseId = NurseDal.GetIdFromUsername(username);
+        this.manageVisitDetailsPageViewModel.NurseId = NurseDal.GetIdFromUsername(username);
+
+        this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
+        this.SetEditPageAttributes();
 
         this.BindControls();
         this.BindValidationMessages();
+    }
+
+    private void SetEditPageAttributes()
+    {
+        if (this.pageAction == PageAction.EDIT)
+        {
+            this.manageVisitDetailsPageViewModel.PopulateFields();
+            Text = EDIT_VISIT + " Visit Info";
+            this.saveButton.Text = EDIT_VISIT;
+        }
     }
 
     #endregion
@@ -41,7 +61,7 @@ public partial class ManageVisitDetailsPage : Form
 
     private void saveButton_Click(object sender, EventArgs e)
     {
-        this.visitDetailsPageViewModel.ValidateFields();
+        this.manageVisitDetailsPageViewModel.ValidateFields();
 
         string messageText;
         string messageCaption;
@@ -49,7 +69,7 @@ public partial class ManageVisitDetailsPage : Form
 
         try
         {
-            this.visitDetailsPageViewModel.SaveVisitDetails();
+            this.manageVisitDetailsPageViewModel.SaveVisitDetails();
 
             messageText = "Visit Details Saved Successfully";
             messageCaption = "Visit Confirmation";
@@ -79,81 +99,81 @@ public partial class ManageVisitDetailsPage : Form
 
     private void BindControls()
     {
-        this.apptIdCmbBox.DataSource = this.visitDetailsPageViewModel.ApptIdsArray;
+        this.apptIdCmbBox.DataSource = this.manageVisitDetailsPageViewModel.ApptIdsArray;
 
         this.apptIdCmbBox.DataBindings.Add(
-            "SelectedItem", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.AppointmentId), true,
+            "SelectedItem", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AppointmentId), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.bloodPressureSysTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureSystolic), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BloodPressureSystolic), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.bloodPressureDiasTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureDiastolic), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BloodPressureDiastolic), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.weightTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.Weight), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.Weight), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.heightTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.Height), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.Height), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.pulseTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.PulseRate), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.PulseRate), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.bodyTempTxtField.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BodyTemp), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BodyTemp), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.symptomsTxtBox.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.Symptoms), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.Symptoms), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.initDiagnosesTxtBox.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.InitialDiagnoses), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.InitialDiagnoses), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.finalDiagnosesTxtBox.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.FinalDiagnoses), true,
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.FinalDiagnoses), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.saveButton.DataBindings.Add(
-            "Enabled", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.IsValid), true,
+            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.IsValid), true,
             DataSourceUpdateMode.OnPropertyChanged);
     }
 
     private void BindValidationMessages()
     {
         this.apptIdErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.AppointmentIdValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AppointmentIdValidationMessage));
 
         this.bloodPressSysErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureSysValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BloodPressureSysValidationMessage));
 
         this.bloodPressDiasErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BloodPressureDiasValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BloodPressureDiasValidationMessage));
 
         this.weightErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.WeightValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.WeightValidationMessage));
 
         this.heightErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.HeightValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.HeightValidationMessage));
 
         this.pulseErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.PulseValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.PulseValidationMessage));
 
         this.bodyTempErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.BodyTempValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.BodyTempValidationMessage));
 
         this.symptomsErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.SymptomsValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.SymptomsValidationMessage));
 
         this.initialDiagErrorLabel.DataBindings.Add(
-            "Text", this.visitDetailsPageViewModel, nameof(this.visitDetailsPageViewModel.InitialDiagValidationMessage));
+            "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.InitialDiagValidationMessage));
     }
 
     #endregion

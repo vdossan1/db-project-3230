@@ -5,7 +5,7 @@ using HealthCareApp.model;
 
 namespace HealthCareApp.viewmodel;
 
-public class VisitDetailsPageViewModel : INotifyPropertyChanged
+public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 {
     #region Data members
 
@@ -42,6 +42,8 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
     #endregion
 
     #region Properties
+
+    public Visit? SelectedVisit { get; set; }
 
     /// <summary>
     ///     Gets the array of appointment IDs with no associated visits.
@@ -305,10 +307,11 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
     #region Constructors
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="VisitDetailsPageViewModel" /> class.
+    ///     Initializes a new instance of the <see cref="ManageVisitDetailsPageViewModel" /> class.
     /// </summary>
-    public VisitDetailsPageViewModel()
+    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null)
     {
+        this.SelectedVisit = selectedVisit;
         this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         this.ValidationErrors = new Dictionary<string, string>();
     }
@@ -340,7 +343,17 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
         var newVisit = new Visit(this.AppointmentId, this.NurseId, this.BloodPressureSystolic,
             this.BloodPressureDiastolic, this.BodyTemp, this.Weight, this.Height, this.PulseRate, this.Symptoms,
             this.InitialDiagnoses, this.FinalDiagnoses);
-        VisitDal.CreateVisit(newVisit);
+
+        if (this.SelectedVisit == null)
+        {
+            VisitDal.CreateVisit(newVisit);
+        }
+        else
+        {
+            newVisit.VisitId = this.SelectedVisit.VisitId;
+            VisitDal.EditVisit(newVisit);
+        }
+        
     }
 
     private bool isValidWeight(string weightString)
@@ -351,14 +364,14 @@ public class VisitDetailsPageViewModel : INotifyPropertyChanged
 
     private bool isValidHeight(string heightString)
     {
-        string pattern = @"^\d(\.\d{1,2})?$";
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
         return Regex.IsMatch(heightString, pattern);
     }
 
     private bool IsValidBodyTemperature(string bodyTempString)
     {
         // Regex to validate body temperature
-        string pattern = @"^\d{1,3}(\.\d)?$";
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
         return Regex.IsMatch(bodyTempString, pattern);
     }
 
@@ -438,4 +451,17 @@ public void ValidateFields()
     }
 
     #endregion
+
+    public void PopulateFields()
+    {
+        this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
+        this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
+        this.Weight = this.SelectedVisit.Weight;
+        this.Height = this.SelectedVisit.Height;
+        this.PulseRate = this.SelectedVisit.PulseRate;
+        this.BodyTemp = this.SelectedVisit.BodyTemp;
+        this.Symptoms = this.SelectedVisit.Symptoms;
+        this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
+        this.finalDiagnoses = this.FinalDiagnoses;
+    }
 }

@@ -6,7 +6,7 @@ namespace HealthCareApp.utils;
 /// <summary>
 ///     Represents the action of the manage patient page.
 /// </summary>
-public enum PatientAction
+public enum PageAction
 {
     REGISTER,
     EDIT

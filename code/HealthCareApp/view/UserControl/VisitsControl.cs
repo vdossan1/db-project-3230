@@ -1,4 +1,5 @@
 ﻿using HealthCareApp.DAL;
+using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -52,7 +53,13 @@ public partial class VisitsControl : UserControl
 
     private void editVisitBtn_Click(object sender, EventArgs e)
     {
-        MessageBox.Show("Feature not implemented yet", "TODO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        if (this.visitsDataGridView.SelectedRows.Count > 0)
+        {
+            var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
+            var editVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username, selectedVisit);
+            editVisitPage.FormClosed += this.RefreshPatientList;
+            editVisitPage.ShowDialog();
+        }
     }
 
     public void RefreshVisitsList(object? sender, FormClosedEventArgs e)

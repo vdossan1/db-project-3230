@@ -30,6 +30,24 @@ public class VisitDal
         command.ExecuteNonQuery();
     }
 
+    public static int EditVisit(Visit newVisit)
+    {
+        var query =
+            "UPDATE visit SET bp_systolic = @BloodPressureSys, bp_diastolic = @BloodPressureDias, body_temperature = @BodyTemp, " +
+            "weight = @Weight, height = @Height, pulse_rate = @PulseRate, symptoms = @Symptoms, initial_diagnosis = @InitialDiag, " +
+            "final_diagnosis = @FinalDiag " +
+            "WHERE visit_id = @VisitId";
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        AddAllVisitParamsToCommand(newVisit, command);
+        command.Parameters.Add("@VisitId", MySqlDbType.Int32).Value = newVisit.VisitId;
+
+        return command.ExecuteNonQuery();
+    }
+
     /// <summary>
     ///     Retrieves a list of all visits from the database.
     /// </summary>
@@ -133,4 +151,6 @@ public class VisitDal
     }
 
     #endregion
+
+    
 }

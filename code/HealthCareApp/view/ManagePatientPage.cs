@@ -17,7 +17,7 @@ public partial class ManagePatientPage : Form
     private const string EDIT_ACTION = "Update";
 
     private readonly ManagePatientViewModel managePatientViewModel;
-    private PatientAction patientAction;
+    private PageAction pageAction;
 
     #endregion
 
@@ -53,13 +53,13 @@ public partial class ManagePatientPage : Form
             this.managePatientViewModel.PopulateFields(selectedPatient);
             Text = EDIT_ACTION + " Patient";
             this.actionButton.Text = EDIT_ACTION;
-            this.patientAction = PatientAction.EDIT;
+            this.pageAction = PageAction.EDIT;
         }
         else
         {
             Text = REGISTER_ACTION + " Patient";
             this.actionButton.Text = REGISTER_ACTION;
-            this.patientAction = PatientAction.REGISTER;
+            this.pageAction = PageAction.REGISTER;
         }
     }
 
@@ -154,7 +154,7 @@ public partial class ManagePatientPage : Form
             "Enabled", this.managePatientViewModel, nameof(this.managePatientViewModel.IsValid), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
-        if (this.patientAction == PatientAction.REGISTER)
+        if (this.pageAction == PageAction.REGISTER)
         {
             this.genderComboBox.SelectedItem = null;
             this.stateComboBox.SelectedItem = null;
