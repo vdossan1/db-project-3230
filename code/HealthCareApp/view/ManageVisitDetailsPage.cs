@@ -47,6 +47,8 @@ public partial class ManageVisitDetailsPage : Form
 
         this.availableTestListBox.DataSource = this.manageVisitDetailsPageViewModel.LabTests;
         this.selectedTestListBox.DataSource = this.manageVisitDetailsPageViewModel.SelectedTests;
+
+        this.apptIdCmbBox.SelectedIndexChanged += this.apptIdCmbBox_SelectedIndexChanged;
     }
 
     private void SetEditPageAttributes()
@@ -57,6 +59,9 @@ public partial class ManageVisitDetailsPage : Form
             Text = EDIT_VISIT + " Visit Info";
             this.saveButton.Text = EDIT_VISIT;
             this.apptIdCmbBox.Enabled = false;
+
+            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
+            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
         }
     }
 
@@ -77,7 +82,7 @@ public partial class ManageVisitDetailsPage : Form
             this.manageVisitDetailsPageViewModel.SaveVisitDetails();
             this.manageVisitDetailsPageViewModel.CreateLabTestResults();
 
-			messageText = "Visit Details Saved Successfully";
+            messageText = "Visit Details Saved Successfully";
             messageCaption = "Visit Confirmation";
             messageIcon = MessageBoxIcon.Information;
         }
@@ -88,7 +93,7 @@ public partial class ManageVisitDetailsPage : Form
             messageIcon = MessageBoxIcon.Error;
         }
 
-		MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
+        MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
         Hide();
         this.Dispose(true);
     }
@@ -101,64 +106,65 @@ public partial class ManageVisitDetailsPage : Form
 
     private void addTestBtn_Click(object sender, EventArgs e)
     {
-	    var testsToRemove = new List<string>();
+        var testsToRemove = new List<string>();
 
-	    foreach (var selectedItem in this.availableTestListBox.SelectedItems)
-	    {
-		    this.manageVisitDetailsPageViewModel.SelectedTests.Add((string)selectedItem);
-		    testsToRemove.Add((string)selectedItem);
-	    }
+        foreach (var selectedItem in this.availableTestListBox.SelectedItems)
+        {
+            this.manageVisitDetailsPageViewModel.SelectedTests.Add((string)selectedItem);
+            testsToRemove.Add((string)selectedItem);
+        }
 
-	    testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
+        testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
 
-	    this.availableTestListBox.ClearSelected();
-	    this.selectedTestListBox.ClearSelected();
+        this.availableTestListBox.ClearSelected();
+        this.selectedTestListBox.ClearSelected();
     }
 
     private void removeTestBtn_Click(object sender, EventArgs e)
     {
-	    var testsToRemove = new List<string>();
+        var testsToRemove = new List<string>();
 
-	    foreach (var selectedItem in this.selectedTestListBox.SelectedItems)
-	    {
-		    this.manageVisitDetailsPageViewModel.LabTests.Add((string)selectedItem);
-		    testsToRemove.Add((string)selectedItem);
-	    }
+        foreach (var selectedItem in this.selectedTestListBox.SelectedItems)
+        {
+            this.manageVisitDetailsPageViewModel.LabTests.Add((string)selectedItem);
+            testsToRemove.Add((string)selectedItem);
+        }
 
-	    testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item));
+        testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item));
 
-	    this.availableTestListBox.ClearSelected();
-	    this.selectedTestListBox.ClearSelected();
+        this.availableTestListBox.ClearSelected();
+        this.selectedTestListBox.ClearSelected();
 
-	    SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
+        SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
 
-	    this.availableTestListBox.ClearSelected();
-	    this.selectedTestListBox.ClearSelected();
+        this.availableTestListBox.ClearSelected();
+        this.selectedTestListBox.ClearSelected();
     }
 
     private void SortBindingList(BindingList<string> bindingList)
     {
-	    // Copy the items into a List<string>
-	    var sortedList = new List<string>(bindingList);
+        // Copy the items into a List<string>
+        var sortedList = new List<string>(bindingList);
 
-	    // Sort the List<string> alphabetically
-	    sortedList.Sort();
+        // Sort the List<string> alphabetically
+        sortedList.Sort();
 
-	    // Clear and repopulate the BindingList
-	    bindingList.Clear();
-	    foreach (var item in sortedList)
-	    {
-		    bindingList.Add(item);
-	    }
+        // Clear and repopulate the BindingList
+        bindingList.Clear();
+        foreach (var item in sortedList)
+        {
+            bindingList.Add(item);
+        }
     }
 
-	#endregion
+    #endregion
 
-	#region Bindings
+    #region Bindings
 
-	private void BindControls()
+    private void BindControls()
     {
         this.apptIdCmbBox.DataSource = this.manageVisitDetailsPageViewModel.ApptIdsArray;
+        this.apptIdCmbBox.SelectedItem = null;
 
         this.apptIdCmbBox.DataBindings.Add(
             "SelectedItem", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AppointmentId), true,
@@ -203,6 +209,12 @@ public partial class ManageVisitDetailsPage : Form
         this.saveButton.DataBindings.Add(
             "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.IsValid), true,
             DataSourceUpdateMode.OnPropertyChanged);
+
+        /*this.patientFnameLnameLabel.DataBindings.Add("Text", this.manageVisitDetailsPageViewModel,
+            nameof(this.manageVisitDetailsPageViewModel.PatientFullName));
+
+        this.patientFnameLnameLabel.DataBindings.Add("Text", this.manageVisitDetailsPageViewModel,
+            nameof(this.manageVisitDetailsPageViewModel.DoctorFullName));*/
     }
 
     private void BindValidationMessages()
@@ -236,4 +248,15 @@ public partial class ManageVisitDetailsPage : Form
     }
 
     #endregion
+
+    private void apptIdCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // Update the ViewModel's AppointmentId property when combo box selection changes
+        if (this.apptIdCmbBox.SelectedItem is int selectedAppointmentId)
+        {
+            this.manageVisitDetailsPageViewModel.AppointmentId = selectedAppointmentId;
+            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
+            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
+        }
+    }
 }

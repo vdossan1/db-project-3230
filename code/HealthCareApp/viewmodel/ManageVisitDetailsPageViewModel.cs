@@ -54,6 +54,36 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// </summary>
     public int[] ApptIdsArray => this.apptIdList.ToArray();
 
+    private string patientFullName;
+
+    public string PatientFullName
+    {
+        get => this.patientFullName;
+        set
+        {
+            if (this.patientFullName != value)
+            {
+                this.patientFullName = value;
+                this.OnPropertyChanged(nameof(this.PatientFullName));
+            }
+        }
+    }
+
+    private string doctorFullName;
+
+    public string DoctorFullName
+    {
+        get => this.doctorFullName;
+        set
+        {
+            if (this.doctorFullName != value)
+            {
+                this.doctorFullName = value;
+                this.OnPropertyChanged(nameof(this.doctorFullName));
+            }
+        }
+    }
+
     /// <summary>
     ///     Gets or sets the appointment ID for the visit.
     /// </summary>
@@ -66,8 +96,15 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 this.appointmentId = value;
                 this.OnPropertyChanged(nameof(this.AppointmentId));
+                this.onAppointmentIdChanged();
             }
         }
+    }
+
+    private void onAppointmentIdChanged()
+    {
+        this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.AppointmentId);
+        this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.AppointmentId);
     }
 
     /// <summary>
@@ -510,6 +547,9 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         if (this.SelectedVisit != null)
         {
             this.apptIdList = [this.SelectedVisit.AppointmentId];
+
+            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
+            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
         }
         
         this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;

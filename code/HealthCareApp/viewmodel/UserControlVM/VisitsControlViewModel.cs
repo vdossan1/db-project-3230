@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
 using static HealthCareApp.view.AdvancedSearchControl;
@@ -19,15 +20,44 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public List<LabTestResult> LabTestResults { get; private set; }
 
+    private Visit selectedVisit;
+
     /// <summary>
     ///     Gets the selected visit.
     /// </summary>
-    public Visit SelectedVisit { get; set; }
+    public Visit SelectedVisit
+    {
+        get => this.selectedVisit;
+        set
+        {
+            if (this.selectedVisit != value)
+            {
+                this.selectedVisit = value;
+                this.OnPropertyChanged(nameof(this.SelectedVisit));
 
-	/// <summary>
-	///     Gets a value indicating whether there are any appointments with no associated visit.
-	/// </summary>
-	public bool IsValid => this.GetCountOfAppointmentsWithNoVisit() > 0;
+                this.IsVisitSelected = this.selectedVisit != null;
+            }
+        }
+    }
+
+    private bool isVisitSelected;
+    public bool IsVisitSelected
+    {
+        get => this.isVisitSelected;
+        private set
+        {
+            if (this.isVisitSelected != value)
+            {
+                this.isVisitSelected = value;
+                this.OnPropertyChanged(nameof(this.IsVisitSelected));
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Gets a value indicating whether there are any appointments with no associated visit.
+    /// </summary>
+    public bool IsValid => this.GetCountOfAppointmentsWithNoVisit() > 0;
 
     /// <summary>
     ///     Gets a value indicating whether the label should be shown based on validation status.

@@ -164,6 +164,33 @@ public class DoctorDal
         return doctorList;
     }
 
+    public static string GetDoctorNameWithApptId(int appointmentId)
+    {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        var query = "SELECT first_name, last_name " +
+                    "FROM doctor AS d JOIN appointment AS a ON d.doctor_id = a.doctor_id " +
+                    "WHERE a.appointment_id = @AppointmentId " +
+                    "LIMIT 1";
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+
+        using var reader = command.ExecuteReader();
+
+        string fullName = "";
+
+        if (reader.Read()) // Ensure there's data to read
+        {
+            var firstName = reader.GetString(reader.GetOrdinal("first_name"));
+            var lastName = reader.GetString(reader.GetOrdinal("last_name"));
+            fullName = $"{firstName} {lastName}";
+        }
+
+        return fullName;
+    }
+
     private static Doctor CreateDoctor(MySqlDataReader reader)
     {
         var idOrdinal = reader.GetOrdinal("doctor_id");
