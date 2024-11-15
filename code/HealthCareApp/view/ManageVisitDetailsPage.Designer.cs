@@ -109,7 +109,7 @@
             // bodyTempLabel
             // 
             bodyTempLabel.AutoSize = true;
-            bodyTempLabel.Location = new Point(774, 232);
+            bodyTempLabel.Location = new Point(774, 229);
             bodyTempLabel.Name = "bodyTempLabel";
             bodyTempLabel.Size = new Size(156, 25);
             bodyTempLabel.TabIndex = 4;
@@ -136,7 +136,7 @@
             // pulseLabel
             // 
             pulseLabel.AutoSize = true;
-            pulseLabel.Location = new Point(538, 232);
+            pulseLabel.Location = new Point(558, 229);
             pulseLabel.Name = "pulseLabel";
             pulseLabel.Size = new Size(53, 25);
             pulseLabel.TabIndex = 7;
@@ -203,7 +203,7 @@
             // 
             // bodyTempTxtField
             // 
-            bodyTempTxtField.Location = new Point(936, 229);
+            bodyTempTxtField.Location = new Point(936, 223);
             bodyTempTxtField.MaxLength = 5;
             bodyTempTxtField.Name = "bodyTempTxtField";
             bodyTempTxtField.Size = new Size(95, 31);
@@ -211,7 +211,7 @@
             // 
             // pulseTxtField
             // 
-            pulseTxtField.Location = new Point(597, 229);
+            pulseTxtField.Location = new Point(617, 226);
             pulseTxtField.MaxLength = 4;
             pulseTxtField.Name = "pulseTxtField";
             pulseTxtField.Size = new Size(85, 31);
@@ -349,7 +349,7 @@
             pulseErrorLabel.AutoSize = true;
             pulseErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             pulseErrorLabel.ForeColor = Color.Red;
-            pulseErrorLabel.Location = new Point(597, 266);
+            pulseErrorLabel.Location = new Point(617, 263);
             pulseErrorLabel.Name = "pulseErrorLabel";
             pulseErrorLabel.Size = new Size(144, 25);
             pulseErrorLabel.TabIndex = 29;
@@ -360,7 +360,7 @@
             bodyTempErrorLabel.AutoSize = true;
             bodyTempErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             bodyTempErrorLabel.ForeColor = Color.Red;
-            bodyTempErrorLabel.Location = new Point(889, 266);
+            bodyTempErrorLabel.Location = new Point(909, 263);
             bodyTempErrorLabel.Name = "bodyTempErrorLabel";
             bodyTempErrorLabel.Size = new Size(188, 25);
             bodyTempErrorLabel.TabIndex = 30;
@@ -402,14 +402,14 @@
             feetLabel.AutoSize = true;
             feetLabel.Location = new Point(473, 231);
             feetLabel.Name = "feetLabel";
-            feetLabel.Size = new Size(24, 25);
+            feetLabel.Size = new Size(61, 25);
             feetLabel.TabIndex = 34;
-            feetLabel.Text = "ft";
+            feetLabel.Text = "inches";
             // 
             // bpmLabel
             // 
             bpmLabel.AutoSize = true;
-            bpmLabel.Location = new Point(688, 232);
+            bpmLabel.Location = new Point(708, 229);
             bpmLabel.Name = "bpmLabel";
             bpmLabel.Size = new Size(48, 25);
             bpmLabel.TabIndex = 35;
@@ -418,7 +418,7 @@
             // farenheitLabel
             // 
             farenheitLabel.AutoSize = true;
-            farenheitLabel.Location = new Point(1039, 232);
+            farenheitLabel.Location = new Point(1037, 229);
             farenheitLabel.Name = "farenheitLabel";
             farenheitLabel.Size = new Size(21, 25);
             farenheitLabel.TabIndex = 36;
