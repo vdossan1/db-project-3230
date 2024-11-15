@@ -84,8 +84,8 @@ public partial class PatientsControl : UserControl
 		// Set up the data grid view
 		this.patientsControlViewModel = new PatientsControlViewModel();
 	    this.patientsDataGridView.DataSource = this.patientsControlViewModel.Patients;
-	    this.patientsDataGridView.Columns["PatientId"].Visible = false;
-	    this.patientsDataGridView.ClearSelection();
+	    this.SetUpDataGridViewColumns();
+		this.patientsDataGridView.ClearSelection();
 
 		// Bindings and events
 		this.editPatientBtn.DataBindings.Add("Enabled", this.patientsControlViewModel,
@@ -94,6 +94,25 @@ public partial class PatientsControl : UserControl
 	    this.patientsDataGridView.SelectionChanged += this.PatientsDataGridView_SelectionChanged;
 	    this.patientAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
 	    this.patientAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
+	}
+
+	private void SetUpDataGridViewColumns()
+	{
+		// Hide the columns that are not needed
+		this.patientsDataGridView.Columns["PatientId"].Visible = false;
+		this.patientsDataGridView.Columns["Sex"].Visible = false;
+		this.patientsDataGridView.Columns["Address1"].Visible = false;
+		this.patientsDataGridView.Columns["Address2"].Visible = false;
+		this.patientsDataGridView.Columns["City"].Visible = false;
+		this.patientsDataGridView.Columns["State"].Visible = false;
+		this.patientsDataGridView.Columns["ZipCode"].Visible = false;
+		this.patientsDataGridView.Columns["PhoneNumber"].Visible = false;
+		this.patientsDataGridView.Columns["Ssn"].Visible = false;
+
+		// Rename main columns
+		this.patientsDataGridView.Columns["FirstName"].HeaderText = "First Name";
+		this.patientsDataGridView.Columns["LastName"].HeaderText = "Last Name";
+		this.patientsDataGridView.Columns["DateOfBirth"].HeaderText = "Date of Birth";
 	}
 
 	#endregion

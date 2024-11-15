@@ -1,5 +1,4 @@
-﻿using HealthCareApp.DAL;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -129,6 +128,7 @@ public partial class VisitsControl : UserControl
 	    this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
 		this.visitsDataGridView.SelectionChanged += this.VisitsDataGridView_SelectionChanged;
 		this.labTestResultsDataGridView.SelectionChanged += this.LabTestResultsDataGridView_SelectionChanged;
+		this.SetUpDataGridViewColumns();
 
 		// Set up the advanced search control
 		this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshVisitsList;
@@ -144,5 +144,23 @@ public partial class VisitsControl : UserControl
 		    DataSourceUpdateMode.OnPropertyChanged);
 	}
 
-    #endregion
+	private void SetUpDataGridViewColumns()
+	{
+		// Hide the columns that are not needed
+		this.visitsDataGridView.Columns["BloodPressureSystolic"].Visible = false;
+		this.visitsDataGridView.Columns["BloodPressureDiastolic"].Visible = false;
+		this.visitsDataGridView.Columns["BodyTemp"].Visible = false;
+		this.visitsDataGridView.Columns["Weight"].Visible = false;
+		this.visitsDataGridView.Columns["Height"].Visible = false;
+		this.visitsDataGridView.Columns["PulseRate"].Visible = false;
+		this.visitsDataGridView.Columns["Symptoms"].Visible = false;
+		this.visitsDataGridView.Columns["InitialDiagnoses"].Visible = false;
+		this.visitsDataGridView.Columns["FinalDiagnoses"].Visible = false;
+
+		//this.testResultsDataGridView.Columns["VisitId"].Visible = false;
+
+		// Rename main columns
+	}
+
+	#endregion
 }

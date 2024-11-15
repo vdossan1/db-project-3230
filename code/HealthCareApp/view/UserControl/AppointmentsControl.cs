@@ -94,11 +94,7 @@ public partial class AppointmentsControl : UserControl
 		this.appointmentsControlViewModel = new AppointmentsControlViewModel();
 		this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
 		this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
-		this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
-        this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
-        this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
-        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 150;
-        this.appointmentsDataGridView.Columns["Reason"].Width = 150;
+		this.SetUpDataGridViewColumns();
 		this.appointmentsDataGridView.ClearSelection();
 
 		// Set up the advanced search control
@@ -106,6 +102,23 @@ public partial class AppointmentsControl : UserControl
 		this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
 		this.apptAdvancedSearchControl.SetDateTimeSearch();
 		this.apptAdvancedSearchControl.SetDatePickerStyle();
+	}
+
+	private void SetUpDataGridViewColumns()
+	{
+		// Hide the columns that are not needed
+		this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
+		this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
+		this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
+		this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
+		this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
+		this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
+		this.appointmentsDataGridView.Columns["Reason"].Width = 250;
+
+		// Rename main columns
+		this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
+		this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
+		this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
 	}
 
 	#endregion

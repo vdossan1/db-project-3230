@@ -88,7 +88,7 @@
 			visitsDataGridView.RowHeadersVisible = false;
 			visitsDataGridView.RowHeadersWidth = 62;
 			visitsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			visitsDataGridView.Size = new Size(400, 500);
+			visitsDataGridView.Size = new Size(311, 500);
 			visitsDataGridView.TabIndex = 13;
 			// 
 			// createVisitLabel
@@ -111,14 +111,14 @@
 			labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
 			labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			labTestResultsDataGridView.GridColor = SystemColors.Control;
-			labTestResultsDataGridView.Location = new Point(427, 170);
+			labTestResultsDataGridView.Location = new Point(338, 170);
 			labTestResultsDataGridView.MultiSelect = false;
 			labTestResultsDataGridView.Name = "labTestResultsDataGridView";
 			labTestResultsDataGridView.ReadOnly = true;
 			labTestResultsDataGridView.RowHeadersVisible = false;
 			labTestResultsDataGridView.RowHeadersWidth = 62;
 			labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			labTestResultsDataGridView.Size = new Size(614, 500);
+			labTestResultsDataGridView.Size = new Size(703, 500);
 			labTestResultsDataGridView.TabIndex = 19;
 			// 
 			// enterTestResultsLabel
@@ -142,7 +142,7 @@
 			enterTestResultButton.TabIndex = 21;
 			enterTestResultButton.Text = "Enter Test Results";
 			enterTestResultButton.UseVisualStyleBackColor = true;
-			enterTestResultButton.Click += this.enterTestResultsBtn_Click;
+			enterTestResultButton.Click += enterTestResultsBtn_Click;
 			// 
 			// VisitsControl
 			// 
