@@ -68,12 +68,16 @@
             farenheitLabel = new Label();
             label1 = new Label();
             label2 = new Label();
+            availableTestListBox = new ListBox();
+            selectedTestListBox = new ListBox();
+            addTestBtn = new Button();
+            removeTestBtn = new Button();
             SuspendLayout();
             // 
             // apptIdLabel
             // 
             apptIdLabel.AutoSize = true;
-            apptIdLabel.Location = new Point(190, 27);
+            apptIdLabel.Location = new Point(337, 36);
             apptIdLabel.Name = "apptIdLabel";
             apptIdLabel.Size = new Size(145, 25);
             apptIdLabel.TabIndex = 0;
@@ -82,7 +86,7 @@
             // nurseIdLabel
             // 
             nurseIdLabel.AutoSize = true;
-            nurseIdLabel.Location = new Point(640, 27);
+            nurseIdLabel.Location = new Point(787, 36);
             nurseIdLabel.Name = "nurseIdLabel";
             nurseIdLabel.Size = new Size(62, 25);
             nurseIdLabel.TabIndex = 1;
@@ -91,7 +95,7 @@
             // bloodPressureSysLabel
             // 
             bloodPressureSysLabel.AutoSize = true;
-            bloodPressureSysLabel.Location = new Point(95, 131);
+            bloodPressureSysLabel.Location = new Point(215, 128);
             bloodPressureSysLabel.Name = "bloodPressureSysLabel";
             bloodPressureSysLabel.Size = new Size(194, 25);
             bloodPressureSysLabel.TabIndex = 2;
@@ -100,7 +104,7 @@
             // bloodPressureDiasLabel
             // 
             bloodPressureDiasLabel.AutoSize = true;
-            bloodPressureDiasLabel.Location = new Point(588, 131);
+            bloodPressureDiasLabel.Location = new Point(708, 128);
             bloodPressureDiasLabel.Name = "bloodPressureDiasLabel";
             bloodPressureDiasLabel.Size = new Size(202, 25);
             bloodPressureDiasLabel.TabIndex = 3;
@@ -109,7 +113,7 @@
             // bodyTempLabel
             // 
             bodyTempLabel.AutoSize = true;
-            bodyTempLabel.Location = new Point(774, 229);
+            bodyTempLabel.Location = new Point(978, 232);
             bodyTempLabel.Name = "bodyTempLabel";
             bodyTempLabel.Size = new Size(156, 25);
             bodyTempLabel.TabIndex = 4;
@@ -127,7 +131,7 @@
             // heightLabel
             // 
             heightLabel.AutoSize = true;
-            heightLabel.Location = new Point(293, 229);
+            heightLabel.Location = new Point(354, 229);
             heightLabel.Name = "heightLabel";
             heightLabel.Size = new Size(65, 25);
             heightLabel.TabIndex = 6;
@@ -136,7 +140,7 @@
             // pulseLabel
             // 
             pulseLabel.AutoSize = true;
-            pulseLabel.Location = new Point(558, 229);
+            pulseLabel.Location = new Point(664, 232);
             pulseLabel.Name = "pulseLabel";
             pulseLabel.Size = new Size(53, 25);
             pulseLabel.TabIndex = 7;
@@ -145,7 +149,7 @@
             // symptomsLabel
             // 
             symptomsLabel.AutoSize = true;
-            symptomsLabel.Location = new Point(67, 356);
+            symptomsLabel.Location = new Point(160, 381);
             symptomsLabel.Name = "symptomsLabel";
             symptomsLabel.Size = new Size(98, 25);
             symptomsLabel.TabIndex = 8;
@@ -154,7 +158,7 @@
             // initialDiagnosesLabel
             // 
             initialDiagnosesLabel.AutoSize = true;
-            initialDiagnosesLabel.Location = new Point(67, 655);
+            initialDiagnosesLabel.Location = new Point(160, 680);
             initialDiagnosesLabel.Name = "initialDiagnosesLabel";
             initialDiagnosesLabel.Size = new Size(142, 25);
             initialDiagnosesLabel.TabIndex = 9;
@@ -163,7 +167,7 @@
             // finalDiagnosesLabel
             // 
             finalDiagnosesLabel.AutoSize = true;
-            finalDiagnosesLabel.Location = new Point(68, 935);
+            finalDiagnosesLabel.Location = new Point(160, 1194);
             finalDiagnosesLabel.Name = "finalDiagnosesLabel";
             finalDiagnosesLabel.Size = new Size(136, 25);
             finalDiagnosesLabel.TabIndex = 10;
@@ -171,7 +175,7 @@
             // 
             // bloodPressureSysTxtField
             // 
-            bloodPressureSysTxtField.Location = new Point(295, 131);
+            bloodPressureSysTxtField.Location = new Point(415, 128);
             bloodPressureSysTxtField.MaxLength = 3;
             bloodPressureSysTxtField.Name = "bloodPressureSysTxtField";
             bloodPressureSysTxtField.Size = new Size(124, 31);
@@ -179,7 +183,7 @@
             // 
             // bloodPressureDiasTxtField
             // 
-            bloodPressureDiasTxtField.Location = new Point(803, 131);
+            bloodPressureDiasTxtField.Location = new Point(923, 128);
             bloodPressureDiasTxtField.MaxLength = 3;
             bloodPressureDiasTxtField.Name = "bloodPressureDiasTxtField";
             bloodPressureDiasTxtField.Size = new Size(100, 31);
@@ -195,7 +199,7 @@
             // 
             // heightTxtField
             // 
-            heightTxtField.Location = new Point(364, 232);
+            heightTxtField.Location = new Point(425, 232);
             heightTxtField.MaxLength = 6;
             heightTxtField.Name = "heightTxtField";
             heightTxtField.Size = new Size(100, 31);
@@ -203,7 +207,7 @@
             // 
             // bodyTempTxtField
             // 
-            bodyTempTxtField.Location = new Point(936, 223);
+            bodyTempTxtField.Location = new Point(1140, 226);
             bodyTempTxtField.MaxLength = 5;
             bodyTempTxtField.Name = "bodyTempTxtField";
             bodyTempTxtField.Size = new Size(95, 31);
@@ -211,7 +215,7 @@
             // 
             // pulseTxtField
             // 
-            pulseTxtField.Location = new Point(617, 226);
+            pulseTxtField.Location = new Point(723, 229);
             pulseTxtField.MaxLength = 4;
             pulseTxtField.Name = "pulseTxtField";
             pulseTxtField.Size = new Size(85, 31);
@@ -219,7 +223,7 @@
             // 
             // symptomsTxtBox
             // 
-            symptomsTxtBox.Location = new Point(66, 384);
+            symptomsTxtBox.Location = new Point(159, 409);
             symptomsTxtBox.MaxLength = 200;
             symptomsTxtBox.Name = "symptomsTxtBox";
             symptomsTxtBox.Size = new Size(984, 204);
@@ -228,7 +232,7 @@
             // 
             // initDiagnosesTxtBox
             // 
-            initDiagnosesTxtBox.Location = new Point(66, 683);
+            initDiagnosesTxtBox.Location = new Point(159, 708);
             initDiagnosesTxtBox.MaxLength = 200;
             initDiagnosesTxtBox.Name = "initDiagnosesTxtBox";
             initDiagnosesTxtBox.Size = new Size(984, 204);
@@ -237,7 +241,7 @@
             // 
             // finalDiagnosesTxtBox
             // 
-            finalDiagnosesTxtBox.Location = new Point(67, 963);
+            finalDiagnosesTxtBox.Location = new Point(159, 1222);
             finalDiagnosesTxtBox.MaxLength = 200;
             finalDiagnosesTxtBox.Name = "finalDiagnosesTxtBox";
             finalDiagnosesTxtBox.Size = new Size(984, 204);
@@ -255,7 +259,7 @@
             // nurseIdTextLabel
             // 
             nurseIdTextLabel.AutoSize = true;
-            nurseIdTextLabel.Location = new Point(708, 27);
+            nurseIdTextLabel.Location = new Point(855, 36);
             nurseIdTextLabel.Name = "nurseIdTextLabel";
             nurseIdTextLabel.Size = new Size(71, 25);
             nurseIdTextLabel.TabIndex = 23;
@@ -263,7 +267,7 @@
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(312, 1219);
+            saveButton.Location = new Point(404, 1473);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(220, 57);
             saveButton.TabIndex = 10;
@@ -273,7 +277,7 @@
             // 
             // cancelButton
             // 
-            cancelButton.Location = new Point(625, 1219);
+            cancelButton.Location = new Point(723, 1473);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(220, 57);
             cancelButton.TabIndex = 11;
@@ -284,7 +288,7 @@
             // apptIdCmbBox
             // 
             apptIdCmbBox.FormattingEnabled = true;
-            apptIdCmbBox.Location = new Point(338, 24);
+            apptIdCmbBox.Location = new Point(485, 33);
             apptIdCmbBox.Name = "apptIdCmbBox";
             apptIdCmbBox.Size = new Size(124, 33);
             apptIdCmbBox.TabIndex = 0;
@@ -294,7 +298,7 @@
             apptIdErrorLabel.AutoSize = true;
             apptIdErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             apptIdErrorLabel.ForeColor = Color.Red;
-            apptIdErrorLabel.Location = new Point(338, 60);
+            apptIdErrorLabel.Location = new Point(485, 69);
             apptIdErrorLabel.Name = "apptIdErrorLabel";
             apptIdErrorLabel.Size = new Size(155, 25);
             apptIdErrorLabel.TabIndex = 24;
@@ -305,7 +309,7 @@
             bloodPressSysErrorLabel.AutoSize = true;
             bloodPressSysErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             bloodPressSysErrorLabel.ForeColor = Color.Red;
-            bloodPressSysErrorLabel.Location = new Point(295, 165);
+            bloodPressSysErrorLabel.Location = new Point(415, 162);
             bloodPressSysErrorLabel.Name = "bloodPressSysErrorLabel";
             bloodPressSysErrorLabel.Size = new Size(220, 25);
             bloodPressSysErrorLabel.TabIndex = 25;
@@ -316,7 +320,7 @@
             bloodPressDiasErrorLabel.AutoSize = true;
             bloodPressDiasErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             bloodPressDiasErrorLabel.ForeColor = Color.Red;
-            bloodPressDiasErrorLabel.Location = new Point(803, 165);
+            bloodPressDiasErrorLabel.Location = new Point(923, 162);
             bloodPressDiasErrorLabel.Name = "bloodPressDiasErrorLabel";
             bloodPressDiasErrorLabel.Size = new Size(228, 25);
             bloodPressDiasErrorLabel.TabIndex = 26;
@@ -338,7 +342,7 @@
             heightErrorLabel.AutoSize = true;
             heightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             heightErrorLabel.ForeColor = Color.Red;
-            heightErrorLabel.Location = new Point(364, 266);
+            heightErrorLabel.Location = new Point(425, 266);
             heightErrorLabel.Name = "heightErrorLabel";
             heightErrorLabel.Size = new Size(154, 25);
             heightErrorLabel.TabIndex = 28;
@@ -349,7 +353,7 @@
             pulseErrorLabel.AutoSize = true;
             pulseErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             pulseErrorLabel.ForeColor = Color.Red;
-            pulseErrorLabel.Location = new Point(617, 263);
+            pulseErrorLabel.Location = new Point(723, 266);
             pulseErrorLabel.Name = "pulseErrorLabel";
             pulseErrorLabel.Size = new Size(144, 25);
             pulseErrorLabel.TabIndex = 29;
@@ -360,7 +364,7 @@
             bodyTempErrorLabel.AutoSize = true;
             bodyTempErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             bodyTempErrorLabel.ForeColor = Color.Red;
-            bodyTempErrorLabel.Location = new Point(909, 263);
+            bodyTempErrorLabel.Location = new Point(1140, 266);
             bodyTempErrorLabel.Name = "bodyTempErrorLabel";
             bodyTempErrorLabel.Size = new Size(188, 25);
             bodyTempErrorLabel.TabIndex = 30;
@@ -371,7 +375,7 @@
             symptomsErrorLabel.AutoSize = true;
             symptomsErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             symptomsErrorLabel.ForeColor = Color.Red;
-            symptomsErrorLabel.Location = new Point(66, 592);
+            symptomsErrorLabel.Location = new Point(159, 617);
             symptomsErrorLabel.Name = "symptomsErrorLabel";
             symptomsErrorLabel.Size = new Size(186, 25);
             symptomsErrorLabel.TabIndex = 31;
@@ -382,7 +386,7 @@
             initialDiagErrorLabel.AutoSize = true;
             initialDiagErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             initialDiagErrorLabel.ForeColor = Color.Red;
-            initialDiagErrorLabel.Location = new Point(66, 890);
+            initialDiagErrorLabel.Location = new Point(159, 915);
             initialDiagErrorLabel.Name = "initialDiagErrorLabel";
             initialDiagErrorLabel.Size = new Size(186, 25);
             initialDiagErrorLabel.TabIndex = 32;
@@ -400,7 +404,7 @@
             // feetLabel
             // 
             feetLabel.AutoSize = true;
-            feetLabel.Location = new Point(473, 231);
+            feetLabel.Location = new Point(534, 231);
             feetLabel.Name = "feetLabel";
             feetLabel.Size = new Size(61, 25);
             feetLabel.TabIndex = 34;
@@ -409,7 +413,7 @@
             // bpmLabel
             // 
             bpmLabel.AutoSize = true;
-            bpmLabel.Location = new Point(708, 229);
+            bpmLabel.Location = new Point(814, 232);
             bpmLabel.Name = "bpmLabel";
             bpmLabel.Size = new Size(48, 25);
             bpmLabel.TabIndex = 35;
@@ -418,7 +422,7 @@
             // farenheitLabel
             // 
             farenheitLabel.AutoSize = true;
-            farenheitLabel.Location = new Point(1037, 229);
+            farenheitLabel.Location = new Point(1241, 232);
             farenheitLabel.Name = "farenheitLabel";
             farenheitLabel.Size = new Size(21, 25);
             farenheitLabel.TabIndex = 36;
@@ -427,7 +431,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(425, 134);
+            label1.Location = new Point(545, 131);
             label1.Name = "label1";
             label1.Size = new Size(73, 25);
             label1.TabIndex = 37;
@@ -436,17 +440,57 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(909, 131);
+            label2.Location = new Point(1029, 128);
             label2.Name = "label2";
             label2.Size = new Size(73, 25);
             label2.TabIndex = 38;
             label2.Text = "mm Hg";
             // 
+            // availableTestListBox
+            // 
+            availableTestListBox.FormattingEnabled = true;
+            availableTestListBox.ItemHeight = 25;
+            availableTestListBox.Location = new Point(159, 998);
+            availableTestListBox.Name = "availableTestListBox";
+            availableTestListBox.Size = new Size(312, 129);
+            availableTestListBox.TabIndex = 39;
+            // 
+            // selectedTestListBox
+            // 
+            selectedTestListBox.FormattingEnabled = true;
+            selectedTestListBox.ItemHeight = 25;
+            selectedTestListBox.Location = new Point(831, 998);
+            selectedTestListBox.Name = "selectedTestListBox";
+            selectedTestListBox.Size = new Size(312, 129);
+            selectedTestListBox.TabIndex = 40;
+            // 
+            // addTestBtn
+            // 
+            addTestBtn.Location = new Point(578, 998);
+            addTestBtn.Name = "addTestBtn";
+            addTestBtn.Size = new Size(112, 34);
+            addTestBtn.TabIndex = 41;
+            addTestBtn.Text = "Add Test";
+            addTestBtn.UseVisualStyleBackColor = true;
+            // 
+            // removeTestBtn
+            // 
+            removeTestBtn.Location = new Point(578, 1093);
+            removeTestBtn.Name = "removeTestBtn";
+            removeTestBtn.Size = new Size(112, 34);
+            removeTestBtn.TabIndex = 42;
+            removeTestBtn.Text = "Remove Test";
+            removeTestBtn.UseVisualStyleBackColor = true;
+            // 
             // ManageVisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1132, 1319);
+            ClientSize = new Size(1434, 1574);
+            Controls.Add(removeTestBtn);
+            Controls.Add(addTestBtn);
+            Controls.Add(selectedTestListBox);
+            Controls.Add(availableTestListBox);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(farenheitLabel);
@@ -536,5 +580,9 @@
         private Label farenheitLabel;
         private Label label1;
         private Label label2;
+        private ListBox availableTestListBox;
+        private ListBox selectedTestListBox;
+        private Button addTestBtn;
+        private Button removeTestBtn;
     }
 }
