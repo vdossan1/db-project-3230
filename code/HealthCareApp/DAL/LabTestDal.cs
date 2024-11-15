@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection.Metadata.Ecma335;
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
@@ -75,6 +76,26 @@ namespace HealthCareApp.DAL
 			}
 
 			return 0;
+		}
+
+		public static LabTest GetLabTestByTestCode(int testCode)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			var query = "SELECT * FROM lab_test WHERE test_code = @TestCode";
+
+			using var command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@TestCode", testCode);
+
+			using var reader = command.ExecuteReader();
+
+			while (reader.Read())
+			{
+				return CreateLabTestObj(reader);
+			}
+
+			return null;
 		}
 
 		private static LabTest CreateLabTestObj(MySqlDataReader reader)

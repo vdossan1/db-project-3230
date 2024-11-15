@@ -70,6 +70,13 @@ namespace HealthCareApp.view
 		private void BindControls()
 		{
 			this.normalityComboBox.DataSource = this.manageLabTestResultViewModel.NormalityArray;
+			this.normalityComboBox.SelectedItem = null;
+
+			this.testCodeLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestCode.ToString();
+			this.testNameLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestName;
+			this.highValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.HighValue.ToString();
+			this.lowValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.LowValue.ToString();
+			this.unitLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.Unit;
 
 			// Data Bindings
 			this.resultTextBox.DataBindings.Add(
@@ -91,8 +98,6 @@ namespace HealthCareApp.view
 			this.actionButton.DataBindings.Add(
 				"Enabled", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.IsValid), true,
 				DataSourceUpdateMode.OnPropertyChanged);
-
-			this.normalityComboBox.SelectedItem = null;
 		}
 
 		private void BindValidationMessages()

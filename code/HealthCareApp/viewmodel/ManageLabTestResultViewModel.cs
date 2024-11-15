@@ -2,7 +2,6 @@
 using HealthCareApp.model;
 using HealthCareApp.utils;
 using MySql.Data.MySqlClient;
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -38,6 +37,8 @@ namespace HealthCareApp.viewmodel
 		public string[] NormalityArray => Enum.GetNames(typeof(Normality));
 
 		public LabTestResult? SelectedLabTestResult { get; set; }
+
+		public LabTest? SelectedLabTest { get; set; }
 
 		/// <summary>
 		///     Gets or sets the test result of the lab test result.
@@ -142,6 +143,7 @@ namespace HealthCareApp.viewmodel
 		public ManageLabTestResultViewModel(LabTestResult? selectedLabTestResult = null)
 		{
 			this.SelectedLabTestResult = selectedLabTestResult;
+			this.SelectedLabTest = LabTestDal.GetLabTestByTestCode(this.SelectedLabTestResult.TestCode);
 			this.ValidationErrors = new Dictionary<string, string>();
 		}
 
