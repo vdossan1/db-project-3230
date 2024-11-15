@@ -1,13 +1,19 @@
-﻿using HealthCareApp.model;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
 namespace HealthCareApp.DAL
 {
     public class LabTestDal
     {
-        public static List<string> GetAllTestsName()
+        public static BindingList<string> GetAllTestsName()
         {
-            var labTestList = new List<string>();
+            var labTestList = new BindingList<string>();
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();

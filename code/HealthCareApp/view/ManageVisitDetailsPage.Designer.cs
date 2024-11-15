@@ -452,6 +452,7 @@
             availableTestListBox.ItemHeight = 25;
             availableTestListBox.Location = new Point(159, 998);
             availableTestListBox.Name = "availableTestListBox";
+            availableTestListBox.SelectionMode = SelectionMode.MultiSimple;
             availableTestListBox.Size = new Size(312, 129);
             availableTestListBox.TabIndex = 39;
             // 
@@ -472,6 +473,7 @@
             addTestBtn.TabIndex = 41;
             addTestBtn.Text = "Add Test";
             addTestBtn.UseVisualStyleBackColor = true;
+            addTestBtn.Click += addTestBtn_Click;
             // 
             // removeTestBtn
             // 
@@ -481,6 +483,7 @@
             removeTestBtn.TabIndex = 42;
             removeTestBtn.Text = "Remove Test";
             removeTestBtn.UseVisualStyleBackColor = true;
+            removeTestBtn.Click += removeTestBtn_Click;
             // 
             // ManageVisitDetailsPage
             // 
