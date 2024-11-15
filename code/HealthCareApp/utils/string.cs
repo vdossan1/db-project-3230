@@ -6,7 +6,7 @@ namespace HealthCareApp.utils
 	/// <summary>
 	///     Represents a state in the United States.
 	/// </summary>
-	public enum Normality
+	public enum @string
 	{
 		normal,
 		abnormal

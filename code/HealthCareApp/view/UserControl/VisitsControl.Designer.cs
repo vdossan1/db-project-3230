@@ -33,11 +33,11 @@
 			createVisitBtn = new Button();
 			visitsDataGridView = new DataGridView();
 			createVisitLabel = new Label();
-			testResultsDataGridView = new DataGridView();
+			this.labTestResultsDataGridView = new DataGridView();
 			enterTestResultsLabel = new Label();
 			enterTestResultButton = new Button();
 			((System.ComponentModel.ISupportInitialize)visitsDataGridView).BeginInit();
-			((System.ComponentModel.ISupportInitialize)testResultsDataGridView).BeginInit();
+			((System.ComponentModel.ISupportInitialize)this.labTestResultsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
 			// visitAdvancedSearchControl
@@ -102,24 +102,24 @@
 			createVisitLabel.TabIndex = 18;
 			createVisitLabel.Text = "No available appointments";
 			// 
-			// testResultsDataGridView
+			// labTestResultsDataGridView
 			// 
-			testResultsDataGridView.AllowUserToAddRows = false;
-			testResultsDataGridView.AllowUserToDeleteRows = false;
-			testResultsDataGridView.AllowUserToResizeColumns = false;
-			testResultsDataGridView.AllowUserToResizeRows = false;
-			testResultsDataGridView.BackgroundColor = SystemColors.Control;
-			testResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			testResultsDataGridView.GridColor = SystemColors.Control;
-			testResultsDataGridView.Location = new Point(427, 170);
-			testResultsDataGridView.MultiSelect = false;
-			testResultsDataGridView.Name = "testResultsDataGridView";
-			testResultsDataGridView.ReadOnly = true;
-			testResultsDataGridView.RowHeadersVisible = false;
-			testResultsDataGridView.RowHeadersWidth = 62;
-			testResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			testResultsDataGridView.Size = new Size(614, 500);
-			testResultsDataGridView.TabIndex = 19;
+			this.labTestResultsDataGridView.AllowUserToAddRows = false;
+			this.labTestResultsDataGridView.AllowUserToDeleteRows = false;
+			this.labTestResultsDataGridView.AllowUserToResizeColumns = false;
+			this.labTestResultsDataGridView.AllowUserToResizeRows = false;
+			this.labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
+			this.labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.labTestResultsDataGridView.GridColor = SystemColors.Control;
+			this.labTestResultsDataGridView.Location = new Point(427, 170);
+			this.labTestResultsDataGridView.MultiSelect = false;
+			this.labTestResultsDataGridView.Name = "labTestResultsDataGridView";
+			this.labTestResultsDataGridView.ReadOnly = true;
+			this.labTestResultsDataGridView.RowHeadersVisible = false;
+			this.labTestResultsDataGridView.RowHeadersWidth = 62;
+			this.labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			this.labTestResultsDataGridView.Size = new Size(614, 500);
+			this.labTestResultsDataGridView.TabIndex = 19;
 			// 
 			// enterTestResultsLabel
 			// 
@@ -149,7 +149,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(enterTestResultsLabel);
 			Controls.Add(enterTestResultButton);
-			Controls.Add(testResultsDataGridView);
+			Controls.Add(this.labTestResultsDataGridView);
 			Controls.Add(createVisitLabel);
 			Controls.Add(visitAdvancedSearchControl);
 			Controls.Add(editVisitBtn);
@@ -159,7 +159,7 @@
 			Name = "VisitsControl";
 			Size = new Size(1065, 680);
 			((System.ComponentModel.ISupportInitialize)visitsDataGridView).EndInit();
-			((System.ComponentModel.ISupportInitialize)testResultsDataGridView).EndInit();
+			((System.ComponentModel.ISupportInitialize)this.labTestResultsDataGridView).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -171,7 +171,7 @@
         private Button createVisitBtn;
         private DataGridView visitsDataGridView;
         private Label createVisitLabel;
-		private DataGridView testResultsDataGridView;
+		private DataGridView labTestResultsDataGridView;
 		private Label enterTestResultsLabel;
 		private Button enterTestResultButton;
 	}

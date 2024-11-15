@@ -16,7 +16,7 @@ namespace HealthCareApp.DAL
 
 			var query =
 				"UPDATE lab_test_result SET test_code = @TestCode, test_result = @TestResult, " +
-				"result_normality = @ResultNormality, date_performed = @DatePerformed " +
+				"result_normality = @ResultNormality, date_performed = @DatePerformed, status = @Status " +
 				"WHERE result_id = @ResultId";
 
 			using var command = new MySqlCommand(query, connection);
@@ -37,8 +37,8 @@ namespace HealthCareApp.DAL
 			connection.Open();
 
 			var query =
-				"INSERT INTO lab_test_result (visit_id, test_code, test_result, result_normality, date_performed) " +
-				"VALUES (@VisitId, @TestCode, @TestResult, @ResultNormality, @DatePerformed)";
+				"INSERT INTO lab_test_result (visit_id, test_code, test_result, result_normality, date_performed, status) " +
+				"VALUES (@VisitId, @TestCode, @TestResult, @ResultNormality, @DatePerformed, @Status)";
 
 			using var command = new MySqlCommand(query, connection);
 
@@ -79,14 +79,16 @@ namespace HealthCareApp.DAL
 			var testResultOrdinal = reader.GetOrdinal("test_result");
 			var resultNormalityOrdinal = reader.GetOrdinal("result_normality");
 			var datePerformedOrdinal = reader.GetOrdinal("date_performed");
+			var statusOrdinal = reader.GetOrdinal("status");
 
 			var newLabTestResult = new LabTestResult
 			(
 				reader.GetInt32(visitIdOrdinal),
 				reader.GetInt32(testCodeOrdinal),
-				reader.GetString(testResultOrdinal),
-				(utils.Normality)reader.GetChar(resultNormalityOrdinal),
-				reader.GetDateTime(datePerformedOrdinal)
+				reader.IsDBNull(testResultOrdinal) ? null : reader.GetString(testResultOrdinal),
+				reader.IsDBNull(resultNormalityOrdinal) ? null : reader.GetString(resultNormalityOrdinal),
+				reader.IsDBNull(datePerformedOrdinal) ? null : reader.GetDateTime(datePerformedOrdinal),
+				reader.GetBoolean(statusOrdinal)
 			);
 
 			newLabTestResult.ResultId = reader.GetInt32(resultIdOrdinal);
@@ -98,8 +100,9 @@ namespace HealthCareApp.DAL
 			command.Parameters.Add("@VisitId", MySqlDbType.Int32).Value = labTestResult.VisitId;
 			command.Parameters.Add("@TestCode", MySqlDbType.Int32).Value = labTestResult.TestCode;
 			command.Parameters.Add("@TestResult", MySqlDbType.VarChar).Value = labTestResult.TestResult;
-			command.Parameters.Add("@ResultNormality", MySqlDbType.Enum).Value = labTestResult.ResultNormality;
+			command.Parameters.Add("@ResultNormality", MySqlDbType.VarChar).Value = labTestResult.ResultNormality;
 			command.Parameters.Add("@DatePerformed", MySqlDbType.DateTime).Value = labTestResult.DatePerformed;
+			command.Parameters.Add("@Status", MySqlDbType.Bit).Value = labTestResult.Status;
 		}
 	}
 }

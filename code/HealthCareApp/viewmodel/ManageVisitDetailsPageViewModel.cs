@@ -404,7 +404,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
 		foreach (var testCode in testCodes)
 		{
-			var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null);
+			var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
 			LabTestResultDal.CreateLabTestResult(newLabTestResult);
 		}
 	}

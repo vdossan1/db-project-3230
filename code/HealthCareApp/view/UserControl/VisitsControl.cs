@@ -14,7 +14,7 @@ public partial class VisitsControl : UserControl
 {
     #region Data members
 
-    private readonly VisitsControlViewModel visitsControlViewModel;
+    private VisitsControlViewModel visitsControlViewModel;
     private readonly string nurseFullName;
     private readonly string username;
 
@@ -28,24 +28,10 @@ public partial class VisitsControl : UserControl
     public VisitsControl(string nurseFullName, string userName)
     {
         this.InitializeComponent();
-
         this.nurseFullName = nurseFullName;
         this.username = userName;
-        this.visitsControlViewModel = new VisitsControlViewModel();
-
-        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
-
-        this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
-        this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
-
-        this.createVisitBtn.DataBindings.Add(
-            "Enabled", this.visitsControlViewModel, nameof(this.visitsControlViewModel.IsValid), true,
-            DataSourceUpdateMode.OnPropertyChanged);
-
-        this.createVisitLabel.DataBindings.Add(
-            "Visible", this.visitsControlViewModel, nameof(this.visitsControlViewModel.ShowLabel), true,
-            DataSourceUpdateMode.OnPropertyChanged);
-    }
+        this.SetUpPage();
+	}
 
     #endregion
 
@@ -91,7 +77,42 @@ public partial class VisitsControl : UserControl
         this.visitsDataGridView.ClearSelection();
     }
 
+    private void VisitsDataGridView_SelectionChanged(object? sender, EventArgs e)
+    {
+	    if (this.visitsDataGridView.SelectedRows.Count > 0)
+	    {
+            var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
+			this.visitsControlViewModel.SelectedVisit = selectedVisit;
+            this.visitsControlViewModel.PopulateTestResults();
+            this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+		}
+	    else
+	    {
+			this.visitsControlViewModel.SelectedVisit = null;
+			this.labTestResultsDataGridView.DataSource = null;
+		}
+    }
 
+	private void SetUpPage()
+    {
+		// Set up the data grid view
+		this.visitsControlViewModel = new VisitsControlViewModel();
+	    this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
+		this.visitsDataGridView.SelectionChanged += this.VisitsDataGridView_SelectionChanged;
+
+		// Set up the advanced search control
+		this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
+	    this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
+
+		// Set up the event handlers
+		this.createVisitBtn.DataBindings.Add(
+		    "Enabled", this.visitsControlViewModel, nameof(this.visitsControlViewModel.IsValid), true,
+		    DataSourceUpdateMode.OnPropertyChanged);
+
+	    this.createVisitLabel.DataBindings.Add(
+		    "Visible", this.visitsControlViewModel, nameof(this.visitsControlViewModel.ShowLabel), true,
+		    DataSourceUpdateMode.OnPropertyChanged);
+	}
 
     #endregion
 }

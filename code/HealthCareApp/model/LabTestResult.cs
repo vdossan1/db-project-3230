@@ -34,12 +34,17 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Gets or sets the normality status of the test result, indicating if the result is within or outside the normal range.
 		/// </summary>
-		public Normality? ResultNormality { get; set; }
+		public string? ResultNormality { get; set; }
 
 		/// <summary>
 		/// Gets or sets the date and time when the test was performed.
 		/// </summary>
 		public DateTime? DatePerformed { get; set; }
+
+		/// <summary>
+		///     Gets or sets the status of the LabTestResult (active or inactive).
+		/// </summary>
+		public bool Status { get; }
 
 		#endregion
 
@@ -48,13 +53,14 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LabTestResult"/> class with the specified result details.
 		/// </summary>
-		public LabTestResult(int? visitId, int testCode, string? testResult, Normality? resultNormality, DateTime? datePerformed)
+		public LabTestResult(int? visitId, int testCode, string? testResult, string? resultNormality, DateTime? datePerformed, bool status)
 		{
 			this.VisitId = visitId;
 			this.TestCode = testCode;
 			this.TestResult = testResult;
 			this.ResultNormality = resultNormality;
 			this.DatePerformed = datePerformed;
+			this.Status = status;
 		}
 
 		#endregion

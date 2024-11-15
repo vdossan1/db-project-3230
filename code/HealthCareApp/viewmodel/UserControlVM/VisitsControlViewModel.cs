@@ -17,7 +17,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Gets the list of test results for a selected visit.
     /// </summary>
-    public List<Visit> TestResults { get; private set; }
+    public List<LabTestResult> LabTestResults { get; private set; }
 
     /// <summary>
     ///     Gets the selected visit.
@@ -91,7 +91,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateTestResults()
     {
-	    //this.TestResults = VisitDal.GetLabTestResultsForVisit(this.SelectedVisit);
+	    this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
     }
 
     /// <summary>
