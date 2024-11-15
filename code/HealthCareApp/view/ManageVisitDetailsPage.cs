@@ -43,6 +43,8 @@ public partial class ManageVisitDetailsPage : Form
 
         this.BindControls();
         this.BindValidationMessages();
+
+        this.availableTestListBox.DataSource = this.manageVisitDetailsPageViewModel.LabTests;
     }
 
     private void SetEditPageAttributes()

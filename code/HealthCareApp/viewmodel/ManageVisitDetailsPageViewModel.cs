@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
+using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.viewmodel;
 
@@ -44,6 +45,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     #region Properties
 
     public Visit? SelectedVisit { get; set; }
+
+    public List<String> LabTests { get; private set; }
 
     /// <summary>
     ///     Gets the array of appointment IDs with no associated visits.
@@ -314,11 +317,19 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.SelectedVisit = selectedVisit;
         this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         this.ValidationErrors = new Dictionary<string, string>();
+
+        this.LabTests = new List<String>();
+        this.PopulateAvailableTests();
     }
 
     #endregion
 
     #region Methods
+
+    public void PopulateAvailableTests()
+    {
+        this.LabTests= LabTestDal.GetAllTestsName();
+    }
 
     /// <summary>
     ///     Occurs when a property value changes.
