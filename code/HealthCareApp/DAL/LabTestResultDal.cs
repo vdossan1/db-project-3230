@@ -15,8 +15,8 @@ namespace HealthCareApp.DAL
 			connection.Open();
 
 			var query =
-				"UPDATE lab_test_result SET test_code = @TestCode, test_result = @TestResult, " +
-				"result_normality = @ResultNormality, date_performed = @DatePerformed, status = @Status " +
+				"UPDATE lab_test_result SET test_result = @TestResult, result_normality = @ResultNormality, " +
+				"date_performed = @DatePerformed, status = @Status " +
 				"WHERE result_id = @ResultId";
 
 			using var command = new MySqlCommand(query, connection);

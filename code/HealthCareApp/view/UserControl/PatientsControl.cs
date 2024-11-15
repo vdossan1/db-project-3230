@@ -70,13 +70,11 @@ public partial class PatientsControl : UserControl
 	{
 		if (this.patientsDataGridView.SelectedRows.Count > 0)
 		{
-			// Set the SelectedPatient in the ViewModel to the selected row's data item
 			this.patientsControlViewModel.SelectedPatient =
 				(Patient)this.patientsDataGridView.SelectedRows[0].DataBoundItem;
 		}
 		else
 		{
-			// Clear the SelectedPatient if no row is selected
 			this.patientsControlViewModel.SelectedPatient = null;
 		}
 	}

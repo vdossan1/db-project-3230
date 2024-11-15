@@ -33,17 +33,17 @@
 			createVisitBtn = new Button();
 			visitsDataGridView = new DataGridView();
 			createVisitLabel = new Label();
-			this.labTestResultsDataGridView = new DataGridView();
+			labTestResultsDataGridView = new DataGridView();
 			enterTestResultsLabel = new Label();
 			enterTestResultButton = new Button();
 			((System.ComponentModel.ISupportInitialize)visitsDataGridView).BeginInit();
-			((System.ComponentModel.ISupportInitialize)this.labTestResultsDataGridView).BeginInit();
+			((System.ComponentModel.ISupportInitialize)labTestResultsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
 			// visitAdvancedSearchControl
 			// 
 			visitAdvancedSearchControl.Location = new Point(21, 65);
-			visitAdvancedSearchControl.Margin = new Padding(1, 1, 1, 1);
+			visitAdvancedSearchControl.Margin = new Padding(1);
 			visitAdvancedSearchControl.Name = "visitAdvancedSearchControl";
 			visitAdvancedSearchControl.Size = new Size(727, 95);
 			visitAdvancedSearchControl.TabIndex = 17;
@@ -52,7 +52,7 @@
 			// 
 			editVisitBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			editVisitBtn.Location = new Point(278, 15);
-			editVisitBtn.Margin = new Padding(2, 2, 2, 2);
+			editVisitBtn.Margin = new Padding(2);
 			editVisitBtn.Name = "editVisitBtn";
 			editVisitBtn.Size = new Size(200, 31);
 			editVisitBtn.TabIndex = 14;
@@ -64,7 +64,7 @@
 			// 
 			createVisitBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			createVisitBtn.Location = new Point(74, 15);
-			createVisitBtn.Margin = new Padding(2, 2, 2, 2);
+			createVisitBtn.Margin = new Padding(2);
 			createVisitBtn.Name = "createVisitBtn";
 			createVisitBtn.Size = new Size(200, 31);
 			createVisitBtn.TabIndex = 15;
@@ -104,22 +104,22 @@
 			// 
 			// labTestResultsDataGridView
 			// 
-			this.labTestResultsDataGridView.AllowUserToAddRows = false;
-			this.labTestResultsDataGridView.AllowUserToDeleteRows = false;
-			this.labTestResultsDataGridView.AllowUserToResizeColumns = false;
-			this.labTestResultsDataGridView.AllowUserToResizeRows = false;
-			this.labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
-			this.labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.labTestResultsDataGridView.GridColor = SystemColors.Control;
-			this.labTestResultsDataGridView.Location = new Point(427, 170);
-			this.labTestResultsDataGridView.MultiSelect = false;
-			this.labTestResultsDataGridView.Name = "labTestResultsDataGridView";
-			this.labTestResultsDataGridView.ReadOnly = true;
-			this.labTestResultsDataGridView.RowHeadersVisible = false;
-			this.labTestResultsDataGridView.RowHeadersWidth = 62;
-			this.labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			this.labTestResultsDataGridView.Size = new Size(614, 500);
-			this.labTestResultsDataGridView.TabIndex = 19;
+			labTestResultsDataGridView.AllowUserToAddRows = false;
+			labTestResultsDataGridView.AllowUserToDeleteRows = false;
+			labTestResultsDataGridView.AllowUserToResizeColumns = false;
+			labTestResultsDataGridView.AllowUserToResizeRows = false;
+			labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
+			labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			labTestResultsDataGridView.GridColor = SystemColors.Control;
+			labTestResultsDataGridView.Location = new Point(427, 170);
+			labTestResultsDataGridView.MultiSelect = false;
+			labTestResultsDataGridView.Name = "labTestResultsDataGridView";
+			labTestResultsDataGridView.ReadOnly = true;
+			labTestResultsDataGridView.RowHeadersVisible = false;
+			labTestResultsDataGridView.RowHeadersWidth = 62;
+			labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			labTestResultsDataGridView.Size = new Size(614, 500);
+			labTestResultsDataGridView.TabIndex = 19;
 			// 
 			// enterTestResultsLabel
 			// 
@@ -142,6 +142,7 @@
 			enterTestResultButton.TabIndex = 21;
 			enterTestResultButton.Text = "Enter Test Results";
 			enterTestResultButton.UseVisualStyleBackColor = true;
+			enterTestResultButton.Click += this.enterTestResultsBtn_Click;
 			// 
 			// VisitsControl
 			// 
@@ -149,17 +150,17 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(enterTestResultsLabel);
 			Controls.Add(enterTestResultButton);
-			Controls.Add(this.labTestResultsDataGridView);
+			Controls.Add(labTestResultsDataGridView);
 			Controls.Add(createVisitLabel);
 			Controls.Add(visitAdvancedSearchControl);
 			Controls.Add(editVisitBtn);
 			Controls.Add(createVisitBtn);
 			Controls.Add(visitsDataGridView);
-			Margin = new Padding(2, 2, 2, 2);
+			Margin = new Padding(2);
 			Name = "VisitsControl";
 			Size = new Size(1065, 680);
 			((System.ComponentModel.ISupportInitialize)visitsDataGridView).EndInit();
-			((System.ComponentModel.ISupportInitialize)this.labTestResultsDataGridView).EndInit();
+			((System.ComponentModel.ISupportInitialize)labTestResultsDataGridView).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}

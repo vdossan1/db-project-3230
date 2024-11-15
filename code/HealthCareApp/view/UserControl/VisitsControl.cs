@@ -33,36 +33,40 @@ public partial class VisitsControl : UserControl
         this.SetUpPage();
 	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void editVisitBtn_Click(object sender, EventArgs e)
+	private void createVisitBtn_Click(object sender, EventArgs e)
+	{
+		var createVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username);
+		createVisitPage.FormClosed += this.RefreshVisitsList;
+		createVisitPage.ShowDialog();
+	}
+
+	private void editVisitBtn_Click(object sender, EventArgs e)
     {
         if (this.visitsDataGridView.SelectedRows.Count > 0)
         {
             var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
             var editVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username, selectedVisit);
-            editVisitPage.FormClosed += this.RefreshPatientList;
+            editVisitPage.FormClosed += this.RefreshVisitsList;
             editVisitPage.ShowDialog();
         }
     }
 
-    public void RefreshVisitsList(object? sender, FormClosedEventArgs e)
-    {
-        this.visitsControlViewModel.PopulateVisits();
-        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
-        this.visitsDataGridView.ClearSelection();
-    }
+	private void enterTestResultsBtn_Click(object sender, EventArgs e)
+	{
+		if (this.labTestResultsDataGridView.SelectedRows.Count > 0)
+		{
+			var selectedLabTestResult = (LabTestResult)this.labTestResultsDataGridView.SelectedRows[0].DataBoundItem;
+			var manageLabTestResultPage = new ManageLabTestResultsPage(selectedLabTestResult);
+			manageLabTestResultPage.FormClosed += this.RefreshTestsList;
+			manageLabTestResultPage.ShowDialog();
+		}
+	}
 
-    private void createVisitBtn_Click(object sender, EventArgs e)
-    {
-        var createVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username);
-        createVisitPage.FormClosed += this.RefreshVisitsList;
-        createVisitPage.ShowDialog();
-    }
-
-    private void RefreshPatientList(object sender, EventArgs e)
+    private void RefreshVisitsList(object sender, EventArgs e)
     {
         if (e is SearchEventArgs searchArgs)
         {
@@ -77,7 +81,14 @@ public partial class VisitsControl : UserControl
         this.visitsDataGridView.ClearSelection();
     }
 
-    private void VisitsDataGridView_SelectionChanged(object? sender, EventArgs e)
+    private void RefreshTestsList(object sender, EventArgs e)
+    {
+	    this.visitsControlViewModel.PopulateTestResults();
+		this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+		this.labTestResultsDataGridView.ClearSelection();
+	}
+
+	private void VisitsDataGridView_SelectionChanged(object? sender, EventArgs e)
     {
 	    if (this.visitsDataGridView.SelectedRows.Count > 0)
 	    {
@@ -93,16 +104,29 @@ public partial class VisitsControl : UserControl
 		}
     }
 
+	private void LabTestResultsDataGridView_SelectionChanged(object? sender, EventArgs e)
+	{
+		if (this.labTestResultsDataGridView.SelectedRows.Count > 0)
+		{
+			this.enterTestResultButton.Enabled = true;
+		}
+		else
+		{
+			this.enterTestResultButton.Enabled = false;
+		}
+	}
+
 	private void SetUpPage()
     {
 		// Set up the data grid view
 		this.visitsControlViewModel = new VisitsControlViewModel();
 	    this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
 		this.visitsDataGridView.SelectionChanged += this.VisitsDataGridView_SelectionChanged;
+		this.labTestResultsDataGridView.SelectionChanged += this.LabTestResultsDataGridView_SelectionChanged;
 
 		// Set up the advanced search control
-		this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
-	    this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
+		this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshVisitsList;
+	    this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshVisitsList;
 
 		// Set up the event handlers
 		this.createVisitBtn.DataBindings.Add(
