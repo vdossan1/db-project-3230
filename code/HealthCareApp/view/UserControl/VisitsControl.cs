@@ -142,7 +142,11 @@ public partial class VisitsControl : UserControl
 	    this.createVisitLabel.DataBindings.Add("Visible", this.visitsControlViewModel, 
             nameof(this.visitsControlViewModel.ShowLabel), true,
 		    DataSourceUpdateMode.OnPropertyChanged);
-	}
+
+        this.editVisitBtn.DataBindings.Add("Enabled", this.visitsControlViewModel,
+            nameof(this.visitsControlViewModel.IsVisitSelected), true,
+            DataSourceUpdateMode.OnPropertyChanged);
+    }
 
 	private void SetUpDataGridViewColumns()
 	{
