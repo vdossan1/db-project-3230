@@ -52,6 +52,7 @@
 			reasonTextBox.Location = new Point(801, 74);
 			reasonTextBox.Multiline = true;
 			reasonTextBox.Name = "reasonTextBox";
+			reasonTextBox.ScrollBars = ScrollBars.Vertical;
 			reasonTextBox.Size = new Size(340, 292);
 			reasonTextBox.TabIndex = 6;
 			// 
