@@ -46,7 +46,9 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     public Visit? SelectedVisit { get; set; }
 
-    public List<String> LabTests { get; private set; }
+    public BindingList<string> LabTests { get; private set; }
+
+    public BindingList<string> SelectedTests { get; private set; }
 
     /// <summary>
     ///     Gets the array of appointment IDs with no associated visits.
@@ -318,7 +320,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         this.ValidationErrors = new Dictionary<string, string>();
 
-        this.LabTests = new List<String>();
+        this.LabTests = new BindingList<string>();
+        this.SelectedTests = new BindingList<string>();
         this.PopulateAvailableTests();
     }
 
@@ -329,6 +332,11 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     public void PopulateAvailableTests()
     {
         this.LabTests= LabTestDal.GetAllTestsName();
+    }
+
+    public void PopulateSelectedTests()
+    {
+
     }
 
     /// <summary>
@@ -386,80 +394,80 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         return Regex.IsMatch(bodyTempString, pattern);
     }
 
-/// <summary>
-///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
-/// </summary>
-public void ValidateFields()
-    {
-        this.ValidationErrors.Clear();
-        this.IsValid = true;
-
-        if (this.BloodPressureSystolic == 0)
+    /// <summary>
+    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
+    /// </summary>
+    public void ValidateFields()
         {
-            this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            this.ValidationErrors.Clear();
+            this.IsValid = true;
 
-        if (this.BloodPressureDiastolic == 0)
-        {
-            this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            if (this.BloodPressureSystolic == 0)
+            {
+                this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (this.Weight == 0)
-        {
-            this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            if (this.BloodPressureDiastolic == 0)
+            {
+                this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (this.isValidWeight(this.Weight.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
-            this.IsValid = false;
-        }
+            if (this.Weight == 0)
+            {
+                this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (this.Height == 0)
-        {
-            this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            if (this.isValidWeight(this.Weight.ToString()) == false)
+            {
+                this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
+                this.IsValid = false;
+            }
 
-        if (this.isValidHeight(this.Height.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
-            this.IsValid = false;
-        }
+            if (this.Height == 0)
+            {
+                this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (this.PulseRate == 0)
-        {
-            this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            if (this.isValidHeight(this.Height.ToString()) == false)
+            {
+                this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
+                this.IsValid = false;
+            }
 
-        if (this.BodyTemp == 0)
-        {
-            this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
+            if (this.PulseRate == 0)
+            {
+                this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
-            this.IsValid = false;
-        }
+            if (this.BodyTemp == 0)
+            {
+                this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
+                this.IsValid = false;
+            }
 
-        if (string.IsNullOrWhiteSpace(this.Symptoms))
-        {
-            this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
-            this.IsValid = false;
-        }
+            if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
+            {
+                this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
+                this.IsValid = false;
+            }
 
-        if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
-        {
-            this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
-            this.IsValid = false;
+            if (string.IsNullOrWhiteSpace(this.Symptoms))
+            {
+                this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
+                this.IsValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
+            {
+                this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
+                this.IsValid = false;
+            }
         }
-    }
 
     #endregion
 
