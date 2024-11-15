@@ -91,7 +91,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateTestResults()
     {
-	    this.TestResults = VisitDal.GetTestResultsForVisit(this.SelectedVisit);
+	    //this.TestResults = VisitDal.GetLabTestResultsForVisit(this.SelectedVisit);
     }
 
     /// <summary>

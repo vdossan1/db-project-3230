@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
@@ -11,14 +6,40 @@ namespace HealthCareApp.DAL
 {
     public class LabTestDal
     {
-        public static BindingList<string> GetAllTestsName()
+	    public static List<string> GetAllLabTestsForVisit(int visitId)
+	    {
+		    var labTestList = new List<string>();
+
+		    using var connection = new MySqlConnection(Connection.ConnectionString());
+		    connection.Open();
+
+		    var query = "SELECT lab_test.test_name FROM lab_test JOIN lab_test_result ON lab_test.test_code = lab_test_result.test_code " +
+		                "WHERE lab_test_result.visit_id = @VisitId";
+
+		    using var command = new MySqlCommand(query, connection);
+		    command.Parameters.AddWithValue("@VisitId", visitId);
+
+		    using var reader = command.ExecuteReader();
+
+		    var testNameOrdinal = reader.GetOrdinal("test_name");
+
+			while (reader.Read())
+			{
+				labTestList.Add(reader.GetString(testNameOrdinal));
+
+			}
+
+		    return labTestList;
+	    }
+
+		public static BindingList<string> GetAllTestsName()
         {
             var labTestList = new BindingList<string>();
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
 
-            var query = "select test_name from lab_test";
+            var query = "SELECT test_name FROM lab_test";
 
             using var command = new MySqlCommand(query, connection);
 
@@ -34,13 +55,35 @@ namespace HealthCareApp.DAL
             return labTestList;
         }
 
-        private static LabTest CreateLabTestObj(MySqlDataReader reader)
+		public static int GetLabTestCodeByTestName(string testName)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			var query = "SELECT test_code FROM lab_test WHERE test_name = @TestName";
+
+			using var command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@TestName", testName);
+
+			using var reader = command.ExecuteReader();
+
+			var testCodeOrdinal = reader.GetOrdinal("test_code");
+
+			while (reader.Read())
+			{
+				return reader.GetInt32(testCodeOrdinal);
+			}
+
+			return 0;
+		}
+
+		private static LabTest CreateLabTestObj(MySqlDataReader reader)
         {
             var testCodeOrdinal = reader.GetOrdinal("test_code");
             var testNameOrdinal = reader.GetOrdinal("test_name");
             var highValueOrdinal = reader.GetOrdinal("high_value");
             var lowValueOrdinal = reader.GetOrdinal("low_value");
-            var unitOfMeasureOrdinal= reader.GetOrdinal("unit_of_measure");
+            var unitOrdinal= reader.GetOrdinal("unit_of_measure");
 
             var newLabTest = new LabTest
             (
@@ -48,13 +91,13 @@ namespace HealthCareApp.DAL
                 reader.GetString(testNameOrdinal),
                 reader.IsDBNull(highValueOrdinal) ? 0 : reader.GetDecimal(highValueOrdinal),
                 reader.IsDBNull(lowValueOrdinal) ? 0 : reader.GetDecimal(lowValueOrdinal),
-                reader.GetString(unitOfMeasureOrdinal)
+                reader.GetString(unitOrdinal)
             );
             
             return newLabTest;
         }
 
-        private static void AddAllPatientParamsToCommand(LabTest lasTest, MySqlCommand command)
+        private static void AddAllLabTestParamsToCommand(LabTest lasTest, MySqlCommand command)
         {
             command.Parameters.Add("@TestCode", MySqlDbType.VarChar).Value = lasTest.TestCode;
             command.Parameters.Add("@TestName", MySqlDbType.VarChar).Value = lasTest.TestName;

@@ -48,11 +48,34 @@ public class VisitDal
         return command.ExecuteNonQuery();
     }
 
-    /// <summary>
-    ///     Retrieves a list of all visits from the database.
-    /// </summary>
-    /// <returns>A list of <see cref="Visit" /> objects representing all visits in the database.</returns>
-    public static List<Visit> GetAllVisits()
+    public static int GetVisitIdByNaturalKey(int appointmentId, int nurseId)
+	{
+		var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @NurseId";
+
+		using var connection = new MySqlConnection(Connection.ConnectionString());
+		connection.Open();
+
+		using var command = new MySqlCommand(query, connection);
+		command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+		command.Parameters.AddWithValue("@NurseId", nurseId);
+
+		using var reader = command.ExecuteReader();
+
+		var visitIdOrdinal = reader.GetOrdinal("visit_id");
+
+		while (reader.Read())
+		{
+			return reader.GetInt32(visitIdOrdinal);
+		}
+
+		return 0;
+	}
+
+	/// <summary>
+	///     Retrieves a list of all visits from the database.
+	/// </summary>
+	/// <returns>A list of <see cref="Visit" /> objects representing all visits in the database.</returns>
+	public static List<Visit> GetAllVisits()
     {
         var query = "SELECT * FROM visit";
 
@@ -118,7 +141,6 @@ public class VisitDal
 
         var newVisit = new Visit
         (
-            reader.GetInt32(visitIdOrdinal),
             reader.GetInt32(appointmentIdOrdinal),
             reader.GetInt32(nurseIdOrdinal),
             reader.GetInt32(bloodPressureSysOrdinal),
@@ -132,7 +154,8 @@ public class VisitDal
             reader.IsDBNull(finalDiagOrdinal) ? null : reader.GetString(finalDiagOrdinal)
         );
 
-        return newVisit;
+        newVisit.VisitId = reader.GetInt32(visitIdOrdinal);
+		return newVisit;
     }
 
     private static void AddAllVisitParamsToCommand(Visit newVisit, MySqlCommand command)

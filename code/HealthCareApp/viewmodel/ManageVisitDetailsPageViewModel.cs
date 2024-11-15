@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
-using static HealthCareApp.view.AdvancedSearchControl;
 
 namespace HealthCareApp.viewmodel;
 
@@ -322,22 +321,38 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
         this.LabTests = new BindingList<string>();
         this.SelectedTests = new BindingList<string>();
-        this.PopulateAvailableTests();
+        this.PopulateListBoxes();
     }
 
     #endregion
 
     #region Methods
 
-    public void PopulateAvailableTests()
+    private void PopulateListBoxes()
+	{
+		this.PopulateAvailableTests();
+
+		if (this.SelectedVisit != null)
+		{
+			this.PopulateSelectedTests();
+		}
+	}
+
+    private void PopulateAvailableTests()
     {
         this.LabTests= LabTestDal.GetAllTestsName();
     }
 
-    public void PopulateSelectedTests()
+    private void PopulateSelectedTests()
     {
-
-    }
+	    var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
+		
+	    foreach (var test in labTestsForVisit)
+		{
+			this.SelectedTests.Add(test);
+            this.LabTests.Remove(test);
+		}
+	}
 
     /// <summary>
     ///     Occurs when a property value changes.
@@ -366,7 +381,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         if (this.SelectedVisit == null)
         {
             VisitDal.CreateVisit(newVisit);
-        }
+		}
         else
         {
             newVisit.VisitId = this.SelectedVisit.VisitId;
@@ -375,7 +390,26 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         
     }
 
-    private bool isValidWeight(string weightString)
+    public void CreateLabTestResults()
+    {
+        var testCodes = new List<int>();
+
+		foreach (var testName in this.SelectedTests)
+	    {
+		    var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
+			testCodes.Add(testCode);
+		}
+
+		var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+
+		foreach (var testCode in testCodes)
+		{
+			var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null);
+			LabTestResultDal.CreateLabTestResult(newLabTestResult);
+		}
+	}
+
+	private bool isValidWeight(string weightString)
     {
         string pattern = @"^\d{1,3}(\.\d{1,2})?$";
         return Regex.IsMatch(weightString, pattern);

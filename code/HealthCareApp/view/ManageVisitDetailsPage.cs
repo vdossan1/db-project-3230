@@ -3,9 +3,7 @@ using HealthCareApp.model;
 using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -76,8 +74,9 @@ public partial class ManageVisitDetailsPage : Form
         try
         {
             this.manageVisitDetailsPageViewModel.SaveVisitDetails();
+            this.manageVisitDetailsPageViewModel.CreateLabTestResults();
 
-            messageText = "Visit Details Saved Successfully";
+			messageText = "Visit Details Saved Successfully";
             messageCaption = "Visit Confirmation";
             messageIcon = MessageBoxIcon.Information;
         }
@@ -88,7 +87,7 @@ public partial class ManageVisitDetailsPage : Form
             messageIcon = MessageBoxIcon.Error;
         }
 
-        MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
+		MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
         Hide();
         this.Dispose(true);
     }
@@ -99,11 +98,64 @@ public partial class ManageVisitDetailsPage : Form
         Dispose();
     }
 
-    #endregion
+    private void addTestBtn_Click(object sender, EventArgs e)
+    {
+	    var testsToRemove = new List<string>();
 
-    #region Bindings
+	    foreach (var selectedItem in this.availableTestListBox.SelectedItems)
+	    {
+		    this.manageVisitDetailsPageViewModel.SelectedTests.Add((string)selectedItem);
+		    testsToRemove.Add((string)selectedItem);
+	    }
 
-    private void BindControls()
+	    testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
+
+	    this.availableTestListBox.ClearSelected();
+	    this.selectedTestListBox.ClearSelected();
+    }
+
+    private void removeTestBtn_Click(object sender, EventArgs e)
+    {
+	    var testsToRemove = new List<string>();
+
+	    foreach (var selectedItem in this.selectedTestListBox.SelectedItems)
+	    {
+		    this.manageVisitDetailsPageViewModel.LabTests.Add((string)selectedItem);
+		    testsToRemove.Add((string)selectedItem);
+	    }
+
+	    testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item));
+
+	    this.availableTestListBox.ClearSelected();
+	    this.selectedTestListBox.ClearSelected();
+
+	    SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
+
+	    this.availableTestListBox.ClearSelected();
+	    this.selectedTestListBox.ClearSelected();
+    }
+
+    private void SortBindingList(BindingList<string> bindingList)
+    {
+	    // Copy the items into a List<string>
+	    var sortedList = new List<string>(bindingList);
+
+	    // Sort the List<string> alphabetically
+	    sortedList.Sort();
+
+	    // Clear and repopulate the BindingList
+	    bindingList.Clear();
+	    foreach (var item in sortedList)
+	    {
+		    bindingList.Add(item);
+	    }
+    }
+
+	#endregion
+
+	#region Bindings
+
+	private void BindControls()
     {
         this.apptIdCmbBox.DataSource = this.manageVisitDetailsPageViewModel.ApptIdsArray;
 
@@ -187,58 +239,4 @@ public partial class ManageVisitDetailsPage : Form
     }
 
     #endregion
-
-    private void addTestBtn_Click(object sender, EventArgs e)
-    {
-        var testsToRemove = new List<string>();
-
-        foreach (var selectedItem in this.availableTestListBox.SelectedItems)
-        {
-            this.manageVisitDetailsPageViewModel.SelectedTests.Add((string)selectedItem);
-            testsToRemove.Add((string)selectedItem);
-        }
-
-        testsToRemove.ForEach( item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
-
-        this.availableTestListBox.ClearSelected();
-        this.selectedTestListBox.ClearSelected();
-    }
-
-    private void removeTestBtn_Click(object sender, EventArgs e)
-    {
-        var testsToRemove = new List<string>();
-
-        foreach (var selectedItem in this.selectedTestListBox.SelectedItems)
-        {
-            this.manageVisitDetailsPageViewModel.LabTests.Add((string)selectedItem);
-            testsToRemove.Add((string)selectedItem);
-        }
-
-        testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item));
-
-        this.availableTestListBox.ClearSelected();
-        this.selectedTestListBox.ClearSelected();
-
-        SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
-
-        this.availableTestListBox.ClearSelected();
-        this.selectedTestListBox.ClearSelected();
-    }
-
-    private void SortBindingList(BindingList<string> bindingList)
-    {
-        // Copy the items into a List<string>
-        var sortedList = new List<string>(bindingList);
-
-        // Sort the List<string> alphabetically
-        sortedList.Sort();
-
-        // Clear and repopulate the BindingList
-        bindingList.Clear();
-        foreach (var item in sortedList)
-        {
-            bindingList.Add(item);
-        }
-    }
-
 }

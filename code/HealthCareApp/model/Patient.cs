@@ -89,7 +89,6 @@ public class Patient
         this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
         this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
         this.DateOfBirth = dateOfBirth ?? throw new ArgumentNullException(nameof(dateOfBirth));
-        ;
         this.Sex = sex ?? throw new ArgumentNullException(nameof(sex));
         this.Address1 = address1 ?? throw new ArgumentNullException(nameof(address1));
         this.Address2 = address2;

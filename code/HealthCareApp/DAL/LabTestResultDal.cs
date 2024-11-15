@@ -82,7 +82,6 @@ namespace HealthCareApp.DAL
 
 			var newLabTestResult = new LabTestResult
 			(
-				reader.GetInt32(resultIdOrdinal),
 				reader.GetInt32(visitIdOrdinal),
 				reader.GetInt32(testCodeOrdinal),
 				reader.GetString(testResultOrdinal),
@@ -90,12 +89,12 @@ namespace HealthCareApp.DAL
 				reader.GetDateTime(datePerformedOrdinal)
 			);
 
+			newLabTestResult.ResultId = reader.GetInt32(resultIdOrdinal);
 			return newLabTestResult;
 		}
 
 		private static void AddAllLabTestResultParamsToCommand(LabTestResult labTestResult, MySqlCommand command)
 		{
-			command.Parameters.Add("@ResultId", MySqlDbType.Int32).Value = labTestResult.ResultId;
 			command.Parameters.Add("@VisitId", MySqlDbType.Int32).Value = labTestResult.VisitId;
 			command.Parameters.Add("@TestCode", MySqlDbType.Int32).Value = labTestResult.TestCode;
 			command.Parameters.Add("@TestResult", MySqlDbType.VarChar).Value = labTestResult.TestResult;
