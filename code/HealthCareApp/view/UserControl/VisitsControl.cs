@@ -31,13 +31,19 @@ public partial class VisitsControl : UserControl
         this.nurseFullName = nurseFullName;
         this.username = userName;
         this.SetUpPage();
-	}
+    }
 
-	#endregion
+    #endregion
 
-	#region Methods
+    #region Methods
 
-	private void createVisitBtn_Click(object sender, EventArgs e)
+    public void ClearAllSelection()
+    {
+        this.visitsDataGridView.ClearSelection();
+        this.labTestResultsDataGridView.ClearSelection();
+    }
+
+    private void createVisitBtn_Click(object sender, EventArgs e)
 	{
 		var createVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username);
 		createVisitPage.FormClosed += this.RefreshVisitsList;
@@ -129,12 +135,12 @@ public partial class VisitsControl : UserControl
 	    this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshVisitsList;
 
 		// Set up the event handlers
-		this.createVisitBtn.DataBindings.Add(
-		    "Enabled", this.visitsControlViewModel, nameof(this.visitsControlViewModel.IsValid), true,
-		    DataSourceUpdateMode.OnPropertyChanged);
+		this.createVisitBtn.DataBindings.Add("Enabled", this.visitsControlViewModel, 
+            nameof(this.visitsControlViewModel.IsValid), true, 
+            DataSourceUpdateMode.OnPropertyChanged);
 
-	    this.createVisitLabel.DataBindings.Add(
-		    "Visible", this.visitsControlViewModel, nameof(this.visitsControlViewModel.ShowLabel), true,
+	    this.createVisitLabel.DataBindings.Add("Visible", this.visitsControlViewModel, 
+            nameof(this.visitsControlViewModel.ShowLabel), true,
 		    DataSourceUpdateMode.OnPropertyChanged);
 	}
 

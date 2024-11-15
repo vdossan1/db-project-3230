@@ -89,6 +89,8 @@ public partial class MainPage : Form
         this.activeControl = this.visitsControl;
         this.mainPanel.Controls.Clear();
         this.mainPanel.Controls.Add(this.visitsControl);
+
+        this.visitsControl.ClearAllSelection();
     }
 
     private void DisplayUserInformation()

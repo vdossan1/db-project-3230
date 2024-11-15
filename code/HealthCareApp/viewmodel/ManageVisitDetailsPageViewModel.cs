@@ -15,7 +15,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     private const string INVALID_WEIGHT = "Invalid value.\nValid value example:\n90.21\n180";
     private const string INVALID_HEIGHT = "Invalid value.\nValid value example:\n5.3\n6.11";
 
-    private readonly List<int> apptIdList;
+    private List<int> apptIdList;
 
     private int appointmentId;
 
@@ -507,6 +507,11 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     public void PopulateFields()
     {
+        if (this.SelectedVisit != null)
+        {
+            this.apptIdList = [this.SelectedVisit.AppointmentId];
+        }
+        
         this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
         this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
         this.Weight = this.SelectedVisit.Weight;

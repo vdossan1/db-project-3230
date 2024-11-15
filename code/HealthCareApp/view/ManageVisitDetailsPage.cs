@@ -56,6 +56,7 @@ public partial class ManageVisitDetailsPage : Form
             this.manageVisitDetailsPageViewModel.PopulateFields();
             Text = EDIT_VISIT + " Visit Info";
             this.saveButton.Text = EDIT_VISIT;
+            this.apptIdCmbBox.Enabled = false;
         }
     }
 
@@ -202,10 +203,6 @@ public partial class ManageVisitDetailsPage : Form
         this.saveButton.DataBindings.Add(
             "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.IsValid), true,
             DataSourceUpdateMode.OnPropertyChanged);
-
-        /*this.addTestBtn.DataBindings.Add(
-            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.IsTestSelected), true,
-            DataSourceUpdateMode.OnPropertyChanged);*/
     }
 
     private void BindValidationMessages()
