@@ -101,7 +101,7 @@ public class VisitDal
         return visitList;
     }
 
-    private static Visit CreateVisitObj(MySqlDataReader reader)
+	private static Visit CreateVisitObj(MySqlDataReader reader)
     {
         var visitIdOrdinal = reader.GetOrdinal("visit_id");
         var appointmentIdOrdinal = reader.GetOrdinal("appointment_id");
@@ -151,6 +151,4 @@ public class VisitDal
     }
 
     #endregion
-
-    
 }

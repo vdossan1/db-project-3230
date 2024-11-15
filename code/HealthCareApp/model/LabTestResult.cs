@@ -17,6 +17,11 @@ namespace HealthCareApp.model
 		public int ResultId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the unique identifier for the visit associated with this result.
+		/// </summary>
+		public int VisitId { get; set; }
+
+		/// <summary>
 		/// Gets or sets the code identifying the laboratory test associated with this result.
 		/// </summary>
 		public int TestCode { get; set; }
@@ -43,9 +48,10 @@ namespace HealthCareApp.model
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LabTestResult"/> class with the specified result details.
 		/// </summary>
-		public LabTestResult(int resultId, int testCode, string testResult, Normality resultNormality, DateTime datePerformed)
+		public LabTestResult(int resultId, int visitId, int testCode, string testResult, Normality resultNormality, DateTime datePerformed)
 		{
 			this.ResultId = resultId;
+			this.VisitId = visitId;
 			this.TestCode = testCode;
 			this.TestResult = testResult;
 			this.ResultNormality = resultNormality;

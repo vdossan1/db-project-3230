@@ -15,9 +15,19 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     public List<Visit> Visits { get; private set; }
 
     /// <summary>
-    ///     Gets a value indicating whether there are any appointments with no associated visit.
+    ///     Gets the list of test results for a selected visit.
     /// </summary>
-    public bool IsValid => this.GetCountOfAppointmentsWithNoVisit() > 0;
+    public List<Visit> TestResults { get; private set; }
+
+    /// <summary>
+    ///     Gets the selected visit.
+    /// </summary>
+    public Visit SelectedVisit { get; set; }
+
+	/// <summary>
+	///     Gets a value indicating whether there are any appointments with no associated visit.
+	/// </summary>
+	public bool IsValid => this.GetCountOfAppointmentsWithNoVisit() > 0;
 
     /// <summary>
     ///     Gets a value indicating whether the label should be shown based on validation status.
@@ -74,6 +84,14 @@ public class VisitsControlViewModel : INotifyPropertyChanged
 
             this.Visits = VisitDal.GetAllVisitsWithParams(firstName, lastName, dateOfBirth);
         }
+    }
+
+    /// <summary>
+    ///     Populates the test result view with the test results linked to the visit from the database.
+    /// </summary>
+    public void PopulateTestResults()
+    {
+	    this.TestResults = VisitDal.GetTestResultsForVisit(this.SelectedVisit);
     }
 
     /// <summary>

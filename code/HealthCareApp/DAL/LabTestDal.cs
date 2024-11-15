@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using MySql.Data.MySqlClient;
 
 namespace HealthCareApp.DAL
