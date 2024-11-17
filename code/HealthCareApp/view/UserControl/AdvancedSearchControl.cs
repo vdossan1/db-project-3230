@@ -10,15 +10,16 @@ namespace HealthCareApp.view;
 /// </summary>
 public partial class AdvancedSearchControl : UserControl
 {
-    private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
+	private const string TIME_FORMAT = "yyyy-MM-dd HH:mm";
+	private bool isDateOfBirthSearch = true;
 
-    #region Constructors
+	#region Constructors
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="AdvancedSearchControl" /> class and sets the date of birth picker
-    ///     constraints.
-    /// </summary>
-    public AdvancedSearchControl()
+	/// <summary>
+	///     Initializes a new instance of the <see cref="AdvancedSearchControl" /> class and sets the date of birth picker
+	///     constraints.
+	/// </summary>
+	public AdvancedSearchControl()
     {
         this.InitializeComponent();
 
@@ -54,7 +55,8 @@ public partial class AdvancedSearchControl : UserControl
     public void SetDateTimeSearch()
     {
         this.advancedSearchButton.Click += this.advancedSearchDateTimeButton_Click;
-    }
+        this.isDateOfBirthSearch = false;
+	}
 
     /// <summary>
     /// Configures the style of the date picker control with a custom format, maximum date, and appearance.
@@ -94,9 +96,18 @@ public partial class AdvancedSearchControl : UserControl
     {
         this.firstNameTxtBox.ResetText();
         this.lastNameTxtBox.ResetText();
-        this.datePicker.ResetText();
 
-        this.ClearBtnClick?.Invoke(this, EventArgs.Empty);
+        if (this.isDateOfBirthSearch)
+        {
+	        this.datePicker.ResetText();
+		}
+		else
+        {
+	        var resetDate = DateTime.Today.Date;
+	        this.datePicker.Value = resetDate;
+        }
+
+		this.ClearBtnClick?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
