@@ -28,7 +28,7 @@ public class Patient
     /// <summary>
     ///     Gets or sets the date of birth of the patient.
     /// </summary>
-    public DateTime? DateOfBirth { get; }
+    public DateTime DateOfBirth { get; }
 
     /// <summary>
     ///     Gets or sets the sex of the patient.
@@ -82,13 +82,13 @@ public class Patient
     /// <summary>
     ///     Initializes a new instance of the <see cref="Patient" /> class with the specified details.
     /// </summary>
-    public Patient(string firstName, string lastName, DateTime? dateOfBirth, string sex,
+    public Patient(string firstName, string lastName, DateTime dateOfBirth, string sex,
         string address1, string? address2, string city, string state, string zipCode, string phoneNumber,
         string ssn, bool status)
     {
         this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
         this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
-        this.DateOfBirth = dateOfBirth ?? throw new ArgumentNullException(nameof(dateOfBirth));
+        this.DateOfBirth = dateOfBirth;
         this.Sex = sex ?? throw new ArgumentNullException(nameof(sex));
         this.Address1 = address1 ?? throw new ArgumentNullException(nameof(address1));
         this.Address2 = address2;
