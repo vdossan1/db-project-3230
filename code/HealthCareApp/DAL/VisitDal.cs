@@ -48,6 +48,29 @@ public class VisitDal
         return command.ExecuteNonQuery();
     }
 
+    public static int GetVisitIdByNaturalKey(int appointmentId, int nurseId)
+    {
+        var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @NurseId";
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+        command.Parameters.AddWithValue("@NurseId", nurseId);
+
+        using var reader = command.ExecuteReader();
+
+        var visitIdOrdinal = reader.GetOrdinal("visit_id");
+
+        while (reader.Read())
+        {
+            return reader.GetInt32(visitIdOrdinal);
+        }
+
+        return 0;
+    }
+
     /// <summary>
     ///     Retrieves a list of all visits from the database.
     /// </summary>
@@ -84,7 +107,6 @@ public class VisitDal
         lastName = lastName.Equals("") ? null : lastName;
         dateOfBirth = dateOfBirth == DateTime.Today ? null : dateOfBirth.Value.Date;
 
-
         command.Parameters.Add("@firstName", MySqlDbType.VarChar).Value = firstName;
         command.Parameters.Add("@lastName", MySqlDbType.VarChar).Value = lastName;
         command.Parameters.Add("@dateOfBirth", MySqlDbType.Date).Value = dateOfBirth;
@@ -118,7 +140,6 @@ public class VisitDal
 
         var newVisit = new Visit
         (
-            reader.GetInt32(visitIdOrdinal),
             reader.GetInt32(appointmentIdOrdinal),
             reader.GetInt32(nurseIdOrdinal),
             reader.GetInt32(bloodPressureSysOrdinal),
@@ -132,6 +153,7 @@ public class VisitDal
             reader.IsDBNull(finalDiagOrdinal) ? null : reader.GetString(finalDiagOrdinal)
         );
 
+        newVisit.VisitId = reader.GetInt32(visitIdOrdinal);
         return newVisit;
     }
 
@@ -151,6 +173,4 @@ public class VisitDal
     }
 
     #endregion
-
-    
 }

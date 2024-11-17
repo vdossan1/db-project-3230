@@ -15,7 +15,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     private const string INVALID_WEIGHT = "Invalid value.\nValid value example:\n90.21\n180";
     private const string INVALID_HEIGHT = "Invalid value.\nValid value example:\n5.3\n6.11";
 
-    private readonly List<int> apptIdList;
+    private List<int> apptIdList;
 
     private int appointmentId;
 
@@ -45,10 +45,44 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     public Visit? SelectedVisit { get; set; }
 
+    public BindingList<string> LabTests { get; private set; }
+
+    public BindingList<string> SelectedTests { get; private set; }
+
     /// <summary>
     ///     Gets the array of appointment IDs with no associated visits.
     /// </summary>
     public int[] ApptIdsArray => this.apptIdList.ToArray();
+
+    private string patientFullName;
+
+    public string PatientFullName
+    {
+        get => this.patientFullName;
+        set
+        {
+            if (this.patientFullName != value)
+            {
+                this.patientFullName = value;
+                this.OnPropertyChanged(nameof(this.PatientFullName));
+            }
+        }
+    }
+
+    private string doctorFullName;
+
+    public string DoctorFullName
+    {
+        get => this.doctorFullName;
+        set
+        {
+            if (this.doctorFullName != value)
+            {
+                this.doctorFullName = value;
+                this.OnPropertyChanged(nameof(this.doctorFullName));
+            }
+        }
+    }
 
     /// <summary>
     ///     Gets or sets the appointment ID for the visit.
@@ -62,8 +96,15 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 this.appointmentId = value;
                 this.OnPropertyChanged(nameof(this.AppointmentId));
+                this.onAppointmentIdChanged();
             }
         }
+    }
+
+    private void onAppointmentIdChanged()
+    {
+        this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.AppointmentId);
+        this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.AppointmentId);
     }
 
     /// <summary>
@@ -314,11 +355,41 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.SelectedVisit = selectedVisit;
         this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         this.ValidationErrors = new Dictionary<string, string>();
+
+        this.LabTests = new BindingList<string>();
+        this.SelectedTests = new BindingList<string>();
+        this.PopulateListBoxes();
     }
 
     #endregion
 
     #region Methods
+
+    private void PopulateListBoxes()
+    {
+        this.PopulateAvailableTests();
+
+        if (this.SelectedVisit != null)
+        {
+            this.PopulateSelectedTests();
+        }
+    }
+
+    private void PopulateAvailableTests()
+    {
+        this.LabTests = LabTestDal.GetAllTestsName();
+    }
+
+    private void PopulateSelectedTests()
+    {
+        var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
+
+        foreach (var test in labTestsForVisit)
+        {
+            this.SelectedTests.Add(test);
+            this.LabTests.Remove(test);
+        }
+    }
 
     /// <summary>
     ///     Occurs when a property value changes.
@@ -353,7 +424,25 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             newVisit.VisitId = this.SelectedVisit.VisitId;
             VisitDal.EditVisit(newVisit);
         }
-        
+    }
+
+    public void CreateLabTestResults()
+    {
+        var testCodes = new List<int>();
+
+        foreach (var testName in this.SelectedTests)
+        {
+            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
+            testCodes.Add(testCode);
+        }
+
+        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+
+        foreach (var testCode in testCodes)
+        {
+            var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+            LabTestResultDal.CreateLabTestResult(newLabTestResult);
+        }
     }
 
     private bool isValidWeight(string weightString)
@@ -375,10 +464,10 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         return Regex.IsMatch(bodyTempString, pattern);
     }
 
-/// <summary>
-///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
-/// </summary>
-public void ValidateFields()
+    /// <summary>
+    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
+    /// </summary>
+    public void ValidateFields()
     {
         this.ValidationErrors.Clear();
         this.IsValid = true;
@@ -450,10 +539,16 @@ public void ValidateFields()
         }
     }
 
-    #endregion
-
     public void PopulateFields()
     {
+        if (this.SelectedVisit != null)
+        {
+            this.apptIdList = [this.SelectedVisit.AppointmentId];
+
+            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
+            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
+        }
+
         this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
         this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
         this.Weight = this.SelectedVisit.Weight;
@@ -464,4 +559,6 @@ public void ValidateFields()
         this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
         this.finalDiagnoses = this.FinalDiagnoses;
     }
+
+    #endregion
 }

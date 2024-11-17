@@ -17,34 +17,36 @@ public class AppointmentsControlViewModel
     public List<Appointment> Appointments { get; private set; }
 
     private Appointment? selectedAppointment;
-    public Appointment? SelectedAppointment
-	{
-	    get => this.selectedAppointment;
-	    set
-	    {
-		    if (this.selectedAppointment != value)
-		    {
-			    this.selectedAppointment = value;
-			    this.OnPropertyChanged(nameof(this.SelectedAppointment));
 
-			    this.IsValid = this.selectedAppointment != null;
-			    this.OnPropertyChanged(nameof(this.IsValid));
-		    }
-	    }
+    public Appointment? SelectedAppointment
+    {
+        get => this.selectedAppointment;
+        set
+        {
+            if (this.selectedAppointment != value)
+            {
+                this.selectedAppointment = value;
+                this.OnPropertyChanged(nameof(this.SelectedAppointment));
+
+                this.IsValid = this.selectedAppointment != null;
+                this.OnPropertyChanged(nameof(this.IsValid));
+            }
+        }
     }
 
     private bool isValid;
+
     public bool IsValid
     {
-	    get => this.isValid;
-	    private set
-	    {
-		    if (this.isValid != value)
-		    {
-			    this.isValid = value;
-			    this.OnPropertyChanged(nameof(this.IsValid));
-		    }
-	    }
+        get => this.isValid;
+        private set
+        {
+            if (this.isValid != value)
+            {
+                this.isValid = value;
+                this.OnPropertyChanged(nameof(this.IsValid));
+            }
+        }
     }
 
     /// <summary>
@@ -53,22 +55,22 @@ public class AppointmentsControlViewModel
     /// <param name="propertyName">The name of the property that changed.</param>
     protected void OnPropertyChanged(string propertyName)
     {
-	    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-	#endregion
+    #endregion
 
-	#region Constructors
+    #region Constructors
 
-	/// <summary>
-	///     Initializes a new instance of the <see cref="AppointmentsControlViewModel" /> class.
-	/// </summary>
-	public AppointmentsControlViewModel()
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AppointmentsControlViewModel" /> class.
+    /// </summary>
+    public AppointmentsControlViewModel()
     {
         this.Appointments = new List<Appointment>();
         this.PopulateAppointments();
         this.IsValid = false;
-	}
+    }
 
     #endregion
 

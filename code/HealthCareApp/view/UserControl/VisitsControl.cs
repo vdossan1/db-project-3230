@@ -1,5 +1,4 @@
-﻿using HealthCareApp.DAL;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -14,7 +13,7 @@ public partial class VisitsControl : UserControl
 {
     #region Data members
 
-    private readonly VisitsControlViewModel visitsControlViewModel;
+    private VisitsControlViewModel visitsControlViewModel;
     private readonly string nurseFullName;
     private readonly string username;
 
@@ -28,45 +27,19 @@ public partial class VisitsControl : UserControl
     public VisitsControl(string nurseFullName, string userName)
     {
         this.InitializeComponent();
-
         this.nurseFullName = nurseFullName;
         this.username = userName;
-        this.visitsControlViewModel = new VisitsControlViewModel();
-
-        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
-
-        this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshPatientList;
-        this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshPatientList;
-
-        this.createVisitBtn.DataBindings.Add(
-            "Enabled", this.visitsControlViewModel, nameof(this.visitsControlViewModel.IsValid), true,
-            DataSourceUpdateMode.OnPropertyChanged);
-
-        this.createVisitLabel.DataBindings.Add(
-            "Visible", this.visitsControlViewModel, nameof(this.visitsControlViewModel.ShowLabel), true,
-            DataSourceUpdateMode.OnPropertyChanged);
+        this.SetUpPage();
     }
 
     #endregion
 
     #region Methods
 
-    private void editVisitBtn_Click(object sender, EventArgs e)
+    public void ClearAllSelection()
     {
-        if (this.visitsDataGridView.SelectedRows.Count > 0)
-        {
-            var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
-            var editVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username, selectedVisit);
-            editVisitPage.FormClosed += this.RefreshPatientList;
-            editVisitPage.ShowDialog();
-        }
-    }
-
-    public void RefreshVisitsList(object? sender, FormClosedEventArgs e)
-    {
-        this.visitsControlViewModel.PopulateVisits();
-        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
         this.visitsDataGridView.ClearSelection();
+        this.labTestResultsDataGridView.ClearSelection();
     }
 
     private void createVisitBtn_Click(object sender, EventArgs e)
@@ -76,7 +49,29 @@ public partial class VisitsControl : UserControl
         createVisitPage.ShowDialog();
     }
 
-    private void RefreshPatientList(object sender, EventArgs e)
+    private void editVisitBtn_Click(object sender, EventArgs e)
+    {
+        if (this.visitsDataGridView.SelectedRows.Count > 0)
+        {
+            var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
+            var editVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username, selectedVisit);
+            editVisitPage.FormClosed += this.RefreshVisitsList;
+            editVisitPage.ShowDialog();
+        }
+    }
+
+    private void enterTestResultsBtn_Click(object sender, EventArgs e)
+    {
+        if (this.labTestResultsDataGridView.SelectedRows.Count > 0)
+        {
+            var selectedLabTestResult = (LabTestResult)this.labTestResultsDataGridView.SelectedRows[0].DataBoundItem;
+            var manageLabTestResultPage = new ManageLabTestResultsPage(selectedLabTestResult);
+            manageLabTestResultPage.FormClosed += this.RefreshTestsList;
+            manageLabTestResultPage.ShowDialog();
+        }
+    }
+
+    private void RefreshVisitsList(object sender, EventArgs e)
     {
         if (e is SearchEventArgs searchArgs)
         {
@@ -91,7 +86,85 @@ public partial class VisitsControl : UserControl
         this.visitsDataGridView.ClearSelection();
     }
 
+    private void RefreshTestsList(object sender, EventArgs e)
+    {
+        this.visitsControlViewModel.PopulateTestResults();
+        this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+        this.labTestResultsDataGridView.ClearSelection();
+    }
 
+    private void VisitsDataGridView_SelectionChanged(object? sender, EventArgs e)
+    {
+        if (this.visitsDataGridView.SelectedRows.Count > 0)
+        {
+            var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
+            this.visitsControlViewModel.SelectedVisit = selectedVisit;
+            this.visitsControlViewModel.PopulateTestResults();
+            this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+        }
+        else
+        {
+            this.visitsControlViewModel.SelectedVisit = null;
+            this.labTestResultsDataGridView.DataSource = null;
+        }
+    }
+
+    private void LabTestResultsDataGridView_SelectionChanged(object? sender, EventArgs e)
+    {
+        if (this.labTestResultsDataGridView.SelectedRows.Count > 0)
+        {
+            this.enterTestResultButton.Enabled = true;
+        }
+        else
+        {
+            this.enterTestResultButton.Enabled = false;
+        }
+    }
+
+    private void SetUpPage()
+    {
+        // Set up the data grid view
+        this.visitsControlViewModel = new VisitsControlViewModel();
+        this.visitsDataGridView.DataSource = this.visitsControlViewModel.Visits;
+        this.visitsDataGridView.SelectionChanged += this.VisitsDataGridView_SelectionChanged;
+        this.labTestResultsDataGridView.SelectionChanged += this.LabTestResultsDataGridView_SelectionChanged;
+        this.SetUpDataGridViewColumns();
+
+        // Set up the advanced search control
+        this.visitAdvancedSearchControl.SearchBtnClick += this.RefreshVisitsList;
+        this.visitAdvancedSearchControl.ClearBtnClick += this.RefreshVisitsList;
+
+        // Set up the event handlers
+        this.createVisitBtn.DataBindings.Add("Enabled", this.visitsControlViewModel,
+            nameof(this.visitsControlViewModel.IsValid), true,
+            DataSourceUpdateMode.OnPropertyChanged);
+
+        this.createVisitLabel.DataBindings.Add("Visible", this.visitsControlViewModel,
+            nameof(this.visitsControlViewModel.ShowLabel), true,
+            DataSourceUpdateMode.OnPropertyChanged);
+
+        this.editVisitBtn.DataBindings.Add("Enabled", this.visitsControlViewModel,
+            nameof(this.visitsControlViewModel.IsVisitSelected), true,
+            DataSourceUpdateMode.OnPropertyChanged);
+    }
+
+    private void SetUpDataGridViewColumns()
+    {
+        // Hide the columns that are not needed
+        this.visitsDataGridView.Columns["BloodPressureSystolic"].Visible = false;
+        this.visitsDataGridView.Columns["BloodPressureDiastolic"].Visible = false;
+        this.visitsDataGridView.Columns["BodyTemp"].Visible = false;
+        this.visitsDataGridView.Columns["Weight"].Visible = false;
+        this.visitsDataGridView.Columns["Height"].Visible = false;
+        this.visitsDataGridView.Columns["PulseRate"].Visible = false;
+        this.visitsDataGridView.Columns["Symptoms"].Visible = false;
+        this.visitsDataGridView.Columns["InitialDiagnoses"].Visible = false;
+        this.visitsDataGridView.Columns["FinalDiagnoses"].Visible = false;
+
+        //this.testResultsDataGridView.Columns["VisitId"].Visible = false;
+
+        // Rename main columns
+    }
 
     #endregion
 }

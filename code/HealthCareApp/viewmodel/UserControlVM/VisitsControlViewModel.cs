@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HealthCareApp.DAL;
 using HealthCareApp.model;
 using static HealthCareApp.view.AdvancedSearchControl;
@@ -13,6 +14,46 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     ///     Gets the list of visits.
     /// </summary>
     public List<Visit> Visits { get; private set; }
+
+    /// <summary>
+    ///     Gets the list of test results for a selected visit.
+    /// </summary>
+    public List<LabTestResult> LabTestResults { get; private set; }
+
+    private Visit selectedVisit;
+
+    /// <summary>
+    ///     Gets the selected visit.
+    /// </summary>
+    public Visit SelectedVisit
+    {
+        get => this.selectedVisit;
+        set
+        {
+            if (this.selectedVisit != value)
+            {
+                this.selectedVisit = value;
+                this.OnPropertyChanged(nameof(this.SelectedVisit));
+
+                this.IsVisitSelected = this.selectedVisit != null;
+            }
+        }
+    }
+
+    private bool isVisitSelected;
+
+    public bool IsVisitSelected
+    {
+        get => this.isVisitSelected;
+        private set
+        {
+            if (this.isVisitSelected != value)
+            {
+                this.isVisitSelected = value;
+                this.OnPropertyChanged(nameof(this.IsVisitSelected));
+            }
+        }
+    }
 
     /// <summary>
     ///     Gets a value indicating whether there are any appointments with no associated visit.
@@ -74,6 +115,14 @@ public class VisitsControlViewModel : INotifyPropertyChanged
 
             this.Visits = VisitDal.GetAllVisitsWithParams(firstName, lastName, dateOfBirth);
         }
+    }
+
+    /// <summary>
+    ///     Populates the test result view with the test results linked to the visit from the database.
+    /// </summary>
+    public void PopulateTestResults()
+    {
+        this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
     }
 
     /// <summary>

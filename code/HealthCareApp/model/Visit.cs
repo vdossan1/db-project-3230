@@ -98,27 +98,5 @@ public class Visit
         this.FinalDiagnoses = finalDiagnoses;
     }
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="Visit" /> class with a specified visit ID, appointment ID, nurse ID,
-    ///     and health data.
-    /// </summary>
-    public Visit(int visitId, int appointmentId, int nurseId, int bloodPressureSystolic, int bloodPressureDiastolic,
-        decimal bodyTemp, decimal weight, decimal height, int pulseRate, string symptoms, string initialDiagnoses,
-        string finalDiagnoses)
-    {
-        this.VisitId = visitId;
-        this.AppointmentId = appointmentId;
-        this.NurseId = nurseId;
-        this.BloodPressureSystolic = bloodPressureSystolic;
-        this.BloodPressureDiastolic = bloodPressureDiastolic;
-        this.BodyTemp = bodyTemp;
-        this.Weight = weight;
-        this.Height = height;
-        this.PulseRate = pulseRate;
-        this.Symptoms = symptoms ?? throw new ArgumentNullException(nameof(symptoms));
-        this.InitialDiagnoses = initialDiagnoses ?? throw new ArgumentNullException(nameof(initialDiagnoses));
-        this.FinalDiagnoses = finalDiagnoses;
-    }
-
     #endregion
 }

@@ -17,6 +17,7 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     public List<Patient> Patients { get; private set; }
 
     private Patient? selectedPatient;
+
     public Patient? SelectedPatient
     {
         get => this.selectedPatient;
@@ -34,6 +35,7 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     }
 
     private bool isValid;
+
     public bool IsValid
     {
         get => this.isValid;
