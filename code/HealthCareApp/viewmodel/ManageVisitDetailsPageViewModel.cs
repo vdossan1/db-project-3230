@@ -366,30 +366,30 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     #region Methods
 
     private void PopulateListBoxes()
-	{
-		this.PopulateAvailableTests();
+    {
+        this.PopulateAvailableTests();
 
-		if (this.SelectedVisit != null)
-		{
-			this.PopulateSelectedTests();
-		}
-	}
+        if (this.SelectedVisit != null)
+        {
+            this.PopulateSelectedTests();
+        }
+    }
 
     private void PopulateAvailableTests()
     {
-        this.LabTests= LabTestDal.GetAllTestsName();
+        this.LabTests = LabTestDal.GetAllTestsName();
     }
 
     private void PopulateSelectedTests()
     {
-	    var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
-		
-	    foreach (var test in labTestsForVisit)
-		{
-			this.SelectedTests.Add(test);
+        var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
+
+        foreach (var test in labTestsForVisit)
+        {
+            this.SelectedTests.Add(test);
             this.LabTests.Remove(test);
-		}
-	}
+        }
+    }
 
     /// <summary>
     ///     Occurs when a property value changes.
@@ -418,35 +418,34 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         if (this.SelectedVisit == null)
         {
             VisitDal.CreateVisit(newVisit);
-		}
+        }
         else
         {
             newVisit.VisitId = this.SelectedVisit.VisitId;
             VisitDal.EditVisit(newVisit);
         }
-        
     }
 
     public void CreateLabTestResults()
     {
         var testCodes = new List<int>();
 
-		foreach (var testName in this.SelectedTests)
-	    {
-		    var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
-			testCodes.Add(testCode);
-		}
+        foreach (var testName in this.SelectedTests)
+        {
+            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
+            testCodes.Add(testCode);
+        }
 
-		var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
 
-		foreach (var testCode in testCodes)
-		{
-			var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-			LabTestResultDal.CreateLabTestResult(newLabTestResult);
-		}
-	}
+        foreach (var testCode in testCodes)
+        {
+            var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+            LabTestResultDal.CreateLabTestResult(newLabTestResult);
+        }
+    }
 
-	private bool isValidWeight(string weightString)
+    private bool isValidWeight(string weightString)
     {
         string pattern = @"^\d{1,3}(\.\d{1,2})?$";
         return Regex.IsMatch(weightString, pattern);
@@ -469,78 +468,76 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
     /// </summary>
     public void ValidateFields()
+    {
+        this.ValidationErrors.Clear();
+        this.IsValid = true;
+
+        if (this.BloodPressureSystolic == 0)
         {
-            this.ValidationErrors.Clear();
-            this.IsValid = true;
-
-            if (this.BloodPressureSystolic == 0)
-            {
-                this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.BloodPressureDiastolic == 0)
-            {
-                this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.Weight == 0)
-            {
-                this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.isValidWeight(this.Weight.ToString()) == false)
-            {
-                this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
-                this.IsValid = false;
-            }
-
-            if (this.Height == 0)
-            {
-                this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.isValidHeight(this.Height.ToString()) == false)
-            {
-                this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
-                this.IsValid = false;
-            }
-
-            if (this.PulseRate == 0)
-            {
-                this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.BodyTemp == 0)
-            {
-                this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
-                this.IsValid = false;
-            }
-
-            if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
-            {
-                this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
-                this.IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(this.Symptoms))
-            {
-                this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
-                this.IsValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
-            {
-                this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
-                this.IsValid = false;
-            }
+            this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
         }
 
-    #endregion
+        if (this.BloodPressureDiastolic == 0)
+        {
+            this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.Weight == 0)
+        {
+            this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidWeight(this.Weight.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
+            this.IsValid = false;
+        }
+
+        if (this.Height == 0)
+        {
+            this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidHeight(this.Height.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
+            this.IsValid = false;
+        }
+
+        if (this.PulseRate == 0)
+        {
+            this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.BodyTemp == 0)
+        {
+            this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
+            this.IsValid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(this.Symptoms))
+        {
+            this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
+            this.IsValid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
+        {
+            this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
+            this.IsValid = false;
+        }
+    }
 
     public void PopulateFields()
     {
@@ -551,7 +548,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
             this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
         }
-        
+
         this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
         this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
         this.Weight = this.SelectedVisit.Weight;
@@ -562,4 +559,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
         this.finalDiagnoses = this.FinalDiagnoses;
     }
+
+    #endregion
 }

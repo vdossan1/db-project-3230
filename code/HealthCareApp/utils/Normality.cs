@@ -3,12 +3,12 @@
 
 namespace HealthCareApp.utils
 {
-	/// <summary>
-	///     Represents a state in the United States.
-	/// </summary>
-	public enum Normality
-	{
-		NORMAL,
-		ABNORMAL
-	}
+    /// <summary>
+    ///     Represents a state in the United States.
+    /// </summary>
+    public enum Normality
+    {
+        NORMAL,
+        ABNORMAL
+    }
 }

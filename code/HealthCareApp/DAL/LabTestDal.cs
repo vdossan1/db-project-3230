@@ -7,33 +7,33 @@ namespace HealthCareApp.DAL
 {
     public class LabTestDal
     {
-	    public static List<string> GetAllLabTestsForVisit(int visitId)
-	    {
-		    var labTestList = new List<string>();
+        public static List<string> GetAllLabTestsForVisit(int visitId)
+        {
+            var labTestList = new List<string>();
 
-		    using var connection = new MySqlConnection(Connection.ConnectionString());
-		    connection.Open();
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
 
-		    var query = "SELECT lab_test.test_name FROM lab_test JOIN lab_test_result ON lab_test.test_code = lab_test_result.test_code " +
-		                "WHERE lab_test_result.visit_id = @VisitId";
+            var query =
+                "SELECT lab_test.test_name FROM lab_test JOIN lab_test_result ON lab_test.test_code = lab_test_result.test_code " +
+                "WHERE lab_test_result.visit_id = @VisitId";
 
-		    using var command = new MySqlCommand(query, connection);
-		    command.Parameters.AddWithValue("@VisitId", visitId);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@VisitId", visitId);
 
-		    using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader();
 
-		    var testNameOrdinal = reader.GetOrdinal("test_name");
+            var testNameOrdinal = reader.GetOrdinal("test_name");
 
-			while (reader.Read())
-			{
-				labTestList.Add(reader.GetString(testNameOrdinal));
+            while (reader.Read())
+            {
+                labTestList.Add(reader.GetString(testNameOrdinal));
+            }
 
-			}
+            return labTestList;
+        }
 
-		    return labTestList;
-	    }
-
-		public static BindingList<string> GetAllTestsName()
+        public static BindingList<string> GetAllTestsName()
         {
             var labTestList = new BindingList<string>();
 
@@ -56,55 +56,55 @@ namespace HealthCareApp.DAL
             return labTestList;
         }
 
-		public static int GetLabTestCodeByTestName(string testName)
-		{
-			using var connection = new MySqlConnection(Connection.ConnectionString());
-			connection.Open();
+        public static int GetLabTestCodeByTestName(string testName)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
 
-			var query = "SELECT test_code FROM lab_test WHERE test_name = @TestName";
+            var query = "SELECT test_code FROM lab_test WHERE test_name = @TestName";
 
-			using var command = new MySqlCommand(query, connection);
-			command.Parameters.AddWithValue("@TestName", testName);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@TestName", testName);
 
-			using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader();
 
-			var testCodeOrdinal = reader.GetOrdinal("test_code");
+            var testCodeOrdinal = reader.GetOrdinal("test_code");
 
-			while (reader.Read())
-			{
-				return reader.GetInt32(testCodeOrdinal);
-			}
+            while (reader.Read())
+            {
+                return reader.GetInt32(testCodeOrdinal);
+            }
 
-			return 0;
-		}
+            return 0;
+        }
 
-		public static LabTest GetLabTestByTestCode(int testCode)
-		{
-			using var connection = new MySqlConnection(Connection.ConnectionString());
-			connection.Open();
+        public static LabTest GetLabTestByTestCode(int testCode)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
 
-			var query = "SELECT * FROM lab_test WHERE test_code = @TestCode";
+            var query = "SELECT * FROM lab_test WHERE test_code = @TestCode";
 
-			using var command = new MySqlCommand(query, connection);
-			command.Parameters.AddWithValue("@TestCode", testCode);
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@TestCode", testCode);
 
-			using var reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader();
 
-			while (reader.Read())
-			{
-				return CreateLabTestObj(reader);
-			}
+            while (reader.Read())
+            {
+                return CreateLabTestObj(reader);
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		private static LabTest CreateLabTestObj(MySqlDataReader reader)
+        private static LabTest CreateLabTestObj(MySqlDataReader reader)
         {
             var testCodeOrdinal = reader.GetOrdinal("test_code");
             var testNameOrdinal = reader.GetOrdinal("test_name");
             var highValueOrdinal = reader.GetOrdinal("high_value");
             var lowValueOrdinal = reader.GetOrdinal("low_value");
-            var unitOrdinal= reader.GetOrdinal("unit_of_measure");
+            var unitOrdinal = reader.GetOrdinal("unit_of_measure");
 
             var newLabTest = new LabTest
             (
@@ -114,7 +114,7 @@ namespace HealthCareApp.DAL
                 reader.IsDBNull(lowValueOrdinal) ? 0 : reader.GetDecimal(lowValueOrdinal),
                 reader.GetString(unitOrdinal)
             );
-            
+
             return newLabTest;
         }
 

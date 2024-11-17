@@ -41,6 +41,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     }
 
     private bool isVisitSelected;
+
     public bool IsVisitSelected
     {
         get => this.isVisitSelected;
@@ -121,7 +122,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// </summary>
     public void PopulateTestResults()
     {
-	    this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
+        this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
     }
 
     /// <summary>

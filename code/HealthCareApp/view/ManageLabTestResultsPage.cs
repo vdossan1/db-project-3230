@@ -5,113 +5,120 @@ using HealthCareApp.viewmodel;
 // Version: Fall 2024
 namespace HealthCareApp.view
 {
-	/// <summary>
-	///     Represents the interface for entering in information for a test result in the healthcare application.
-	/// </summary>
-	public partial class ManageLabTestResultsPage : Form
-	{
-		#region Constructors
+    /// <summary>
+    ///     Represents the interface for entering in information for a test result in the healthcare application.
+    /// </summary>
+    public partial class ManageLabTestResultsPage : Form
+    {
+        #region Constructors
 
-		private readonly ManageLabTestResultViewModel manageLabTestResultViewModel;
+        private readonly ManageLabTestResultViewModel manageLabTestResultViewModel;
 
-		public ManageLabTestResultsPage(LabTestResult? selectedLabTestResult = null)
-		{
-			this.InitializeComponent();
-			
-			this.manageLabTestResultViewModel = selectedLabTestResult == null ? new ManageLabTestResultViewModel() : new ManageLabTestResultViewModel(selectedLabTestResult);
-			this.manageLabTestResultViewModel.ErrorOccured += this.ErrorOccured;
+        public ManageLabTestResultsPage(LabTestResult? selectedLabTestResult = null)
+        {
+            this.InitializeComponent();
 
-			this.manageLabTestResultViewModel.PopulateFields();
+            this.manageLabTestResultViewModel = selectedLabTestResult == null
+                ? new ManageLabTestResultViewModel()
+                : new ManageLabTestResultViewModel(selectedLabTestResult);
+            this.manageLabTestResultViewModel.ErrorOccured += this.ErrorOccured;
 
-			this.BindControls();
-			this.BindValidationMessages();
+            this.manageLabTestResultViewModel.PopulateFields();
 
-			this.datePicker.MinDate = DateTime.Parse("1924-01-01");
-			this.datePicker.MaxDate = DateTime.Today;
-		}
+            this.BindControls();
+            this.BindValidationMessages();
 
-		#endregion
+            this.datePicker.MinDate = DateTime.Parse("1924-01-01");
+            this.datePicker.MaxDate = DateTime.Today;
+        }
 
-		#region Events
+        #endregion
 
-		private void actionButton_Click(object? sender, EventArgs e)
-		{
-			this.manageLabTestResultViewModel.ValidateFields();
+        #region Events
 
-			if (this.manageLabTestResultViewModel.ManageLabTestResult())
-			{
-				this.OnActionButtonPressed();
-				Hide();
-				Dispose();
-			}
-		}
+        private void actionButton_Click(object? sender, EventArgs e)
+        {
+            this.manageLabTestResultViewModel.ValidateFields();
 
-		private void cancelBtn_Click(object sender, EventArgs e)
-		{
-			Hide();
-			Dispose();
-		}
+            if (this.manageLabTestResultViewModel.ManageLabTestResult())
+            {
+                this.OnActionButtonPressed();
+                Hide();
+                Dispose();
+            }
+        }
 
-		private void ErrorOccured(object? sender, string e)
-		{
-			MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-		}
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            Hide();
+            Dispose();
+        }
 
-		private void OnActionButtonPressed()
-		{
-			MessageBox.Show($"{Text} Complete", "Confirmation", MessageBoxButtons.OK,
-				MessageBoxIcon.Information);
-		}
+        private void ErrorOccured(object? sender, string e)
+        {
+            MessageBox.Show(e, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
-		#endregion
+        private void OnActionButtonPressed()
+        {
+            MessageBox.Show($"{Text} Complete", "Confirmation", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
 
-		#region Bindings
+        #endregion
 
-		private void BindControls()
-		{
-			this.normalityComboBox.DataSource = this.manageLabTestResultViewModel.NormalityArray;
-			this.normalityComboBox.SelectedItem = null;
+        #region Bindings
 
-			this.testCodeLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestCode.ToString();
-			this.testNameLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestName;
-			this.highValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.HighValue.ToString();
-			this.lowValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.LowValue.ToString();
-			this.unitLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.Unit;
+        private void BindControls()
+        {
+            this.normalityComboBox.DataSource = this.manageLabTestResultViewModel.NormalityArray;
+            this.normalityComboBox.SelectedItem = null;
 
-			// Data Bindings
-			this.resultTextBox.DataBindings.Add(
-				"Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.TestResult), true,
-				DataSourceUpdateMode.OnPropertyChanged);
+            this.testCodeLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestCode.ToString();
+            this.testNameLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestName;
+            this.highValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.HighValue.ToString();
+            this.lowValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.LowValue.ToString();
+            this.unitLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.Unit;
 
-			this.normalityComboBox.DataBindings.Add(
-				"SelectedItem", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.ResultNormality), true,
-				DataSourceUpdateMode.OnPropertyChanged);
+            // Data Bindings
+            this.resultTextBox.DataBindings.Add(
+                "Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.TestResult), true,
+                DataSourceUpdateMode.OnPropertyChanged);
 
-			this.datePicker.DataBindings.Add(
-				"Value", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.DatePerformed), true,
-				DataSourceUpdateMode.OnPropertyChanged);
+            this.normalityComboBox.DataBindings.Add(
+                "SelectedItem", this.manageLabTestResultViewModel,
+                nameof(this.manageLabTestResultViewModel.ResultNormality), true,
+                DataSourceUpdateMode.OnPropertyChanged);
 
-			this.statusCheckBox.DataBindings.Add(
-				"Checked", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.Status), true,
-				DataSourceUpdateMode.OnPropertyChanged);
+            this.datePicker.DataBindings.Add(
+                "Value", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.DatePerformed),
+                true,
+                DataSourceUpdateMode.OnPropertyChanged);
 
-			this.actionButton.DataBindings.Add(
-				"Enabled", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.IsValid), true,
-				DataSourceUpdateMode.OnPropertyChanged);
-		}
+            this.statusCheckBox.DataBindings.Add(
+                "Checked", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.Status), true,
+                DataSourceUpdateMode.OnPropertyChanged);
 
-		private void BindValidationMessages()
-		{
-			this.reasonErrorLabel.DataBindings.Add(
-				"Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.TestResultValidationMessage));
+            this.actionButton.DataBindings.Add(
+                "Enabled", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.IsValid), true,
+                DataSourceUpdateMode.OnPropertyChanged);
+        }
 
-			this.normalityErrorLabel.DataBindings.Add(
-				"Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.ResultNormalityValidationMessage));
+        private void BindValidationMessages()
+        {
+            this.reasonErrorLabel.DataBindings.Add(
+                "Text", this.manageLabTestResultViewModel,
+                nameof(this.manageLabTestResultViewModel.TestResultValidationMessage));
 
-			this.dateErrorLabel.DataBindings.Add(
-				"Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.DatePerformedValidationMessage));
-		}
+            this.normalityErrorLabel.DataBindings.Add(
+                "Text", this.manageLabTestResultViewModel,
+                nameof(this.manageLabTestResultViewModel.ResultNormalityValidationMessage));
 
-		#endregion
-	}
+            this.dateErrorLabel.DataBindings.Add(
+                "Text", this.manageLabTestResultViewModel,
+                nameof(this.manageLabTestResultViewModel.DatePerformedValidationMessage));
+        }
+
+        #endregion
+    }
 }

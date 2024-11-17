@@ -30,7 +30,9 @@ public partial class ManagePatientPage : Form
     {
         this.InitializeComponent();
 
-        this.managePatientViewModel = selectedPatient == null ? new ManagePatientViewModel() : new ManagePatientViewModel(selectedPatient);
+        this.managePatientViewModel = selectedPatient == null
+            ? new ManagePatientViewModel()
+            : new ManagePatientViewModel(selectedPatient);
         this.managePatientViewModel.ErrorOccured += this.ErrorOccured;
 
         this.SetPageAction(selectedPatient);

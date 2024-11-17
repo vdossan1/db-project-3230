@@ -44,10 +44,10 @@ public partial class AppointmentsControl : UserControl
     {
         if (this.appointmentsDataGridView.SelectedRows.Count > 0)
         {
-	        var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
-			var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
+            var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
+            var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
             editAppointmentPage.FormClosed += this.RefreshAppointmentsList;
-			editAppointmentPage.ShowDialog();
+            editAppointmentPage.ShowDialog();
         }
     }
 
@@ -68,58 +68,59 @@ public partial class AppointmentsControl : UserControl
 
     private void AppointmentsDataGridView_SelectionChanged(object? sender, EventArgs e)
     {
-		if (this.appointmentsDataGridView.SelectedRows.Count > 0)
-	    {
-		    if (this.appointmentsDataGridView.SelectedRows[0].DataBoundItem is Appointment selectedAppointment && selectedAppointment.AppointmentDate > DateTime.Today)
-			{
-				this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
-				this.editAppointmentBtn.Enabled = true;
-			}
-			else
-			{
-				this.appointmentsControlViewModel.SelectedAppointment = null;
-				this.editAppointmentBtn.Enabled = false;
-			}
-		}
-	    else
-	    {
-			this.appointmentsControlViewModel.SelectedAppointment = null;
+        if (this.appointmentsDataGridView.SelectedRows.Count > 0)
+        {
+            if (this.appointmentsDataGridView.SelectedRows[0].DataBoundItem is Appointment selectedAppointment &&
+                selectedAppointment.AppointmentDate > DateTime.Today)
+            {
+                this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
+                this.editAppointmentBtn.Enabled = true;
+            }
+            else
+            {
+                this.appointmentsControlViewModel.SelectedAppointment = null;
+                this.editAppointmentBtn.Enabled = false;
+            }
+        }
+        else
+        {
+            this.appointmentsControlViewModel.SelectedAppointment = null;
             this.editAppointmentBtn.Enabled = false;
-		}
+        }
     }
 
-	private void SetUpPage()
+    private void SetUpPage()
     {
-		// Set up the data grid view
-		this.appointmentsControlViewModel = new AppointmentsControlViewModel();
-		this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
-		this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
-		this.SetUpDataGridViewColumns();
-		this.appointmentsDataGridView.ClearSelection();
+        // Set up the data grid view
+        this.appointmentsControlViewModel = new AppointmentsControlViewModel();
+        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
+        this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+        this.SetUpDataGridViewColumns();
+        this.appointmentsDataGridView.ClearSelection();
 
-		// Set up the advanced search control
-		this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
-		this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
-		this.apptAdvancedSearchControl.SetDateTimeSearch();
-		this.apptAdvancedSearchControl.SetDatePickerStyle();
-	}
+        // Set up the advanced search control
+        this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
+        this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
+        this.apptAdvancedSearchControl.SetDateTimeSearch();
+        this.apptAdvancedSearchControl.SetDatePickerStyle();
+    }
 
-	private void SetUpDataGridViewColumns()
-	{
-		// Hide the columns that are not needed
-		this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
-		this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
-		this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
-		this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
-		this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
-		this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
-		this.appointmentsDataGridView.Columns["Reason"].Width = 250;
+    private void SetUpDataGridViewColumns()
+    {
+        // Hide the columns that are not needed
+        this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
+        this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
+        this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
+        this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
+        this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
+        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
+        this.appointmentsDataGridView.Columns["Reason"].Width = 250;
 
-		// Rename main columns
-		this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
-		this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
-		this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
-	}
+        // Rename main columns
+        this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
+        this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
+        this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
+    }
 
-	#endregion
+    #endregion
 }

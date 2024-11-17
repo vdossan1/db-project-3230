@@ -49,33 +49,33 @@ public class VisitDal
     }
 
     public static int GetVisitIdByNaturalKey(int appointmentId, int nurseId)
-	{
-		var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @NurseId";
+    {
+        var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @NurseId";
 
-		using var connection = new MySqlConnection(Connection.ConnectionString());
-		connection.Open();
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
 
-		using var command = new MySqlCommand(query, connection);
-		command.Parameters.AddWithValue("@AppointmentId", appointmentId);
-		command.Parameters.AddWithValue("@NurseId", nurseId);
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+        command.Parameters.AddWithValue("@NurseId", nurseId);
 
-		using var reader = command.ExecuteReader();
+        using var reader = command.ExecuteReader();
 
-		var visitIdOrdinal = reader.GetOrdinal("visit_id");
+        var visitIdOrdinal = reader.GetOrdinal("visit_id");
 
-		while (reader.Read())
-		{
-			return reader.GetInt32(visitIdOrdinal);
-		}
+        while (reader.Read())
+        {
+            return reader.GetInt32(visitIdOrdinal);
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
-	/// <summary>
-	///     Retrieves a list of all visits from the database.
-	/// </summary>
-	/// <returns>A list of <see cref="Visit" /> objects representing all visits in the database.</returns>
-	public static List<Visit> GetAllVisits()
+    /// <summary>
+    ///     Retrieves a list of all visits from the database.
+    /// </summary>
+    /// <returns>A list of <see cref="Visit" /> objects representing all visits in the database.</returns>
+    public static List<Visit> GetAllVisits()
     {
         var query = "SELECT * FROM visit";
 
@@ -107,7 +107,6 @@ public class VisitDal
         lastName = lastName.Equals("") ? null : lastName;
         dateOfBirth = dateOfBirth == DateTime.Today ? null : dateOfBirth.Value.Date;
 
-
         command.Parameters.Add("@firstName", MySqlDbType.VarChar).Value = firstName;
         command.Parameters.Add("@lastName", MySqlDbType.VarChar).Value = lastName;
         command.Parameters.Add("@dateOfBirth", MySqlDbType.Date).Value = dateOfBirth;
@@ -124,7 +123,7 @@ public class VisitDal
         return visitList;
     }
 
-	private static Visit CreateVisitObj(MySqlDataReader reader)
+    private static Visit CreateVisitObj(MySqlDataReader reader)
     {
         var visitIdOrdinal = reader.GetOrdinal("visit_id");
         var appointmentIdOrdinal = reader.GetOrdinal("appointment_id");
@@ -155,7 +154,7 @@ public class VisitDal
         );
 
         newVisit.VisitId = reader.GetInt32(visitIdOrdinal);
-		return newVisit;
+        return newVisit;
     }
 
     private static void AddAllVisitParamsToCommand(Visit newVisit, MySqlCommand command)
