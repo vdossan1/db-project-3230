@@ -4,6 +4,7 @@ using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
+using System.Diagnostics;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -118,6 +119,8 @@ public partial class ManageVisitDetailsPage : Form
 
         testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
 
+        this.manageVisitDetailsPageViewModel.AllowFinalDiag = false;
+
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
     }
@@ -139,8 +142,12 @@ public partial class ManageVisitDetailsPage : Form
 
         SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
 
+        this.manageVisitDetailsPageViewModel.disableFinalDiagIfTestSelected();
+
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
+
+        Debug.WriteLine("Selected is " + this.manageVisitDetailsPageViewModel.SelectedTests.Count);
     }
 
     private void SortBindingList(BindingList<string> bindingList)
@@ -210,6 +217,11 @@ public partial class ManageVisitDetailsPage : Form
 
         this.finalDiagnosesTxtBox.DataBindings.Add(
             "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.FinalDiagnoses),
+            true,
+            DataSourceUpdateMode.OnPropertyChanged);
+
+        this.finalDiagnosesTxtBox.DataBindings.Add(
+            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AllowFinalDiag),
             true,
             DataSourceUpdateMode.OnPropertyChanged);
 

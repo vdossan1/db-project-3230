@@ -343,6 +343,22 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// </summary>
     public bool IsValid { get; private set; }
 
+
+    private bool allowFinalDiag;
+
+    public bool AllowFinalDiag
+    {
+        get => this.allowFinalDiag;
+        set
+        {
+            if (this.allowFinalDiag != value)
+            {
+                this.allowFinalDiag = value;
+                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
+            }
+        }
+    }
+
     #endregion
 
     #region Constructors
@@ -359,11 +375,48 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.LabTests = new BindingList<string>();
         this.SelectedTests = new BindingList<string>();
         this.PopulateListBoxes();
+
+        this.disableFinalDiagIfTestSelected();
     }
 
     #endregion
 
     #region Methods
+
+    public void disableFinalDiagIfTestSelected()
+    {
+        if (this.checkTestsComplete())
+        {
+            this.AllowFinalDiag = true;
+        }
+        else
+        {
+            this.AllowFinalDiag = true;
+        }
+    }
+
+    private bool checkTestsComplete()
+    {
+        if (this.SelectedVisit != null && this.SelectedTests.Count > 0)
+        {
+            List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
+
+            foreach (var testResult in labTests)
+            {
+                if (testResult.Status == false)
+                {
+                    return false;
+                }
+            }
+        }
+
+        if (this.SelectedVisit == null)
+        {
+            return this.SelectedTests.Count > 0;
+        }
+
+        return this.SelectedTests.Count > 0;
+    }
 
     private void PopulateListBoxes()
     {
