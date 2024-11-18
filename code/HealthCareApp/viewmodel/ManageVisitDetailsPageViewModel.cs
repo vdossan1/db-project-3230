@@ -391,13 +391,15 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
         else
         {
-            this.AllowFinalDiag = true;
+            this.AllowFinalDiag = this.SelectedTests.Count == 0;
         }
     }
 
     private bool checkTestsComplete()
     {
-        if (this.SelectedVisit != null && this.SelectedTests.Count > 0)
+        bool result = true;
+
+        if (this.SelectedVisit != null)
         {
             List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
 
@@ -405,17 +407,12 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 if (testResult.Status == false)
                 {
-                    return false;
+                    result = false;
                 }
             }
         }
 
-        if (this.SelectedVisit == null)
-        {
-            return this.SelectedTests.Count > 0;
-        }
-
-        return this.SelectedTests.Count > 0;
+        return result;
     }
 
     private void PopulateListBoxes()

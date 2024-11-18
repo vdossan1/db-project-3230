@@ -146,8 +146,6 @@ public partial class ManageVisitDetailsPage : Form
 
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
-
-        Debug.WriteLine("Selected is " + this.manageVisitDetailsPageViewModel.SelectedTests.Count);
     }
 
     private void SortBindingList(BindingList<string> bindingList)
