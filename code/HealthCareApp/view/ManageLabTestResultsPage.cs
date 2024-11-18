@@ -18,9 +18,7 @@ namespace HealthCareApp.view
         {
             this.InitializeComponent();
 
-            this.manageLabTestResultViewModel = selectedLabTestResult == null
-                ? new ManageLabTestResultViewModel()
-                : new ManageLabTestResultViewModel(selectedLabTestResult);
+            this.manageLabTestResultViewModel = selectedLabTestResult == null ? new ManageLabTestResultViewModel() : new ManageLabTestResultViewModel(selectedLabTestResult);
             this.manageLabTestResultViewModel.ErrorOccured += this.ErrorOccured;
 
             this.manageLabTestResultViewModel.PopulateFields();

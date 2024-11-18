@@ -4,6 +4,7 @@ using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
+using System.Diagnostics;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -39,7 +40,7 @@ public partial class ManageVisitDetailsPage : Form
             : new ManageVisitDetailsPageViewModel(selectedVisit);
 
         this.nurseIdTextLabel.Text = nurseFullName;
-        this.manageVisitDetailsPageViewModel.NurseId = NurseDal.GetIdFromUsername(username);
+        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit.NurseId;
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();
@@ -118,6 +119,8 @@ public partial class ManageVisitDetailsPage : Form
 
         testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.LabTests.Remove(item));
 
+        this.manageVisitDetailsPageViewModel.AllowFinalDiag = false;
+
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
     }
@@ -138,6 +141,8 @@ public partial class ManageVisitDetailsPage : Form
         this.selectedTestListBox.ClearSelected();
 
         SortBindingList(this.manageVisitDetailsPageViewModel.LabTests);
+
+        this.manageVisitDetailsPageViewModel.disableFinalDiagIfTestSelected();
 
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
@@ -210,6 +215,11 @@ public partial class ManageVisitDetailsPage : Form
 
         this.finalDiagnosesTxtBox.DataBindings.Add(
             "Text", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.FinalDiagnoses),
+            true,
+            DataSourceUpdateMode.OnPropertyChanged);
+
+        this.finalDiagnosesTxtBox.DataBindings.Add(
+            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AllowFinalDiag),
             true,
             DataSourceUpdateMode.OnPropertyChanged);
 

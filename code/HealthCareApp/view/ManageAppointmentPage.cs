@@ -1,4 +1,5 @@
-﻿using HealthCareApp.model;
+﻿using HealthCareApp.DAL;
+using HealthCareApp.model;
 using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using static HealthCareApp.view.AdvancedSearchControl;
@@ -67,13 +68,13 @@ public partial class ManageAppointmentPage : Form
         if (selectedAppointment != null)
         {
             this.manageAppointmentViewModel.PopulateFields(selectedAppointment);
-            this.RefreshPatientsDataGrid(this, EventArgs.Empty);
-            this.RefreshDoctorsDataGrid(this, EventArgs.Empty);
+            this.selectPatientAndDoctor();
             Text = EDIT_ACTION + " Appointment";
             this.actionButton.Text = EDIT_ACTION;
             this.appointmentAction = AppointmentAction.EDIT;
             this.patientsDataGridView.Enabled = false;
-        }
+            this.advancedSearchControlPatient.Enabled = false;
+		}
         else
         {
             Text = CREATE_ACTION + " Appointment";
@@ -116,11 +117,23 @@ public partial class ManageAppointmentPage : Form
         this.doctorsDataGridView.DataSource = this.manageAppointmentViewModel.Doctors;
     }
 
-    #endregion
+    private void selectPatientAndDoctor()
+    {
+        var patient = PatientDal.GetPatientById(this.manageAppointmentViewModel.Patient.PatientId);
+		var doctor = DoctorDal.GetDoctorById(this.manageAppointmentViewModel.Doctor.DoctorId);
 
-    #region Events
+		var patientSearch = new SearchEventArgs(patient.FirstName, patient.LastName, patient.DateOfBirth);
+        var doctorSearch = new SearchEventArgs(doctor.FirstName, doctor.LastName, doctor.DateOfBirth);
 
-    private void createAppointmentButton_Click(object? sender, EventArgs e)
+		this.RefreshPatientsDataGrid(this, patientSearch);
+		this.RefreshDoctorsDataGrid(this, doctorSearch);
+	}
+
+	#endregion
+
+	#region Events
+
+	private void createAppointmentButton_Click(object? sender, EventArgs e)
     {
         this.manageAppointmentViewModel.ValidateFields();
 

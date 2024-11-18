@@ -343,6 +343,22 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// </summary>
     public bool IsValid { get; private set; }
 
+
+    private bool allowFinalDiag;
+
+    public bool AllowFinalDiag
+    {
+        get => this.allowFinalDiag;
+        set
+        {
+            if (this.allowFinalDiag != value)
+            {
+                this.allowFinalDiag = value;
+                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
+            }
+        }
+    }
+
     #endregion
 
     #region Constructors
@@ -359,11 +375,45 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.LabTests = new BindingList<string>();
         this.SelectedTests = new BindingList<string>();
         this.PopulateListBoxes();
+
+        this.disableFinalDiagIfTestSelected();
     }
 
     #endregion
 
     #region Methods
+
+    public void disableFinalDiagIfTestSelected()
+    {
+        if (this.checkTestsComplete())
+        {
+            this.AllowFinalDiag = true;
+        }
+        else
+        {
+            this.AllowFinalDiag = this.SelectedTests.Count == 0;
+        }
+    }
+
+    private bool checkTestsComplete()
+    {
+        bool result = true;
+
+        if (this.SelectedVisit != null)
+        {
+            List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
+
+            foreach (var testResult in labTests)
+            {
+                if (testResult.Status == false)
+                {
+                    result = false;
+                }
+            }
+        }
+
+        return result;
+    }
 
     private void PopulateListBoxes()
     {
@@ -429,20 +479,30 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     public void CreateLabTestResults()
     {
         var testCodes = new List<int>();
+        var labTestResultTestCodes = new List<int>();
 
-        foreach (var testName in this.SelectedTests)
+		foreach (var testName in this.SelectedTests)
         {
             var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
             testCodes.Add(testCode);
         }
 
         var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
+        
+        foreach (var labTestResult in labTestResults)
+        {
+			labTestResultTestCodes.Add(labTestResult.TestCode);
+		}
 
         foreach (var testCode in testCodes)
         {
-            var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-            LabTestResultDal.CreateLabTestResult(newLabTestResult);
-        }
+	        if (!labTestResultTestCodes.Contains(testCode))
+	        {
+		        var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+		        LabTestResultDal.CreateLabTestResult(newLabTestResult);
+	        }
+		}
     }
 
     private bool isValidWeight(string weightString)
@@ -557,7 +617,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.BodyTemp = this.SelectedVisit.BodyTemp;
         this.Symptoms = this.SelectedVisit.Symptoms;
         this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
-        this.finalDiagnoses = this.FinalDiagnoses;
+        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
     }
 
     #endregion
