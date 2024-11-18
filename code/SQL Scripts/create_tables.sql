@@ -89,7 +89,7 @@ city VARCHAR(50),
 zip_code CHAR(5),
 phone_number VARCHAR(10),
 ssn CHAR(9) UNIQUE,
-status tinyint(1),
+`status` tinyint(1),
 PRIMARY KEY (patient_id)
 );
 
@@ -119,8 +119,7 @@ reason VARCHAR(300),
 PRIMARY KEY (appointment_id),
 FOREIGN KEY (patient_id) REFERENCES patient(patient_id),
 FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
-UNIQUE KEY doctor_appointment_unique (doctor_id, appointment_date),
-UNIQUE KEY patient_appointment_unique (patient_id, appointment_date)
+UNIQUE KEY doctor_appointment_unique (doctor_id, appointment_date)
 );
 
 
@@ -131,7 +130,7 @@ appointment_id INTEGER UNIQUE,
 nurse_id INTEGER,
 bp_systolic INTEGER,
 bp_diastolic INTEGER,
-body_temperature DECIMAL(4,2),
+body_temperature DECIMAL(5,2),
 `weight` DECIMAL(5,2),
 height DECIMAL(5,2),
 pulse_rate INTEGER,
@@ -148,12 +147,14 @@ CREATE TABLE `lab_test_result`
 result_id INTEGER AUTO_INCREMENT,
 visit_id INTEGER,
 test_code INTEGER,
-test_result VARCHAR(60),
-result_normality ENUM('normal', 'abnormal'),
-date_preformed DATETIME,
+test_result VARCHAR(60) NULL,
+result_normality ENUM('NORMAL', 'ABNORMAL') NULL,
+date_performed DATETIME NULL,
+`status` tinyint(1),
 PRIMARY KEY (result_id),
 FOREIGN KEY (visit_id) REFERENCES visit(visit_id),
-FOREIGN KEY (test_code) REFERENCES lab_test(test_code)
+FOREIGN KEY (test_code) REFERENCES lab_test(test_code),
+UNIQUE KEY lab_test_result_unique (visit_id, test_code)
 );
 
 CREATE TABLE `lab_test`
