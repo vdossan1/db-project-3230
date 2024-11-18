@@ -479,20 +479,30 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     public void CreateLabTestResults()
     {
         var testCodes = new List<int>();
+        var labTestResultTestCodes = new List<int>();
 
-        foreach (var testName in this.SelectedTests)
+		foreach (var testName in this.SelectedTests)
         {
             var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
             testCodes.Add(testCode);
         }
 
         var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
+        
+        foreach (var labTestResult in labTestResults)
+        {
+			labTestResultTestCodes.Add(labTestResult.TestCode);
+		}
 
         foreach (var testCode in testCodes)
         {
-            var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-            LabTestResultDal.CreateLabTestResult(newLabTestResult);
-        }
+	        if (!labTestResultTestCodes.Contains(testCode))
+	        {
+		        var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+		        LabTestResultDal.CreateLabTestResult(newLabTestResult);
+	        }
+		}
     }
 
     private bool isValidWeight(string weightString)
@@ -607,7 +617,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.BodyTemp = this.SelectedVisit.BodyTemp;
         this.Symptoms = this.SelectedVisit.Symptoms;
         this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
-        this.finalDiagnoses = this.FinalDiagnoses;
+        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
     }
 
     #endregion

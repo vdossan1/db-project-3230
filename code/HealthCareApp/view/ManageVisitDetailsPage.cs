@@ -40,7 +40,7 @@ public partial class ManageVisitDetailsPage : Form
             : new ManageVisitDetailsPageViewModel(selectedVisit);
 
         this.nurseIdTextLabel.Text = nurseFullName;
-        this.manageVisitDetailsPageViewModel.NurseId = NurseDal.GetIdFromUsername(username);
+        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit.NurseId;
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();
