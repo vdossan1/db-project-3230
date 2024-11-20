@@ -14,7 +14,9 @@ public class AppointmentsControlViewModel
     /// <summary>
     ///     Gets the list of appointments.
     /// </summary>
-    public List<Appointment> Appointments { get; private set; }
+    public BindingList<Appointment> Appointments { get; private set; }
+
+    public BindingList<Appointment> ClosedAppointments { get; private set; }
 
     private Appointment? selectedAppointment;
 
@@ -67,7 +69,8 @@ public class AppointmentsControlViewModel
     /// </summary>
     public AppointmentsControlViewModel()
     {
-        this.Appointments = new List<Appointment>();
+        this.Appointments = new BindingList<Appointment>();
+        this.ClosedAppointments = new BindingList<Appointment>();
         this.PopulateAppointments();
         this.IsValid = false;
     }
@@ -93,7 +96,8 @@ public class AppointmentsControlViewModel
     {
         if (eventArgs == null)
         {
-            Appointments = AppointmentDal.GetAllAppointments();
+            this.Appointments = AppointmentDal.GetAllOpenAppointments();
+            this.ClosedAppointments = AppointmentDal.GetAllPastAndClosedAppointments();
         }
         else
         {
@@ -101,7 +105,8 @@ public class AppointmentsControlViewModel
             var lastName = eventArgs.LastName;
             var dateOfBirth = eventArgs.DateOfBirth;
 
-            Appointments = AppointmentDal.GetAllAppointmentsWithParams(firstName, lastName, dateOfBirth);
+            this.Appointments = AppointmentDal.GetAllAppointmentsWithParams(firstName, lastName, dateOfBirth);
+            this.ClosedAppointments = AppointmentDal.GetAllClosedAppointmentsWithParams(firstName, lastName, dateOfBirth);
         }
     }
 

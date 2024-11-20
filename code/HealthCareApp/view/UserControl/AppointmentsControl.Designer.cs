@@ -87,7 +87,6 @@
             appointmentsDataGridView.BackgroundColor = SystemColors.Control;
             appointmentsDataGridView.ColumnHeadersHeight = 34;
             appointmentsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            appointmentsDataGridView.ColumnHeadersVisible = false;
             appointmentsDataGridView.GridColor = SystemColors.Control;
             appointmentsDataGridView.Location = new Point(24, 337);
             appointmentsDataGridView.Margin = new Padding(4, 5, 4, 5);

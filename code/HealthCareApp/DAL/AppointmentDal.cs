@@ -1,6 +1,7 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using HealthCareApp.model;
@@ -86,16 +87,41 @@ public class AppointmentDal
     ///     Retrieves a list of all appointments from the database.
     /// </summary>
     /// <returns>A list of <see cref="Appointment" /> objects representing all appointments in the database.</returns>
-    public static List<Appointment> GetAllAppointments()
+    public static BindingList<Appointment> GetAllOpenAppointments()
     {
-        var appointmentList = new List<Appointment>();
+        var appointmentList = new BindingList<Appointment>();
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        var query = "SELECT * FROM appointment";
+        var query = "SELECT * FROM appointment WHERE DATE(appointment_date) >= @Today ORDER BY appointment_date ASC";
+        
 
         using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@Today", MySqlDbType.DateTime).Value = DateTime.Today;
+
+        using var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            appointmentList.Add(
+                CreateAppointment(reader));
+        }
+
+        return appointmentList;
+    }
+
+    public static BindingList<Appointment> GetAllPastAndClosedAppointments()
+    {
+        var appointmentList = new BindingList<Appointment>();
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        var query = "SELECT * FROM appointment WHERE DATE(appointment_date) < @Today ORDER BY appointment_date DESC";
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@Today", MySqlDbType.DateTime).Value = DateTime.Today;
 
         using var reader = command.ExecuteReader();
 
@@ -115,10 +141,10 @@ public class AppointmentDal
     /// <param name="lastName">The last name of the patient or doctor to search for.</param>
     /// <param name="appointmentDate">The date of the appointment to search for.</param>
     /// <returns>A list of <see cref="Appointment" /> objects representing the matching appointments.</returns>
-    public static List<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName,
+    public static BindingList<Appointment> GetAllAppointmentsWithParams(string firstName, string lastName,
         DateTime? appointmentDate)
     {
-        var appointmentList = new List<Appointment>();
+        var appointmentList = new BindingList<Appointment>();
         var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
         queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
         queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id ");
@@ -148,7 +174,7 @@ public class AppointmentDal
 
         if (conditions.Count > 0)
         {
-            queryBuilder.Append("WHERE ");
+            queryBuilder.Append("WHERE DATE(appointment_date) >= @Today AND ");
             queryBuilder.Append(string.Join(" AND ", conditions));
         }
 
@@ -159,6 +185,63 @@ public class AppointmentDal
 
         using var command = new MySqlCommand(queryBuilder.ToString(), connection);
         command.Parameters.AddRange(parameters.ToArray());
+        command.Parameters.Add("@Today", MySqlDbType.DateTime).Value = DateTime.Today;
+
+        Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} Date: {appointmentDate}");
+        using var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            appointmentList.Add(CreateAppointment(reader));
+        }
+
+        return appointmentList;
+    }
+
+    public static BindingList<Appointment> GetAllClosedAppointmentsWithParams(string firstName, string lastName, DateTime? appointmentDate)
+    {
+        var appointmentList = new BindingList<Appointment>();
+        var queryBuilder = new StringBuilder("SELECT appointment.* FROM appointment ");
+        queryBuilder.Append("JOIN patient ON appointment.patient_id = patient.patient_id ");
+        queryBuilder.Append("JOIN doctor ON appointment.doctor_id = doctor.doctor_id ");
+
+        var parameters = new List<MySqlParameter>();
+        var conditions = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(firstName))
+        {
+            conditions.Add("(patient.first_name = @PatientFirstName OR doctor.first_name = @DoctorFirstName)");
+            parameters.Add(new MySqlParameter("@PatientFirstName", firstName));
+            parameters.Add(new MySqlParameter("@DoctorFirstName", firstName));
+        }
+
+        if (!string.IsNullOrWhiteSpace(lastName))
+        {
+            conditions.Add("(patient.last_name = @PatientLastName OR doctor.last_name = @DoctorLastName)");
+            parameters.Add(new MySqlParameter("@PatientLastName", lastName));
+            parameters.Add(new MySqlParameter("@DoctorLastName", lastName));
+        }
+
+        if (appointmentDate != null && appointmentDate != DateTime.Today)
+        {
+            conditions.Add("appointment.appointment_date = @AppointmentDate");
+            parameters.Add(new MySqlParameter("@AppointmentDate", appointmentDate));
+        }
+
+        if (conditions.Count > 0)
+        {
+            queryBuilder.Append("WHERE DATE(appointment_date) < @Today AND ");
+            queryBuilder.Append(string.Join(" AND ", conditions));
+        }
+
+        queryBuilder.Append(';');
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(queryBuilder.ToString(), connection);
+        command.Parameters.AddRange(parameters.ToArray());
+        command.Parameters.Add("@Today", MySqlDbType.DateTime).Value = DateTime.Today;
 
         Debug.WriteLine($"Query: {queryBuilder} FirstName: {firstName} LastName: {lastName} Date: {appointmentDate}");
         using var reader = command.ExecuteReader();
@@ -201,4 +284,6 @@ public class AppointmentDal
     }
 
     #endregion
+
+    
 }

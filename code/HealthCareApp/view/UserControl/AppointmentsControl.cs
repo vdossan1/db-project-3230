@@ -63,7 +63,9 @@ public partial class AppointmentsControl : UserControl
         }
 
         this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
+        this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
         this.appointmentsDataGridView.ClearSelection();
+        this.closedApptDataGrid.ClearSelection();
     }
 
     private void AppointmentsDataGridView_SelectionChanged(object? sender, EventArgs e)
@@ -93,11 +95,9 @@ public partial class AppointmentsControl : UserControl
     {
         // Set up the data grid view
         this.appointmentsControlViewModel = new AppointmentsControlViewModel();
-        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
-        this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
         this.SetUpDataGridViewColumns();
-        this.appointmentsDataGridView.ClearSelection();
-
+        this.setupClosedApptDataGridView();
+        
         // Set up the advanced search control
         this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
         this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
@@ -105,8 +105,34 @@ public partial class AppointmentsControl : UserControl
         this.apptAdvancedSearchControl.SetDatePickerStyle();
     }
 
+    private void setupClosedApptDataGridView()
+    {
+        this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
+
+        this.closedApptDataGrid.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+
+        // Hide the columns that are not needed
+        this.closedApptDataGrid.Columns["AppointmentId"].Visible = false;
+        this.closedApptDataGrid.Columns["PatientId"].Visible = false;
+        this.closedApptDataGrid.Columns["DoctorId"].Visible = false;
+        this.closedApptDataGrid.Columns["PatientName"].Width = 150;
+        this.closedApptDataGrid.Columns["DoctorName"].Width = 150;
+        this.closedApptDataGrid.Columns["AppointmentDate"].Width = 200;
+        this.closedApptDataGrid.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+        // Rename main columns
+        this.closedApptDataGrid.Columns["PatientName"].HeaderText = "Patient Name";
+        this.closedApptDataGrid.Columns["DoctorName"].HeaderText = "Doctor Name";
+        this.closedApptDataGrid.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
+
+        this.closedApptDataGrid.ClearSelection();
+    }
+
     private void SetUpDataGridViewColumns()
     {
+        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
+        this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+
         // Hide the columns that are not needed
         this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
         this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
@@ -114,12 +140,14 @@ public partial class AppointmentsControl : UserControl
         this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
         this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
         this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
-        this.appointmentsDataGridView.Columns["Reason"].Width = 250;
+        this.appointmentsDataGridView.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
         // Rename main columns
         this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
         this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
         this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
+
+        this.appointmentsDataGridView.ClearSelection();
     }
 
     #endregion
