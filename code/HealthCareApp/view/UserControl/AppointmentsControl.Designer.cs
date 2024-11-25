@@ -35,23 +35,13 @@
             upcomingApptLabel = new Label();
             label1 = new Label();
             closedApptDataGrid = new DataGridView();
-            removeTestBtn = new Button();
-            addTestBtn = new Button();
             selectedTestListBox = new ListBox();
-            availableTestListBox = new ListBox();
             label2 = new Label();
             label3 = new Label();
             farenheitLabel = new Label();
             bpmLabel = new Label();
             feetLabel = new Label();
             lbsLabel = new Label();
-            symptomsErrorLabel = new Label();
-            bodyTempErrorLabel = new Label();
-            pulseErrorLabel = new Label();
-            heightErrorLabel = new Label();
-            weightErrorLabel = new Label();
-            bloodPressDiasErrorLabel = new Label();
-            bloodPressSysErrorLabel = new Label();
             apptTextLabel = new Label();
             finalDiagnosesTxtBox = new RichTextBox();
             initDiagnosesTxtBox = new RichTextBox();
@@ -73,6 +63,7 @@
             bloodPressureSysLabel = new Label();
             orderedTestDataGrid = new DataGridView();
             enterTestResultButton = new Button();
+            editVisitButton = new Button();
             ((System.ComponentModel.ISupportInitialize)appointmentsDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)closedApptDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)orderedTestDataGrid).BeginInit();
@@ -155,48 +146,25 @@
             closedApptDataGrid.AllowUserToResizeRows = false;
             closedApptDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             closedApptDataGrid.Location = new Point(30, 916);
+            closedApptDataGrid.MultiSelect = false;
             closedApptDataGrid.Name = "closedApptDataGrid";
+            closedApptDataGrid.RowHeadersVisible = false;
             closedApptDataGrid.RowHeadersWidth = 62;
+            closedApptDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             closedApptDataGrid.Size = new Size(907, 390);
             closedApptDataGrid.TabIndex = 15;
-            // 
-            // removeTestBtn
-            // 
-            removeTestBtn.Location = new Point(1683, 1045);
-            removeTestBtn.Name = "removeTestBtn";
-            removeTestBtn.Size = new Size(111, 33);
-            removeTestBtn.TabIndex = 88;
-            removeTestBtn.Text = "Remove Test";
-            removeTestBtn.UseVisualStyleBackColor = true;
-            // 
-            // addTestBtn
-            // 
-            addTestBtn.Location = new Point(1683, 949);
-            addTestBtn.Name = "addTestBtn";
-            addTestBtn.Size = new Size(111, 33);
-            addTestBtn.TabIndex = 87;
-            addTestBtn.Text = "Add Test";
-            addTestBtn.UseVisualStyleBackColor = true;
+            closedApptDataGrid.SelectionChanged += closedApptDataGrid_SelectionChanged;
             // 
             // selectedTestListBox
             // 
+            selectedTestListBox.Enabled = false;
             selectedTestListBox.FormattingEnabled = true;
             selectedTestListBox.ItemHeight = 25;
-            selectedTestListBox.Location = new Point(1927, 949);
+            selectedTestListBox.Location = new Point(1257, 950);
             selectedTestListBox.Name = "selectedTestListBox";
             selectedTestListBox.SelectionMode = SelectionMode.MultiSimple;
             selectedTestListBox.Size = new Size(313, 129);
             selectedTestListBox.TabIndex = 86;
-            // 
-            // availableTestListBox
-            // 
-            availableTestListBox.FormattingEnabled = true;
-            availableTestListBox.ItemHeight = 25;
-            availableTestListBox.Location = new Point(1257, 949);
-            availableTestListBox.Name = "availableTestListBox";
-            availableTestListBox.SelectionMode = SelectionMode.MultiSimple;
-            availableTestListBox.Size = new Size(313, 129);
-            availableTestListBox.TabIndex = 85;
             // 
             // label2
             // 
@@ -252,83 +220,6 @@
             lbsLabel.TabIndex = 79;
             lbsLabel.Text = "lbs";
             // 
-            // symptomsErrorLabel
-            // 
-            symptomsErrorLabel.AutoSize = true;
-            symptomsErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            symptomsErrorLabel.ForeColor = Color.Red;
-            symptomsErrorLabel.Location = new Point(1782, 428);
-            symptomsErrorLabel.Name = "symptomsErrorLabel";
-            symptomsErrorLabel.Size = new Size(186, 25);
-            symptomsErrorLabel.TabIndex = 77;
-            symptomsErrorLabel.Text = "symptomsErrorLabel";
-            // 
-            // bodyTempErrorLabel
-            // 
-            bodyTempErrorLabel.AutoSize = true;
-            bodyTempErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            bodyTempErrorLabel.ForeColor = Color.Red;
-            bodyTempErrorLabel.Location = new Point(1512, 419);
-            bodyTempErrorLabel.Name = "bodyTempErrorLabel";
-            bodyTempErrorLabel.Size = new Size(188, 25);
-            bodyTempErrorLabel.TabIndex = 76;
-            bodyTempErrorLabel.Text = "bodyTempErrorLabel";
-            // 
-            // pulseErrorLabel
-            // 
-            pulseErrorLabel.AutoSize = true;
-            pulseErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            pulseErrorLabel.ForeColor = Color.Red;
-            pulseErrorLabel.Location = new Point(1405, 349);
-            pulseErrorLabel.Name = "pulseErrorLabel";
-            pulseErrorLabel.Size = new Size(144, 25);
-            pulseErrorLabel.TabIndex = 75;
-            pulseErrorLabel.Text = "pulseErrorLabel";
-            // 
-            // heightErrorLabel
-            // 
-            heightErrorLabel.AutoSize = true;
-            heightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            heightErrorLabel.ForeColor = Color.Red;
-            heightErrorLabel.Location = new Point(1170, 419);
-            heightErrorLabel.Name = "heightErrorLabel";
-            heightErrorLabel.Size = new Size(154, 25);
-            heightErrorLabel.TabIndex = 74;
-            heightErrorLabel.Text = "heightErrorLabel";
-            // 
-            // weightErrorLabel
-            // 
-            weightErrorLabel.AutoSize = true;
-            weightErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            weightErrorLabel.ForeColor = Color.Red;
-            weightErrorLabel.Location = new Point(1170, 348);
-            weightErrorLabel.Name = "weightErrorLabel";
-            weightErrorLabel.Size = new Size(157, 25);
-            weightErrorLabel.TabIndex = 73;
-            weightErrorLabel.Text = "weightErrorLabel";
-            // 
-            // bloodPressDiasErrorLabel
-            // 
-            bloodPressDiasErrorLabel.AutoSize = true;
-            bloodPressDiasErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            bloodPressDiasErrorLabel.ForeColor = Color.Red;
-            bloodPressDiasErrorLabel.Location = new Point(1299, 266);
-            bloodPressDiasErrorLabel.Name = "bloodPressDiasErrorLabel";
-            bloodPressDiasErrorLabel.Size = new Size(228, 25);
-            bloodPressDiasErrorLabel.TabIndex = 72;
-            bloodPressDiasErrorLabel.Text = "bloodPressDiasErrorLabel";
-            // 
-            // bloodPressSysErrorLabel
-            // 
-            bloodPressSysErrorLabel.AutoSize = true;
-            bloodPressSysErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            bloodPressSysErrorLabel.ForeColor = Color.Red;
-            bloodPressSysErrorLabel.Location = new Point(1299, 185);
-            bloodPressSysErrorLabel.Name = "bloodPressSysErrorLabel";
-            bloodPressSysErrorLabel.Size = new Size(220, 25);
-            bloodPressSysErrorLabel.TabIndex = 71;
-            bloodPressSysErrorLabel.Text = "bloodPressSysErrorLabel";
-            // 
             // apptTextLabel
             // 
             apptTextLabel.AutoSize = true;
@@ -339,6 +230,7 @@
             // 
             // finalDiagnosesTxtBox
             // 
+            finalDiagnosesTxtBox.Enabled = false;
             finalDiagnosesTxtBox.Location = new Point(1256, 725);
             finalDiagnosesTxtBox.MaxLength = 200;
             finalDiagnosesTxtBox.Name = "finalDiagnosesTxtBox";
@@ -348,6 +240,7 @@
             // 
             // initDiagnosesTxtBox
             // 
+            initDiagnosesTxtBox.Enabled = false;
             initDiagnosesTxtBox.Location = new Point(1256, 498);
             initDiagnosesTxtBox.MaxLength = 200;
             initDiagnosesTxtBox.Name = "initDiagnosesTxtBox";
@@ -357,6 +250,7 @@
             // 
             // symptomsTxtBox
             // 
+            symptomsTxtBox.Enabled = false;
             symptomsTxtBox.Location = new Point(1782, 182);
             symptomsTxtBox.MaxLength = 200;
             symptomsTxtBox.Name = "symptomsTxtBox";
@@ -366,6 +260,7 @@
             // 
             // pulseTxtField
             // 
+            pulseTxtField.Enabled = false;
             pulseTxtField.Location = new Point(1405, 310);
             pulseTxtField.MaxLength = 4;
             pulseTxtField.Name = "pulseTxtField";
@@ -374,6 +269,7 @@
             // 
             // bodyTempTxtField
             // 
+            bodyTempTxtField.Enabled = false;
             bodyTempTxtField.Location = new Point(1512, 379);
             bodyTempTxtField.MaxLength = 5;
             bodyTempTxtField.Name = "bodyTempTxtField";
@@ -382,6 +278,7 @@
             // 
             // heightTxtField
             // 
+            heightTxtField.Enabled = false;
             heightTxtField.Location = new Point(1170, 384);
             heightTxtField.MaxLength = 6;
             heightTxtField.Name = "heightTxtField";
@@ -390,6 +287,7 @@
             // 
             // weightTxtField
             // 
+            weightTxtField.Enabled = false;
             weightTxtField.Location = new Point(1170, 313);
             weightTxtField.MaxLength = 6;
             weightTxtField.Name = "weightTxtField";
@@ -398,6 +296,7 @@
             // 
             // bloodPressureDiasTxtField
             // 
+            bloodPressureDiasTxtField.Enabled = false;
             bloodPressureDiasTxtField.Location = new Point(1299, 232);
             bloodPressureDiasTxtField.MaxLength = 3;
             bloodPressureDiasTxtField.Name = "bloodPressureDiasTxtField";
@@ -406,6 +305,7 @@
             // 
             // bloodPressureSysTxtField
             // 
+            bloodPressureSysTxtField.Enabled = false;
             bloodPressureSysTxtField.Location = new Point(1299, 151);
             bloodPressureSysTxtField.MaxLength = 3;
             bloodPressureSysTxtField.Name = "bloodPressureSysTxtField";
@@ -498,45 +398,47 @@
             orderedTestDataGrid.AllowUserToAddRows = false;
             orderedTestDataGrid.AllowUserToDeleteRows = false;
             orderedTestDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            orderedTestDataGrid.Location = new Point(1257, 1123);
+            orderedTestDataGrid.Enabled = false;
+            orderedTestDataGrid.Location = new Point(1596, 930);
             orderedTestDataGrid.Name = "orderedTestDataGrid";
             orderedTestDataGrid.ReadOnly = true;
             orderedTestDataGrid.RowHeadersWidth = 62;
-            orderedTestDataGrid.Size = new Size(836, 225);
+            orderedTestDataGrid.Size = new Size(813, 225);
             orderedTestDataGrid.TabIndex = 89;
             // 
             // enterTestResultButton
             // 
-            enterTestResultButton.Location = new Point(2131, 1208);
+            enterTestResultButton.Location = new Point(2056, 1236);
             enterTestResultButton.Name = "enterTestResultButton";
             enterTestResultButton.Size = new Size(217, 58);
             enterTestResultButton.TabIndex = 90;
             enterTestResultButton.Text = "Enter Test Result";
             enterTestResultButton.UseVisualStyleBackColor = true;
             // 
+            // editVisitButton
+            // 
+            editVisitButton.Location = new Point(1496, 1236);
+            editVisitButton.Name = "editVisitButton";
+            editVisitButton.Size = new Size(203, 58);
+            editVisitButton.TabIndex = 91;
+            editVisitButton.Text = "Edit Visit";
+            editVisitButton.UseVisualStyleBackColor = true;
+            editVisitButton.Click += editVisitButton_Click;
+            // 
             // AppointmentsControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(editVisitButton);
             Controls.Add(enterTestResultButton);
             Controls.Add(orderedTestDataGrid);
-            Controls.Add(removeTestBtn);
-            Controls.Add(addTestBtn);
             Controls.Add(selectedTestListBox);
-            Controls.Add(availableTestListBox);
             Controls.Add(label2);
             Controls.Add(label3);
             Controls.Add(farenheitLabel);
             Controls.Add(bpmLabel);
             Controls.Add(feetLabel);
             Controls.Add(lbsLabel);
-            Controls.Add(symptomsErrorLabel);
-            Controls.Add(bodyTempErrorLabel);
-            Controls.Add(pulseErrorLabel);
-            Controls.Add(heightErrorLabel);
-            Controls.Add(weightErrorLabel);
-            Controls.Add(bloodPressDiasErrorLabel);
-            Controls.Add(bloodPressSysErrorLabel);
             Controls.Add(apptTextLabel);
             Controls.Add(finalDiagnosesTxtBox);
             Controls.Add(initDiagnosesTxtBox);
@@ -582,23 +484,13 @@
         private Label upcomingApptLabel;
         private Label label1;
         private DataGridView closedApptDataGrid;
-        private Button removeTestBtn;
-        private Button addTestBtn;
         private ListBox selectedTestListBox;
-        private ListBox availableTestListBox;
         private Label label2;
         private Label label3;
         private Label farenheitLabel;
         private Label bpmLabel;
         private Label feetLabel;
         private Label lbsLabel;
-        private Label symptomsErrorLabel;
-        private Label bodyTempErrorLabel;
-        private Label pulseErrorLabel;
-        private Label heightErrorLabel;
-        private Label weightErrorLabel;
-        private Label bloodPressDiasErrorLabel;
-        private Label bloodPressSysErrorLabel;
         private Label apptTextLabel;
         private RichTextBox finalDiagnosesTxtBox;
         private RichTextBox initDiagnosesTxtBox;
@@ -620,5 +512,6 @@
         private Label bloodPressureSysLabel;
         private DataGridView orderedTestDataGrid;
         private Button enterTestResultButton;
+        private Button editVisitButton;
     }
 }

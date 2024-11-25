@@ -1,6 +1,8 @@
 ﻿// Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
 
+using System.Windows.Media.Media3D;
+
 namespace HealthCareApp.model;
 
 /// <summary>
@@ -96,6 +98,25 @@ public class Visit
         this.Symptoms = symptoms ?? throw new ArgumentNullException(nameof(symptoms));
         this.InitialDiagnoses = initialDiagnoses ?? throw new ArgumentNullException(nameof(initialDiagnoses));
         this.FinalDiagnoses = finalDiagnoses;
+    }
+
+    public Visit(Visit? visit)
+    {
+        if (visit != null)
+        {
+            this.VisitId = visit.VisitId;
+            this.AppointmentId = visit.AppointmentId;
+            this.NurseId = visit.NurseId;
+            this.BloodPressureSystolic = visit.BloodPressureSystolic;
+            this.BloodPressureDiastolic = visit.BloodPressureDiastolic;
+            this.BodyTemp = visit.BodyTemp;
+            this.Weight = visit.Weight;
+            this.Height = visit.Height;
+            this.PulseRate = visit.PulseRate;
+            this.Symptoms = visit.Symptoms;
+            this.InitialDiagnoses = visit.InitialDiagnoses;
+            this.FinalDiagnoses = visit.FinalDiagnoses;
+        }
     }
 
     #endregion

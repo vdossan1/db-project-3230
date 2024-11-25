@@ -610,7 +610,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
 
         this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
-        this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
+        this.BloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
         this.Weight = this.SelectedVisit.Weight;
         this.Height = this.SelectedVisit.Height;
         this.PulseRate = this.SelectedVisit.PulseRate;

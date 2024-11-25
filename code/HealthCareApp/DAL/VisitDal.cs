@@ -71,6 +71,29 @@ public class VisitDal
         return 0;
     }
 
+
+    public static Visit? GetVisitByApptId(int selectedAppointmentAppointmentId)
+    {
+        var query = "SELECT * FROM visit WHERE appointment_id = @AppointmentId";
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@AppointmentId", selectedAppointmentAppointmentId);
+
+        using var reader = command.ExecuteReader();
+
+        Visit? visit = null;
+
+        while (reader.Read())
+        {
+            visit = CreateVisitObj(reader);
+        }
+
+        return visit;
+    }
+
     /// <summary>
     ///     Retrieves a list of all visits from the database.
     /// </summary>
