@@ -366,7 +366,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPageViewModel" /> class.
     /// </summary>
-    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null)
+    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null, int? selectedApptId = null)
     {
         this.SelectedVisit = selectedVisit;
         this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());

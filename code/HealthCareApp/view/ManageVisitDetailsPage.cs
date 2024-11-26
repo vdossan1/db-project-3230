@@ -19,7 +19,6 @@ public partial class ManageVisitDetailsPage : Form
 
     private readonly ManageVisitDetailsPageViewModel manageVisitDetailsPageViewModel;
 
-    private const string CREATE_VISIT = "Create";
     private const string EDIT_VISIT = "Edit";
 
     private PageAction pageAction;
@@ -40,7 +39,7 @@ public partial class ManageVisitDetailsPage : Form
             : new ManageVisitDetailsPageViewModel(selectedVisit);
 
         this.nurseIdTextLabel.Text = nurseFullName;
-        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit.NurseId;
+        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit == null ? NurseDal.GetIdFromUsername(username): selectedVisit.NurseId;
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();

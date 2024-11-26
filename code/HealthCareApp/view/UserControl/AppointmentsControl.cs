@@ -213,6 +213,17 @@ public partial class AppointmentsControl : UserControl
 
     private void editVisitButton_Click(object sender, EventArgs e)
     {
+        var selectedVisit = this.appointmentsControlViewModel.SelectedVisit;
+        if (selectedVisit != null)
+        {
+            var appointment = (Appointment)this.closedApptDataGrid.SelectedRows[0].DataBoundItem;
+            var apptId = appointment.AppointmentId;
 
+            if (selectedVisit.VisitId > 0)
+            {
+                var editVisitPage = new ManageVisitDetailsPage("nurse name", "nurse username", selectedVisit);
+                editVisitPage.ShowDialog();
+            }
+        }
     }
 }
