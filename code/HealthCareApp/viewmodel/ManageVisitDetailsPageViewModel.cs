@@ -381,7 +381,96 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     #endregion
 
+    #region Events
+
+    /// <summary>
+    ///     Occurs when a property value changes.
+    /// </summary>
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    ///     Raises the <see cref="PropertyChanged" /> event for a property.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.ValidateFields();
+    }
+
+    #endregion
+
     #region Methods
+
+    /// <summary>
+    ///     Saves the visit details to the database.
+    /// </summary>
+    public void SaveVisitDetails()
+    {
+        var newVisit = new Visit(this.AppointmentId, this.NurseId, this.BloodPressureSystolic,
+            this.BloodPressureDiastolic, this.BodyTemp, this.Weight, this.Height, this.PulseRate, this.Symptoms,
+            this.InitialDiagnoses, this.FinalDiagnoses);
+
+        if (this.SelectedVisit == null)
+        {
+            VisitDal.CreateVisit(newVisit);
+        }
+        else
+        {
+            newVisit.VisitId = this.SelectedVisit.VisitId;
+            VisitDal.EditVisit(newVisit);
+        }
+    }
+
+    public void CreateLabTestResults()
+    {
+        var testCodes = new List<int>();
+        var labTestResultTestCodes = new List<int>();
+
+        foreach (var testName in this.SelectedTests)
+        {
+            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
+            testCodes.Add(testCode);
+        }
+
+        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
+
+        foreach (var labTestResult in labTestResults)
+        {
+            labTestResultTestCodes.Add(labTestResult.TestCode);
+        }
+
+        foreach (var testCode in testCodes)
+        {
+            if (!labTestResultTestCodes.Contains(testCode))
+            {
+                var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+                LabTestResultDal.CreateLabTestResult(newLabTestResult);
+            }
+        }
+    }
+
+    public void PopulateFields()
+    {
+        if (this.SelectedVisit != null)
+        {
+            this.apptIdList = [this.SelectedVisit.AppointmentId];
+
+            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
+            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
+        }
+
+        this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
+        this.BloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
+        this.Weight = this.SelectedVisit.Weight;
+        this.Height = this.SelectedVisit.Height;
+        this.PulseRate = this.SelectedVisit.PulseRate;
+        this.BodyTemp = this.SelectedVisit.BodyTemp;
+        this.Symptoms = this.SelectedVisit.Symptoms;
+        this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
+        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
+    }
 
     public void disableFinalDiagIfTestSelected()
     {
@@ -441,69 +530,9 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    ///     Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler? PropertyChanged;
+    #endregion
 
-    /// <summary>
-    ///     Raises the <see cref="PropertyChanged" /> event for a property.
-    /// </summary>
-    /// <param name="propertyName">The name of the property that changed.</param>
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        this.ValidateFields();
-    }
-
-    /// <summary>
-    ///     Saves the visit details to the database.
-    /// </summary>
-    public void SaveVisitDetails()
-    {
-        var newVisit = new Visit(this.AppointmentId, this.NurseId, this.BloodPressureSystolic,
-            this.BloodPressureDiastolic, this.BodyTemp, this.Weight, this.Height, this.PulseRate, this.Symptoms,
-            this.InitialDiagnoses, this.FinalDiagnoses);
-
-        if (this.SelectedVisit == null)
-        {
-            VisitDal.CreateVisit(newVisit);
-        }
-        else
-        {
-            newVisit.VisitId = this.SelectedVisit.VisitId;
-            VisitDal.EditVisit(newVisit);
-        }
-    }
-
-    public void CreateLabTestResults()
-    {
-        var testCodes = new List<int>();
-        var labTestResultTestCodes = new List<int>();
-
-		foreach (var testName in this.SelectedTests)
-        {
-            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
-            testCodes.Add(testCode);
-        }
-
-        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
-        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
-        
-        foreach (var labTestResult in labTestResults)
-        {
-			labTestResultTestCodes.Add(labTestResult.TestCode);
-		}
-
-        foreach (var testCode in testCodes)
-        {
-	        if (!labTestResultTestCodes.Contains(testCode))
-	        {
-		        var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-		        LabTestResultDal.CreateLabTestResult(newLabTestResult);
-	        }
-		}
-    }
+    #region Field Validation
 
     private bool isValidWeight(string weightString)
     {
@@ -591,27 +620,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
             this.IsValid = false;
         }
-    }
-
-    public void PopulateFields()
-    {
-        if (this.SelectedVisit != null)
-        {
-            this.apptIdList = [this.SelectedVisit.AppointmentId];
-
-            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
-            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
-        }
-
-        this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
-        this.BloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
-        this.Weight = this.SelectedVisit.Weight;
-        this.Height = this.SelectedVisit.Height;
-        this.PulseRate = this.SelectedVisit.PulseRate;
-        this.BodyTemp = this.SelectedVisit.BodyTemp;
-        this.Symptoms = this.SelectedVisit.Symptoms;
-        this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
-        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
     }
 
     #endregion
