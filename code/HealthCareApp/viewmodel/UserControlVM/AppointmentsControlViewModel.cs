@@ -28,7 +28,6 @@ public class AppointmentsControlViewModel
 
     #endregion
 
-
     #region Properties
 
     /// <summary>

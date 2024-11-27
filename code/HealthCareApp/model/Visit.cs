@@ -96,7 +96,7 @@ public class Visit
         this.Height = height;
         this.PulseRate = pulseRate;
         this.Symptoms = symptoms ?? throw new ArgumentNullException(nameof(symptoms));
-        this.InitialDiagnoses = initialDiagnoses ?? throw new ArgumentNullException(nameof(initialDiagnoses));
+        this.InitialDiagnoses = initialDiagnoses;
         this.FinalDiagnoses = finalDiagnoses;
     }
 

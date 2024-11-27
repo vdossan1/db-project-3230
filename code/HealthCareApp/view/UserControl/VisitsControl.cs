@@ -44,7 +44,7 @@ public partial class VisitsControl : UserControl
 
     private void createVisitBtn_Click(object sender, EventArgs e)
     {
-        var createVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username);
+        var createVisitPage = new ManageVisitDetailsPage();
         createVisitPage.FormClosed += this.RefreshVisitsList;
         createVisitPage.ShowDialog();
     }
@@ -54,7 +54,7 @@ public partial class VisitsControl : UserControl
         if (this.visitsDataGridView.SelectedRows.Count > 0)
         {
             var selectedVisit = (Visit)this.visitsDataGridView.SelectedRows[0].DataBoundItem;
-            var editVisitPage = new ManageVisitDetailsPage(this.nurseFullName, this.username, selectedVisit);
+            var editVisitPage = new ManageVisitDetailsPage(selectedVisit.AppointmentId);
             editVisitPage.FormClosed += this.RefreshVisitsList;
             editVisitPage.ShowDialog();
         }

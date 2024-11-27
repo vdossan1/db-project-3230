@@ -19,6 +19,10 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     private int appointmentId;
 
+    private string doctorFullName;
+
+    private string patientFullName;
+
     private int nurseId;
 
     private int bloodPressureSystolic;
@@ -39,6 +43,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     private string finalDiagnoses;
 
+    private bool allowFinalDiag;
+
     #endregion
 
     #region Properties
@@ -54,8 +60,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// </summary>
     public int[] ApptIdsArray => this.apptIdList.ToArray();
 
-    private string patientFullName;
-
     public string PatientFullName
     {
         get => this.patientFullName;
@@ -69,8 +73,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
     }
 
-    private string doctorFullName;
-
     public string DoctorFullName
     {
         get => this.doctorFullName;
@@ -80,6 +82,21 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 this.doctorFullName = value;
                 this.OnPropertyChanged(nameof(this.doctorFullName));
+            }
+        }
+    }
+
+    private string nurseFullName;
+
+    public string NurseFullName
+    {
+        get => this.nurseFullName;
+        set
+        {
+            if (this.nurseFullName != value)
+            {
+                this.nurseFullName = value;
+                this.OnPropertyChanged(nameof(this.PatientFullName));
             }
         }
     }
@@ -268,83 +285,9 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets the dictionary of validation error messages for form fields.
-    /// </summary>
-    public Dictionary<string, string> ValidationErrors { get; }
-
-    /// <summary>
-    ///     Gets the validation message for the Appointment ID field.
-    /// </summary>
-    public string AppointmentIdValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.AppointmentId))
-        ? this.ValidationErrors[nameof(this.AppointmentId)]
-        : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Systolic Blood Pressure field.
-    /// </summary>
-    public string BloodPressureSysValidationMessage =>
-        this.ValidationErrors.ContainsKey(nameof(this.BloodPressureSystolic))
-            ? this.ValidationErrors[nameof(this.BloodPressureSystolic)]
-            : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Diastolic Blood Pressure field.
-    /// </summary>
-    public string BloodPressureDiasValidationMessage =>
-        this.ValidationErrors.ContainsKey(nameof(this.BloodPressureDiastolic))
-            ? this.ValidationErrors[nameof(this.BloodPressureDiastolic)]
-            : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Weight field.
-    /// </summary>
-    public string WeightValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Weight))
-        ? this.ValidationErrors[nameof(this.Weight)]
-        : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Height field.
-    /// </summary>
-    public string HeightValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Height))
-        ? this.ValidationErrors[nameof(this.Height)]
-        : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Pulse Rate field.
-    /// </summary>
-    public string PulseValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.PulseRate))
-        ? this.ValidationErrors[nameof(this.PulseRate)]
-        : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Body Temperature field.
-    /// </summary>
-    public string BodyTempValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.BodyTemp))
-        ? this.ValidationErrors[nameof(this.BodyTemp)]
-        : string.Empty;
-
-    /// <summary>
-    ///     Gets the validation message for the Symptoms field.
-    /// </summary>
-    public string SymptomsValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Symptoms))
-        ? this.ValidationErrors[nameof(this.Symptoms)]
-        : string.Empty;
-
-    /// ///
-    /// <summary>
-    ///     Gets the validation message for the Initial Diagnosis field.
-    /// </summary>
-    public string InitialDiagValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.InitialDiagnoses))
-        ? this.ValidationErrors[nameof(this.InitialDiagnoses)]
-        : string.Empty;
-
-    /// <summary>
     ///     Determines if the data entered by the user is valid.
     /// </summary>
     public bool IsValid { get; private set; }
-
-
-    private bool allowFinalDiag;
 
     public bool AllowFinalDiag
     {
@@ -366,16 +309,25 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPageViewModel" /> class.
     /// </summary>
-    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null, int? selectedApptId = null)
+    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null, int? apptId = null)
     {
-        this.SelectedVisit = selectedVisit;
-        this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         this.ValidationErrors = new Dictionary<string, string>();
-
         this.LabTests = new BindingList<string>();
         this.SelectedTests = new BindingList<string>();
-        this.PopulateListBoxes();
 
+        this.SelectedVisit = selectedVisit;
+
+        //this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
+        if (apptId != null)
+        {
+            this.AppointmentId = apptId.Value;
+            this.apptIdList = [this.AppointmentId];
+        }
+
+        this.NurseId = NurseDal.GetIdFromUsername(LoggedUser.Username);
+        this.nurseFullName = LoggedUser.FullName;
+
+        this.PopulateListBoxes();
         this.disableFinalDiagIfTestSelected();
     }
 
@@ -453,10 +405,10 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     public void PopulateFields()
     {
+        this.apptIdList = [this.SelectedVisit.AppointmentId];
+
         if (this.SelectedVisit != null)
         {
-            this.apptIdList = [this.SelectedVisit.AppointmentId];
-
             this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
             this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
         }
@@ -621,6 +573,81 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             this.IsValid = false;
         }
     }
+
+    #endregion
+
+    #region Validation Properties
+
+    /// <summary>
+    ///     Gets the dictionary of validation error messages for form fields.
+    /// </summary>
+    public Dictionary<string, string> ValidationErrors { get; }
+
+    /// <summary>
+    ///     Gets the validation message for the Appointment ID field.
+    /// </summary>
+    public string AppointmentIdValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.AppointmentId))
+        ? this.ValidationErrors[nameof(this.AppointmentId)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Systolic Blood Pressure field.
+    /// </summary>
+    public string BloodPressureSysValidationMessage =>
+        this.ValidationErrors.ContainsKey(nameof(this.BloodPressureSystolic))
+            ? this.ValidationErrors[nameof(this.BloodPressureSystolic)]
+            : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Diastolic Blood Pressure field.
+    /// </summary>
+    public string BloodPressureDiasValidationMessage =>
+        this.ValidationErrors.ContainsKey(nameof(this.BloodPressureDiastolic))
+            ? this.ValidationErrors[nameof(this.BloodPressureDiastolic)]
+            : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Weight field.
+    /// </summary>
+    public string WeightValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Weight))
+        ? this.ValidationErrors[nameof(this.Weight)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Height field.
+    /// </summary>
+    public string HeightValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Height))
+        ? this.ValidationErrors[nameof(this.Height)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Pulse Rate field.
+    /// </summary>
+    public string PulseValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.PulseRate))
+        ? this.ValidationErrors[nameof(this.PulseRate)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Body Temperature field.
+    /// </summary>
+    public string BodyTempValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.BodyTemp))
+        ? this.ValidationErrors[nameof(this.BodyTemp)]
+        : string.Empty;
+
+    /// <summary>
+    ///     Gets the validation message for the Symptoms field.
+    /// </summary>
+    public string SymptomsValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.Symptoms))
+        ? this.ValidationErrors[nameof(this.Symptoms)]
+        : string.Empty;
+
+    /// ///
+    /// <summary>
+    ///     Gets the validation message for the Initial Diagnosis field.
+    /// </summary>
+    public string InitialDiagValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.InitialDiagnoses))
+        ? this.ValidationErrors[nameof(this.InitialDiagnoses)]
+        : string.Empty;
 
     #endregion
 }

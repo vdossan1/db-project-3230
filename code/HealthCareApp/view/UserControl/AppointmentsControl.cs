@@ -57,9 +57,14 @@ public partial class AppointmentsControl : UserControl
 
     private void editVisitButton_Click(object sender, EventArgs e)
     {
-        var createVisitPage = new ManageVisitDetailsPage(null, LoggedUser.Username);
-        // createVisitPage.FormClosed += this.RefreshVisitsList;
+        var createVisitPage = new ManageVisitDetailsPage(this.appointmentsControlViewModel.SelectedAppointment.AppointmentId);
+        createVisitPage.FormClosed += this.refreshVisitsInfo;
         createVisitPage.ShowDialog();
+    }
+
+    private void refreshVisitsInfo(object? sender, FormClosedEventArgs e)
+    {
+        this.appointmentsControlViewModel.PopulateVisitFields();
     }
 
     #endregion

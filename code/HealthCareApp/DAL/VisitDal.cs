@@ -172,7 +172,7 @@ public class VisitDal
             reader.GetDecimal(heightOrdinal),
             reader.GetInt32(pulseRateOrdinal),
             reader.GetString(symptomsOrdinal),
-            reader.GetString(initialDiagOrdinal),
+            reader.IsDBNull(initialDiagOrdinal) ? null : reader.GetString(initialDiagOrdinal),
             reader.IsDBNull(finalDiagOrdinal) ? null : reader.GetString(finalDiagOrdinal)
         );
 

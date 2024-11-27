@@ -30,15 +30,15 @@ public partial class ManageVisitDetailsPage : Form
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPage" /> class and sets up the data grid and event
     ///     handlers.
     /// </summary>
-    public ManageVisitDetailsPage(string nurseFullName, string username, Visit? selectedVisit = null)
+    public ManageVisitDetailsPage(int? appointmentId = null)
     {
         this.InitializeComponent();
-        this.manageVisitDetailsPageViewModel = selectedVisit == null
-            ? new ManageVisitDetailsPageViewModel()
-            : new ManageVisitDetailsPageViewModel(selectedVisit);
 
-        this.nurseIdTextLabel.Text = LoggedUser.FullName;
-        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit == null ? NurseDal.GetIdFromUsername(username): selectedVisit.NurseId;
+        var selectedVisit = appointmentId == null ? null : VisitDal.GetVisitByApptId(appointmentId.Value);
+
+        this.manageVisitDetailsPageViewModel = selectedVisit == null
+            ? new ManageVisitDetailsPageViewModel(null, appointmentId.Value)
+            : new ManageVisitDetailsPageViewModel(selectedVisit, null);
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();
@@ -50,6 +50,14 @@ public partial class ManageVisitDetailsPage : Form
         this.selectedTestListBox.DataSource = this.manageVisitDetailsPageViewModel.SelectedTests;
 
         this.apptIdCmbBox.SelectedIndexChanged += this.apptIdCmbBox_SelectedIndexChanged;
+
+        this.nurseIdTextLabel.Text = this.manageVisitDetailsPageViewModel.NurseFullName;
+    }
+
+    public ManageVisitDetailsPage(Visit? selectedVisit)
+    {
+        this.InitializeComponent();
+
     }
 
     #endregion
