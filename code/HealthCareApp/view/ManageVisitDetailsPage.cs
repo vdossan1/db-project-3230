@@ -38,7 +38,7 @@ public partial class ManageVisitDetailsPage : Form
             ? new ManageVisitDetailsPageViewModel()
             : new ManageVisitDetailsPageViewModel(selectedVisit);
 
-        this.nurseIdTextLabel.Text = nurseFullName;
+        this.nurseIdTextLabel.Text = LoggedUser.FullName;
         this.manageVisitDetailsPageViewModel.NurseId = selectedVisit == null ? NurseDal.GetIdFromUsername(username): selectedVisit.NurseId;
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
@@ -97,7 +97,7 @@ public partial class ManageVisitDetailsPage : Form
 
         MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
         Hide();
-        this.Dispose(true);
+        this.Dispose();
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

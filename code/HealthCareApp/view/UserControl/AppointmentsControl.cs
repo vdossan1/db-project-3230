@@ -26,114 +26,21 @@ public partial class AppointmentsControl : UserControl
     public AppointmentsControl()
     {
         this.InitializeComponent();
-        this.SetUpPage();
 
-        this.bindVisitFields();
-    }
-
-    private void SetUpPage()
-    {
-        // Set up the data grid view
         this.appointmentsControlViewModel = new AppointmentsControlViewModel();
 
-        this.setUpOpenApptDataGridView();
-        this.setupClosedApptDataGridView();
-
-        // Set up the advanced search control
-        this.apptAdvancedSearchControl.SearchBtnClick += this.RefreshAppointmentsList;
-        this.apptAdvancedSearchControl.ClearBtnClick += this.RefreshAppointmentsList;
-
-        this.apptAdvancedSearchControl.SetDateTimeSearch();
-        this.apptAdvancedSearchControl.SetDatePickerStyle();
-    }
-
-    private void setupClosedApptDataGridView()
-    {
-        this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
-        this.closedApptDataGrid.SelectionChanged += this.closedApptDataGrid_SelectionChanged;
-
-        // Hide the columns that are not needed
-        this.closedApptDataGrid.Columns["AppointmentId"].Visible = false;
-        this.closedApptDataGrid.Columns["PatientId"].Visible = false;
-        this.closedApptDataGrid.Columns["DoctorId"].Visible = false;
-        this.closedApptDataGrid.Columns["PatientName"].Width = 150;
-        this.closedApptDataGrid.Columns["DoctorName"].Width = 150;
-        this.closedApptDataGrid.Columns["AppointmentDate"].Width = 200;
-        this.closedApptDataGrid.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-        // Rename main columns
-        this.closedApptDataGrid.Columns["PatientName"].HeaderText = "Patient Name";
-        this.closedApptDataGrid.Columns["DoctorName"].HeaderText = "Doctor Name";
-        this.closedApptDataGrid.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
-
-        this.closedApptDataGrid.ClearSelection();
-    }
-
-    private void setUpOpenApptDataGridView()
-    {
-        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
-        this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
-
-        // Hide the columns that are not needed
-        this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
-        this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
-        this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
-        this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
-        this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
-        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
-        this.appointmentsDataGridView.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-        // Rename main columns
-        this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
-        this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
-        this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
-
-        this.appointmentsDataGridView.ClearSelection();
-    }
-
-    private void bindVisitFields()
-    {
-        this.editAppointmentBtn.DataBindings.Add("Enabled", this.appointmentsControlViewModel, 
-            nameof(this.appointmentsControlViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.bloodPressureSysTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel,
-            nameof(this.appointmentsControlViewModel.BloodPressureSystolic), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.bloodPressureDiasTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel,
-            nameof(this.appointmentsControlViewModel.BloodPressureDiastolic), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.weightTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Weight), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.heightTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Height), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.pulseTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.PulseRate), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.bodyTempTxtField.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.BodyTemp), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.symptomsTxtBox.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Symptoms), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.initDiagnosesTxtBox.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.InitialDiagnoses), true, DataSourceUpdateMode.OnPropertyChanged);
-
-        this.finalDiagnosesTxtBox.DataBindings.Add(
-            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.FinalDiagnoses), true, DataSourceUpdateMode.OnPropertyChanged);
+        this.setUpPage();
+        this.bindVisitFields();
     }
 
     #endregion
 
-    #region Methods
+    #region Buttons
 
     private void createAppointmentBtn_Click(object sender, EventArgs e)
     {
         var createAppointmentPage = new ManageAppointmentPage(null);
-        createAppointmentPage.FormClosed += this.RefreshAppointmentsList;
+        createAppointmentPage.FormClosed += this.refreshAppointmentsList;
         createAppointmentPage.ShowDialog();
     }
 
@@ -143,12 +50,37 @@ public partial class AppointmentsControl : UserControl
         {
             var selectedAppointment = (Appointment)this.appointmentsDataGridView.SelectedRows[0].DataBoundItem;
             var editAppointmentPage = new ManageAppointmentPage(selectedAppointment);
-            editAppointmentPage.FormClosed += this.RefreshAppointmentsList;
+            editAppointmentPage.FormClosed += this.refreshAppointmentsList;
             editAppointmentPage.ShowDialog();
         }
     }
 
-    private void RefreshAppointmentsList(object sender, EventArgs e)
+    private void editVisitButton_Click(object sender, EventArgs e)
+    {
+        var createVisitPage = new ManageVisitDetailsPage(null, LoggedUser.Username);
+        // createVisitPage.FormClosed += this.RefreshVisitsList;
+        createVisitPage.ShowDialog();
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void setUpPage()
+    {
+        // Set up the data grid view
+        this.setUpOpenApptDataGridView();
+        this.setupClosedApptDataGridView();
+
+        // Set up the advanced search control
+        this.apptAdvancedSearchControl.SearchBtnClick += this.refreshAppointmentsList;
+        this.apptAdvancedSearchControl.ClearBtnClick += this.refreshAppointmentsList;
+
+        this.apptAdvancedSearchControl.SetDateTimeSearch();
+        this.apptAdvancedSearchControl.SetDatePickerStyle();
+    }
+
+    private void refreshAppointmentsList(object sender, EventArgs e)
     {
         if (e is SearchEventArgs searchArgs)
         {
@@ -159,7 +91,7 @@ public partial class AppointmentsControl : UserControl
             this.appointmentsControlViewModel.PopulateAppointments();
         }
 
-        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.Appointments;
+        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.OpenAppointments;
         this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
     }
 
@@ -207,23 +139,84 @@ public partial class AppointmentsControl : UserControl
         }
     }
 
-    
+    private void setUpOpenApptDataGridView()
+    {
+        this.appointmentsDataGridView.DataSource = this.appointmentsControlViewModel.OpenAppointments;
+        this.appointmentsDataGridView.SelectionChanged += this.AppointmentsDataGridView_SelectionChanged;
+
+        // Hide the columns that are not needed
+        this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
+        this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
+        this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
+        this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
+        this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
+        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
+        this.appointmentsDataGridView.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+        // Rename main columns
+        this.appointmentsDataGridView.Columns["PatientName"].HeaderText = "Patient Name";
+        this.appointmentsDataGridView.Columns["DoctorName"].HeaderText = "Doctor Name";
+        this.appointmentsDataGridView.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
+
+        this.appointmentsDataGridView.ClearSelection();
+    }
+
+    private void setupClosedApptDataGridView()
+    {
+        this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
+        this.closedApptDataGrid.SelectionChanged += this.closedApptDataGrid_SelectionChanged;
+
+        // Hide the columns that are not needed
+        this.closedApptDataGrid.Columns["AppointmentId"].Visible = false;
+        this.closedApptDataGrid.Columns["PatientId"].Visible = false;
+        this.closedApptDataGrid.Columns["DoctorId"].Visible = false;
+        this.closedApptDataGrid.Columns["PatientName"].Width = 150;
+        this.closedApptDataGrid.Columns["DoctorName"].Width = 150;
+        this.closedApptDataGrid.Columns["AppointmentDate"].Width = 200;
+        this.closedApptDataGrid.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+        // Rename main columns
+        this.closedApptDataGrid.Columns["PatientName"].HeaderText = "Patient Name";
+        this.closedApptDataGrid.Columns["DoctorName"].HeaderText = "Doctor Name";
+        this.closedApptDataGrid.Columns["AppointmentDate"].HeaderText = "Date of Appointment";
+
+        this.closedApptDataGrid.ClearSelection();
+    }
+
+    private void bindVisitFields()
+    {
+        this.editAppointmentBtn.DataBindings.Add("Enabled", this.appointmentsControlViewModel,
+            nameof(this.appointmentsControlViewModel.IsValid), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.bloodPressureSysTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel,
+            nameof(this.appointmentsControlViewModel.BloodPressureSystolic), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.bloodPressureDiasTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel,
+            nameof(this.appointmentsControlViewModel.BloodPressureDiastolic), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.weightTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Weight), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.heightTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Height), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.pulseTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.PulseRate), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.bodyTempTxtField.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.BodyTemp), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.symptomsTxtBox.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.Symptoms), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.initDiagnosesTxtBox.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.InitialDiagnoses), true, DataSourceUpdateMode.OnPropertyChanged);
+
+        this.finalDiagnosesTxtBox.DataBindings.Add(
+            "Text", this.appointmentsControlViewModel, nameof(this.appointmentsControlViewModel.FinalDiagnoses), true, DataSourceUpdateMode.OnPropertyChanged);
+    }
 
     #endregion
-
-    private void editVisitButton_Click(object sender, EventArgs e)
-    {
-        var selectedVisit = this.appointmentsControlViewModel.SelectedVisit;
-        if (selectedVisit != null)
-        {
-            var appointment = (Appointment)this.closedApptDataGrid.SelectedRows[0].DataBoundItem;
-            var apptId = appointment.AppointmentId;
-
-            if (selectedVisit.VisitId > 0)
-            {
-                var editVisitPage = new ManageVisitDetailsPage("nurse name", "nurse username", selectedVisit);
-                editVisitPage.ShowDialog();
-            }
-        }
-    }
 }

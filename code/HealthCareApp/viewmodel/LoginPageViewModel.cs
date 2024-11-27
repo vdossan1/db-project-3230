@@ -1,4 +1,5 @@
 ﻿using HealthCareApp.DAL;
+using HealthCareApp.model;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -43,8 +44,8 @@ public class LoginPageViewModel
     /// <param name="username">The username of the authenticated user.</param>
     public void StoreLoginCredentials(string username)
     {
-        this.Username = username;
-        this.UserFullName = LoginCredentialDal.GetFullName(username);
+        LoggedUser.Username = username;
+        LoggedUser.FullName = LoginCredentialDal.GetFullName(username);
     }
 
     #endregion

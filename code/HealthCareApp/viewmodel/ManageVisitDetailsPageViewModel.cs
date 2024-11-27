@@ -517,7 +517,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         return Regex.IsMatch(heightString, pattern);
     }
 
-    private bool IsValidBodyTemperature(string bodyTempString)
+    private bool isValidBodyTemperature(string bodyTempString)
     {
         // Regex to validate body temperature
         string pattern = @"^\d{1,3}(\.\d{1,2})?$";
@@ -580,7 +580,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             this.IsValid = false;
         }
 
-        if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
+        if (this.isValidBodyTemperature(this.BodyTemp.ToString()) == false)
         {
             this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
             this.IsValid = false;
@@ -589,12 +589,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         if (string.IsNullOrWhiteSpace(this.Symptoms))
         {
             this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
-            this.IsValid = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
-        {
-            this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
             this.IsValid = false;
         }
     }
