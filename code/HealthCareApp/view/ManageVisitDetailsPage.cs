@@ -4,7 +4,6 @@ using HealthCareApp.utils;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
-using System.Diagnostics;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -19,7 +18,6 @@ public partial class ManageVisitDetailsPage : Form
 
     private readonly ManageVisitDetailsPageViewModel manageVisitDetailsPageViewModel;
 
-    private const string CREATE_VISIT = "Create";
     private const string EDIT_VISIT = "Edit";
 
     private PageAction pageAction;
@@ -32,15 +30,15 @@ public partial class ManageVisitDetailsPage : Form
     ///     Initializes a new instance of the <see cref="ManageVisitDetailsPage" /> class and sets up the data grid and event
     ///     handlers.
     /// </summary>
-    public ManageVisitDetailsPage(string nurseFullName, string username, Visit? selectedVisit = null)
+    public ManageVisitDetailsPage(int? appointmentId = null)
     {
         this.InitializeComponent();
-        this.manageVisitDetailsPageViewModel = selectedVisit == null
-            ? new ManageVisitDetailsPageViewModel()
-            : new ManageVisitDetailsPageViewModel(selectedVisit);
 
-        this.nurseIdTextLabel.Text = nurseFullName;
-        this.manageVisitDetailsPageViewModel.NurseId = selectedVisit.NurseId;
+        var selectedVisit = appointmentId == null ? null : VisitDal.GetVisitByApptId(appointmentId.Value);
+
+        this.manageVisitDetailsPageViewModel = selectedVisit == null
+            ? new ManageVisitDetailsPageViewModel(null, appointmentId.Value)
+            : new ManageVisitDetailsPageViewModel(selectedVisit, null);
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();
@@ -52,25 +50,19 @@ public partial class ManageVisitDetailsPage : Form
         this.selectedTestListBox.DataSource = this.manageVisitDetailsPageViewModel.SelectedTests;
 
         this.apptIdCmbBox.SelectedIndexChanged += this.apptIdCmbBox_SelectedIndexChanged;
+
+        this.nurseIdTextLabel.Text = this.manageVisitDetailsPageViewModel.NurseFullName;
     }
 
-    private void SetEditPageAttributes()
+    public ManageVisitDetailsPage(Visit? selectedVisit)
     {
-        if (this.pageAction == PageAction.EDIT)
-        {
-            this.manageVisitDetailsPageViewModel.PopulateFields();
-            Text = EDIT_VISIT + " Visit Info";
-            this.saveButton.Text = EDIT_VISIT;
-            this.apptIdCmbBox.Enabled = false;
+        this.InitializeComponent();
 
-            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
-            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
-        }
     }
 
     #endregion
 
-    #region Methods
+    #region Controls
 
     private void saveButton_Click(object sender, EventArgs e)
     {
@@ -98,7 +90,7 @@ public partial class ManageVisitDetailsPage : Form
 
         MessageBox.Show(messageText, messageCaption, MessageBoxButtons.OK, messageIcon);
         Hide();
-        this.Dispose(true);
+        this.Dispose();
     }
 
     private void cancelButton_Click(object sender, EventArgs e)
@@ -146,6 +138,35 @@ public partial class ManageVisitDetailsPage : Form
 
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();
+    }
+
+    private void apptIdCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // Update the ViewModel's AppointmentId property when combo box selection changes
+        if (this.apptIdCmbBox.SelectedItem is int selectedAppointmentId)
+        {
+            this.manageVisitDetailsPageViewModel.AppointmentId = selectedAppointmentId;
+            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
+            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
+        }
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void SetEditPageAttributes()
+    {
+        if (this.pageAction == PageAction.EDIT)
+        {
+            this.manageVisitDetailsPageViewModel.PopulateFields();
+            Text = EDIT_VISIT + " Visit Info";
+            this.saveButton.Text = EDIT_VISIT;
+            this.apptIdCmbBox.Enabled = false;
+
+            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
+            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
+        }
     }
 
     private void SortBindingList(BindingList<string> bindingList)
@@ -274,15 +295,4 @@ public partial class ManageVisitDetailsPage : Form
     }
 
     #endregion
-
-    private void apptIdCmbBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // Update the ViewModel's AppointmentId property when combo box selection changes
-        if (this.apptIdCmbBox.SelectedItem is int selectedAppointmentId)
-        {
-            this.manageVisitDetailsPageViewModel.AppointmentId = selectedAppointmentId;
-            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
-            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
-        }
-    }
 }

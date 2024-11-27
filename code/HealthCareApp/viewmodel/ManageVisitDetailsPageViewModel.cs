@@ -19,6 +19,10 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     private int appointmentId;
 
+    private string doctorFullName;
+
+    private string patientFullName;
+
     private int nurseId;
 
     private int bloodPressureSystolic;
@@ -39,6 +43,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     private string finalDiagnoses;
 
+    private bool allowFinalDiag;
+
     #endregion
 
     #region Properties
@@ -54,8 +60,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     /// </summary>
     public int[] ApptIdsArray => this.apptIdList.ToArray();
 
-    private string patientFullName;
-
     public string PatientFullName
     {
         get => this.patientFullName;
@@ -69,8 +73,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
     }
 
-    private string doctorFullName;
-
     public string DoctorFullName
     {
         get => this.doctorFullName;
@@ -80,6 +82,21 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 this.doctorFullName = value;
                 this.OnPropertyChanged(nameof(this.doctorFullName));
+            }
+        }
+    }
+
+    private string nurseFullName;
+
+    public string NurseFullName
+    {
+        get => this.nurseFullName;
+        set
+        {
+            if (this.nurseFullName != value)
+            {
+                this.nurseFullName = value;
+                this.OnPropertyChanged(nameof(this.PatientFullName));
             }
         }
     }
@@ -268,6 +285,300 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
+    ///     Determines if the data entered by the user is valid.
+    /// </summary>
+    public bool IsValid { get; private set; }
+
+    public bool AllowFinalDiag
+    {
+        get => this.allowFinalDiag;
+        set
+        {
+            if (this.allowFinalDiag != value)
+            {
+                this.allowFinalDiag = value;
+                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
+            }
+        }
+    }
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ManageVisitDetailsPageViewModel" /> class.
+    /// </summary>
+    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null, int? apptId = null)
+    {
+        this.ValidationErrors = new Dictionary<string, string>();
+        this.LabTests = new BindingList<string>();
+        this.SelectedTests = new BindingList<string>();
+
+        this.SelectedVisit = selectedVisit;
+
+        //this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
+        if (apptId != null)
+        {
+            this.AppointmentId = apptId.Value;
+            this.apptIdList = [this.AppointmentId];
+        }
+
+        this.NurseId = NurseDal.GetIdFromUsername(LoggedUser.Username);
+        this.nurseFullName = LoggedUser.FullName;
+
+        this.PopulateListBoxes();
+        this.disableFinalDiagIfTestSelected();
+    }
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    ///     Occurs when a property value changes.
+    /// </summary>
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    ///     Raises the <see cref="PropertyChanged" /> event for a property.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.ValidateFields();
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    ///     Saves the visit details to the database.
+    /// </summary>
+    public void SaveVisitDetails()
+    {
+        var newVisit = new Visit(this.AppointmentId, this.NurseId, this.BloodPressureSystolic,
+            this.BloodPressureDiastolic, this.BodyTemp, this.Weight, this.Height, this.PulseRate, this.Symptoms,
+            this.InitialDiagnoses, this.FinalDiagnoses);
+
+        if (this.SelectedVisit == null)
+        {
+            VisitDal.CreateVisit(newVisit);
+        }
+        else
+        {
+            newVisit.VisitId = this.SelectedVisit.VisitId;
+            VisitDal.EditVisit(newVisit);
+        }
+    }
+
+    public void CreateLabTestResults()
+    {
+        var testCodes = new List<int>();
+        var labTestResultTestCodes = new List<int>();
+
+        foreach (var testName in this.SelectedTests)
+        {
+            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
+            testCodes.Add(testCode);
+        }
+
+        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
+        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
+
+        foreach (var labTestResult in labTestResults)
+        {
+            labTestResultTestCodes.Add(labTestResult.TestCode);
+        }
+
+        foreach (var testCode in testCodes)
+        {
+            if (!labTestResultTestCodes.Contains(testCode))
+            {
+                var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+                LabTestResultDal.CreateLabTestResult(newLabTestResult);
+            }
+        }
+    }
+
+    public void PopulateFields()
+    {
+        this.apptIdList = [this.SelectedVisit.AppointmentId];
+
+        if (this.SelectedVisit != null)
+        {
+            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
+            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
+        }
+
+        this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
+        this.BloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
+        this.Weight = this.SelectedVisit.Weight;
+        this.Height = this.SelectedVisit.Height;
+        this.PulseRate = this.SelectedVisit.PulseRate;
+        this.BodyTemp = this.SelectedVisit.BodyTemp;
+        this.Symptoms = this.SelectedVisit.Symptoms;
+        this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
+        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
+    }
+
+    public void disableFinalDiagIfTestSelected()
+    {
+        if (this.checkTestsComplete())
+        {
+            this.AllowFinalDiag = true;
+        }
+        else
+        {
+            this.AllowFinalDiag = this.SelectedTests.Count == 0;
+        }
+    }
+
+    private bool checkTestsComplete()
+    {
+        bool result = true;
+
+        if (this.SelectedVisit != null)
+        {
+            List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
+
+            foreach (var testResult in labTests)
+            {
+                if (testResult.Status == false)
+                {
+                    result = false;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private void PopulateListBoxes()
+    {
+        this.PopulateAvailableTests();
+
+        if (this.SelectedVisit != null)
+        {
+            this.PopulateSelectedTests();
+        }
+    }
+
+    private void PopulateAvailableTests()
+    {
+        this.LabTests = LabTestDal.GetAllTestsName();
+    }
+
+    private void PopulateSelectedTests()
+    {
+        var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
+
+        foreach (var test in labTestsForVisit)
+        {
+            this.SelectedTests.Add(test);
+            this.LabTests.Remove(test);
+        }
+    }
+
+    #endregion
+
+    #region Field Validation
+
+    private bool isValidWeight(string weightString)
+    {
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
+        return Regex.IsMatch(weightString, pattern);
+    }
+
+    private bool isValidHeight(string heightString)
+    {
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
+        return Regex.IsMatch(heightString, pattern);
+    }
+
+    private bool isValidBodyTemperature(string bodyTempString)
+    {
+        // Regex to validate body temperature
+        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
+        return Regex.IsMatch(bodyTempString, pattern);
+    }
+
+    /// <summary>
+    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
+    /// </summary>
+    public void ValidateFields()
+    {
+        this.ValidationErrors.Clear();
+        this.IsValid = true;
+
+        if (this.BloodPressureSystolic == 0)
+        {
+            this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.BloodPressureDiastolic == 0)
+        {
+            this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.Weight == 0)
+        {
+            this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidWeight(this.Weight.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
+            this.IsValid = false;
+        }
+
+        if (this.Height == 0)
+        {
+            this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidHeight(this.Height.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
+            this.IsValid = false;
+        }
+
+        if (this.PulseRate == 0)
+        {
+            this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.BodyTemp == 0)
+        {
+            this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
+            this.IsValid = false;
+        }
+
+        if (this.isValidBodyTemperature(this.BodyTemp.ToString()) == false)
+        {
+            this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
+            this.IsValid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(this.Symptoms))
+        {
+            this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
+            this.IsValid = false;
+        }
+    }
+
+    #endregion
+
+    #region Validation Properties
+
+    /// <summary>
     ///     Gets the dictionary of validation error messages for form fields.
     /// </summary>
     public Dictionary<string, string> ValidationErrors { get; }
@@ -337,288 +648,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     public string InitialDiagValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.InitialDiagnoses))
         ? this.ValidationErrors[nameof(this.InitialDiagnoses)]
         : string.Empty;
-
-    /// <summary>
-    ///     Determines if the data entered by the user is valid.
-    /// </summary>
-    public bool IsValid { get; private set; }
-
-
-    private bool allowFinalDiag;
-
-    public bool AllowFinalDiag
-    {
-        get => this.allowFinalDiag;
-        set
-        {
-            if (this.allowFinalDiag != value)
-            {
-                this.allowFinalDiag = value;
-                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
-            }
-        }
-    }
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ManageVisitDetailsPageViewModel" /> class.
-    /// </summary>
-    public ManageVisitDetailsPageViewModel(Visit? selectedVisit = null)
-    {
-        this.SelectedVisit = selectedVisit;
-        this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
-        this.ValidationErrors = new Dictionary<string, string>();
-
-        this.LabTests = new BindingList<string>();
-        this.SelectedTests = new BindingList<string>();
-        this.PopulateListBoxes();
-
-        this.disableFinalDiagIfTestSelected();
-    }
-
-    #endregion
-
-    #region Methods
-
-    public void disableFinalDiagIfTestSelected()
-    {
-        if (this.checkTestsComplete())
-        {
-            this.AllowFinalDiag = true;
-        }
-        else
-        {
-            this.AllowFinalDiag = this.SelectedTests.Count == 0;
-        }
-    }
-
-    private bool checkTestsComplete()
-    {
-        bool result = true;
-
-        if (this.SelectedVisit != null)
-        {
-            List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
-
-            foreach (var testResult in labTests)
-            {
-                if (testResult.Status == false)
-                {
-                    result = false;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private void PopulateListBoxes()
-    {
-        this.PopulateAvailableTests();
-
-        if (this.SelectedVisit != null)
-        {
-            this.PopulateSelectedTests();
-        }
-    }
-
-    private void PopulateAvailableTests()
-    {
-        this.LabTests = LabTestDal.GetAllTestsName();
-    }
-
-    private void PopulateSelectedTests()
-    {
-        var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
-
-        foreach (var test in labTestsForVisit)
-        {
-            this.SelectedTests.Add(test);
-            this.LabTests.Remove(test);
-        }
-    }
-
-    /// <summary>
-    ///     Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    /// <summary>
-    ///     Raises the <see cref="PropertyChanged" /> event for a property.
-    /// </summary>
-    /// <param name="propertyName">The name of the property that changed.</param>
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        this.ValidateFields();
-    }
-
-    /// <summary>
-    ///     Saves the visit details to the database.
-    /// </summary>
-    public void SaveVisitDetails()
-    {
-        var newVisit = new Visit(this.AppointmentId, this.NurseId, this.BloodPressureSystolic,
-            this.BloodPressureDiastolic, this.BodyTemp, this.Weight, this.Height, this.PulseRate, this.Symptoms,
-            this.InitialDiagnoses, this.FinalDiagnoses);
-
-        if (this.SelectedVisit == null)
-        {
-            VisitDal.CreateVisit(newVisit);
-        }
-        else
-        {
-            newVisit.VisitId = this.SelectedVisit.VisitId;
-            VisitDal.EditVisit(newVisit);
-        }
-    }
-
-    public void CreateLabTestResults()
-    {
-        var testCodes = new List<int>();
-        var labTestResultTestCodes = new List<int>();
-
-		foreach (var testName in this.SelectedTests)
-        {
-            var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
-            testCodes.Add(testCode);
-        }
-
-        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
-        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
-        
-        foreach (var labTestResult in labTestResults)
-        {
-			labTestResultTestCodes.Add(labTestResult.TestCode);
-		}
-
-        foreach (var testCode in testCodes)
-        {
-	        if (!labTestResultTestCodes.Contains(testCode))
-	        {
-		        var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-		        LabTestResultDal.CreateLabTestResult(newLabTestResult);
-	        }
-		}
-    }
-
-    private bool isValidWeight(string weightString)
-    {
-        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
-        return Regex.IsMatch(weightString, pattern);
-    }
-
-    private bool isValidHeight(string heightString)
-    {
-        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
-        return Regex.IsMatch(heightString, pattern);
-    }
-
-    private bool IsValidBodyTemperature(string bodyTempString)
-    {
-        // Regex to validate body temperature
-        string pattern = @"^\d{1,3}(\.\d{1,2})?$";
-        return Regex.IsMatch(bodyTempString, pattern);
-    }
-
-    /// <summary>
-    ///     Validates the fields and updates the <see cref="ValidationErrors" /> dictionary with any validation errors.
-    /// </summary>
-    public void ValidateFields()
-    {
-        this.ValidationErrors.Clear();
-        this.IsValid = true;
-
-        if (this.BloodPressureSystolic == 0)
-        {
-            this.ValidationErrors[nameof(this.BloodPressureSystolic)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.BloodPressureDiastolic == 0)
-        {
-            this.ValidationErrors[nameof(this.BloodPressureDiastolic)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.Weight == 0)
-        {
-            this.ValidationErrors[nameof(this.Weight)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.isValidWeight(this.Weight.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.Weight)] = INVALID_WEIGHT;
-            this.IsValid = false;
-        }
-
-        if (this.Height == 0)
-        {
-            this.ValidationErrors[nameof(this.Height)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.isValidHeight(this.Height.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.Height)] = INVALID_HEIGHT;
-            this.IsValid = false;
-        }
-
-        if (this.PulseRate == 0)
-        {
-            this.ValidationErrors[nameof(this.PulseRate)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.BodyTemp == 0)
-        {
-            this.ValidationErrors[nameof(this.BodyTemp)] = CANNOT_BE_ZERO;
-            this.IsValid = false;
-        }
-
-        if (this.IsValidBodyTemperature(this.BodyTemp.ToString()) == false)
-        {
-            this.ValidationErrors[nameof(this.BodyTemp)] = INVALID_TEMP;
-            this.IsValid = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(this.Symptoms))
-        {
-            this.ValidationErrors[nameof(this.Symptoms)] = REQUIRED_FIELD;
-            this.IsValid = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(this.InitialDiagnoses))
-        {
-            this.ValidationErrors[nameof(this.InitialDiagnoses)] = REQUIRED_FIELD;
-            this.IsValid = false;
-        }
-    }
-
-    public void PopulateFields()
-    {
-        if (this.SelectedVisit != null)
-        {
-            this.apptIdList = [this.SelectedVisit.AppointmentId];
-
-            this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.SelectedVisit.AppointmentId);
-            this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.SelectedVisit.AppointmentId);
-        }
-
-        this.BloodPressureSystolic = this.SelectedVisit.BloodPressureSystolic;
-        this.bloodPressureDiastolic = this.SelectedVisit.BloodPressureDiastolic;
-        this.Weight = this.SelectedVisit.Weight;
-        this.Height = this.SelectedVisit.Height;
-        this.PulseRate = this.SelectedVisit.PulseRate;
-        this.BodyTemp = this.SelectedVisit.BodyTemp;
-        this.Symptoms = this.SelectedVisit.Symptoms;
-        this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
-        this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
-    }
 
     #endregion
 }
