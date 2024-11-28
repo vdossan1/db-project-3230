@@ -55,11 +55,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     public BindingList<string> SelectedTests { get; private set; }
 
-    /// <summary>
-    ///     Gets the array of appointment IDs with no associated visits.
-    /// </summary>
-    public int[] ApptIdsArray => this.apptIdList.ToArray();
-
     public string PatientFullName
     {
         get => this.patientFullName;
@@ -102,6 +97,24 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
+    ///     Determines if the data entered by the user is valid.
+    /// </summary>
+    public bool IsValid { get; private set; }
+
+    public bool AllowFinalDiag
+    {
+        get => this.allowFinalDiag;
+        set
+        {
+            if (this.allowFinalDiag != value)
+            {
+                this.allowFinalDiag = value;
+                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
+            }
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the appointment ID for the visit.
     /// </summary>
     public int AppointmentId
@@ -113,15 +126,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             {
                 this.appointmentId = value;
                 this.OnPropertyChanged(nameof(this.AppointmentId));
-                this.onAppointmentIdChanged();
             }
         }
-    }
-
-    private void onAppointmentIdChanged()
-    {
-        this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.AppointmentId);
-        this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.AppointmentId);
     }
 
     /// <summary>
@@ -139,6 +145,27 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    private bool isVisitClosed;
+
+    public bool IsVisitClosed
+    {
+        get => this.isVisitClosed;
+        set
+        {
+            if (this.isVisitClosed != value)
+            {
+                this.isVisitClosed = value;
+                this.OnPropertyChanged(nameof(this.IsVisitClosed));
+            }
+        }
+    }
+
+    public bool AllowSave => !this.isVisitClosed && this.IsValid;
+
+    #endregion
+
+    #region Fillable Fields
 
     /// <summary>
     ///     Gets or sets the systolic blood pressure for the visit.
@@ -284,24 +311,6 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    ///     Determines if the data entered by the user is valid.
-    /// </summary>
-    public bool IsValid { get; private set; }
-
-    public bool AllowFinalDiag
-    {
-        get => this.allowFinalDiag;
-        set
-        {
-            if (this.allowFinalDiag != value)
-            {
-                this.allowFinalDiag = value;
-                this.OnPropertyChanged(nameof(this.AllowFinalDiag));
-            }
-        }
-    }
-
     #endregion
 
     #region Constructors
@@ -325,10 +334,24 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         }
 
         this.NurseId = NurseDal.GetIdFromUsername(LoggedUser.Username);
-        this.nurseFullName = LoggedUser.FullName;
+        this.NurseFullName = LoggedUser.FullName;
+        this.PatientFullName = PatientDal.GetPatientNameWithApptId(this.AppointmentId);
+        this.DoctorFullName = DoctorDal.GetDoctorNameWithApptId(this.AppointmentId);
+
 
         this.PopulateListBoxes();
+
         this.disableFinalDiagIfTestSelected();
+        this.disableAllControlsIfTestClosed();
+    }
+
+    private void disableAllControlsIfTestClosed()
+    {
+        if (this.IsValid && this.checkTestsComplete() && !string.IsNullOrWhiteSpace(this.FinalDiagnoses))
+        {
+            this.AllowFinalDiag = false;
+            this.IsVisitClosed = true;
+        }
     }
 
     #endregion
@@ -422,6 +445,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.Symptoms = this.SelectedVisit.Symptoms;
         this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
         this.finalDiagnoses = this.SelectedVisit.FinalDiagnoses;
+
+        this.disableAllControlsIfTestClosed();
     }
 
     public void disableFinalDiagIfTestSelected()

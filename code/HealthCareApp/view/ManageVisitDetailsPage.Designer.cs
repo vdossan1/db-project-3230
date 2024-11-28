@@ -52,8 +52,6 @@
             nurseIdTextLabel = new Label();
             saveButton = new Button();
             cancelButton = new Button();
-            apptIdCmbBox = new ComboBox();
-            apptIdErrorLabel = new Label();
             bloodPressSysErrorLabel = new Label();
             bloodPressDiasErrorLabel = new Label();
             weightErrorLabel = new Label();
@@ -76,6 +74,7 @@
             patientFnameLnameLabel = new Label();
             doctorNameLabel = new Label();
             drFnameLnameLabel = new Label();
+            appointmentIdText = new Label();
             SuspendLayout();
             // 
             // apptIdLabel
@@ -288,26 +287,6 @@
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
-            // 
-            // apptIdCmbBox
-            // 
-            apptIdCmbBox.FormattingEnabled = true;
-            apptIdCmbBox.Location = new Point(486, 33);
-            apptIdCmbBox.Name = "apptIdCmbBox";
-            apptIdCmbBox.Size = new Size(124, 33);
-            apptIdCmbBox.TabIndex = 0;
-            apptIdCmbBox.SelectedIndexChanged += apptIdCmbBox_SelectedIndexChanged;
-            // 
-            // apptIdErrorLabel
-            // 
-            apptIdErrorLabel.AutoSize = true;
-            apptIdErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            apptIdErrorLabel.ForeColor = Color.Red;
-            apptIdErrorLabel.Location = new Point(486, 68);
-            apptIdErrorLabel.Name = "apptIdErrorLabel";
-            apptIdErrorLabel.Size = new Size(155, 25);
-            apptIdErrorLabel.TabIndex = 24;
-            apptIdErrorLabel.Text = "apptIdErrorLabel";
             // 
             // bloodPressSysErrorLabel
             // 
@@ -527,11 +506,21 @@
             drFnameLnameLabel.TabIndex = 46;
             drFnameLnameLabel.Text = "fname lname";
             // 
+            // appointmentIdText
+            // 
+            appointmentIdText.AutoSize = true;
+            appointmentIdText.Location = new Point(498, 37);
+            appointmentIdText.Name = "appointmentIdText";
+            appointmentIdText.Size = new Size(137, 25);
+            appointmentIdText.TabIndex = 47;
+            appointmentIdText.Text = "appointment_id";
+            // 
             // ManageVisitDetailsPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1434, 1582);
+            Controls.Add(appointmentIdText);
             Controls.Add(drFnameLnameLabel);
             Controls.Add(doctorNameLabel);
             Controls.Add(patientFnameLnameLabel);
@@ -554,8 +543,6 @@
             Controls.Add(weightErrorLabel);
             Controls.Add(bloodPressDiasErrorLabel);
             Controls.Add(bloodPressSysErrorLabel);
-            Controls.Add(apptIdErrorLabel);
-            Controls.Add(apptIdCmbBox);
             Controls.Add(cancelButton);
             Controls.Add(saveButton);
             Controls.Add(nurseIdTextLabel);
@@ -613,8 +600,6 @@
         private Label nurseIdTextLabel;
         public Button saveButton;
         private Button cancelButton;
-        private ComboBox apptIdCmbBox;
-        private Label apptIdErrorLabel;
         private Label bloodPressSysErrorLabel;
         private Label bloodPressDiasErrorLabel;
         private Label weightErrorLabel;
@@ -637,5 +622,6 @@
         private Label patientFnameLnameLabel;
         private Label doctorNameLabel;
         private Label drFnameLnameLabel;
+        private Label appointmentIdText;
     }
 }

@@ -35,10 +35,7 @@ public partial class ManageVisitDetailsPage : Form
         this.InitializeComponent();
 
         var selectedVisit = appointmentId == null ? null : VisitDal.GetVisitByApptId(appointmentId.Value);
-
-        this.manageVisitDetailsPageViewModel = selectedVisit == null
-            ? new ManageVisitDetailsPageViewModel(null, appointmentId.Value)
-            : new ManageVisitDetailsPageViewModel(selectedVisit, null);
+        this.manageVisitDetailsPageViewModel = new ManageVisitDetailsPageViewModel(selectedVisit, appointmentId.Value);
 
         this.pageAction = selectedVisit == null ? PageAction.REGISTER : PageAction.EDIT;
         this.SetEditPageAttributes();
@@ -49,15 +46,24 @@ public partial class ManageVisitDetailsPage : Form
         this.availableTestListBox.DataSource = this.manageVisitDetailsPageViewModel.LabTests;
         this.selectedTestListBox.DataSource = this.manageVisitDetailsPageViewModel.SelectedTests;
 
-        this.apptIdCmbBox.SelectedIndexChanged += this.apptIdCmbBox_SelectedIndexChanged;
+        this.appointmentIdText.Text = appointmentId.ToString();
+        this.nurseIdTextLabel.Text = LoggedUser.FullName;
 
-        this.nurseIdTextLabel.Text = this.manageVisitDetailsPageViewModel.NurseFullName;
+        this.disableAllControlsIfVisitClosed();
     }
 
-    public ManageVisitDetailsPage(Visit? selectedVisit)
+    private void disableAllControlsIfVisitClosed()
     {
-        this.InitializeComponent();
+        if (this.manageVisitDetailsPageViewModel.IsVisitClosed)
+        {
+            foreach (Control control in Controls)
+            {
+                control.Enabled = false;
+            }
 
+            this.cancelButton.Enabled = true;
+            this.saveButton.Enabled = false;
+        }
     }
 
     #endregion
@@ -140,17 +146,6 @@ public partial class ManageVisitDetailsPage : Form
         this.selectedTestListBox.ClearSelected();
     }
 
-    private void apptIdCmbBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // Update the ViewModel's AppointmentId property when combo box selection changes
-        if (this.apptIdCmbBox.SelectedItem is int selectedAppointmentId)
-        {
-            this.manageVisitDetailsPageViewModel.AppointmentId = selectedAppointmentId;
-            this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
-            this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
-        }
-    }
-
     #endregion
 
     #region Methods
@@ -162,7 +157,6 @@ public partial class ManageVisitDetailsPage : Form
             this.manageVisitDetailsPageViewModel.PopulateFields();
             Text = EDIT_VISIT + " Visit Info";
             this.saveButton.Text = EDIT_VISIT;
-            this.apptIdCmbBox.Enabled = false;
 
             this.patientFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.PatientFullName;
             this.drFnameLnameLabel.Text = this.manageVisitDetailsPageViewModel.DoctorFullName;
@@ -191,12 +185,14 @@ public partial class ManageVisitDetailsPage : Form
 
     private void BindControls()
     {
-        this.apptIdCmbBox.DataSource = this.manageVisitDetailsPageViewModel.ApptIdsArray;
-        this.apptIdCmbBox.SelectedItem = null;
+        this.patientFnameLnameLabel.DataBindings.Add(
+            "Text", this.manageVisitDetailsPageViewModel,
+            nameof(this.manageVisitDetailsPageViewModel.PatientFullName), true,
+            DataSourceUpdateMode.OnPropertyChanged);
 
-        this.apptIdCmbBox.DataBindings.Add(
-            "SelectedItem", this.manageVisitDetailsPageViewModel,
-            nameof(this.manageVisitDetailsPageViewModel.AppointmentId), true,
+        this.drFnameLnameLabel.DataBindings.Add(
+            "Text", this.manageVisitDetailsPageViewModel,
+            nameof(this.manageVisitDetailsPageViewModel.DoctorFullName), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.bloodPressureSysTxtField.DataBindings.Add(
@@ -245,22 +241,12 @@ public partial class ManageVisitDetailsPage : Form
             DataSourceUpdateMode.OnPropertyChanged);
 
         this.saveButton.DataBindings.Add(
-            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.IsValid), true,
+            "Enabled", this.manageVisitDetailsPageViewModel, nameof(this.manageVisitDetailsPageViewModel.AllowSave), true,
             DataSourceUpdateMode.OnPropertyChanged);
-
-        /*this.patientFnameLnameLabel.DataBindings.Add("Text", this.manageVisitDetailsPageViewModel,
-            nameof(this.manageVisitDetailsPageViewModel.PatientFullName));
-
-        this.patientFnameLnameLabel.DataBindings.Add("Text", this.manageVisitDetailsPageViewModel,
-            nameof(this.manageVisitDetailsPageViewModel.DoctorFullName));*/
     }
 
     private void BindValidationMessages()
     {
-        this.apptIdErrorLabel.DataBindings.Add(
-            "Text", this.manageVisitDetailsPageViewModel,
-            nameof(this.manageVisitDetailsPageViewModel.AppointmentIdValidationMessage));
-
         this.bloodPressSysErrorLabel.DataBindings.Add(
             "Text", this.manageVisitDetailsPageViewModel,
             nameof(this.manageVisitDetailsPageViewModel.BloodPressureSysValidationMessage));
