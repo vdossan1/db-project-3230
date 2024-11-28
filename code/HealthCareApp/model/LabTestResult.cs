@@ -44,7 +44,7 @@ namespace HealthCareApp.model
         /// <summary>
         ///     Gets or sets the status of the LabTestResult (active or inactive).
         /// </summary>
-        public bool Status { get; }
+        public bool Status { get; set;  }
 
         #endregion
 

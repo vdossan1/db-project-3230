@@ -20,7 +20,7 @@ namespace HealthCareApp.view
 
             this.manageLabTestResultViewModel = selectedLabTestResult == null ? new ManageLabTestResultViewModel() : new ManageLabTestResultViewModel(selectedLabTestResult);
             this.manageLabTestResultViewModel.ErrorOccured += this.ErrorOccured;
-
+            
             this.manageLabTestResultViewModel.PopulateFields();
 
             this.BindControls();
@@ -69,9 +69,6 @@ namespace HealthCareApp.view
 
         private void BindControls()
         {
-            this.normalityComboBox.DataSource = this.manageLabTestResultViewModel.NormalityArray;
-            this.normalityComboBox.SelectedItem = null;
-
             this.testCodeLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestCode.ToString();
             this.testNameLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.TestName;
             this.highValueLabel.Text = this.manageLabTestResultViewModel.SelectedLabTest.HighValue.ToString();
@@ -83,8 +80,8 @@ namespace HealthCareApp.view
                 "Text", this.manageLabTestResultViewModel, nameof(this.manageLabTestResultViewModel.TestResult), true,
                 DataSourceUpdateMode.OnPropertyChanged);
 
-            this.normalityComboBox.DataBindings.Add(
-                "SelectedItem", this.manageLabTestResultViewModel,
+            this.normalityText.DataBindings.Add(
+                "Text", this.manageLabTestResultViewModel,
                 nameof(this.manageLabTestResultViewModel.ResultNormality), true,
                 DataSourceUpdateMode.OnPropertyChanged);
 
@@ -108,15 +105,17 @@ namespace HealthCareApp.view
                 "Text", this.manageLabTestResultViewModel,
                 nameof(this.manageLabTestResultViewModel.TestResultValidationMessage));
 
-            this.normalityErrorLabel.DataBindings.Add(
-                "Text", this.manageLabTestResultViewModel,
-                nameof(this.manageLabTestResultViewModel.ResultNormalityValidationMessage));
-
             this.dateErrorLabel.DataBindings.Add(
                 "Text", this.manageLabTestResultViewModel,
                 nameof(this.manageLabTestResultViewModel.DatePerformedValidationMessage));
         }
 
         #endregion
+
+        private void resultTextBox_Leave(object sender, EventArgs e)
+        {
+            this.manageLabTestResultViewModel.ResultUpdated();
+            this.manageLabTestResultViewModel.PopulateFields();
+        }
     }
 }

@@ -4,6 +4,7 @@ using HealthCareApp.utils;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -30,11 +31,6 @@ namespace HealthCareApp.viewmodel
 
         #region Properties
 
-        /// <summary>
-        ///     Gets an array of all possible states as defined in the <see cref="Normality" /> enumeration.
-        /// </summary>
-        public string[] NormalityArray => Enum.GetNames(typeof(Normality));
-
         public LabTestResult? SelectedLabTestResult { get; set; }
 
         public LabTest? SelectedLabTest { get; set; }
@@ -52,6 +48,7 @@ namespace HealthCareApp.viewmodel
                 if (this.testResult != value)
                 {
                     this.testResult = value;
+                    this.SelectedLabTestResult.TestResult = value;
                     this.OnPropertyChanged(nameof(this.TestResult));
                 }
             }
@@ -70,6 +67,7 @@ namespace HealthCareApp.viewmodel
                 if (this.resultNormality != value)
                 {
                     this.resultNormality = value;
+                    this.SelectedLabTestResult.ResultNormality = value;
                     this.OnPropertyChanged(nameof(this.ResultNormality));
                 }
             }
@@ -88,6 +86,7 @@ namespace HealthCareApp.viewmodel
                 if (this.datePerformed != value)
                 {
                     this.datePerformed = value;
+                    this.SelectedLabTestResult.DatePerformed = value;
                     this.OnPropertyChanged(nameof(this.DatePerformed));
                 }
             }
@@ -106,6 +105,7 @@ namespace HealthCareApp.viewmodel
                 if (this.status != value)
                 {
                     this.status = value;
+                    this.SelectedLabTestResult.Status = value;
                     this.OnPropertyChanged(nameof(this.Status));
                 }
             }
@@ -117,14 +117,6 @@ namespace HealthCareApp.viewmodel
         public string TestResultValidationMessage => this.ValidationErrors.ContainsKey(nameof(this.TestResult))
             ? this.ValidationErrors[nameof(this.TestResult)]
             : string.Empty;
-
-        /// <summary>
-        ///     Gets the validation message for the Result Normality field.
-        /// </summary>
-        public string ResultNormalityValidationMessage =>
-            this.ValidationErrors.ContainsKey(nameof(this.ResultNormality))
-                ? this.ValidationErrors[nameof(this.ResultNormality)]
-                : string.Empty;
 
         /// <summary>
         ///     Gets the validation message for the Date Performed field.
@@ -150,6 +142,24 @@ namespace HealthCareApp.viewmodel
         #endregion
 
         #region Methods
+
+        public void ResultUpdated()
+        {
+            decimal result;
+            bool canParse = Decimal.TryParse(this.TestResult, out result);
+
+            if (canParse)
+            {
+                if (result <= this.SelectedLabTest.HighValue && result >= this.SelectedLabTest.LowValue)
+                {
+                    this.ResultNormality = Normality.NORMAL.ToString();
+                }
+                else
+                {
+                    this.ResultNormality = Normality.ABNORMAL.ToString();
+                }
+            }
+        }
 
         /// <summary>
         ///     Populates the ViewModel's fields with the data from the specified appointment.

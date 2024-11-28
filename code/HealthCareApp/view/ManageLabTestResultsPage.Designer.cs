@@ -37,9 +37,8 @@
             reasonErrorLabel = new Label();
             reasonLabel = new Label();
             resultTextBox = new TextBox();
-            normalityErrorLabel = new Label();
+            normalityText = new Label();
             label2 = new Label();
-            normalityComboBox = new ComboBox();
             testInformationLabel = new Label();
             panel1 = new Panel();
             testCodeLabel = new Label();
@@ -146,38 +145,29 @@
             resultTextBox.ScrollBars = ScrollBars.Vertical;
             resultTextBox.Size = new Size(494, 227);
             resultTextBox.TabIndex = 45;
+            resultTextBox.Leave += resultTextBox_Leave;
             // 
-            // normalityErrorLabel
+            // normalityText
             // 
-            normalityErrorLabel.AutoSize = true;
-            normalityErrorLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            normalityErrorLabel.ForeColor = Color.Red;
-            normalityErrorLabel.Location = new Point(590, 368);
-            normalityErrorLabel.Name = "normalityErrorLabel";
-            normalityErrorLabel.Size = new Size(181, 25);
-            normalityErrorLabel.TabIndex = 50;
-            normalityErrorLabel.Text = "normalityErrorLabel";
+            normalityText.AutoSize = true;
+            normalityText.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            normalityText.ForeColor = SystemColors.ControlText;
+            normalityText.Location = new Point(593, 429);
+            normalityText.Name = "normalityText";
+            normalityText.Size = new Size(145, 25);
+            normalityText.TabIndex = 50;
+            normalityText.Text = "resultNormality";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(443, 368);
+            label2.Location = new Point(446, 429);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(146, 25);
             label2.TabIndex = 49;
             label2.Text = "Result Normality:";
-            // 
-            // normalityComboBox
-            // 
-            normalityComboBox.FormattingEnabled = true;
-            normalityComboBox.Location = new Point(444, 400);
-            normalityComboBox.Margin = new Padding(4, 5, 4, 5);
-            normalityComboBox.Name = "normalityComboBox";
-            normalityComboBox.Size = new Size(171, 33);
-            normalityComboBox.TabIndex = 51;
-            normalityComboBox.Text = "Select one";
             // 
             // testInformationLabel
             // 
@@ -320,8 +310,7 @@
             ClientSize = new Size(927, 855);
             Controls.Add(panel1);
             Controls.Add(testInformationLabel);
-            Controls.Add(normalityComboBox);
-            Controls.Add(normalityErrorLabel);
+            Controls.Add(normalityText);
             Controls.Add(label2);
             Controls.Add(reasonErrorLabel);
             Controls.Add(reasonLabel);
@@ -353,9 +342,8 @@
 		private Label reasonErrorLabel;
 		private Label reasonLabel;
 		private TextBox resultTextBox;
-		private Label normalityErrorLabel;
+		private Label normalityText;
 		private Label label2;
-		private ComboBox normalityComboBox;
 		private Label testInformationLabel;
 		private Panel panel1;
 		private Label label5;
