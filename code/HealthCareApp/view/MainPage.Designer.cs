@@ -209,6 +209,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             ClientSize = new Size(2764, 1388);
             Controls.Add(mainPanel);
             Controls.Add(sidebarPanel);

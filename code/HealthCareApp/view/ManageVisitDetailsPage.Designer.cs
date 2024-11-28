@@ -519,6 +519,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             ClientSize = new Size(1434, 1582);
             Controls.Add(appointmentIdText);
             Controls.Add(drFnameLnameLabel);
