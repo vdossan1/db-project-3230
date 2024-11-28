@@ -78,6 +78,30 @@ namespace HealthCareApp.DAL
             return 0;
         }
 
+        public static string GetTestNameByCode(int testCode)
+        {
+            using var connection = new MySqlConnection(Connection.ConnectionString());
+            connection.Open();
+
+            var query = "SELECT test_name FROM lab_test WHERE test_code = @TestCode";
+
+            using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@TestCode", testCode);
+
+            using var reader = command.ExecuteReader();
+
+            var testNameOrdinal = reader.GetOrdinal("test_name");
+
+            string testName = "no test found";
+
+            while (reader.Read())
+            {
+                testName = reader.GetString(testNameOrdinal);
+            }
+
+            return testName;
+        }
+
         public static LabTest GetLabTestByTestCode(int testCode)
         {
             using var connection = new MySqlConnection(Connection.ConnectionString());

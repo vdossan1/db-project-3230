@@ -75,6 +75,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     public VisitsControlViewModel()
     {
         this.Visits = new List<Visit>();
+        this.LabTestResults = new List<LabTestResult>();
         this.PopulateVisits();
         ManageAppointmentViewModel.AddAppointment += this.OnAppointmentAdded;
     }

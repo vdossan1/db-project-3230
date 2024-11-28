@@ -1,4 +1,5 @@
-﻿using HealthCareApp.utils;
+﻿using HealthCareApp.DAL;
+using HealthCareApp.utils;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -46,6 +47,8 @@ namespace HealthCareApp.model
         /// </summary>
         public bool Status { get; set;  }
 
+        public string TestName{ get; set; }
+
         #endregion
 
         #region Constructors
@@ -62,6 +65,12 @@ namespace HealthCareApp.model
             this.ResultNormality = resultNormality;
             this.DatePerformed = datePerformed;
             this.Status = status;
+            this.setTestName(testCode);
+        }
+
+        private void setTestName(int testCode)
+        {
+            this.TestName = LabTestDal.GetTestNameByCode(testCode);
         }
 
         #endregion

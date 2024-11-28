@@ -90,6 +90,7 @@ public partial class VisitsControl : UserControl
     {
         this.visitsControlViewModel.PopulateTestResults();
         this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+        this.setupLabTestResultsGridView();
         this.labTestResultsDataGridView.ClearSelection();
     }
 
@@ -101,6 +102,7 @@ public partial class VisitsControl : UserControl
             this.visitsControlViewModel.SelectedVisit = selectedVisit;
             this.visitsControlViewModel.PopulateTestResults();
             this.labTestResultsDataGridView.DataSource = this.visitsControlViewModel.LabTestResults;
+            this.setupLabTestResultsGridView();
         }
         else
         {
@@ -160,10 +162,15 @@ public partial class VisitsControl : UserControl
         this.visitsDataGridView.Columns["Symptoms"].Visible = false;
         this.visitsDataGridView.Columns["InitialDiagnoses"].Visible = false;
         this.visitsDataGridView.Columns["FinalDiagnoses"].Visible = false;
+    }
 
-        //this.testResultsDataGridView.Columns["VisitId"].Visible = false;
+    private void setupLabTestResultsGridView()
+    {
+        this.labTestResultsDataGridView.Columns["ResultId"].Visible = false;
+        this.labTestResultsDataGridView.Columns["VisitId"].Visible = false;
+        this.labTestResultsDataGridView.Columns["TestCode"].Visible = false;
 
-        // Rename main columns
+        this.labTestResultsDataGridView.Columns["TestName"].DisplayIndex = 0;
     }
 
     #endregion
