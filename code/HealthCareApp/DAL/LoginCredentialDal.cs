@@ -35,6 +35,30 @@ public class LoginCredentialDal
         return count == 1;
     }
 
+    public static string GetSaltForUsername(string username)
+    {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        var query = "select salt from login_credential where username = @username";
+        using var command = new MySqlCommand(query, connection);
+
+        command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
+
+        using var reader = command.ExecuteReader();
+
+        var saltOrdinal = reader.GetOrdinal("salt");
+
+        string salt = "no test found";
+
+        while (reader.Read())
+        {
+            salt = reader.GetString(saltOrdinal);
+        }
+
+        return salt;
+    }
+
     /// <summary>
     ///     Retrieves the full name of a user based on their username.
     /// </summary>

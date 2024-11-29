@@ -1,5 +1,8 @@
-﻿using HealthCareApp.DAL;
+﻿using System.Diagnostics;
+using HealthCareApp.DAL;
 using HealthCareApp.model;
+using System.Security.Cryptography;
+using System.Text;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
@@ -35,7 +38,11 @@ public class LoginPageViewModel
     /// <returns>True if authentication is successful; otherwise, false.</returns>
     public bool AuthenticateUser(string username, string password)
     {
-        return LoginCredentialDal.AuthenticateUser(username, password);
+        string salt = LoginCredentialDal.GetSaltForUsername(username);
+
+        string hashedPassword = this.HashPassword(password, salt);
+
+        return LoginCredentialDal.AuthenticateUser(username, hashedPassword);
     }
 
     /// <summary>
@@ -46,6 +53,30 @@ public class LoginPageViewModel
     {
         LoggedUser.Username = username;
         LoggedUser.FullName = LoginCredentialDal.GetFullName(username);
+    }
+
+    private string HashPassword(string password, string salt)
+    {
+        // Combine password and salt
+        string saltedPassword = password + salt;
+
+        // Hash the salted password with SHA-256
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
+            string hashedPassword = Convert.ToBase64String(hashBytes);
+            return hashedPassword;
+        }
+    }
+
+    private string GenerateSalt()
+    {
+        byte[] saltBytes = new byte[16];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(saltBytes);
+        }
+        return Convert.ToBase64String(saltBytes);
     }
 
     #endregion

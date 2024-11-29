@@ -1,4 +1,6 @@
+using System.Security.Cryptography;
 using HealthCareApp.View;
+using System.Text;
 
 // Author: Vitor dos Santos & Jacob Evans
 // Version: Fall 2024
