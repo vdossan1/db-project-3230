@@ -71,7 +71,6 @@
             patientsDataGridView.Margin = new Padding(4, 5, 4, 5);
             patientsDataGridView.MultiSelect = false;
             patientsDataGridView.Name = "patientsDataGridView";
-            patientsDataGridView.ReadOnly = true;
             patientsDataGridView.RowHeadersVisible = false;
             patientsDataGridView.RowHeadersWidth = 62;
             patientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

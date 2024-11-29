@@ -27,6 +27,25 @@ public partial class PatientsControl : UserControl
     {
         this.InitializeComponent();
         this.SetupPage();
+
+        this.patientsDataGridView.CellContentClick += changeStatus;
+    }
+
+    private void changeStatus(object? sender, DataGridViewCellEventArgs e)
+    {
+        var currentCel = this.patientsDataGridView.CurrentCell;
+
+        if (currentCel != null)
+        {
+            var currentColumn = this.patientsDataGridView.Columns[currentCel.ColumnIndex];
+
+            if (currentColumn.Name.Equals("Status"))
+            {
+                var newPatientStatus = !(bool)currentCel.Value;
+
+                this.patientsControlViewModel.changePatientStatus(newPatientStatus);
+            }
+        }
     }
 
     #endregion
@@ -113,6 +132,11 @@ public partial class PatientsControl : UserControl
         this.patientsDataGridView.Columns["FirstName"].HeaderText = "First Name";
         this.patientsDataGridView.Columns["LastName"].HeaderText = "Last Name";
         this.patientsDataGridView.Columns["DateOfBirth"].HeaderText = "Date of Birth";
+
+
+        this.patientsDataGridView.Columns["FirstName"].ReadOnly = true;
+        this.patientsDataGridView.Columns["LastName"].ReadOnly = true;
+        this.patientsDataGridView.Columns["DateOfBirth"].ReadOnly = true;
     }
 
     #endregion

@@ -105,4 +105,10 @@ public class PatientsControlViewModel : INotifyPropertyChanged
     }
 
     #endregion
+
+    public void changePatientStatus(bool newPatientStatus)
+    {
+        this.SelectedPatient.Status = newPatientStatus;
+        PatientDal.ChangeStatus(newPatientStatus, this.SelectedPatient.PatientId);
+    }
 }

@@ -61,6 +61,26 @@ public class PatientDal
         return command.ExecuteNonQuery();
     }
 
+    public static bool ChangeStatus(bool status, int patientId)
+    {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        var query =
+            "UPDATE patient SET status = @Status" +
+            " WHERE patient_id = @PatientId";
+
+        using var command = new MySqlCommand(query, connection);
+
+        command.Parameters.Add("@Status", MySqlDbType.Bit).Value = status;
+        command.Parameters.Add("@PatientId", MySqlDbType.Int32).Value = patientId;
+
+
+        int rowsAffected = command.ExecuteNonQuery();
+
+        return rowsAffected > 0;
+    }
+
     /// <summary>
     ///     Registers a new patient in the database.
     /// </summary>
