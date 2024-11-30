@@ -146,7 +146,29 @@ public class VisitDal
         return visitList;
     }
 
-    private static Visit CreateVisitObj(MySqlDataReader reader)
+    public static List<Visit> GetVisitsWithinTimeSpan(DateTime startDate, DateTime endDate)
+    {
+	    var query = "SELECT * FROM visit WHERE visit_date BETWEEN @StartDate AND @EndDate";
+
+	    using var connection = new MySqlConnection(Connection.ConnectionString());
+	    connection.Open();
+
+	    using var command = new MySqlCommand(query, connection);
+	    command.Parameters.AddWithValue("@StartDate", startDate);
+	    command.Parameters.AddWithValue("@EndDate", endDate);
+
+	    using var reader = command.ExecuteReader();
+
+	    var visitList = new List<Visit>();
+	    while (reader.Read())
+	    {
+		    visitList.Add(CreateVisitObj(reader));
+	    }
+
+	    return visitList;
+    }
+
+	private static Visit CreateVisitObj(MySqlDataReader reader)
     {
         var visitIdOrdinal = reader.GetOrdinal("visit_id");
         var appointmentIdOrdinal = reader.GetOrdinal("appointment_id");

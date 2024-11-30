@@ -64,10 +64,34 @@ public class NurseDal
     }
 
     /// <summary>
-    ///     Retrieves a list of all nurses from the database.
+    ///     Finds a nurse's full name by their ID in the database.
     /// </summary>
-    /// <returns>A list of <see cref="Nurse" /> objects representing all nurses in the database.</returns>
-    public static List<Nurse> GetAllNurses()
+    /// <param name="nurseId">The ID of the nurse full name to find.</param>
+    public static string GetNurseFullNameById(int nurseId)
+    {
+	    using var connection = new MySqlConnection(Connection.ConnectionString());
+	    connection.Open();
+
+	    var query = "SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM nurse WHERE nurse_id = @NurseId";
+
+	    using var command = new MySqlCommand(query, connection);
+	    command.Parameters.AddWithValue("@NurseId", nurseId);
+
+	    using var reader = command.ExecuteReader();
+
+	    if (reader.Read())
+	    {
+		    return reader["full_name"].ToString();
+	    }
+
+	    return null;
+    }
+
+	/// <summary>
+	///     Retrieves a list of all nurses from the database.
+	/// </summary>
+	/// <returns>A list of <see cref="Nurse" /> objects representing all nurses in the database.</returns>
+	public static List<Nurse> GetAllNurses()
     {
         var nurseList = new List<Nurse>();
 

@@ -38,12 +38,36 @@ public class DoctorDal
         return null;
     }
 
-    /// <summary>
-    ///     Registers a new doctor in the database.
-    /// </summary>
-    /// <param name="newDoctor">The <see cref="Doctor" /> object containing the doctor's details.</param>
-    /// <exception cref="NotImplementedException">This method is not implemented yet.</exception>
-    public static void RegisterDoctor(Doctor newDoctor)
+	/// <summary>
+	///     Finds a doctor's full name by their ID in the database.
+	/// </summary>
+	/// <param name="doctorId">The ID of the doctor full name to find.</param>
+	public static string GetNurseFullNameById(int doctorId)
+    {
+	    using var connection = new MySqlConnection(Connection.ConnectionString());
+	    connection.Open();
+
+	    var query = "SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM doctor WHERE doctor_id = @DoctorId";
+
+	    using var command = new MySqlCommand(query, connection);
+	    command.Parameters.AddWithValue("@DoctorId", doctorId);
+
+	    using var reader = command.ExecuteReader();
+
+	    if (reader.Read())
+	    {
+		    return reader["full_name"].ToString();
+	    }
+
+	    return null;
+    }
+
+	/// <summary>
+	///     Registers a new doctor in the database.
+	/// </summary>
+	/// <param name="newDoctor">The <see cref="Doctor" /> object containing the doctor's details.</param>
+	/// <exception cref="NotImplementedException">This method is not implemented yet.</exception>
+	public static void RegisterDoctor(Doctor newDoctor)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
