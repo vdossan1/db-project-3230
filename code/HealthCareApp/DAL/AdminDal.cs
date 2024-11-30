@@ -31,7 +31,7 @@ namespace HealthCareApp.DAL
             JOIN doctor d ON a.doctor_id = d.doctor_id
             JOIN nurse n ON v.nurse_id = n.nurse_id
             WHERE a.appointment_date BETWEEN @StartDate AND @EndDate
-            ORDER BY a.visit_date, p.last_name;
+            ORDER BY a.appointment_date, p.last_name;
             ";
 
 			using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -55,7 +55,7 @@ namespace HealthCareApp.DAL
 		private static Report CreateReportObj(MySqlDataReader reader)
 		{
 			var visitIdOrdinal = reader.GetOrdinal("visit_id");
-			var visitDateOrdinal = reader.GetOrdinal("visit_date");
+			var visitDateOrdinal = reader.GetOrdinal("appointment_date");
 			var patientIdOrdinal = reader.GetOrdinal("patient_id");
 			var doctorIdOrdinal = reader.GetOrdinal("doctor_id");
 			var nurseIdOrdinal = reader.GetOrdinal("nurse_id");

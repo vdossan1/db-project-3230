@@ -65,6 +65,7 @@
 			visitReportButton.TabIndex = 2;
 			visitReportButton.Text = "Visit Report";
 			visitReportButton.UseVisualStyleBackColor = true;
+			visitReportButton.Click += visitReportButton_Click;
 			// 
 			// sqlButton
 			// 
@@ -74,6 +75,7 @@
 			sqlButton.TabIndex = 1;
 			sqlButton.Text = "SQL Queries";
 			sqlButton.UseVisualStyleBackColor = true;
+			sqlButton.Click += sqlButton_Click;
 			// 
 			// dashboardButton
 			// 
@@ -83,6 +85,7 @@
 			dashboardButton.TabIndex = 0;
 			dashboardButton.Text = "Dashboard";
 			dashboardButton.UseVisualStyleBackColor = true;
+			dashboardButton.Click += dashboardButton_Click;
 			// 
 			// adminContentPanel
 			// 

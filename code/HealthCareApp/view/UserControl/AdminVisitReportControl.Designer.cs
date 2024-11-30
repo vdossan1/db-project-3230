@@ -1,6 +1,6 @@
 ﻿namespace HealthCareApp.view
 {
-	partial class AdminVisitReportUserControl
+	partial class AdminVisitReportControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -37,13 +37,16 @@
 			panel1 = new Panel();
 			instructionLabel = new Label();
 			reportStatsPanel = new Panel();
-			label1 = new Label();
-			label2 = new Label();
+			clearReportButton = new Button();
 			label3 = new Label();
-			dataGridView1 = new DataGridView();
+			label2 = new Label();
+			label1 = new Label();
+			reportDataGridView = new DataGridView();
+			labTestResultsDataGridView = new DataGridView();
 			panel1.SuspendLayout();
 			reportStatsPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+			((System.ComponentModel.ISupportInitialize)reportDataGridView).BeginInit();
+			((System.ComponentModel.ISupportInitialize)labTestResultsDataGridView).BeginInit();
 			SuspendLayout();
 			// 
 			// startDatePicker
@@ -86,6 +89,7 @@
 			generateReportButton.TabIndex = 4;
 			generateReportButton.Text = "Generate Report";
 			generateReportButton.UseVisualStyleBackColor = true;
+			generateReportButton.Click += GenerateReportButton_Click;
 			// 
 			// clearButton
 			// 
@@ -95,6 +99,7 @@
 			clearButton.TabIndex = 5;
 			clearButton.Text = "Clear Dates";
 			clearButton.UseVisualStyleBackColor = true;
+			clearButton.Click += ClearDatesButton_Click;
 			// 
 			// panel1
 			// 
@@ -121,31 +126,24 @@
 			// 
 			// reportStatsPanel
 			// 
+			reportStatsPanel.Controls.Add(clearReportButton);
 			reportStatsPanel.Controls.Add(label3);
 			reportStatsPanel.Controls.Add(label2);
 			reportStatsPanel.Controls.Add(label1);
-			reportStatsPanel.Location = new Point(456, 3);
+			reportStatsPanel.Location = new Point(413, 3);
 			reportStatsPanel.Name = "reportStatsPanel";
-			reportStatsPanel.Size = new Size(600, 100);
+			reportStatsPanel.Size = new Size(643, 100);
 			reportStatsPanel.TabIndex = 8;
 			// 
-			// label1
+			// clearReportButton
 			// 
-			label1.AutoSize = true;
-			label1.Location = new Point(3, 0);
-			label1.Name = "label1";
-			label1.Size = new Size(91, 15);
-			label1.TabIndex = 0;
-			label1.Text = "Report Statistics";
-			// 
-			// label2
-			// 
-			label2.AutoSize = true;
-			label2.Location = new Point(3, 33);
-			label2.Name = "label2";
-			label2.Size = new Size(61, 15);
-			label2.TabIndex = 1;
-			label2.Text = "Timespan:";
+			clearReportButton.Location = new Point(530, 70);
+			clearReportButton.Name = "clearReportButton";
+			clearReportButton.Size = new Size(110, 23);
+			clearReportButton.TabIndex = 21;
+			clearReportButton.Text = "Clear Report";
+			clearReportButton.UseVisualStyleBackColor = true;
+			clearReportButton.Click += ClearReportButton_Click;
 			// 
 			// label3
 			// 
@@ -156,28 +154,78 @@
 			label3.TabIndex = 2;
 			label3.Text = "Result Row Count:";
 			// 
-			// dataGridView1
+			// label2
 			// 
-			dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridView1.Location = new Point(3, 109);
-			dataGridView1.Name = "dataGridView1";
-			dataGridView1.Size = new Size(1053, 506);
-			dataGridView1.TabIndex = 9;
+			label2.AutoSize = true;
+			label2.Location = new Point(3, 33);
+			label2.Name = "label2";
+			label2.Size = new Size(61, 15);
+			label2.TabIndex = 1;
+			label2.Text = "Timespan:";
 			// 
-			// AdminVisitReportUserControl
+			// label1
+			// 
+			label1.AutoSize = true;
+			label1.Location = new Point(3, 0);
+			label1.Name = "label1";
+			label1.Size = new Size(91, 15);
+			label1.TabIndex = 0;
+			label1.Text = "Report Statistics";
+			// 
+			// reportDataGridView
+			// 
+			reportDataGridView.AllowUserToAddRows = false;
+			reportDataGridView.AllowUserToDeleteRows = false;
+			reportDataGridView.AllowUserToResizeColumns = false;
+			reportDataGridView.AllowUserToResizeRows = false;
+			reportDataGridView.BackgroundColor = SystemColors.Control;
+			reportDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			reportDataGridView.GridColor = SystemColors.Control;
+			reportDataGridView.Location = new Point(3, 109);
+			reportDataGridView.MultiSelect = false;
+			reportDataGridView.Name = "reportDataGridView";
+			reportDataGridView.ReadOnly = true;
+			reportDataGridView.RowHeadersVisible = false;
+			reportDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			reportDataGridView.Size = new Size(404, 506);
+			reportDataGridView.TabIndex = 9;
+			// 
+			// labTestResultsDataGridView
+			// 
+			labTestResultsDataGridView.AllowUserToAddRows = false;
+			labTestResultsDataGridView.AllowUserToDeleteRows = false;
+			labTestResultsDataGridView.AllowUserToResizeColumns = false;
+			labTestResultsDataGridView.AllowUserToResizeRows = false;
+			labTestResultsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
+			labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			labTestResultsDataGridView.GridColor = SystemColors.Control;
+			labTestResultsDataGridView.Location = new Point(413, 109);
+			labTestResultsDataGridView.MultiSelect = false;
+			labTestResultsDataGridView.Name = "labTestResultsDataGridView";
+			labTestResultsDataGridView.ReadOnly = true;
+			labTestResultsDataGridView.RowHeadersVisible = false;
+			labTestResultsDataGridView.RowHeadersWidth = 62;
+			labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			labTestResultsDataGridView.Size = new Size(643, 506);
+			labTestResultsDataGridView.TabIndex = 20;
+			// 
+			// AdminVisitReportControl
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			Controls.Add(dataGridView1);
+			Controls.Add(labTestResultsDataGridView);
+			Controls.Add(reportDataGridView);
 			Controls.Add(reportStatsPanel);
 			Controls.Add(panel1);
-			Name = "AdminVisitReportUserControl";
+			Name = "AdminVisitReportControl";
 			Size = new Size(1059, 618);
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();
 			reportStatsPanel.ResumeLayout(false);
 			reportStatsPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+			((System.ComponentModel.ISupportInitialize)reportDataGridView).EndInit();
+			((System.ComponentModel.ISupportInitialize)labTestResultsDataGridView).EndInit();
 			ResumeLayout(false);
 		}
 
@@ -195,6 +243,8 @@
 		private Label label1;
 		private Label label3;
 		private Label label2;
-		private DataGridView dataGridView1;
+		private DataGridView reportDataGridView;
+		private DataGridView labTestResultsDataGridView;
+		private Button clearReportButton;
 	}
 }

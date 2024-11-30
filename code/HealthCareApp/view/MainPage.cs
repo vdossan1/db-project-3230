@@ -17,8 +17,9 @@ public partial class MainPage : Form
     private readonly PatientsControl patientsControl;
     private readonly AppointmentsControl appointmentsControl;
     private readonly VisitsControl visitsControl;
+	private readonly AdminControl adminControl;
 
-    private readonly MainPageViewModel mainPageViewModel;
+	private readonly MainPageViewModel mainPageViewModel;
     private UserControl? activeControl;
     private Button? selectedButton;
 
@@ -43,8 +44,9 @@ public partial class MainPage : Form
         this.patientsControl = new PatientsControl();
         this.appointmentsControl = new AppointmentsControl();
         this.visitsControl = new VisitsControl(this.mainPageViewModel.UserFullName, this.mainPageViewModel.Username);
+		this.adminControl = new AdminControl();
 
-        this.DisplayUserInformation();
+		this.DisplayUserInformation();
         this.initializeMainPageDesign();
     }
 
@@ -98,7 +100,15 @@ public partial class MainPage : Form
         this.visitsControl.ClearAllSelection();
     }
 
-    private void DisplayUserInformation()
+	private void adminControlButton_Click(object sender, EventArgs e)
+	{
+		this.HighlightButton(this.adminButton);
+		this.activeControl = this.adminControl;
+		this.mainPanel.Controls.Clear();
+		this.mainPanel.Controls.Add(this.adminControl);
+	}
+
+	private void DisplayUserInformation()
     {
         this.usernameLabel.Text = this.mainPageViewModel.Username;
         this.userFullNameLabel.Text = this.mainPageViewModel.UserFullName;
@@ -189,7 +199,27 @@ public partial class MainPage : Form
         }
     }
 
-    private void logoutButton_MouseEnter(object sender, EventArgs e)
+    private void adminButton_MouseEnter(object sender, EventArgs e)
+    {
+	    if (this.selectedButton != this.adminButton)
+	    {
+		    this.adminButton.BackColor = Color.White;
+		    this.adminButton.ForeColor = Settings.AccentColor;
+			//this.adminButton.Image = Resources.checkup_accent;
+		}
+	}
+
+    private void adminButton_MouseLeave(object sender, EventArgs e)
+    {
+	    if (this.selectedButton != this.adminButton)
+	    {
+			//this.adminButton.Image = Resources.checkup_white;
+			this.adminButton.BackColor = Settings.AccentColor;
+		    this.adminButton.ForeColor = Color.White;
+	    }
+    }
+
+	private void logoutButton_MouseEnter(object sender, EventArgs e)
     {
         this.logoutButton.BackColor = Color.White;
         this.logoutButton.ForeColor = Settings.AccentColor;
