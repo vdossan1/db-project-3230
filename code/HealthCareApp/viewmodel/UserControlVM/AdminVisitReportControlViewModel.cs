@@ -1,5 +1,6 @@
 ﻿using HealthCareApp.DAL;
 using HealthCareApp.model;
+using System.ComponentModel;
 
 namespace HealthCareApp.viewmodel.UserControlVM
 {
@@ -13,7 +14,7 @@ namespace HealthCareApp.viewmodel.UserControlVM
 		/// <summary>
 		///     Gets the list of test results for a selected report.
 		/// </summary>
-		public List<LabTestResult> LabTestResults { get; set; }
+		public BindingList<LabTestResult> LabTestResults { get; set; }
 
 		/// <summary>
 		///     Gets the selected report.
@@ -26,7 +27,7 @@ namespace HealthCareApp.viewmodel.UserControlVM
 		public AdminVisitReportControlViewModel()
 		{
 			this.Reports = new List<Report>();
-			this.LabTestResults = new List<LabTestResult>();
+			this.LabTestResults = new BindingList<LabTestResult>();
 		}
 
 		/// <summary>

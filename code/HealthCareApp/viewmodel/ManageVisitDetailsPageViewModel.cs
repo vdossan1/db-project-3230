@@ -467,7 +467,7 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
         if (this.SelectedVisit != null)
         {
-            List<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
+            BindingList<LabTestResult> labTests = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
 
             foreach (var testResult in labTests)
             {

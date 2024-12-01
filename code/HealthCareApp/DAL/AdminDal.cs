@@ -102,7 +102,7 @@ namespace HealthCareApp.DAL
 			newReport.NurseName = $"{reader.GetString("nurse_first_name")} {reader.GetString("nurse_last_name")}";
 
 			newReport.LabTests = LabTestDal.GetAllLabTestsForVisit(newReport.VisitId);
-			newReport.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(newReport.VisitId);
+			newReport.LabTestResults = new List<LabTestResult>(LabTestResultDal.GetAllLabTestResultsForVisit(newReport.VisitId));
 
 			return newReport;
 		}
