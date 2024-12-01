@@ -8,7 +8,7 @@ namespace HealthCareApp.viewmodel.UserControlVM
 		public DataTable QueryResults { get; set; } = new();
 
 		/// <summary>
-		///     Generates the Reports list with all reports from the database.
+		/// Generates the Reports list with all reports from the database.
 		/// </summary>
 		public void ExecuteQuery(string query)
 		{
@@ -20,19 +20,17 @@ namespace HealthCareApp.viewmodel.UserControlVM
 					return;
 				}
 
-				string queryType = query.Trim().Split(' ')[0].ToUpperInvariant();
-				if (queryType == "UPDATE" || queryType == "INSERT" || queryType == "DELETE")
+				var queryResult = AdminDal.ExecuteQuery(query);
+
+				if (queryResult.QueryData != null)
 				{
-					int rowsAffected = AdminDal.ExecuteNonQuery(query, null);
-					MessageBox.Show($"Query executed successfully. {rowsAffected} rows affected.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					this.QueryResults = null;
+					this.QueryResults = queryResult.QueryData;
+					MessageBox.Show($"Query executed successfully. {queryResult.RowCount} rows returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 				else
 				{
-					var dataTable = AdminDal.ExecuteQuery(query, null);
-					this.QueryResults = dataTable;
-
-					MessageBox.Show($"Query executed successfully. {dataTable.Rows.Count} rows returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					this.QueryResults = null;
+					MessageBox.Show($"Query executed successfully. {queryResult.RowCount} rows affected.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
 			catch (Exception ex)
@@ -40,6 +38,7 @@ namespace HealthCareApp.viewmodel.UserControlVM
 				MessageBox.Show($"An error occurred:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 
 	}
 }

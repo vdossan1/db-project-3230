@@ -17,14 +17,10 @@ namespace HealthCareApp.view
 		{
 			var startDate = this.startDatePicker.Value.Date;
 			var endDate = this.endDatePicker.Value.Date;
+			this.setTimeSpanLabel(startDate, endDate);
 			this.adminVisitReportControlViewModel.GenerateReport(startDate, endDate);
 			this.reportDataGridView.DataSource = this.adminVisitReportControlViewModel.Reports;
-		}
-
-		private void ClearDatesButton_Click(object sender, EventArgs e)
-		{
-			this.startDatePicker.ResetText();
-			this.endDatePicker.ResetText();
+			this.setRowCountLabel();
 		}
 
 		private void ClearReportButton_Click(object sender, EventArgs e)
@@ -34,6 +30,8 @@ namespace HealthCareApp.view
 			this.reportDataGridView.DataSource = null;
 			this.labTestResultsDataGridView.DataSource = null;
 			this.adminVisitReportControlViewModel.ClearReport();
+			this.clearTimeSpanLabel();
+			this.clearRowCountLabel();
 		}
 
 		private void ReportDataGridView_SelectionChanged(object? sender, EventArgs e)
@@ -51,6 +49,27 @@ namespace HealthCareApp.view
 				this.adminVisitReportControlViewModel.SelectedReport = null;
 				this.labTestResultsDataGridView.DataSource = null;
 			}
+		}
+
+		private void setRowCountLabel()
+		{
+			var rowCount = this.adminVisitReportControlViewModel.QueryResult.RowCount;
+			this.rowsLabel.Text = $"Result Row Count: {rowCount}";
+		}
+
+		private void clearRowCountLabel()
+		{
+			this.rowsLabel.Text = $"Result Row Count:";
+		}
+
+		private void setTimeSpanLabel(DateTime startDate, DateTime endDate)
+		{
+			this.timeSpanLabel.Text = $"Time Span: {startDate.ToShortDateString()} - {endDate.ToShortDateString()}";
+		}
+
+		private void clearTimeSpanLabel()
+		{
+			this.timeSpanLabel.Text = $"Time Span:";
 		}
 
 		private void SetUpPage()

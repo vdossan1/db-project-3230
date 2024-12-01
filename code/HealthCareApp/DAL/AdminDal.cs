@@ -16,7 +16,7 @@ namespace HealthCareApp.DAL
 		/// <param name="startDate">The start date of the range for the report.</param>
 		/// <param name="endDate">The end date of the range for the report.</param>
 		/// <returns>A list of reports containing visit details and related lab test results.</returns>
-		public static List<Report> GenerateReport(DateTime startDate, DateTime endDate)
+		public static QueryResult GenerateReport(DateTime startDate, DateTime endDate)
 		{
 			var reports = new List<Report>();
 
@@ -50,62 +50,42 @@ namespace HealthCareApp.DAL
 				reports.Add(report);
 			}
 
-			return reports;
+			var queryResult = new QueryResult(reports.Count, null)
+			{
+				Reports = reports
+			};
+
+			return queryResult;
 		}
 
 		/// <summary>
-		/// Executes a SQL query with parameters and returns the result as a DataTable.
+		/// Executes a SQL query with parameters and returns the result as a QueryResult object.
 		/// </summary>
 		/// <param name="query">The SQL query string.</param>
-		/// <param name="parameters">A dictionary of parameter names and their values.</param>
-		/// <returns>A DataTable containing the result set.</returns>
-		public static DataTable ExecuteQuery(string query, Dictionary<string, object> parameters)
+		/// <returns>A QueryResult object containing the row count and the result set as a DataTable.</returns>
+		public static QueryResult ExecuteQuery(string query)
 		{
 			var resultTable = new DataTable();
+			int rowCount = 0;
 
 			using var connection = new MySqlConnection(Connection.ConnectionString());
 			connection.Open();
 
 			using var command = new MySqlCommand(query, connection);
 
-			if (parameters != null)
+			string queryType = query.Trim().Split(' ')[0].ToUpperInvariant();
+			if (queryType == "SELECT")
 			{
-				foreach (var param in parameters)
-				{
-					command.Parameters.AddWithValue(param.Key, param.Value);
-				}
+				using var adapter = new MySqlDataAdapter(command);
+				rowCount = adapter.Fill(resultTable);
+			}
+			else
+			{
+				rowCount = command.ExecuteNonQuery();
 			}
 
-			using var adapter = new MySqlDataAdapter(command);
-			adapter.Fill(resultTable);
-
-			return resultTable;
+			return new QueryResult(rowCount, queryType == "SELECT" ? resultTable : null);
 		}
-
-		/// <summary>
-		/// Executes a SQL non-query (INSERT, UPDATE, DELETE) with parameters and returns the number of rows affected.
-		/// </summary>
-		/// <param name="query">The SQL query string.</param>
-		/// <param name="parameters">A dictionary of parameter names and their values.</param>
-		/// <returns>The number of rows affected by the query.</returns>
-		public static int ExecuteNonQuery(string query, Dictionary<string, object> parameters)
-		{
-			using var connection = new MySqlConnection(Connection.ConnectionString());
-			connection.Open();
-
-			using var command = new MySqlCommand(query, connection);
-
-			if (parameters != null)
-			{
-				foreach (var param in parameters)
-				{
-					command.Parameters.AddWithValue(param.Key, param.Value);
-				}
-			}
-
-			return command.ExecuteNonQuery();
-		}
-
 
 		private static Report CreateReportObj(MySqlDataReader reader)
 		{
