@@ -8,7 +8,7 @@ namespace HealthCareApp.view
 
 		public AdminSQLControl()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 			this.adminSQLControlViewModel = new AdminSQLControlViewModel();
 		}
 
