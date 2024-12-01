@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace HealthCareApp.DAL
 {
@@ -50,6 +51,35 @@ namespace HealthCareApp.DAL
 			}
 
 			return reports;
+		}
+
+		/// <summary>
+		/// Executes a SQL query with parameters and returns the result as a DataTable.
+		/// </summary>
+		/// <param name="query">The SQL query string.</param>
+		/// <param name="parameters">A dictionary of parameter names and their values.</param>
+		/// <returns>A DataTable containing the result set.</returns>
+		public static DataTable ExecuteQuery(string query, Dictionary<string, object> parameters)
+		{
+			var resultTable = new DataTable();
+
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			using var command = new MySqlCommand(query, connection);
+
+			if (parameters != null)
+			{
+				foreach (var param in parameters)
+				{
+					command.Parameters.AddWithValue(param.Key, param.Value);
+				}
+			}
+
+			using var adapter = new MySqlDataAdapter(command);
+			adapter.Fill(resultTable);
+
+			return resultTable;
 		}
 
 		private static Report CreateReportObj(MySqlDataReader reader)
