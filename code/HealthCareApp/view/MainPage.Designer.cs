@@ -196,7 +196,7 @@
 			// 
 			mainPanel.Location = new Point(200, 0);
 			mainPanel.Name = "mainPanel";
-			mainPanel.Size = new Size(1733, 832);
+			mainPanel.Size = new Size(1733, 835);
 			mainPanel.TabIndex = 8;
 			// 
 			// MainPage
@@ -204,7 +204,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoScroll = true;
-			ClientSize = new Size(1795, 833);
+			ClientSize = new Size(1795, 853);
 			Controls.Add(mainPanel);
 			Controls.Add(sidebarPanel);
 			Margin = new Padding(2);

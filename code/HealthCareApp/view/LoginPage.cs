@@ -27,7 +27,7 @@ public partial class LoginPage : Form
     {
         this.InitializeComponent();
         this.loginViewModel = new LoginPageViewModel();
-        this.usernameTextField.Text = "ab001";
+        this.usernameTextField.Text = "jd001";
         this.passwordTextField.Text = "pass";
     }
 
