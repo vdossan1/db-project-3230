@@ -1,3 +1,4 @@
+using HealthCareApp.model;
 using HealthCareApp.viewmodel;
 using MySql.Data.MySqlClient;
 
@@ -69,7 +70,13 @@ public partial class LoginPage : Form
 
         Hide();
         var mainPage = new MainPage(mainPageViewModel);
-        mainPage.Show();
+
+        if (LoggedUser.IsAdmin)
+		{
+			mainPage.ShowAdminFeatures();
+		}
+
+		mainPage.Show();
 
         this.usernameTextField.Clear();
         this.passwordTextField.Clear();

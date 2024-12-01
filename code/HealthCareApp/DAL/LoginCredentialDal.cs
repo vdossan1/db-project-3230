@@ -35,6 +35,23 @@ public class LoginCredentialDal
         return count == 1;
     }
 
+    public static bool IsUserAdmin(string username)
+    {
+		using var connection = new MySqlConnection(Connection.ConnectionString());
+		connection.Open();
+
+		var query = "select count(*) from login_credential where username = @username " +
+					"and username in (select username from administrator)";
+
+		using var command = new MySqlCommand(query, connection);
+
+		command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
+
+		var count = Convert.ToInt32(command.ExecuteScalar());
+
+		return count == 1;
+	}
+
     public static string GetSaltForUsername(string username)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());

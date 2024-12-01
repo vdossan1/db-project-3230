@@ -26,17 +26,17 @@ public class LoginPageViewModel
     /// </summary>
     public string UserFullName { get; set; }
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    /// <summary>
-    ///     Authenticates the user with the provided username and password.
-    /// </summary>
-    /// <param name="username">The username of the user attempting to log in.</param>
-    /// <param name="password">The password of the user attempting to log in.</param>
-    /// <returns>True if authentication is successful; otherwise, false.</returns>
-    public bool AuthenticateUser(string username, string password)
+	/// <summary>
+	///     Authenticates the user with the provided username and password.
+	/// </summary>
+	/// <param name="username">The username of the user attempting to log in.</param>
+	/// <param name="password">The password of the user attempting to log in.</param>
+	/// <returns>True if authentication is successful; otherwise, false.</returns>
+	public bool AuthenticateUser(string username, string password)
     {
         string salt = LoginCredentialDal.GetSaltForUsername(username);
 
@@ -53,7 +53,8 @@ public class LoginPageViewModel
     {
         LoggedUser.Username = username;
         LoggedUser.FullName = LoginCredentialDal.GetFullName(username);
-    }
+		LoggedUser.IsAdmin = LoginCredentialDal.IsUserAdmin(username);
+	}
 
     private string HashPassword(string password, string salt)
     {

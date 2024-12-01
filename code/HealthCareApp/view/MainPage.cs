@@ -1,3 +1,4 @@
+using HealthCareApp.model;
 using HealthCareApp.Properties;
 using HealthCareApp.view;
 using HealthCareApp.viewmodel;
@@ -46,6 +47,7 @@ public partial class MainPage : Form
         this.visitsControl = new VisitsControl(this.mainPageViewModel.UserFullName, this.mainPageViewModel.Username);
 		this.adminControl = new AdminControl();
 
+        this.adminButton.Visible = false;
 		this.DisplayUserInformation();
         this.initializeMainPageDesign();
     }
@@ -54,16 +56,21 @@ public partial class MainPage : Form
 
     #region Methods
 
-    private void mainPage_FormClosing(object sender, FormClosingEventArgs e)
+    public void ShowAdminFeatures()
+    {
+        this.adminButton.Visible = true;
+	}
+
+	private void mainPage_FormClosing(object sender, FormClosingEventArgs e)
     {
         Application.Exit();
     }
 
     private void logoutButton_Click(object sender, EventArgs e)
     {
-        Hide();
-        Dispose();
-        var loginPage = new LoginPage();
+        this.Hide();
+        this.Dispose();
+		var loginPage = new LoginPage();
         loginPage.Show();
     }
 
