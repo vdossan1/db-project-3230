@@ -62,6 +62,8 @@
             stateErrorLabel = new Label();
             sexErrorLabel = new Label();
             dateOfBirthErrorLabel = new Label();
+            statusCheckBox = new CheckBox();
+            statusEntryLabel = new Label();
             SuspendLayout();
             // 
             // firstNameTextBox
@@ -375,12 +377,34 @@
             dateOfBirthErrorLabel.TabIndex = 35;
             dateOfBirthErrorLabel.Text = "dateOfBirthErrorLabel";
             // 
+            // statusCheckBox
+            // 
+            statusCheckBox.AutoSize = true;
+            statusCheckBox.Location = new Point(597, 472);
+            statusCheckBox.Name = "statusCheckBox";
+            statusCheckBox.Size = new Size(144, 29);
+            statusCheckBox.TabIndex = 36;
+            statusCheckBox.Text = "Patient Status";
+            statusCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // statusEntryLabel
+            // 
+            statusEntryLabel.AutoSize = true;
+            statusEntryLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            statusEntryLabel.Location = new Point(629, 504);
+            statusEntryLabel.Name = "statusEntryLabel";
+            statusEntryLabel.Size = new Size(75, 25);
+            statusEntryLabel.TabIndex = 37;
+            statusEntryLabel.Text = "ACTIVE";
+            // 
             // ManagePatientPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(854, 938);
+            Controls.Add(statusEntryLabel);
+            Controls.Add(statusCheckBox);
             Controls.Add(dateOfBirthErrorLabel);
             Controls.Add(sexErrorLabel);
             Controls.Add(stateErrorLabel);
@@ -457,5 +481,7 @@
         private Label stateErrorLabel;
         private Label sexErrorLabel;
         private Label dateOfBirthErrorLabel;
+        private CheckBox statusCheckBox;
+        private Label statusEntryLabel;
     }
 }
