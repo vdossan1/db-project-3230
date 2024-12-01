@@ -82,6 +82,31 @@ namespace HealthCareApp.DAL
 			return resultTable;
 		}
 
+		/// <summary>
+		/// Executes a SQL non-query (INSERT, UPDATE, DELETE) with parameters and returns the number of rows affected.
+		/// </summary>
+		/// <param name="query">The SQL query string.</param>
+		/// <param name="parameters">A dictionary of parameter names and their values.</param>
+		/// <returns>The number of rows affected by the query.</returns>
+		public static int ExecuteNonQuery(string query, Dictionary<string, object> parameters)
+		{
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			using var command = new MySqlCommand(query, connection);
+
+			if (parameters != null)
+			{
+				foreach (var param in parameters)
+				{
+					command.Parameters.AddWithValue(param.Key, param.Value);
+				}
+			}
+
+			return command.ExecuteNonQuery();
+		}
+
+
 		private static Report CreateReportObj(MySqlDataReader reader)
 		{
 			var visitIdOrdinal = reader.GetOrdinal("visit_id");
