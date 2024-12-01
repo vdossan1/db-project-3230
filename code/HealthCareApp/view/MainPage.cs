@@ -74,13 +74,6 @@ public partial class MainPage : Form
         loginPage.Show();
     }
 
-    private void homeButton_Click(object sender, EventArgs e)
-    {
-        this.HighlightButton(this.homeButton);
-        this.activeControl = null;
-        this.mainPanel.Controls.Clear();
-    }
-
     private void patientsControlButton_Click(object sender, EventArgs e)
     {
         this.HighlightButton(this.patientsButton);
@@ -124,26 +117,6 @@ public partial class MainPage : Form
     private void initializeMainPageDesign()
     {
         this.sidebarPanel.BackColor = Settings.AccentColor;
-    }
-
-    private void homeButton_MouseEnter(object sender, EventArgs e)
-    {
-        if (this.selectedButton != this.homeButton)
-        {
-            this.homeButton.BackColor = Color.White;
-            this.homeButton.ForeColor = Settings.AccentColor;
-            this.homeButton.Image = Resources.home_accent;
-        }
-    }
-
-    private void homeButton_MouseLeave(object sender, EventArgs e)
-    {
-        if (this.selectedButton != this.homeButton)
-        {
-            this.homeButton.Image = Resources.home_white;
-            this.homeButton.BackColor = Settings.AccentColor;
-            this.homeButton.ForeColor = Color.White;
-        }
     }
 
     private void patientsButton_MouseEnter(object sender, EventArgs e)
@@ -249,9 +222,7 @@ public partial class MainPage : Form
             this.selectedButton.ForeColor = Color.White;
 
             // Update the button's image to its default state
-            if (this.selectedButton == this.homeButton)
-                this.selectedButton.Image = Resources.home_white;
-            else if (this.selectedButton == this.patientsButton)
+	        if (this.selectedButton == this.patientsButton)
                 this.selectedButton.Image = Resources.patients_white;
             else if (this.selectedButton == this.appointmentsButton)
                 this.selectedButton.Image = Resources.appointment_white;
@@ -263,9 +234,7 @@ public partial class MainPage : Form
         button.BackColor = Color.White;
         button.ForeColor = Settings.AccentColor;
 
-        if (button == this.homeButton)
-            button.Image = Resources.home_accent;
-        else if (button == this.patientsButton)
+        if (button == this.patientsButton)
             button.Image = Resources.patients_accent;
         else if (button == this.appointmentsButton)
             button.Image = Resources.appointment_accent;

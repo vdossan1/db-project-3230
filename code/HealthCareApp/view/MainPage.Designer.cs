@@ -33,7 +33,6 @@
 			sidebarPanel = new Panel();
 			sidebarButtonPanel = new Panel();
 			adminButton = new Button();
-			homeButton = new Button();
 			visitsButton = new Button();
 			patientsButton = new Button();
 			appointmentsButton = new Button();
@@ -93,7 +92,6 @@
 			// 
 			sidebarButtonPanel.BackColor = Color.Transparent;
 			sidebarButtonPanel.Controls.Add(adminButton);
-			sidebarButtonPanel.Controls.Add(homeButton);
 			sidebarButtonPanel.Controls.Add(visitsButton);
 			sidebarButtonPanel.Controls.Add(patientsButton);
 			sidebarButtonPanel.Controls.Add(appointmentsButton);
@@ -111,7 +109,7 @@
 			adminButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			adminButton.ForeColor = SystemColors.Control;
 			adminButton.ImageAlign = ContentAlignment.MiddleLeft;
-			adminButton.Location = new Point(0, 225);
+			adminButton.Location = new Point(0, 165);
 			adminButton.Name = "adminButton";
 			adminButton.Size = new Size(150, 35);
 			adminButton.TabIndex = 11;
@@ -120,25 +118,6 @@
 			adminButton.Click += adminControlButton_Click;
 			adminButton.MouseEnter += adminButton_MouseEnter;
 			adminButton.MouseLeave += adminButton_MouseLeave;
-			// 
-			// homeButton
-			// 
-			homeButton.BackColor = Color.Transparent;
-			homeButton.FlatAppearance.BorderSize = 0;
-			homeButton.FlatStyle = FlatStyle.Flat;
-			homeButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			homeButton.ForeColor = SystemColors.Control;
-			homeButton.Image = Properties.Resources.home_white;
-			homeButton.ImageAlign = ContentAlignment.MiddleLeft;
-			homeButton.Location = new Point(0, 0);
-			homeButton.Name = "homeButton";
-			homeButton.Size = new Size(150, 35);
-			homeButton.TabIndex = 0;
-			homeButton.Text = "Home";
-			homeButton.UseVisualStyleBackColor = false;
-			homeButton.Click += homeButton_Click;
-			homeButton.MouseEnter += homeButton_MouseEnter;
-			homeButton.MouseLeave += homeButton_MouseLeave;
 			// 
 			// visitsButton
 			// 
@@ -150,7 +129,7 @@
 			visitsButton.ForeColor = SystemColors.Control;
 			visitsButton.Image = Properties.Resources.checkup_white;
 			visitsButton.ImageAlign = ContentAlignment.MiddleLeft;
-			visitsButton.Location = new Point(0, 165);
+			visitsButton.Location = new Point(0, 110);
 			visitsButton.Name = "visitsButton";
 			visitsButton.Size = new Size(150, 35);
 			visitsButton.TabIndex = 10;
@@ -189,7 +168,7 @@
 			appointmentsButton.ForeColor = SystemColors.Control;
 			appointmentsButton.Image = Properties.Resources.appointment_white;
 			appointmentsButton.ImageAlign = ContentAlignment.MiddleLeft;
-			appointmentsButton.Location = new Point(0, 110);
+			appointmentsButton.Location = new Point(0, 0);
 			appointmentsButton.Name = "appointmentsButton";
 			appointmentsButton.Size = new Size(150, 35);
 			appointmentsButton.TabIndex = 9;
@@ -247,7 +226,6 @@
 		private Button visitsButton;
 		private Button appointmentsButton;
 		private Button patientsButton;
-		private Button homeButton;
 		private Panel sidebarButtonPanel;
 		private Button adminButton;
 	}

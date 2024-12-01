@@ -64,8 +64,8 @@ public partial class LoginPage : Form
         this.loginViewModel.StoreLoginCredentials(username);
         var mainPageViewModel = new MainPageViewModel
         {
-            Username = this.loginViewModel.Username,
-            UserFullName = this.loginViewModel.UserFullName
+            Username = LoggedUser.Username,
+            UserFullName = LoggedUser.FullName
         };
 
         Hide();
