@@ -18,7 +18,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     /// <summary>
     ///     Gets the list of test results for a selected visit.
     /// </summary>
-    public List<LabTestResult> LabTestResults { get; private set; }
+    public BindingList<LabTestResult> LabTestResults { get; private set; }
 
     private Visit selectedVisit;
 
@@ -75,7 +75,7 @@ public class VisitsControlViewModel : INotifyPropertyChanged
     public VisitsControlViewModel()
     {
         this.Visits = new List<Visit>();
-        this.LabTestResults = new List<LabTestResult>();
+        this.LabTestResults = new BindingList<LabTestResult>();
         this.PopulateVisits();
         ManageAppointmentViewModel.AddAppointment += this.OnAppointmentAdded;
     }

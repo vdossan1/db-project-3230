@@ -40,6 +40,8 @@ public class AppointmentsControlViewModel
     /// </summary>
     public BindingList<Appointment> ClosedAppointments { get; private set; }
 
+    public BindingList<LabTestResult> LabTestResults { get; private set; }
+
     public BindingList<string> SelectedTests { get; private set; }
 
     public Appointment? SelectedAppointment
@@ -80,6 +82,21 @@ public class AppointmentsControlViewModel
             {
                 this.isValid = value;
                 this.NotifyPropertyChanged(nameof(this.IsValid));
+            }
+        }
+    }
+
+    private bool testsComplete;
+
+    public bool TestsComplete
+    {
+        get => this.testsComplete;
+        private set
+        {
+            if (this.testsComplete != value)
+            {
+                this.testsComplete = value;
+                this.NotifyPropertyChanged(nameof(this.TestsComplete));
             }
         }
     }
@@ -239,6 +256,7 @@ public class AppointmentsControlViewModel
     {
         this.OpenAppointments = new BindingList<Appointment>();
         this.ClosedAppointments = new BindingList<Appointment>();
+        this.LabTestResults = new BindingList<LabTestResult>();
         this.PopulateAppointments();
         this.IsValid = false;
     }
@@ -317,8 +335,13 @@ public class AppointmentsControlViewModel
             this.Symptoms = this.SelectedVisit.Symptoms;
             this.InitialDiagnoses = this.SelectedVisit.InitialDiagnoses;
             this.FinalDiagnoses = this.SelectedVisit.FinalDiagnoses;
-            this.populateSelectedTests();
+            this.populateTestResults();
         }
+    }
+
+    public void populateTestResults()
+    {
+        this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
     }
 
     private void tryToGetVisit()
@@ -327,12 +350,6 @@ public class AppointmentsControlViewModel
         {
             this.SelectedVisit = new Visit(VisitDal.GetVisitByApptId(this.SelectedAppointment.AppointmentId));
         }
-    }
-
-    private void populateSelectedTests()
-    {
-        var labTestsForVisit = LabTestDal.GetAllLabTestsForVisit(this.SelectedVisit.VisitId);
-        this.SelectedTests = new BindingList<string>(labTestsForVisit);
     }
 
     #endregion

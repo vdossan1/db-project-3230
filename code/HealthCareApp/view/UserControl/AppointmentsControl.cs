@@ -1,4 +1,5 @@
-﻿using HealthCareApp.model;
+﻿using System.Diagnostics;
+using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 
@@ -58,13 +59,19 @@ public partial class AppointmentsControl : UserControl
     private void editVisitButton_Click(object sender, EventArgs e)
     {
         var createVisitPage = new ManageVisitDetailsPage(this.appointmentsControlViewModel.SelectedAppointment.AppointmentId);
-        createVisitPage.FormClosed += this.refreshVisitsInfo;
+        createVisitPage.FormClosed += this.populateVisitFields;
         createVisitPage.ShowDialog();
     }
 
-    private void refreshVisitsInfo(object? sender, FormClosedEventArgs e)
+    private void enterTestResultButton_Click(object sender, EventArgs e)
     {
-        this.appointmentsControlViewModel.PopulateVisitFields();
+        if (this.testResultDataGrid.SelectedRows.Count > 0)
+        {
+            var selectedLabTestResult = (LabTestResult)this.testResultDataGrid.SelectedRows[0].DataBoundItem;
+            var manageLabTestResultPage = new ManageLabTestResultsPage(selectedLabTestResult);
+            manageLabTestResultPage.FormClosed += this.populateVisitFields;
+            manageLabTestResultPage.ShowDialog();
+        }
     }
 
     #endregion
@@ -73,9 +80,12 @@ public partial class AppointmentsControl : UserControl
 
     private void setUpPage()
     {
+
+
         // Set up the data grid view
         this.setUpOpenApptDataGridView();
         this.setupClosedApptDataGridView();
+        this.setupTestResultDataGridView();
 
         // Set up the advanced search control
         this.apptAdvancedSearchControl.SearchBtnClick += this.refreshAppointmentsList;
@@ -83,6 +93,17 @@ public partial class AppointmentsControl : UserControl
 
         this.apptAdvancedSearchControl.SetDateTimeSearch();
         this.apptAdvancedSearchControl.SetDatePickerStyle();
+    }
+
+    private void setupTestResultDataGridView()
+    {
+        this.testResultDataGrid.DataSource = this.appointmentsControlViewModel.LabTestResults;
+
+        this.testResultDataGrid.Columns["ResultId"].Visible = false;
+        this.testResultDataGrid.Columns["VisitId"].Visible = false;
+        this.testResultDataGrid.Columns["TestCode"].Visible = false;
+
+        this.testResultDataGrid.Columns["TestName"].DisplayIndex = 0;
     }
 
     private void refreshAppointmentsList(object sender, EventArgs e)
@@ -100,19 +121,21 @@ public partial class AppointmentsControl : UserControl
         this.closedApptDataGrid.DataSource = this.appointmentsControlViewModel.ClosedAppointments;
     }
 
+    private void populateVisitFields(object? sender, FormClosedEventArgs e)
+    {
+        this.appointmentsControlViewModel.PopulateVisitFields();
+    }
+
     private void AppointmentsDataGridView_SelectionChanged(object? sender, EventArgs e)
     {
-        
+
         if (this.appointmentsDataGridView.SelectedRows.Count > 0)
         {
             this.closedApptDataGrid.ClearSelection();
             if (this.appointmentsDataGridView.SelectedRows[0].DataBoundItem is Appointment selectedAppointment)
             {
-                this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
-                this.appointmentsControlViewModel.PopulateVisitFields();
-                this.selectedTestListBox.DataSource = this.appointmentsControlViewModel.SelectedTests;
-                this.bloodPressureDiasTxtField.Text = this.appointmentsControlViewModel.BloodPressureDiastolic.ToString();
-                this.selectedTestListBox.SelectedItem = null;
+                this.refreshVisitInfo(selectedAppointment);
+
                 this.editAppointmentBtn.Enabled = true;
             }
             else
@@ -128,6 +151,17 @@ public partial class AppointmentsControl : UserControl
         }
     }
 
+    private void refreshVisitInfo(Appointment selectedAppointment)
+    {
+        this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
+        this.appointmentsControlViewModel.PopulateVisitFields();
+
+        this.bloodPressureDiasTxtField.Text = this.appointmentsControlViewModel.BloodPressureDiastolic.ToString();
+
+        this.testResultDataGrid.DataSource = this.appointmentsControlViewModel.LabTestResults;
+        this.appointmentsControlViewModel.populateTestResults();
+    }
+
     private void closedApptDataGrid_SelectionChanged(object sender, EventArgs e)
     {
         if (this.closedApptDataGrid.SelectedRows.Count > 0)
@@ -135,11 +169,8 @@ public partial class AppointmentsControl : UserControl
             this.appointmentsDataGridView.ClearSelection();
             if (this.closedApptDataGrid.SelectedRows[0].DataBoundItem is Appointment selectedAppointment)
             {
-                this.appointmentsControlViewModel.SelectedAppointment = selectedAppointment;
-                this.appointmentsControlViewModel.PopulateVisitFields();
-                this.selectedTestListBox.DataSource = this.appointmentsControlViewModel.SelectedTests;
-                this.bloodPressureDiasTxtField.Text = this.appointmentsControlViewModel.BloodPressureDiastolic.ToString();
-                this.selectedTestListBox.SelectedItem = null;
+                this.refreshVisitInfo(selectedAppointment);
+
             }
         }
     }
