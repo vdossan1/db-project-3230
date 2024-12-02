@@ -34,9 +34,9 @@
 			endDateLabel = new Label();
 			generateReportButton = new Button();
 			panel1 = new Panel();
+			clearReportButton = new Button();
 			instructionLabel = new Label();
 			reportStatsPanel = new Panel();
-			clearReportButton = new Button();
 			rowsLabel = new Label();
 			timeSpanLabel = new Label();
 			label1 = new Label();
@@ -82,7 +82,7 @@
 			// 
 			// generateReportButton
 			// 
-			generateReportButton.Location = new Point(286, 68);
+			generateReportButton.Location = new Point(314, 68);
 			generateReportButton.Name = "generateReportButton";
 			generateReportButton.Size = new Size(110, 23);
 			generateReportButton.TabIndex = 4;
@@ -101,8 +101,18 @@
 			panel1.Controls.Add(endDateLabel);
 			panel1.Location = new Point(3, 3);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(404, 100);
+			panel1.Size = new Size(477, 100);
 			panel1.TabIndex = 6;
+			// 
+			// clearReportButton
+			// 
+			clearReportButton.Location = new Point(314, 33);
+			clearReportButton.Name = "clearReportButton";
+			clearReportButton.Size = new Size(110, 23);
+			clearReportButton.TabIndex = 21;
+			clearReportButton.Text = "Clear Report";
+			clearReportButton.UseVisualStyleBackColor = true;
+			clearReportButton.Click += ClearReportButton_Click;
 			// 
 			// instructionLabel
 			// 
@@ -118,20 +128,10 @@
 			reportStatsPanel.Controls.Add(rowsLabel);
 			reportStatsPanel.Controls.Add(timeSpanLabel);
 			reportStatsPanel.Controls.Add(label1);
-			reportStatsPanel.Location = new Point(413, 3);
+			reportStatsPanel.Location = new Point(486, 3);
 			reportStatsPanel.Name = "reportStatsPanel";
-			reportStatsPanel.Size = new Size(643, 100);
+			reportStatsPanel.Size = new Size(570, 100);
 			reportStatsPanel.TabIndex = 8;
-			// 
-			// clearReportButton
-			// 
-			clearReportButton.Location = new Point(286, 33);
-			clearReportButton.Name = "clearReportButton";
-			clearReportButton.Size = new Size(110, 23);
-			clearReportButton.TabIndex = 21;
-			clearReportButton.Text = "Clear Report";
-			clearReportButton.UseVisualStyleBackColor = true;
-			clearReportButton.Click += ClearReportButton_Click;
 			// 
 			// rowsLabel
 			// 
@@ -166,7 +166,9 @@
 			reportDataGridView.AllowUserToDeleteRows = false;
 			reportDataGridView.AllowUserToResizeColumns = false;
 			reportDataGridView.AllowUserToResizeRows = false;
+			reportDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			reportDataGridView.BackgroundColor = SystemColors.Control;
+			reportDataGridView.BorderStyle = BorderStyle.Fixed3D;
 			reportDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			reportDataGridView.GridColor = SystemColors.Control;
 			reportDataGridView.Location = new Point(3, 109);
@@ -175,7 +177,7 @@
 			reportDataGridView.ReadOnly = true;
 			reportDataGridView.RowHeadersVisible = false;
 			reportDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			reportDataGridView.Size = new Size(404, 506);
+			reportDataGridView.Size = new Size(1053, 250);
 			reportDataGridView.TabIndex = 9;
 			// 
 			// labTestResultsDataGridView
@@ -186,16 +188,17 @@
 			labTestResultsDataGridView.AllowUserToResizeRows = false;
 			labTestResultsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			labTestResultsDataGridView.BackgroundColor = SystemColors.Control;
+			labTestResultsDataGridView.BorderStyle = BorderStyle.Fixed3D;
 			labTestResultsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			labTestResultsDataGridView.GridColor = SystemColors.Control;
-			labTestResultsDataGridView.Location = new Point(413, 109);
+			labTestResultsDataGridView.Location = new Point(4, 365);
 			labTestResultsDataGridView.MultiSelect = false;
 			labTestResultsDataGridView.Name = "labTestResultsDataGridView";
 			labTestResultsDataGridView.ReadOnly = true;
 			labTestResultsDataGridView.RowHeadersVisible = false;
 			labTestResultsDataGridView.RowHeadersWidth = 62;
 			labTestResultsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			labTestResultsDataGridView.Size = new Size(643, 506);
+			labTestResultsDataGridView.Size = new Size(1052, 250);
 			labTestResultsDataGridView.TabIndex = 20;
 			// 
 			// AdminVisitReportControl

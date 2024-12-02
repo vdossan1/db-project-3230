@@ -183,9 +183,6 @@ public partial class AppointmentsControl : UserControl
         this.appointmentsDataGridView.Columns["AppointmentId"].Visible = false;
         this.appointmentsDataGridView.Columns["PatientId"].Visible = false;
         this.appointmentsDataGridView.Columns["DoctorId"].Visible = false;
-        this.appointmentsDataGridView.Columns["PatientName"].Width = 150;
-        this.appointmentsDataGridView.Columns["DoctorName"].Width = 150;
-        this.appointmentsDataGridView.Columns["AppointmentDate"].Width = 200;
         this.appointmentsDataGridView.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
         // Rename main columns
@@ -205,9 +202,6 @@ public partial class AppointmentsControl : UserControl
         this.closedApptDataGrid.Columns["AppointmentId"].Visible = false;
         this.closedApptDataGrid.Columns["PatientId"].Visible = false;
         this.closedApptDataGrid.Columns["DoctorId"].Visible = false;
-        this.closedApptDataGrid.Columns["PatientName"].Width = 150;
-        this.closedApptDataGrid.Columns["DoctorName"].Width = 150;
-        this.closedApptDataGrid.Columns["AppointmentDate"].Width = 200;
         this.closedApptDataGrid.Columns["Reason"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
         // Rename main columns
