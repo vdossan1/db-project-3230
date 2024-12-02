@@ -1,0 +1,2 @@
+select * from visit v JOIN lab_test_result ltr ON v.visit_id = ltr.visit_id JOIN lab_test lt ON ltr.test_code = lt.test_code;
+
