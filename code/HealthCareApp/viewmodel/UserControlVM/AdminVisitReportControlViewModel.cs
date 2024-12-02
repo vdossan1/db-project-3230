@@ -7,6 +7,11 @@ namespace HealthCareApp.viewmodel.UserControlVM
 	public class AdminVisitReportControlViewModel
 	{
 		/// <summary>
+		///     Gets the Query Result.
+		/// </summary>
+		public QueryResult QueryResult { get; set; }
+
+		/// <summary>
 		///     Gets the list of reports.
 		/// </summary>
 		public List<Report> Reports { get; set; }
@@ -35,7 +40,9 @@ namespace HealthCareApp.viewmodel.UserControlVM
 		/// </summary>
 		public void GenerateReport(DateTime startDate, DateTime endDate)
 		{
-			this.Reports = AdminDal.GenerateReport(startDate, endDate);
+			var queryResult = AdminDal.GenerateReport(startDate, endDate);
+			this.Reports = queryResult.Reports;
+			this.QueryResult = queryResult;
 		}
 
 		/// <summary>

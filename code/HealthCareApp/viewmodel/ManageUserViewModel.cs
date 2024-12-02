@@ -10,11 +10,11 @@ using MySql.Data.MySqlClient;
 namespace HealthCareApp.viewmodel;
 
 /// <summary>
-///     ViewModel for managing patient information in the application.
+///     ViewModel for managing user (nurse/admin) information in the application.
 ///     Responsible for editing and registering patients,
 ///     and populating fields with patient data.
 /// </summary>
-public class ManagePatientViewModel : INotifyPropertyChanged
+public class ManageUserViewModel : INotifyPropertyChanged
 {
     #region Data members
 
@@ -40,8 +40,6 @@ public class ManagePatientViewModel : INotifyPropertyChanged
 
     private string ssn;
 
-    private bool status;
-
     #endregion
 
     #region Properties
@@ -56,12 +54,12 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     /// </summary>
     public string[] SexArray => Enum.GetNames(typeof(Gender));
 
-    public Patient? SelectedPatient { get; set; }
+    public User? SelectedUser { get; set; }
 
-    public int PatientId { get; set; }
+    public int UserId { get; set; }
 
     /// <summary>
-    ///     Gets or sets the first name of the patient.
+    ///     Gets or sets the first name of the user.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     /// 
@@ -79,7 +77,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the last name of the patient.
+    ///     Gets or sets the last name of the user.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string LastName
@@ -96,7 +94,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the date of birth of the patient.
+    ///     Gets or sets the date of birth of the user.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public DateTime? DateOfBirth
@@ -113,7 +111,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the sex of the patient.
+    ///     Gets or sets the sex of the user.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string Sex
@@ -130,7 +128,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the first line of the patient's address.
+    ///     Gets or sets the first line of the user's address.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string Address1
@@ -147,7 +145,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the second line of the patient's address.
+    ///     Gets or sets the second line of the user's address.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string? Address2
@@ -164,7 +162,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the city of the patient's address.
+    ///     Gets or sets the city of the user's address.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string City
@@ -181,7 +179,7 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Gets or sets the state of the patient's address.
+    ///     Gets or sets the state of the user's address.
     ///     Raises the <see cref="PropertyChanged" /> event when changed.
     /// </summary>
     public string State
@@ -197,11 +195,11 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    ///     Gets or sets the ZIP code of the patient's address.
-    ///     Raises the <see cref="PropertyChanged" /> event when changed.
-    /// </summary>
-    public string ZipCode
+	/// <summary>
+	///     Gets or sets the ZIP code of the user's address.
+	///     Raises the <see cref="PropertyChanged" /> event when changed.
+	/// </summary>
+	public string ZipCode
     {
         get => this.zipCode;
         set
@@ -214,11 +212,11 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    ///     Gets or sets the patient's phone number.
-    ///     Raises the <see cref="PropertyChanged" /> event when changed.
-    /// </summary>
-    public string PhoneNumber
+	/// <summary>
+	///     Gets or sets the user's phone number.
+	///     Raises the <see cref="PropertyChanged" /> event when changed.
+	/// </summary>
+	public string PhoneNumber
     {
         get => this.phoneNumber;
         set
@@ -231,11 +229,11 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         }
     }
 
-    /// <summary>
-    ///     Gets or sets the social security number of the patient.
-    ///     Raises the <see cref="PropertyChanged" /> event when changed.
-    /// </summary>
-    public string Ssn
+	/// <summary>
+	///     Gets or sets the social security number of the user.
+	///     Raises the <see cref="PropertyChanged" /> event when changed.
+	/// </summary>
+	public string Ssn
     {
         get => this.ssn;
         set
@@ -244,23 +242,6 @@ public class ManagePatientViewModel : INotifyPropertyChanged
             {
                 this.ssn = value;
                 this.OnPropertyChanged(nameof(this.Ssn));
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the status of the patient (active/inactive).
-    ///     Raises the <see cref="PropertyChanged" /> event when changed.
-    /// </summary>
-    public bool Status
-    {
-        get => this.status;
-        set
-        {
-            if (this.status != value)
-            {
-                this.status = value;
-                this.OnPropertyChanged(nameof(this.Status));
             }
         }
     }
@@ -335,16 +316,16 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         ? this.ValidationErrors[nameof(this.ZipCode)]
         : string.Empty;
 
-    #endregion
+	#endregion
 
-    #region Constructors
+	#region Constructors
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ManagePatientViewModel" /> class.
-    /// </summary>
-    public ManagePatientViewModel(Patient? selectedPatient = null)
+	/// <summary>
+	///     Initializes a new instance of the <see cref="ManageUserViewModel" /> class.
+	/// </summary>
+	public ManageUserViewModel(User? selectedUser = null)
     {
-        this.SelectedPatient = selectedPatient;
+        this.SelectedUser = selectedUser;
         this.ValidationErrors = new Dictionary<string, string>();
     }
 
@@ -353,14 +334,14 @@ public class ManagePatientViewModel : INotifyPropertyChanged
     #region Methods
 
     /// <summary>
-    ///     Handles the (Register or Edit patient) management of patient information in the application based on the specified action.
+    ///     Handles the (Register or Edit user) management of user information in the application based on the specified action.
     /// </summary>
-    public bool ManagePatient()
+    public bool ManageUser()
     {
         bool result = false;
         try
         {
-            result = this.ExecutePatientAction() != 0;
+            result = this.ExecuteUserAction() != 0;
         }
         catch (MySqlException sqlException)
         {
@@ -376,45 +357,50 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         return result;
     }
 
-    private int ExecutePatientAction()
+    private int ExecuteUserAction()
     {
         var trimmedDateOfBirth = this.DateOfBirth.Value.Date;
-        var newPatient = new Patient(this.FirstName, this.LastName, trimmedDateOfBirth, this.Sex, this.Address1,
-            this.Address2, this.City, this.State, this.ZipCode, this.PhoneNumber, this.Ssn, this.Status);
+        var newUser = new User(this.FirstName, this.LastName, trimmedDateOfBirth, this.Sex, this.Address1,
+            this.Address2, this.City, this.State, this.ZipCode, this.PhoneNumber, this.Ssn);
 
-        switch (this.SelectedPatient == null)
+        switch (this.SelectedUser == null)
         {
-            case true:
-                Debug.WriteLine(
-                    $"Register Patient: {this.FirstName} {this.LastName} {this.DateOfBirth.ToString()} {this.Sex}");
-                return PatientDal.RegisterPatient(newPatient);
-            case false:
-                newPatient.PatientId = this.PatientId;
-                Debug.WriteLine(
-                    $"Updating Patient: {this.FirstName} {this.LastName} {this.DateOfBirth.ToString()} {this.Sex}");
-                return PatientDal.EditPatient(newPatient);
+	        case true:
+
+		        var username = NurseDal.GenerateUsername(this.FirstName, this.LastName);
+		        newUser.Username = username;
+				
+		        var salt = CredentialHelper.GenerateSalt();
+		        var password = CredentialHelper.HashPassword("pass", salt);
+
+		        LoginCredentialDal.CreateLoginCredential(username, password, salt);
+		        return NurseDal.RegisterNurse(newUser);
+            
+	        case false:
+
+		        newUser.UserId = this.UserId;
+		        return NurseDal.EditNurse(newUser);
         }
     }
 
-    /// <summary>
-    ///     Populates the ViewModel's fields with the data from the specified patient.
-    /// </summary>
-    /// <param name="patient">The patient object whose data will be used to populate the fields.</param>
-    public void PopulateFields(Patient patient)
+	/// <summary>
+	///     Populates the ViewModel's fields with the data from the specified user.
+	/// </summary>
+	/// <param name="user">The user object whose data will be used to populate the fields.</param>
+	public void PopulateFields(User user)
     {
-        this.PatientId = patient.PatientId;
-        this.FirstName = patient.FirstName;
-        this.LastName = patient.LastName;
-        this.DateOfBirth = patient.DateOfBirth;
-        this.Sex = patient.Sex;
-        this.Address1 = patient.Address1;
-        this.Address2 = patient.Address2;
-        this.City = patient.City;
-        this.State = patient.State;
-        this.ZipCode = patient.ZipCode;
-        this.PhoneNumber = patient.PhoneNumber;
-        this.Ssn = patient.Ssn;
-        this.Status = patient.Status;
+        this.UserId = user.UserId;
+        this.FirstName = user.FirstName;
+        this.LastName = user.LastName;
+        this.DateOfBirth = user.DateOfBirth;
+        this.Sex = user.Sex;
+        this.Address1 = user.Address1;
+        this.Address2 = user.Address2;
+        this.City = user.City;
+        this.State = user.State;
+        this.ZipCode = user.ZipCode;
+        this.PhoneNumber = user.PhoneNumber;
+        this.Ssn = user.Ssn;
     }
 
     #endregion

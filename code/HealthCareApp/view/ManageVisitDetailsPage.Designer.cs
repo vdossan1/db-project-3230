@@ -93,7 +93,7 @@
             nurseIdLabel.Name = "nurseIdLabel";
             nurseIdLabel.Size = new Size(62, 25);
             nurseIdLabel.TabIndex = 1;
-            nurseIdLabel.Text = "Nurse:";
+            nurseIdLabel.Text = "User:";
             // 
             // bloodPressureSysLabel
             // 

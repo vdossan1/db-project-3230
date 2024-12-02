@@ -1,22 +1,14 @@
 ﻿using HealthCareApp.DAL;
-using MySql.Data.MySqlClient;
-using System.Diagnostics;
-using System;
 using System.Data;
 
 namespace HealthCareApp.viewmodel.UserControlVM
 {
 	public class AdminSQLControlViewModel
 	{
-		public DataTable QueryResults { get; set; }
-
-		public AdminSQLControlViewModel()
-		{
-			this.QueryResults = new DataTable();
-		}
+		public DataTable QueryResults { get; set; } = new();
 
 		/// <summary>
-		///     Generates the Reports list with all reports from the database.
+		/// Generates the Reports list with all reports from the database.
 		/// </summary>
 		public void ExecuteQuery(string query)
 		{
@@ -28,15 +20,25 @@ namespace HealthCareApp.viewmodel.UserControlVM
 					return;
 				}
 
-				var dataTable = AdminDal.ExecuteQuery(query, null);
-				this.QueryResults = dataTable;
+				var queryResult = AdminDal.ExecuteQuery(query);
 
-				MessageBox.Show($"Query executed successfully. {dataTable.Rows.Count} rows returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				if (queryResult.QueryData != null)
+				{
+					this.QueryResults = queryResult.QueryData;
+					MessageBox.Show($"Query executed successfully. {queryResult.RowCount} rows returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					this.QueryResults = null;
+					MessageBox.Show($"Query executed successfully. {queryResult.RowCount} rows affected.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show($"An error occurred:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
+
 	}
 }

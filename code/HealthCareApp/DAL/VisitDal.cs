@@ -19,7 +19,7 @@ public class VisitDal
     {
         var query =
             "INSERT INTO visit (appointment_id, nurse_id, bp_systolic, bp_diastolic, body_temperature, weight, height, pulse_rate, symptoms, initial_diagnosis, final_diagnosis) " +
-            "VALUES (@AppointmentId, @NurseId, @BloodPressureSys, @BloodPressureDias, @BodyTemp, @Weight, @Height, @PulseRate, @Symptoms, @InitialDiag, @FinalDiag)";
+            "VALUES (@AppointmentId, @UserId, @BloodPressureSys, @BloodPressureDias, @BodyTemp, @Weight, @Height, @PulseRate, @Symptoms, @InitialDiag, @FinalDiag)";
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -50,14 +50,14 @@ public class VisitDal
 
     public static int GetVisitIdByNaturalKey(int appointmentId, int nurseId)
     {
-        var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @NurseId";
+        var query = "SELECT visit_id FROM visit WHERE appointment_id = @AppointmentId AND nurse_id = @UserId";
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@AppointmentId", appointmentId);
-        command.Parameters.AddWithValue("@NurseId", nurseId);
+        command.Parameters.AddWithValue("@UserId", nurseId);
 
         using var reader = command.ExecuteReader();
 
@@ -205,7 +205,7 @@ public class VisitDal
     private static void AddAllVisitParamsToCommand(Visit newVisit, MySqlCommand command)
     {
         command.Parameters.Add("@AppointmentId", MySqlDbType.Int32).Value = newVisit.AppointmentId;
-        command.Parameters.Add("@NurseId", MySqlDbType.Int32).Value = newVisit.NurseId;
+        command.Parameters.Add("@UserId", MySqlDbType.Int32).Value = newVisit.NurseId;
         command.Parameters.Add("@BloodPressureSys", MySqlDbType.Int32).Value = newVisit.BloodPressureSystolic;
         command.Parameters.Add("@BloodPressureDias", MySqlDbType.Int32).Value = newVisit.BloodPressureDiastolic;
         command.Parameters.Add("@BodyTemp", MySqlDbType.Decimal).Value = newVisit.BodyTemp;

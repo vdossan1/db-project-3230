@@ -11,6 +11,24 @@ public class LoginCredentialDal
 {
     #region Methods
 
+    public static bool CreateLoginCredential(string username, string passwordHash, string salt)
+    {
+	    using var connection = new MySqlConnection(Connection.ConnectionString()); 
+	    connection.Open(); 
+	    
+	    var query = "INSERT INTO login_credential (username, password, salt) VALUES (@Username, @PasswordHash, @Salt)"; 
+	    
+	    using var command = new MySqlCommand(query, connection);
+		    
+		command.Parameters.AddWithValue("@Username", username);
+		command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+		command.Parameters.AddWithValue("@Salt", salt);
+
+		int rowsAffected = command.ExecuteNonQuery();
+
+		return rowsAffected > 0;
+    }
+
     /// <summary>
     ///     Authenticates a user based on the provided username and password.
     /// </summary>

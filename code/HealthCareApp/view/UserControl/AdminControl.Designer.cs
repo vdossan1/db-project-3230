@@ -29,43 +29,42 @@
 		private void InitializeComponent()
 		{
 			adminNavPanel = new Panel();
-			systemManagementButton = new Button();
 			visitReportButton = new Button();
+			registerUserButton = new Button();
 			sqlButton = new Button();
-			dashboardButton = new Button();
 			adminContentPanel = new Panel();
 			adminNavPanel.SuspendLayout();
 			SuspendLayout();
 			// 
 			// adminNavPanel
 			// 
-			adminNavPanel.Controls.Add(systemManagementButton);
 			adminNavPanel.Controls.Add(visitReportButton);
+			adminNavPanel.Controls.Add(registerUserButton);
 			adminNavPanel.Controls.Add(sqlButton);
-			adminNavPanel.Controls.Add(dashboardButton);
 			adminNavPanel.Location = new Point(3, 3);
 			adminNavPanel.Name = "adminNavPanel";
 			adminNavPanel.Size = new Size(1059, 50);
 			adminNavPanel.TabIndex = 0;
 			// 
-			// systemManagementButton
-			// 
-			systemManagementButton.Location = new Point(471, 3);
-			systemManagementButton.Name = "systemManagementButton";
-			systemManagementButton.Size = new Size(150, 44);
-			systemManagementButton.TabIndex = 3;
-			systemManagementButton.Text = "System Management";
-			systemManagementButton.UseVisualStyleBackColor = true;
-			// 
 			// visitReportButton
 			// 
-			visitReportButton.Location = new Point(315, 3);
+			visitReportButton.Location = new Point(3, 3);
 			visitReportButton.Name = "visitReportButton";
 			visitReportButton.Size = new Size(150, 44);
 			visitReportButton.TabIndex = 2;
 			visitReportButton.Text = "Visit Report";
 			visitReportButton.UseVisualStyleBackColor = true;
 			visitReportButton.Click += visitReportButton_Click;
+			// 
+			// registerUserButton
+			// 
+			registerUserButton.Location = new Point(315, 3);
+			registerUserButton.Name = "registerUserButton";
+			registerUserButton.Size = new Size(150, 44);
+			registerUserButton.TabIndex = 3;
+			registerUserButton.Text = "Register New User";
+			registerUserButton.UseVisualStyleBackColor = true;
+			registerUserButton.Click += registerUserButton_Click;
 			// 
 			// sqlButton
 			// 
@@ -76,16 +75,6 @@
 			sqlButton.Text = "SQL Queries";
 			sqlButton.UseVisualStyleBackColor = true;
 			sqlButton.Click += sqlButton_Click;
-			// 
-			// dashboardButton
-			// 
-			dashboardButton.Location = new Point(3, 3);
-			dashboardButton.Name = "dashboardButton";
-			dashboardButton.Size = new Size(150, 44);
-			dashboardButton.TabIndex = 0;
-			dashboardButton.Text = "Dashboard";
-			dashboardButton.UseVisualStyleBackColor = true;
-			dashboardButton.Click += dashboardButton_Click;
 			// 
 			// adminContentPanel
 			// 
@@ -109,9 +98,8 @@
 		#endregion
 
 		private Panel adminNavPanel;
-		private Button dashboardButton;
 		private Panel adminContentPanel;
-		private Button systemManagementButton;
+		private Button registerUserButton;
 		private Button visitReportButton;
 		private Button sqlButton;
 	}

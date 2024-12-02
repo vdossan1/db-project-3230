@@ -33,13 +33,12 @@
 			startDateLabel = new Label();
 			endDateLabel = new Label();
 			generateReportButton = new Button();
-			clearButton = new Button();
 			panel1 = new Panel();
 			instructionLabel = new Label();
 			reportStatsPanel = new Panel();
 			clearReportButton = new Button();
-			label3 = new Label();
-			label2 = new Label();
+			rowsLabel = new Label();
+			timeSpanLabel = new Label();
 			label1 = new Label();
 			reportDataGridView = new DataGridView();
 			labTestResultsDataGridView = new DataGridView();
@@ -91,22 +90,12 @@
 			generateReportButton.UseVisualStyleBackColor = true;
 			generateReportButton.Click += GenerateReportButton_Click;
 			// 
-			// clearButton
-			// 
-			clearButton.Location = new Point(286, 33);
-			clearButton.Name = "clearButton";
-			clearButton.Size = new Size(110, 23);
-			clearButton.TabIndex = 5;
-			clearButton.Text = "Clear Dates";
-			clearButton.UseVisualStyleBackColor = true;
-			clearButton.Click += ClearDatesButton_Click;
-			// 
 			// panel1
 			// 
+			panel1.Controls.Add(clearReportButton);
 			panel1.Controls.Add(startDateLabel);
 			panel1.Controls.Add(instructionLabel);
 			panel1.Controls.Add(generateReportButton);
-			panel1.Controls.Add(clearButton);
 			panel1.Controls.Add(startDatePicker);
 			panel1.Controls.Add(endDatePicker);
 			panel1.Controls.Add(endDateLabel);
@@ -126,9 +115,8 @@
 			// 
 			// reportStatsPanel
 			// 
-			reportStatsPanel.Controls.Add(clearReportButton);
-			reportStatsPanel.Controls.Add(label3);
-			reportStatsPanel.Controls.Add(label2);
+			reportStatsPanel.Controls.Add(rowsLabel);
+			reportStatsPanel.Controls.Add(timeSpanLabel);
 			reportStatsPanel.Controls.Add(label1);
 			reportStatsPanel.Location = new Point(413, 3);
 			reportStatsPanel.Name = "reportStatsPanel";
@@ -137,7 +125,7 @@
 			// 
 			// clearReportButton
 			// 
-			clearReportButton.Location = new Point(530, 70);
+			clearReportButton.Location = new Point(286, 33);
 			clearReportButton.Name = "clearReportButton";
 			clearReportButton.Size = new Size(110, 23);
 			clearReportButton.TabIndex = 21;
@@ -145,23 +133,23 @@
 			clearReportButton.UseVisualStyleBackColor = true;
 			clearReportButton.Click += ClearReportButton_Click;
 			// 
-			// label3
+			// rowsLabel
 			// 
-			label3.AutoSize = true;
-			label3.Location = new Point(3, 68);
-			label3.Name = "label3";
-			label3.Size = new Size(104, 15);
-			label3.TabIndex = 2;
-			label3.Text = "Result Row Count:";
+			rowsLabel.AutoSize = true;
+			rowsLabel.Location = new Point(3, 68);
+			rowsLabel.Name = "rowsLabel";
+			rowsLabel.Size = new Size(104, 15);
+			rowsLabel.TabIndex = 2;
+			rowsLabel.Text = "Result Row Count:";
 			// 
-			// label2
+			// timeSpanLabel
 			// 
-			label2.AutoSize = true;
-			label2.Location = new Point(3, 33);
-			label2.Name = "label2";
-			label2.Size = new Size(61, 15);
-			label2.TabIndex = 1;
-			label2.Text = "Timespan:";
+			timeSpanLabel.AutoSize = true;
+			timeSpanLabel.Location = new Point(3, 33);
+			timeSpanLabel.Name = "timeSpanLabel";
+			timeSpanLabel.Size = new Size(61, 15);
+			timeSpanLabel.TabIndex = 1;
+			timeSpanLabel.Text = "Timespan:";
 			// 
 			// label1
 			// 
@@ -236,13 +224,12 @@
 		private Label startDateLabel;
 		private Label endDateLabel;
 		private Button generateReportButton;
-		private Button clearButton;
 		private Panel panel1;
 		private Label instructionLabel;
 		private Panel reportStatsPanel;
 		private Label label1;
-		private Label label3;
-		private Label label2;
+		private Label rowsLabel;
+		private Label timeSpanLabel;
 		private DataGridView reportDataGridView;
 		private DataGridView labTestResultsDataGridView;
 		private Button clearReportButton;
