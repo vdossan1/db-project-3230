@@ -1,5 +1,3 @@
-using Google.Protobuf.WellKnownTypes;
-using HealthCareApp.model;
 using HealthCareApp.Properties;
 using HealthCareApp.view;
 using HealthCareApp.viewmodel;
@@ -45,7 +43,6 @@ public partial class MainPage : Form
         this.mainPageViewModel = mainPageViewModel;
         this.patientsControl = new PatientsControl();
         this.appointmentsControl = new AppointmentsControl();
-        this.visitsControl = new VisitsControl(this.mainPageViewModel.UserFullName, this.mainPageViewModel.Username);
 		this.adminControl = new AdminControl();
 
         this.adminButton.Visible = false;
@@ -100,17 +97,7 @@ public partial class MainPage : Form
         this.mainPanel.Controls.Add(this.appointmentsControl);
     }
 
-    private void visitsControlButton_Click(object sender, EventArgs e)
-    {
-        this.HighlightButton(this.visitsButton);
-        this.activeControl = this.visitsControl;
-        this.mainPanel.Controls.Clear();
-        this.mainPanel.Controls.Add(this.visitsControl);
-
-        this.visitsControl.ClearAllSelection();
-    }
-
-	private void adminControlButton_Click(object sender, EventArgs e)
+    private void adminControlButton_Click(object sender, EventArgs e)
 	{
 		this.HighlightButton(this.adminButton);
 		this.activeControl = this.adminControl;
@@ -169,26 +156,6 @@ public partial class MainPage : Form
         }
     }
 
-    private void visitsButton_MouseEnter(object sender, EventArgs e)
-    {
-        if (this.selectedButton != this.visitsButton)
-        {
-            this.visitsButton.BackColor = Color.White;
-            this.visitsButton.ForeColor = Settings.AccentColor;
-            this.visitsButton.Image = Resources.checkup_accent;
-        }
-    }
-
-    private void visitsButton_MouseLeave(object sender, EventArgs e)
-    {
-        if (this.selectedButton != this.visitsButton)
-        {
-            this.visitsButton.Image = Resources.checkup_white;
-            this.visitsButton.BackColor = Settings.AccentColor;
-            this.visitsButton.ForeColor = Color.White;
-        }
-    }
-
     private void adminButton_MouseEnter(object sender, EventArgs e)
     {
 	    if (this.selectedButton != this.adminButton)
@@ -225,13 +192,11 @@ public partial class MainPage : Form
 
     private void HighlightButton(Button button)
     {
-        // Remove highlight from the previously selected button
         if (this.selectedButton != null)
         {
             this.selectedButton.BackColor = Settings.AccentColor;
             this.selectedButton.ForeColor = Color.White;
 
-            // Update the button's image to its default state
 	        if (this.selectedButton == this.patientsButton)
                 this.selectedButton.Image = Resources.patients_white;
             else if (this.selectedButton == this.appointmentsButton)
@@ -240,7 +205,6 @@ public partial class MainPage : Form
                 this.selectedButton.Image = Resources.checkup_white;
         }
 
-        // Highlight the currently selected button
         button.BackColor = Color.White;
         button.ForeColor = Settings.AccentColor;
 
