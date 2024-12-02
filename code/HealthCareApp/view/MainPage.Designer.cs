@@ -33,7 +33,6 @@
 			sidebarPanel = new Panel();
 			sidebarButtonPanel = new Panel();
 			adminButton = new Button();
-			visitsButton = new Button();
 			patientsButton = new Button();
 			appointmentsButton = new Button();
 			usernameLabel = new Label();
@@ -92,7 +91,6 @@
 			// 
 			sidebarButtonPanel.BackColor = Color.Transparent;
 			sidebarButtonPanel.Controls.Add(adminButton);
-			sidebarButtonPanel.Controls.Add(visitsButton);
 			sidebarButtonPanel.Controls.Add(patientsButton);
 			sidebarButtonPanel.Controls.Add(appointmentsButton);
 			sidebarButtonPanel.Location = new Point(22, 20);
@@ -109,7 +107,7 @@
 			adminButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			adminButton.ForeColor = SystemColors.Control;
 			adminButton.ImageAlign = ContentAlignment.MiddleLeft;
-			adminButton.Location = new Point(0, 165);
+			adminButton.Location = new Point(0, 110);
 			adminButton.Name = "adminButton";
 			adminButton.Size = new Size(150, 35);
 			adminButton.TabIndex = 11;
@@ -118,26 +116,6 @@
 			adminButton.Click += adminControlButton_Click;
 			adminButton.MouseEnter += adminButton_MouseEnter;
 			adminButton.MouseLeave += adminButton_MouseLeave;
-			// 
-			// visitsButton
-			// 
-			visitsButton.BackColor = Color.Transparent;
-			visitsButton.FlatAppearance.BorderColor = Color.SlateGray;
-			visitsButton.FlatAppearance.BorderSize = 0;
-			visitsButton.FlatStyle = FlatStyle.Flat;
-			visitsButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			visitsButton.ForeColor = SystemColors.Control;
-			visitsButton.Image = Properties.Resources.checkup_white;
-			visitsButton.ImageAlign = ContentAlignment.MiddleLeft;
-			visitsButton.Location = new Point(0, 110);
-			visitsButton.Name = "visitsButton";
-			visitsButton.Size = new Size(150, 35);
-			visitsButton.TabIndex = 10;
-			visitsButton.Text = "Visits";
-			visitsButton.UseVisualStyleBackColor = false;
-			visitsButton.Click += visitsControlButton_Click;
-			visitsButton.MouseEnter += visitsButton_MouseEnter;
-			visitsButton.MouseLeave += visitsButton_MouseLeave;
 			// 
 			// patientsButton
 			// 
@@ -223,7 +201,6 @@
 		private Panel sidebarPanel;
 		private Label usernameLabel;
 		private Panel mainPanel;
-		private Button visitsButton;
 		private Button appointmentsButton;
 		private Button patientsButton;
 		private Panel sidebarButtonPanel;

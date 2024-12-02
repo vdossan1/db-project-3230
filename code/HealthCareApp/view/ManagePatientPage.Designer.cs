@@ -62,12 +62,14 @@
 			stateErrorLabel = new Label();
 			sexErrorLabel = new Label();
 			dateOfBirthErrorLabel = new Label();
+			statusCheckBox = new CheckBox();
+			statusEntryLabel = new Label();
 			SuspendLayout();
 			// 
 			// firstNameTextBox
 			// 
 			firstNameTextBox.Location = new Point(62, 49);
-			firstNameTextBox.Margin = new Padding(2, 2, 2, 2);
+			firstNameTextBox.Margin = new Padding(2);
 			firstNameTextBox.Name = "firstNameTextBox";
 			firstNameTextBox.Size = new Size(199, 23);
 			firstNameTextBox.TabIndex = 0;
@@ -75,7 +77,7 @@
 			// lastNameTextBox
 			// 
 			lastNameTextBox.Location = new Point(309, 49);
-			lastNameTextBox.Margin = new Padding(2, 2, 2, 2);
+			lastNameTextBox.Margin = new Padding(2);
 			lastNameTextBox.Name = "lastNameTextBox";
 			lastNameTextBox.Size = new Size(215, 23);
 			lastNameTextBox.TabIndex = 1;
@@ -83,7 +85,7 @@
 			// addressOneTextBox
 			// 
 			addressOneTextBox.Location = new Point(62, 283);
-			addressOneTextBox.Margin = new Padding(2, 2, 2, 2);
+			addressOneTextBox.Margin = new Padding(2);
 			addressOneTextBox.Name = "addressOneTextBox";
 			addressOneTextBox.Size = new Size(287, 23);
 			addressOneTextBox.TabIndex = 6;
@@ -91,7 +93,7 @@
 			// ssnTextBox
 			// 
 			ssnTextBox.Location = new Point(265, 196);
-			ssnTextBox.Margin = new Padding(2, 2, 2, 2);
+			ssnTextBox.Margin = new Padding(2);
 			ssnTextBox.MaxLength = 9;
 			ssnTextBox.Name = "ssnTextBox";
 			ssnTextBox.Size = new Size(106, 23);
@@ -100,7 +102,7 @@
 			// zipCodeTextBox
 			// 
 			zipCodeTextBox.Location = new Point(378, 424);
-			zipCodeTextBox.Margin = new Padding(2, 2, 2, 2);
+			zipCodeTextBox.Margin = new Padding(2);
 			zipCodeTextBox.MaxLength = 5;
 			zipCodeTextBox.Name = "zipCodeTextBox";
 			zipCodeTextBox.Size = new Size(142, 23);
@@ -109,7 +111,7 @@
 			// addressTwoTextBox
 			// 
 			addressTwoTextBox.Location = new Point(62, 361);
-			addressTwoTextBox.Margin = new Padding(2, 2, 2, 2);
+			addressTwoTextBox.Margin = new Padding(2);
 			addressTwoTextBox.Name = "addressTwoTextBox";
 			addressTwoTextBox.Size = new Size(287, 23);
 			addressTwoTextBox.TabIndex = 7;
@@ -117,7 +119,7 @@
 			// phoneNumberTextBox
 			// 
 			phoneNumberTextBox.Location = new Point(62, 196);
-			phoneNumberTextBox.Margin = new Padding(2, 2, 2, 2);
+			phoneNumberTextBox.Margin = new Padding(2);
 			phoneNumberTextBox.MaxLength = 10;
 			phoneNumberTextBox.Name = "phoneNumberTextBox";
 			phoneNumberTextBox.Size = new Size(106, 23);
@@ -126,7 +128,7 @@
 			// cityTextBox
 			// 
 			cityTextBox.Location = new Point(66, 424);
-			cityTextBox.Margin = new Padding(2, 2, 2, 2);
+			cityTextBox.Margin = new Padding(2);
 			cityTextBox.Name = "cityTextBox";
 			cityTextBox.Size = new Size(106, 23);
 			cityTextBox.TabIndex = 8;
@@ -134,7 +136,7 @@
 			// dateOfBirthPicker
 			// 
 			dateOfBirthPicker.Location = new Point(236, 113);
-			dateOfBirthPicker.Margin = new Padding(2, 2, 2, 2);
+			dateOfBirthPicker.Margin = new Padding(2);
 			dateOfBirthPicker.Name = "dateOfBirthPicker";
 			dateOfBirthPicker.Size = new Size(211, 23);
 			dateOfBirthPicker.TabIndex = 3;
@@ -143,7 +145,7 @@
 			// 
 			genderComboBox.FormattingEnabled = true;
 			genderComboBox.Location = new Point(62, 113);
-			genderComboBox.Margin = new Padding(2, 2, 2, 2);
+			genderComboBox.Margin = new Padding(2);
 			genderComboBox.Name = "genderComboBox";
 			genderComboBox.Size = new Size(129, 23);
 			genderComboBox.TabIndex = 2;
@@ -152,7 +154,7 @@
 			// 
 			stateComboBox.FormattingEnabled = true;
 			stateComboBox.Location = new Point(213, 423);
-			stateComboBox.Margin = new Padding(2, 2, 2, 2);
+			stateComboBox.Margin = new Padding(2);
 			stateComboBox.Name = "stateComboBox";
 			stateComboBox.Size = new Size(129, 23);
 			stateComboBox.TabIndex = 9;
@@ -271,7 +273,7 @@
 			// 
 			actionButton.Enabled = false;
 			actionButton.Location = new Point(96, 488);
-			actionButton.Margin = new Padding(2, 2, 2, 2);
+			actionButton.Margin = new Padding(2);
 			actionButton.Name = "actionButton";
 			actionButton.Size = new Size(156, 41);
 			actionButton.TabIndex = 11;
@@ -281,7 +283,7 @@
 			// cancelButton
 			// 
 			cancelButton.Location = new Point(342, 492);
-			cancelButton.Margin = new Padding(2, 2, 2, 2);
+			cancelButton.Margin = new Padding(2);
 			cancelButton.Name = "cancelButton";
 			cancelButton.Size = new Size(125, 33);
 			cancelButton.TabIndex = 12;
@@ -409,12 +411,33 @@
 			dateOfBirthErrorLabel.TabIndex = 35;
 			dateOfBirthErrorLabel.Text = "dateOfBirthErrorLabel";
 			// 
+			// statusCheckBox
+			// 
+			statusCheckBox.AutoSize = true;
+			statusCheckBox.Location = new Point(441, 262);
+			statusCheckBox.Name = "statusCheckBox";
+			statusCheckBox.Size = new Size(98, 19);
+			statusCheckBox.TabIndex = 36;
+			statusCheckBox.Text = "Patient Status";
+			statusCheckBox.UseVisualStyleBackColor = true;
+			// 
+			// statusEntryLabel
+			// 
+			statusEntryLabel.AutoSize = true;
+			statusEntryLabel.Location = new Point(462, 287);
+			statusEntryLabel.Name = "statusEntryLabel";
+			statusEntryLabel.Size = new Size(45, 15);
+			statusEntryLabel.TabIndex = 37;
+			statusEntryLabel.Text = "ACTIVE";
+			// 
 			// ManagePatientPage
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoScroll = true;
 			ClientSize = new Size(598, 563);
+			Controls.Add(statusEntryLabel);
+			Controls.Add(statusCheckBox);
 			Controls.Add(dateOfBirthErrorLabel);
 			Controls.Add(sexErrorLabel);
 			Controls.Add(stateErrorLabel);
@@ -449,7 +472,7 @@
 			Controls.Add(addressOneTextBox);
 			Controls.Add(lastNameTextBox);
 			Controls.Add(firstNameTextBox);
-			Margin = new Padding(2, 2, 2, 2);
+			Margin = new Padding(2);
 			Name = "ManagePatientPage";
 			StartPosition = FormStartPosition.CenterScreen;
 			ResumeLayout(false);
@@ -492,5 +515,7 @@
         private Label stateErrorLabel;
         private Label sexErrorLabel;
         private Label dateOfBirthErrorLabel;
-    }
+		private CheckBox statusCheckBox;
+		private Label statusEntryLabel;
+	}
 }
