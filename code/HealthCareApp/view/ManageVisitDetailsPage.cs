@@ -112,6 +112,7 @@ public partial class ManageVisitDetailsPage : Form
         foreach (var selectedItem in this.availableTestListBox.SelectedItems)
         {
             this.manageVisitDetailsPageViewModel.SelectedTests.Add((string)selectedItem);
+            this.manageVisitDetailsPageViewModel.AddNewTest((string)selectedItem);
             testsToRemove.Add((string)selectedItem);
         }
 
@@ -133,7 +134,11 @@ public partial class ManageVisitDetailsPage : Form
             testsToRemove.Add((string)selectedItem);
         }
 
-        testsToRemove.ForEach(item => this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item));
+        testsToRemove.ForEach(item =>
+        {
+            this.manageVisitDetailsPageViewModel.SelectedTests.Remove(item);
+            this.manageVisitDetailsPageViewModel.RemoveNewTest(item);
+        });
 
         this.availableTestListBox.ClearSelected();
         this.selectedTestListBox.ClearSelected();

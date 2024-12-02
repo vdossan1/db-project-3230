@@ -29,7 +29,18 @@ public partial class AppointmentsControl : UserControl
 
         this.appointmentsControlViewModel = new AppointmentsControlViewModel();
 
-        this.setUpPage();
+        // Set up the data grid view
+        this.setUpOpenApptDataGridView();
+        this.setupClosedApptDataGridView();
+        this.setupTestResultDataGridView();
+
+        // Set up the advanced search control
+        this.apptAdvancedSearchControl.SearchBtnClick += this.refreshAppointmentsList;
+        this.apptAdvancedSearchControl.ClearBtnClick += this.refreshAppointmentsList;
+
+        this.apptAdvancedSearchControl.SetDateTimeSearch();
+        this.apptAdvancedSearchControl.SetDatePickerStyle();
+
         this.bindVisitFields();
     }
 
@@ -77,23 +88,6 @@ public partial class AppointmentsControl : UserControl
 
     #region Methods
 
-    private void setUpPage()
-    {
-
-
-        // Set up the data grid view
-        this.setUpOpenApptDataGridView();
-        this.setupClosedApptDataGridView();
-        this.setupTestResultDataGridView();
-
-        // Set up the advanced search control
-        this.apptAdvancedSearchControl.SearchBtnClick += this.refreshAppointmentsList;
-        this.apptAdvancedSearchControl.ClearBtnClick += this.refreshAppointmentsList;
-
-        this.apptAdvancedSearchControl.SetDateTimeSearch();
-        this.apptAdvancedSearchControl.SetDatePickerStyle();
-    }
-
     private void setupTestResultDataGridView()
     {
         this.testResultDataGrid.DataSource = this.appointmentsControlViewModel.LabTestResults;
@@ -122,7 +116,8 @@ public partial class AppointmentsControl : UserControl
 
     private void populateVisitFields(object? sender, FormClosedEventArgs e)
     {
-        this.appointmentsControlViewModel.PopulateVisitFields();
+        this.appointmentsControlViewModel.tryToGetVisit();
+        this.refreshVisitInfo(this.appointmentsControlViewModel.SelectedAppointment);
     }
 
     private void AppointmentsDataGridView_SelectionChanged(object? sender, EventArgs e)
@@ -136,11 +131,6 @@ public partial class AppointmentsControl : UserControl
                 this.refreshVisitInfo(selectedAppointment);
 
                 this.editAppointmentBtn.Enabled = true;
-            }
-            else
-            {
-                this.appointmentsControlViewModel.SelectedAppointment = null;
-                this.editAppointmentBtn.Enabled = false;
             }
         }
         else
