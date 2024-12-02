@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using HealthCareApp.model;
+﻿using HealthCareApp.model;
 using HealthCareApp.viewmodel.UserControlVM;
 using static HealthCareApp.view.AdvancedSearchControl;
 

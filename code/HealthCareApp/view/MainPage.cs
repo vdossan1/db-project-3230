@@ -201,8 +201,6 @@ public partial class MainPage : Form
                 this.selectedButton.Image = Resources.patients_white;
             else if (this.selectedButton == this.appointmentsButton)
                 this.selectedButton.Image = Resources.appointment_white;
-            else if (this.selectedButton == this.visitsButton)
-                this.selectedButton.Image = Resources.checkup_white;
         }
 
         button.BackColor = Color.White;
@@ -212,8 +210,6 @@ public partial class MainPage : Form
             button.Image = Resources.patients_accent;
         else if (button == this.appointmentsButton)
             button.Image = Resources.appointment_accent;
-        else if (button == this.visitsButton)
-            button.Image = Resources.checkup_accent;
 
         this.selectedButton = button;
     }

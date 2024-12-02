@@ -100,7 +100,7 @@ public class NurseDal
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        var query = "select nurse_id from user where username = @Username";
+        var query = "select nurse_id from nurse where username = @Username";
 
         using var command = new MySqlCommand(query, connection);
         command.Parameters.Add("@Username", MySqlDbType.VarChar).Value = nurseUsername;
