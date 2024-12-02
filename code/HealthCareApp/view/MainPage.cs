@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using HealthCareApp.model;
 using HealthCareApp.Properties;
 using HealthCareApp.view;
@@ -50,6 +51,15 @@ public partial class MainPage : Form
         this.adminButton.Visible = false;
 		this.DisplayUserInformation();
         this.initializeMainPageDesign();
+        this.setApptControlActive();
+    }
+
+    private void setApptControlActive()
+    {
+        this.HighlightButton(this.appointmentsButton);
+        this.activeControl = this.appointmentsControl;
+        this.mainPanel.Controls.Clear();
+        this.mainPanel.Controls.Add(this.appointmentsControl);
     }
 
     #endregion

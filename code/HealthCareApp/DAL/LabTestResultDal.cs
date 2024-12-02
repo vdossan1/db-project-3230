@@ -1,5 +1,6 @@
 ﻿using HealthCareApp.model;
 using MySql.Data.MySqlClient;
+using System.ComponentModel;
 
 namespace HealthCareApp.DAL
 {
@@ -47,9 +48,9 @@ namespace HealthCareApp.DAL
             return command.ExecuteNonQuery();
         }
 
-        public static List<LabTestResult> GetAllLabTestResultsForVisit(int visitId)
+        public static BindingList<LabTestResult> GetAllLabTestResultsForVisit(int visitId)
         {
-            var labTestResultList = new List<LabTestResult>();
+            var labTestResultList = new BindingList<LabTestResult>();
 
             using var connection = new MySqlConnection(Connection.ConnectionString());
             connection.Open();
