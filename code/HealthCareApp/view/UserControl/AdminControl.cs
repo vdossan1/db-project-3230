@@ -4,6 +4,7 @@
 	{
 		private AdminSQLControl adminSQLControl;
 		private AdminVisitReportControl adminVisitReportControl;
+		private AdminManageUsersControl adminManageUsersControl;
 
 		private UserControl activeControl;
 
@@ -12,6 +13,7 @@
 			this.InitializeComponent();
 			this.adminVisitReportControl = new AdminVisitReportControl();
 			this.adminSQLControl = new AdminSQLControl();
+			this.adminManageUsersControl = new AdminManageUsersControl();
 			this.adminContentPanel.Controls.Add(this.adminVisitReportControl);
 			this.activeControl = this.adminVisitReportControl;
 		}
@@ -32,7 +34,9 @@
 
 		private void registerUserButton_Click(object sender, EventArgs e)
 		{
-			
+			this.adminContentPanel.Controls.Clear();
+			this.adminContentPanel.Controls.Add(this.adminManageUsersControl);
+			this.activeControl = this.adminManageUsersControl;
 		}
 	}
 }

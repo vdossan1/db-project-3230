@@ -64,6 +64,7 @@
 			registerUserButton.TabIndex = 3;
 			registerUserButton.Text = "Register New User";
 			registerUserButton.UseVisualStyleBackColor = true;
+			registerUserButton.Click += registerUserButton_Click;
 			// 
 			// sqlButton
 			// 

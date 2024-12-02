@@ -44,10 +44,10 @@ public class NurseDal
 	    connection.Open();
 
 	    var query =
-		    "UPDATE patient SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, " +
+		    "UPDATE nurse SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, " +
 		    "sex = @Sex, address_line1 = @Address1, address_line2 = @Address2, city = @City, state = @State, " +
-		    "zip_code = @ZipCode, phone_number = @PhoneNumber, status = @Status " +
-		    "WHERE patient_id = @NurseId";
+		    "zip_code = @ZipCode, phone_number = @PhoneNumber " +
+		    "WHERE nurse_id = @NurseId";
 
 	    using var command = new MySqlCommand(query, connection);
 
@@ -63,36 +63,32 @@ public class NurseDal
 	/// <param name="firstName">The user's first name.</param>
 	/// <param name="lastName">The user's last name.</param>
 	public static string GenerateUsername(string firstName, string lastName)
-    {
-	    using var connection = new MySqlConnection(Connection.ConnectionString());
-	    connection.Open();
+	{
+		using var connection = new MySqlConnection(Connection.ConnectionString());
+		connection.Open();
 
-	    var query =
-		    "SELECT MAX(CAST(SUBSTRING(username, LENGTH(@Prefix) + 1) AS UNSIGNED)) " +
-		    "FROM login_credential WHERE first_name = @FirstName AND last_name = @LastName AND username LIKE @UsernamePrefix";
+		string usernamePrefix = firstName.Substring(0, 1).ToLower() + lastName.Substring(0, 1).ToLower();
 
-	    using var command = new MySqlCommand(query, connection);
+		var query =
+			"SELECT MAX(CAST(SUBSTRING(username, LENGTH(@Prefix) + 1) AS UNSIGNED)) " +
+			"FROM login_credential WHERE username LIKE @UsernamePrefix";
 
-	    string usernamePrefix = firstName.Substring(0, 2).ToLower() + lastName.ToLower();
+		using var command = new MySqlCommand(query, connection);
 
-	    command.Parameters.AddWithValue("@FirstName", firstName);
-	    command.Parameters.AddWithValue("@LastName", lastName);
-	    command.Parameters.AddWithValue("@Prefix", usernamePrefix);
-	    command.Parameters.AddWithValue("@UsernamePrefix", usernamePrefix + "%");
+		command.Parameters.AddWithValue("@Prefix", usernamePrefix);
+		command.Parameters.AddWithValue("@UsernamePrefix", usernamePrefix + "%");
 
-	    var result = command.ExecuteScalar();
+		var result = command.ExecuteScalar();
 
-	    int nextNumber = 1;
-	    if (result != DBNull.Value)
-	    {
-		    nextNumber = Convert.ToInt32(result) + 1;
-	    }
+		int nextNumber = 1;
+		if (result != DBNull.Value)
+		{
+			nextNumber = Convert.ToInt32(result) + 1;
+		}
 
-	    string newUsername = usernamePrefix + nextNumber.ToString("D3");
-
-	    return newUsername;
-    }
-
+		string newUsername = usernamePrefix + nextNumber.ToString("D3");
+		return newUsername;
+	}
 
 	/// <summary>
 	///     Retrieves the ID of a user based on their username.
@@ -183,7 +179,7 @@ public class NurseDal
     {
         var nurseList = new List<User>();
         var paramsCount = 0;
-        var queryBuilder = new StringBuilder("select * from user WHERE");
+        var queryBuilder = new StringBuilder("select * from nurse WHERE");
         var parameters = new List<MySqlParameter>();
 
         var firstNameWhere = "first_name = @FirstName";
@@ -231,9 +227,9 @@ public class NurseDal
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        if (queryBuilder.Equals("select * from user WHERE;"))
+        if (queryBuilder.Equals("select * from nurse WHERE;"))
         {
-            queryBuilder = new StringBuilder("select * from user;");
+            queryBuilder = new StringBuilder("select * from nurse;");
         }
 
         using var command = new MySqlCommand(queryBuilder.ToString(), connection);
