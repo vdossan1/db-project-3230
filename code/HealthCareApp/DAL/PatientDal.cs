@@ -62,7 +62,6 @@ public class PatientDal
 		return null;
 	}
 
-
 	/// <summary>
 	///     Edits an existing patient's information in the database.
 	/// </summary>

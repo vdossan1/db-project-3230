@@ -29,5 +29,10 @@
 			this.adminContentPanel.Controls.Add(this.adminSQLControl);
 			this.activeControl = this.adminSQLControl;
 		}
+
+		private void registerUserButton_Click(object sender, EventArgs e)
+		{
+			
+		}
 	}
 }

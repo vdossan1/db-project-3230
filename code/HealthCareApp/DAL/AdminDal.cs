@@ -1,7 +1,5 @@
 ﻿using HealthCareApp.model;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace HealthCareApp.DAL
@@ -20,7 +18,6 @@ namespace HealthCareApp.DAL
 		{
 			var reports = new List<Report>();
 
-			// Query to get visits with relevant details from patient, doctor, and nurse
 			var query = @"
             SELECT v.visit_id, a.appointment_date, a.patient_id, a.doctor_id, v.nurse_id, 
                    p.first_name AS patient_first_name, p.last_name AS patient_last_name, 
@@ -87,6 +84,32 @@ namespace HealthCareApp.DAL
 			return new QueryResult(rowCount, queryType == "SELECT" ? resultTable : null);
 		}
 
+		/// <summary>
+		///     Retrieves a list of all admins from the database.
+		/// </summary>
+		/// <returns>A list of <see cref="User" /> objects representing all admins in the database.</returns>
+		public static List<User> GetAllAdmins()
+		{
+			var adminList = new List<User>();
+
+			using var connection = new MySqlConnection(Connection.ConnectionString());
+			connection.Open();
+
+			var query = "select * from administrator";
+
+			using var command = new MySqlCommand(query, connection);
+
+			using var reader = command.ExecuteReader();
+
+			while (reader.Read())
+			{
+				adminList.Add(
+					CreateAdmin(reader));
+			}
+
+			return adminList;
+		}
+
 		private static Report CreateReportObj(MySqlDataReader reader)
 		{
 			var visitIdOrdinal = reader.GetOrdinal("visit_id");
@@ -110,6 +133,42 @@ namespace HealthCareApp.DAL
 			newReport.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(newReport.VisitId);
 
 			return newReport;
+		}
+
+		private static User CreateAdmin(MySqlDataReader reader)
+		{
+			var idOrdinal = reader.GetOrdinal("administrator_id");
+			var firstNameOrdinal = reader.GetOrdinal("first_name");
+			var lastNameOrdinal = reader.GetOrdinal("last_name");
+			var dateOfBirthOrdinal = reader.GetOrdinal("date_of_birth");
+			var gender = reader.GetOrdinal("sex");
+			var addressOneOrdinal = reader.GetOrdinal("address_line1");
+			var addressTwoOrdinal = reader.GetOrdinal("address_line2");
+			var cityOrdinal = reader.GetOrdinal("city");
+			var stateOrdinal = reader.GetOrdinal("state");
+			var zipCodeOrdinal = reader.GetOrdinal("zip_code");
+			var phoneNumberOrdinal = reader.GetOrdinal("phone_number");
+			var ssnOrdinal = reader.GetOrdinal("ssn");
+			var usernameOrdinal = reader.GetOrdinal("username");
+
+			var newAdmin = new User
+			(
+				reader.GetString(firstNameOrdinal),
+				reader.GetString(lastNameOrdinal),
+				reader.GetDateTime(dateOfBirthOrdinal),
+				reader.GetString(gender),
+				reader.GetString(addressOneOrdinal),
+				reader.IsDBNull(addressTwoOrdinal) ? null : reader.GetString(addressTwoOrdinal),
+				reader.GetString(cityOrdinal),
+				reader.GetString(stateOrdinal),
+				reader.GetString(zipCodeOrdinal),
+				reader.GetString(phoneNumberOrdinal),
+				reader.GetString(ssnOrdinal)
+			);
+
+			newAdmin.UserId = reader.GetInt32(idOrdinal);
+			newAdmin.Username = reader.GetString(usernameOrdinal);
+			return newAdmin;
 		}
 
 		#endregion

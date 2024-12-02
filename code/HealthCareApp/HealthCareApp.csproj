@@ -17,6 +17,9 @@
 		<Compile Update="view\LoginPage.cs">
 			<SubType>Form</SubType>
 		</Compile>
+		<Compile Update="view\ManageUserPage.cs">
+		  <SubType>Form</SubType>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>

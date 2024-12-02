@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			adminNavPanel = new Panel();
-			systemManagementButton = new Button();
 			visitReportButton = new Button();
+			registerUserButton = new Button();
 			sqlButton = new Button();
 			adminContentPanel = new Panel();
 			adminNavPanel.SuspendLayout();
@@ -39,21 +39,12 @@
 			// adminNavPanel
 			// 
 			adminNavPanel.Controls.Add(visitReportButton);
-			adminNavPanel.Controls.Add(systemManagementButton);
+			adminNavPanel.Controls.Add(registerUserButton);
 			adminNavPanel.Controls.Add(sqlButton);
 			adminNavPanel.Location = new Point(3, 3);
 			adminNavPanel.Name = "adminNavPanel";
 			adminNavPanel.Size = new Size(1059, 50);
 			adminNavPanel.TabIndex = 0;
-			// 
-			// systemManagementButton
-			// 
-			systemManagementButton.Location = new Point(315, 3);
-			systemManagementButton.Name = "systemManagementButton";
-			systemManagementButton.Size = new Size(150, 44);
-			systemManagementButton.TabIndex = 3;
-			systemManagementButton.Text = "System Management";
-			systemManagementButton.UseVisualStyleBackColor = true;
 			// 
 			// visitReportButton
 			// 
@@ -64,6 +55,15 @@
 			visitReportButton.Text = "Visit Report";
 			visitReportButton.UseVisualStyleBackColor = true;
 			visitReportButton.Click += visitReportButton_Click;
+			// 
+			// registerUserButton
+			// 
+			registerUserButton.Location = new Point(315, 3);
+			registerUserButton.Name = "registerUserButton";
+			registerUserButton.Size = new Size(150, 44);
+			registerUserButton.TabIndex = 3;
+			registerUserButton.Text = "Register New User";
+			registerUserButton.UseVisualStyleBackColor = true;
 			// 
 			// sqlButton
 			// 
@@ -98,7 +98,7 @@
 
 		private Panel adminNavPanel;
 		private Panel adminContentPanel;
-		private Button systemManagementButton;
+		private Button registerUserButton;
 		private Button visitReportButton;
 		private Button sqlButton;
 	}
