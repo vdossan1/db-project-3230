@@ -344,7 +344,7 @@ public class AppointmentsControlViewModel
         this.LabTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(this.SelectedVisit.VisitId);
     }
 
-    private void tryToGetVisit()
+    public void tryToGetVisit()
     {
         if (this.SelectedAppointment != null)
         {

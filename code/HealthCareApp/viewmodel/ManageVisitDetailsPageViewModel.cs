@@ -17,6 +17,8 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
 
     private List<int> apptIdList;
 
+    private List<string> addedTests;
+
     private int appointmentId;
 
     private string doctorFullName;
@@ -323,10 +325,10 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         this.ValidationErrors = new Dictionary<string, string>();
         this.LabTests = new BindingList<string>();
         this.SelectedTests = new BindingList<string>();
+        this.addedTests = new List<string>();
 
         this.SelectedVisit = selectedVisit;
 
-        //this.apptIdList = new List<int>(AppointmentDal.GetAllAppointmentsIdsWithNoVisits());
         if (apptId != null)
         {
             this.AppointmentId = apptId.Value;
@@ -400,29 +402,19 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
     public void CreateLabTestResults()
     {
         var testCodes = new List<int>();
-        var labTestResultTestCodes = new List<int>();
 
-        foreach (var testName in this.SelectedTests)
+        foreach (var testName in this.addedTests)
         {
             var testCode = LabTestDal.GetLabTestCodeByTestName(testName);
             testCodes.Add(testCode);
         }
 
-        var visitId = VisitDal.GetVisitIdByNaturalKey(this.AppointmentId, this.NurseId);
-        var labTestResults = LabTestResultDal.GetAllLabTestResultsForVisit(visitId);
-
-        foreach (var labTestResult in labTestResults)
-        {
-            labTestResultTestCodes.Add(labTestResult.TestCode);
-        }
+        var visitId = this.SelectedVisit.VisitId;
 
         foreach (var testCode in testCodes)
         {
-            if (!labTestResultTestCodes.Contains(testCode))
-            {
-                var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
-                LabTestResultDal.CreateLabTestResult(newLabTestResult);
-            }
+            var newLabTestResult = new LabTestResult(visitId, testCode, null, null, null, false);
+            LabTestResultDal.CreateLabTestResult(newLabTestResult);
         }
     }
 
@@ -675,4 +667,17 @@ public class ManageVisitDetailsPageViewModel : INotifyPropertyChanged
         : string.Empty;
 
     #endregion
+
+    public void AddNewTest(string testName)
+    {
+        this.addedTests.Add(testName);
+    }
+
+    public void RemoveNewTest(string testName)
+    {
+        if (this.addedTests.Contains(testName))
+        {
+            this.addedTests.Remove(testName);
+        }
+    }
 }
