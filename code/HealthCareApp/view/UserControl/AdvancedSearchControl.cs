@@ -23,7 +23,9 @@ public partial class AdvancedSearchControl : UserControl
     {
         this.InitializeComponent();
 
-        this.datePicker.MinDate = DateTime.Parse("1924-01-01");
+        this.dateOfBirthLabel.Text = "Date of Birth";
+
+		this.datePicker.MinDate = DateTime.Parse("1924-01-01");
         this.datePicker.MaxDate = DateTime.Today;
     }
 
@@ -56,6 +58,7 @@ public partial class AdvancedSearchControl : UserControl
     {
         this.advancedSearchButton.Click += this.advancedSearchDateTimeButton_Click;
         this.isDateOfBirthSearch = false;
+        this.dateOfBirthLabel.Text = "Date and Time";
 	}
 
     /// <summary>

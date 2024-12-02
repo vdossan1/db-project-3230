@@ -117,24 +117,23 @@ public partial class PatientsControl : UserControl
 
     private void SetUpDataGridViewColumns()
     {
-        // Hide the columns that are not needed
-        this.patientsDataGridView.Columns["PatientId"].Visible = false;
-        this.patientsDataGridView.Columns["Sex"].Visible = false;
-        this.patientsDataGridView.Columns["Address1"].Visible = false;
-        this.patientsDataGridView.Columns["Address2"].Visible = false;
-        this.patientsDataGridView.Columns["City"].Visible = false;
-        this.patientsDataGridView.Columns["State"].Visible = false;
-        this.patientsDataGridView.Columns["ZipCode"].Visible = false;
-        this.patientsDataGridView.Columns["PhoneNumber"].Visible = false;
-        this.patientsDataGridView.Columns["Ssn"].Visible = false;
+		// Rename main columns
+		this.patientsDataGridView.Columns["PatientId"].Visible = false;
+		this.patientsDataGridView.Columns["Ssn"].Visible = false;
 
-        // Rename main columns
-        this.patientsDataGridView.Columns["FirstName"].HeaderText = "First Name";
+		this.patientsDataGridView.Columns["FirstName"].HeaderText = "First Name";
         this.patientsDataGridView.Columns["LastName"].HeaderText = "Last Name";
         this.patientsDataGridView.Columns["DateOfBirth"].HeaderText = "Date of Birth";
+        this.patientsDataGridView.Columns["Address1"].HeaderText = "Address 1";
+        this.patientsDataGridView.Columns["Address2"].HeaderText = "Address 2";
+        this.patientsDataGridView.Columns["PhoneNumber"].HeaderText = "Phone Number";
 
+		this.patientsDataGridView.Columns["FirstName"].DisplayIndex = 0;
+		this.patientsDataGridView.Columns["LastName"].DisplayIndex = 1;
+		this.patientsDataGridView.Columns["DateOfBirth"].DisplayIndex = 2;
+		this.patientsDataGridView.Columns["Status"].DisplayIndex = 3;
 
-        this.patientsDataGridView.Columns["FirstName"].ReadOnly = true;
+		this.patientsDataGridView.Columns["FirstName"].ReadOnly = true;
         this.patientsDataGridView.Columns["LastName"].ReadOnly = true;
         this.patientsDataGridView.Columns["DateOfBirth"].ReadOnly = true;
     }
