@@ -47,13 +47,12 @@
 			userFullNameLabel.BackColor = Color.Transparent;
 			userFullNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			userFullNameLabel.ForeColor = SystemColors.Control;
-			userFullNameLabel.Location = new Point(22, 749);
+			userFullNameLabel.Location = new Point(22, 759);
 			userFullNameLabel.Margin = new Padding(2, 0, 2, 0);
 			userFullNameLabel.Name = "userFullNameLabel";
 			userFullNameLabel.Size = new Size(129, 17);
 			userFullNameLabel.TabIndex = 1;
 			userFullNameLabel.Text = "last name, first name";
-			userFullNameLabel.TextAlign = ContentAlignment.MiddleCenter;
 			// 
 			// logoutButton
 			// 
@@ -150,8 +149,7 @@
 			appointmentsButton.Name = "appointmentsButton";
 			appointmentsButton.Size = new Size(150, 35);
 			appointmentsButton.TabIndex = 9;
-			appointmentsButton.Text = "Appointments";
-			appointmentsButton.TextAlign = ContentAlignment.MiddleRight;
+			appointmentsButton.Text = "Dashboard";
 			appointmentsButton.UseVisualStyleBackColor = false;
 			appointmentsButton.Click += appointmentsControlButton_Click;
 			appointmentsButton.MouseEnter += appointmentsButton_MouseEnter;
@@ -163,26 +161,24 @@
 			usernameLabel.BackColor = Color.Transparent;
 			usernameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
 			usernameLabel.ForeColor = SystemColors.Control;
-			usernameLabel.Location = new Point(55, 718);
+			usernameLabel.Location = new Point(22, 735);
 			usernameLabel.Name = "usernameLabel";
 			usernameLabel.Size = new Size(65, 17);
 			usernameLabel.TabIndex = 7;
 			usernameLabel.Text = "username";
-			usernameLabel.TextAlign = ContentAlignment.MiddleCenter;
 			// 
 			// mainPanel
 			// 
 			mainPanel.Location = new Point(200, 0);
 			mainPanel.Name = "mainPanel";
-			mainPanel.Size = new Size(1733, 835);
+			mainPanel.Size = new Size(1380, 835);
 			mainPanel.TabIndex = 8;
 			// 
 			// MainPage
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			AutoScroll = true;
-			ClientSize = new Size(1795, 853);
+			ClientSize = new Size(1582, 836);
 			Controls.Add(mainPanel);
 			Controls.Add(sidebarPanel);
 			Margin = new Padding(2);

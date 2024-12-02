@@ -48,9 +48,9 @@
 			// 
 			// visitReportButton
 			// 
-			visitReportButton.Location = new Point(3, 3);
+			visitReportButton.Location = new Point(3, 7);
 			visitReportButton.Name = "visitReportButton";
-			visitReportButton.Size = new Size(150, 44);
+			visitReportButton.Size = new Size(300, 40);
 			visitReportButton.TabIndex = 2;
 			visitReportButton.Text = "Visit Report";
 			visitReportButton.UseVisualStyleBackColor = true;
@@ -58,9 +58,9 @@
 			// 
 			// registerUserButton
 			// 
-			registerUserButton.Location = new Point(315, 3);
+			registerUserButton.Location = new Point(615, 7);
 			registerUserButton.Name = "registerUserButton";
-			registerUserButton.Size = new Size(150, 44);
+			registerUserButton.Size = new Size(300, 40);
 			registerUserButton.TabIndex = 3;
 			registerUserButton.Text = "Register New User";
 			registerUserButton.UseVisualStyleBackColor = true;
@@ -68,9 +68,9 @@
 			// 
 			// sqlButton
 			// 
-			sqlButton.Location = new Point(159, 3);
+			sqlButton.Location = new Point(309, 7);
 			sqlButton.Name = "sqlButton";
-			sqlButton.Size = new Size(150, 44);
+			sqlButton.Size = new Size(300, 40);
 			sqlButton.TabIndex = 1;
 			sqlButton.Text = "SQL Queries";
 			sqlButton.UseVisualStyleBackColor = true;

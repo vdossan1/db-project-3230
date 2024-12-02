@@ -16,7 +16,6 @@ public partial class MainPage : Form
 
     private readonly PatientsControl patientsControl;
     private readonly AppointmentsControl appointmentsControl;
-    private readonly VisitsControl visitsControl;
 	private readonly AdminControl adminControl;
 
 	private readonly MainPageViewModel mainPageViewModel;

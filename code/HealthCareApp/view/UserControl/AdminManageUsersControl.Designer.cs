@@ -41,26 +41,28 @@
 			usersDataGridView.AllowUserToDeleteRows = false;
 			usersDataGridView.AllowUserToResizeColumns = false;
 			usersDataGridView.AllowUserToResizeRows = false;
+			usersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			usersDataGridView.BackgroundColor = SystemColors.Control;
+			usersDataGridView.BorderStyle = BorderStyle.Fixed3D;
 			usersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			usersDataGridView.GridColor = SystemColors.Control;
-			usersDataGridView.Location = new Point(14, 216);
+			usersDataGridView.Location = new Point(10, 105);
 			usersDataGridView.MultiSelect = false;
 			usersDataGridView.Name = "usersDataGridView";
 			usersDataGridView.RowHeadersVisible = false;
 			usersDataGridView.RowHeadersWidth = 62;
 			usersDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-			usersDataGridView.Size = new Size(704, 390);
+			usersDataGridView.Size = new Size(1222, 631);
 			usersDataGridView.TabIndex = 9;
 			// 
 			// editUserBtn
 			// 
 			editUserBtn.Enabled = false;
-			editUserBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			editUserBtn.Location = new Point(218, 75);
+			editUserBtn.Font = new Font("Segoe UI", 9F);
+			editUserBtn.Location = new Point(889, 3);
 			editUserBtn.Margin = new Padding(2);
 			editUserBtn.Name = "editUserBtn";
-			editUserBtn.Size = new Size(200, 31);
+			editUserBtn.Size = new Size(150, 35);
 			editUserBtn.TabIndex = 11;
 			editUserBtn.Text = "Edit Nurse";
 			editUserBtn.UseVisualStyleBackColor = true;
@@ -68,11 +70,11 @@
 			// 
 			// registerUserBtn
 			// 
-			registerUserBtn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			registerUserBtn.Location = new Point(14, 75);
+			registerUserBtn.Font = new Font("Segoe UI", 9F);
+			registerUserBtn.Location = new Point(735, 3);
 			registerUserBtn.Margin = new Padding(2);
 			registerUserBtn.Name = "registerUserBtn";
-			registerUserBtn.Size = new Size(200, 31);
+			registerUserBtn.Size = new Size(150, 35);
 			registerUserBtn.TabIndex = 10;
 			registerUserBtn.Text = "Register Nurse";
 			registerUserBtn.UseVisualStyleBackColor = true;
@@ -80,10 +82,10 @@
 			// 
 			// userAdvancedSearchControl
 			// 
-			userAdvancedSearchControl.Location = new Point(14, 110);
+			userAdvancedSearchControl.Location = new Point(10, 0);
 			userAdvancedSearchControl.Margin = new Padding(2);
 			userAdvancedSearchControl.Name = "userAdvancedSearchControl";
-			userAdvancedSearchControl.Size = new Size(729, 101);
+			userAdvancedSearchControl.Size = new Size(700, 80);
 			userAdvancedSearchControl.TabIndex = 12;
 			// 
 			// AdminManageUsersControl
@@ -95,7 +97,7 @@
 			Controls.Add(registerUserBtn);
 			Controls.Add(usersDataGridView);
 			Name = "AdminManageUsersControl";
-			Size = new Size(1059, 618);
+			Size = new Size(1370, 750);
 			((System.ComponentModel.ISupportInitialize)usersDataGridView).EndInit();
 			ResumeLayout(false);
 		}
