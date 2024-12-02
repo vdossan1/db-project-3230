@@ -265,6 +265,8 @@ public class ManagePatientViewModel : INotifyPropertyChanged
         }
     }
 
+    public string StatusLabel => this.Status == true ? "Active" : "Inactive";
+
     /// <summary>
     ///     Gets the validation message for the First Name field.
     /// </summary>

@@ -160,11 +160,15 @@ public partial class ManagePatientPage : Form
             "Checked", this.managePatientViewModel, nameof(this.managePatientViewModel.Status), true,
             DataSourceUpdateMode.OnPropertyChanged);
 
+        this.statusEntryLabel.DataBindings.Add(
+            "Text", this.managePatientViewModel, nameof(this.managePatientViewModel.StatusLabel), true,
+            DataSourceUpdateMode.OnPropertyChanged);
+
         if (this.pageAction == PageAction.REGISTER)
         {
             this.genderComboBox.SelectedItem = null;
             this.stateComboBox.SelectedItem = null;
-            this.statusCheckBox.CheckState = CheckState.Checked;
+            this.managePatientViewModel.Status = true;
             this.statusCheckBox.Enabled = false;
         }
     }
